@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:batch="http://www.springframework.org/schema/batch"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/batch
+		http://www.springframework.org/schema/batch/spring-batch.xsd
+	">
+
+	<batch:job id="schRoomCleanupJob" restartable="true">
+		<batch:step id="schRoomCleanupStep">
+			<batch:tasklet ref="schRoomCleanupTasklet"
+				transaction-manager="transactionManager" />
+		</batch:step>
+	</batch:job>
+
+	<bean id="schRoomCleanupTasklet"
+		class="com.vidyo.portal.batch.jobs.scheduledroom.tasklet.ScheduledRoomCleanupTasklet">
+		<property name="roomService" ref="roomService" />
+		<property name="systemService" ref="systemService" />
+	</bean>
+
+</beans>

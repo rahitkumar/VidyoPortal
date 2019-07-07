@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="ConfigurationService" targetNamespace="http://ws.vidyo.com/configuration" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://ws.vidyo.com/configuration" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/">
+  <wsdl:types>
+    <xs:schema attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://ws.vidyo.com/configuration" xmlns:tns="http://ws.vidyo.com/configuration">
+
+            <xs:annotation>
+                <xs:documentation xml:lang="en"/>
+            </xs:annotation>
+
+      <xs:element name="Status">
+          <xs:annotation>
+              <xs:documentation>String presentation of success operation - &quot;OK&quot;</xs:documentation>
+          </xs:annotation>
+          <xs:simpleType>
+              <xs:restriction base="xs:string">
+                  <xs:enumeration value="OK"/>
+                  <xs:enumeration value="NOT_CONFIGURED"/>
+                  <xs:enumeration value="NOT_ENABLED"/>
+              </xs:restriction>
+          </xs:simpleType>
+      </xs:element>
+
+      <xs:element name="ErrorMessage" type="xs:string">
+          <xs:annotation>
+              <xs:documentation>String presentation of fault</xs:documentation>
+          </xs:annotation>
+      </xs:element>
+
+      <xs:simpleType name="NetworkElementType">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="VidyoRouter"/>
+          <xs:enumeration value="VidyoManager"/>
+          <xs:enumeration value="VidyoProxy"/>
+          <xs:enumeration value="VidyoGateway"/>
+          <xs:enumeration value="VidyoReplayRecorder"/>
+          <xs:enumeration value="VidyoReplay"/>
+          <xs:enumeration value="VidyoAAMicroservice"/>
+          <xs:enumeration value="VidyoRegistrationMicroservice"/>
+          <xs:enumeration value="VidyoPairingMicroservice"/>
+        </xs:restriction>
+      </xs:simpleType>
+
+      <xs:simpleType name="ConfigType">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="VidyoRouterConfig"/>
+          <xs:enumeration value="VidyoManagerConfig"/>
+          <xs:enumeration value="VidyoProxyConfig"/>
+          <xs:enumeration value="VidyoGatewayConfig"/>
+          <xs:enumeration value="VidyoReplayRecorderConfig"/>
+          <xs:enumeration value="VidyoReplayConfig"/>
+          <xs:enumeration value="NetworkConfig"/>
+        </xs:restriction>
+      </xs:simpleType>
+
+      <xs:complexType name="ConfigVersion">
+        <xs:sequence>
+          <xs:element name="ConfigType" type="tns:ConfigType"/>
+          <xs:element name="Version" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+
+      <xs:complexType name="Configuration">
+        <xs:sequence>
+          <xs:element name="ConfigVersion" type="tns:ConfigVersion"/>
+          <xs:element name="ConfigData" type="xs:base64Binary"/>
+        </xs:sequence>
+      </xs:complexType>
+
+      <xs:element name="RegisterRequest">
+      <xs:annotation>
+          <xs:documentation>
+              This request is used by various elements to register with (inform of their presence)
+              the ConfigurationService and update the existing registration.
+          </xs:documentation>
+      </xs:annotation>
+      <xs:complexType>
+        <xs:sequence>
+            <!-- Identifier -->
+            <xs:element name="Identifier" type="xs:string"/>
+            <!-- type of the element doing the registration -->
+            <xs:element name="NetworkElementType" type="tns:NetworkElementType"/>
+            <!-- optional name for the element -->
+            <xs:element minOccurs="0" name="Name" type="xs:string"/>
+            <xs:element name="SoftwareVersion" type="xs:string"/>
+            <xs:element name="NonLoopbackIPAddresses">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element maxOccurs="unbounded" minOccurs="1" name="IPAddress" type="xs:string"/>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element name="WebApplicationURL" type="xs:string"/>
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="Alarm" type="xs:string"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="CurrentConfigVersion" type="tns:ConfigVersion"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+
+      <xs:element name="RegisterResponse">
+        <xs:annotation>
+          <xs:documentation>
+            This request is used by various elements to register with (inform of their presence)
+            the ConfigurationService and update the existing registration.
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="tns:Status"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="Configuration" type="tns:Configuration"/>
+            <xs:element minOccurs="0" name="RegistrationExpirySeconds" type="xs:unsignedInt"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+
+
+	<!-- Exceptions -->
+        <xs:element name="GeneralFault">
+            <xs:annotation>
+                <xs:documentation>
+                    This means that some exception happened in system.
+                </xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+                <xs:sequence>
+                    <xs:element ref="tns:ErrorMessage"/>
+                </xs:sequence>
+            </xs:complexType>
+        </xs:element>
+
+        <xs:element name="InvalidArgumentFault">
+            <xs:annotation>
+                <xs:documentation>
+                    This means that the arguments which are passed into services are wrong.
+                </xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+                <xs:sequence>
+                    <xs:element ref="tns:ErrorMessage"/>
+                </xs:sequence>
+            </xs:complexType>
+        </xs:element>
+
+			<xs:element name="NotConfiguredFault">
+				<xs:annotation>
+					<xs:documentation>
+						This means that the requested element has not been adeqauately configured yet.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element ref="tns:ErrorMessage"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+
+			<xs:element name="NotEnabledFault">
+				<xs:annotation>
+					<xs:documentation>
+						This means that the requested element has not been adeqauately configured yet.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element ref="tns:ErrorMessage"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+
+			<xs:element name="NotLicensedFault">
+				<xs:annotation>
+					<xs:documentation>
+						This means that the current License situation does not allow requested operation.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element ref="tns:ErrorMessage"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+
+			<xs:element name="ResourceNotAvailableFault">
+				<xs:annotation>
+					<xs:documentation>
+						This means that required resources are not available to process the request.
+						e.g. No VidyoRouter available to create a conference.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element ref="tns:ErrorMessage"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+
+			<xs:element name="NotSupportedFault">
+				<xs:annotation>
+					<xs:documentation>
+						This means that the requested service/feature is not supported/implemented by VidyoManager.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element ref="tns:ErrorMessage"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+
+		</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="NotSupportedFault">
+    <wsdl:part name="fault" element="tns:NotSupportedFault">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="RegisterOutput">
+    <wsdl:part name="parameter" element="tns:RegisterResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="GeneralFault">
+    <wsdl:part name="fault" element="tns:GeneralFault">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="ResourceNotAvailableFault">
+    <wsdl:part name="fault" element="tns:ResourceNotAvailableFault">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="NotConfiguredFault">
+    <wsdl:part name="fault" element="tns:NotConfiguredFault">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="NotEnabledFault">
+    <wsdl:part name="fault" element="tns:NotEnabledFault">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="InvalidArgumentFault">
+    <wsdl:part name="fault" element="tns:InvalidArgumentFault">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="NotLicensedFault">
+    <wsdl:part name="fault" element="tns:NotLicensedFault">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="RegisterInput">
+    <wsdl:part name="parameter" element="tns:RegisterRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="ConfigurationServicePortType">
+    <wsdl:operation name="register">
+<wsdl:documentation>register a new/existing network element</wsdl:documentation>
+      <wsdl:input message="tns:RegisterInput">
+    </wsdl:input>
+      <wsdl:output message="tns:RegisterOutput">
+    </wsdl:output>
+      <wsdl:fault name="NotLicensedFault" message="tns:NotLicensedFault">
+    </wsdl:fault>
+      <wsdl:fault name="NotEnabledFault" message="tns:NotEnabledFault">
+    </wsdl:fault>
+      <wsdl:fault name="InvalidArgumentFault" message="tns:InvalidArgumentFault">
+    </wsdl:fault>
+      <wsdl:fault name="ResourceNotAvailableFault" message="tns:ResourceNotAvailableFault">
+    </wsdl:fault>
+      <wsdl:fault name="NotConfiguredFault" message="tns:NotConfiguredFault">
+    </wsdl:fault>
+      <wsdl:fault name="GeneralFault" message="tns:GeneralFault">
+    </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="ConfigurationServiceBinding" type="tns:ConfigurationServicePortType">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="register">
+      <soap:operation soapAction="register"/>
+      <wsdl:input>
+        <soap:body use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </wsdl:output>
+      <wsdl:fault name="NotLicensedFault">
+        <soap:fault name="NotLicensedFault" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="NotEnabledFault">
+        <soap:fault name="NotEnabledFault" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="InvalidArgumentFault">
+        <soap:fault name="InvalidArgumentFault" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="ResourceNotAvailableFault">
+        <soap:fault name="ResourceNotAvailableFault" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="NotConfiguredFault">
+        <soap:fault name="NotConfiguredFault" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="GeneralFault">
+        <soap:fault name="GeneralFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="ConfigurationService">
+    <wsdl:port name="ConfigurationServicePort" binding="tns:ConfigurationServiceBinding">
+      <soap:address location="http://localhost:8080/services/ConfigurationService"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

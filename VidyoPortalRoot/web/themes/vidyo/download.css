@@ -1,0 +1,260 @@
+html {
+	width: 100%;
+	height: 100%;
+	margin: 0px;
+	padding: 0px;
+}
+body {
+	font-family: "Swiss 721 BT", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+	font-weight: 400;
+    font-size: 1.0em;
+    /* color: #535353; */
+	width: 100%;
+	height: 100%;
+	margin: 0px;
+	padding: 0px;
+}
+.row-header {
+    width: 100%;
+    *zoom: 1;
+}
+.row-header:before,
+.row-header:after {
+    display: table;
+    content: "";
+    line-height: 0;
+}
+.row-header:after {
+    clear: both;
+}
+.row-header .logo {
+    text-align: left;
+}
+
+.download-item {
+	margin: 10px 289px;
+	text-align: center;
+	height: 23px;
+    width: 220px;
+	font-size: 14px;
+    border: 1px solid #98c93c;
+    background-color: #98c93c;
+    color: white;
+    padding: 20px 0px !important;
+    box-shadow: inset 0px 1px 0px 0px #98c93c;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.downloadTable {
+	display: table;
+	padding-top: 15px;
+}
+
+.downloadTableRow {
+	display: table-row;
+}
+
+.downloadTableRowImgCell {
+	display: table-cell;
+	padding-left: 5px;
+	padding-right: 5px;
+	width: 270px;
+}
+
+.downloadTableRowCell1 {
+	display: table-cell;
+	padding-left: 15px;
+	padding-right: 15px;
+	padding-top: 10px;
+	font-size: 14px;
+	font-weight: bold;
+	color: #535353;
+}
+
+.downloadTableRowCell2 {
+	display: table-cell;
+	padding-left: 15px;
+	padding-right: 15px;
+	padding-top: 10px;
+	font-size: 14px;
+	color: #535353;
+}
+
+#container {
+
+}
+
+#header {
+	background-color: #000000;
+    opacity:0.85;
+    filter:alpha(opacity=85); /* For IE8 and earlier */
+    color: #c6c6c6;
+	height: 39px;
+    padding: 10px;
+}
+
+#logo {
+    background-image: url('i/download/logo-1.png');
+	background-image: -webkit-image-set( 
+				url('i/download/logo-1.png') 1x,
+                url('i/download/logo@2x-1.png') 2x);
+    background-position: top left;
+    background-repeat: no-repeat;
+	height: 39px;
+}
+
+#customLogo {
+    height: 39px;
+}
+
+#row-main {
+	width: 800px;
+	margin:0 auto;
+}
+#row-title {
+	background-color: #7eacdf;
+    opacity:0.85;
+    filter:alpha(opacity=85); /* For IE8 and earlier */
+    color: #ffffff;
+	height: 200px;
+    padding: 10px;
+}
+
+#infoIconDownload {
+    height: 65px;
+    background-image: url('i/download/ic_download.png');
+    background-image: -webkit-image-set( 
+				url('i/download/ic_download.png') 1x,
+                url('i/download/ic_download@2x.png') 2x);
+    background-repeat: no-repeat;
+    background-position: center bottom;
+}
+
+#infoDownload {
+    text-align: center;
+    font-size: 12px;
+    padding-top : 15px;
+    color: white;
+}
+
+#downloadPcTableStep1 {
+    background-image: url('i/download/windows_step_1.png');
+    background-image: -webkit-image-set( 
+				url('i/download/windows_step_1.png') 1x,
+                url('i/download/windows_step_1@2x.png') 2x);
+    background-repeat: no-repeat;
+    background-position: center bottom;
+    height: 200px;
+}
+
+#downloadPcTableStep2 {
+    background-image: url('i/download/windows_step_2.png');
+    background-image: -webkit-image-set( 
+				url('i/download/windows_step_2.png') 1x,
+                url('i/download/windows_step_2@2x.png') 2x);
+    background-repeat: no-repeat;
+    background-position: center bottom;
+    height: 200px;
+}
+
+#downloadPcTableStep3 {
+    background-image: url('i/download/windows_step_3.png');
+    background-image: -webkit-image-set( 
+				url('i/download/windows_step_3.png') 1x,
+                url('i/download/windows_step_3@2x.png') 2x);
+    background-repeat: no-repeat;
+    background-position: center bottom;
+    height: 200px;
+}
+
+#downloadMacTableStep1 {
+    background-image: url('i/download/mac_step_1.png');
+    background-image: -webkit-image-set( 
+				url('i/download/mac_step_1.png') 1x,
+                url('i/download/mac_step_1@2x.png') 2x);
+    background-repeat: no-repeat;
+    background-position: center bottom;
+    height: 200px;
+}
+
+#downloadMacTableStep2 {
+    background-image: url('i/download/mac_step_2.png');
+    background-image: -webkit-image-set( 
+				url('i/download/mac_step_2.png') 1x,
+                url('i/download/mac_step_2@2x.png') 2x);
+    background-repeat: no-repeat;
+    background-position: center bottom;
+    height: 200px;
+}
+
+#downloadMacTableStep3 {
+    background-image: url('i/download/mac_step_3-1.png');
+    background-image: -webkit-image-set( 
+				url('i/download/mac_step_3-1.png') 1x,
+                url('i/download/mac_step_3@2x-1.png') 2x);
+    background-repeat: no-repeat;
+    background-position: center bottom;
+    height: 200px;
+}
+
+#downloadBtn {
+	width: 800px;
+	margin:0 auto;
+	padding-top: 5px;
+}
+
+#row-help {
+	width: 800px;
+	margin: auto;
+	margin-top: 100px;
+	border: 1px solid #e9ebed;
+}
+
+#helpText {
+	text-align: center;
+    padding-top : 30px;
+    padding-bottom : 30px;
+    font-size: 14px;
+	font-weight: 200;
+	color: #707070;
+}
+
+#copyright {
+	text-align: center;
+    padding-top : 20px;
+    padding-bottom : 20px;
+    font-size: 10px;
+	color: #aaaaaa;
+	width: 800px;
+	margin: auto;
+}
+
+#instructionsLinux {
+    display: block;
+    clear: both;
+    margin: 0px auto;
+    width: 800px;
+    height: 242px;
+    padding-top: 75px;
+}
+.stepLinux {
+    height: 242px;
+    border: 1px solid #e9ebed;
+    margin: 0px 240px;
+}
+
+.titleLinux {
+    font-weight: 400;
+    font-size: 1.1em;
+    padding: 30px 15px;
+}
+
+.installersLinux {
+    font-size: 0.8em;
+    color: #535353;
+}
+
+.installerlinkLinux {
+    padding-left: 10px;
+}

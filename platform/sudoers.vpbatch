@@ -1,0 +1,2 @@
+vpbatch   ALL=NOPASSWD: /opt/vidyo/bin/UpdateLicenseCache.sh, \
+                        /opt/vidyo/ha/bin/is_active.sh

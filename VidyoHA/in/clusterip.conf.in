@@ -1,0 +1,218 @@
+###################################################################################
+# VIDYO_HA - Controls the HA configuration. Set this field to "DISABLE" to
+#            disable hot-standby.
+###################################################################################
+VIDYO_HA=%VIDYO_HA%
+
+###################################################################################
+## HA_MODE - DR mode or HotStandby node.  DR - Disaster Recovery, HS - Hot-Standby
+####################################################################################
+HA_MODE=%HA_MODE%
+
+
+###################################################################################
+# PEER_IP - IP address of the other node in the cluster.
+###################################################################################
+PEER_IP=%PEER_IP%
+
+
+###################################################################################
+# PORT - This is the UDP port that will be used by clusterip application for
+#        exchanging data to the other node.
+#Note: This should be the same on both nodes.
+###################################################################################
+PORT=%PORT%
+
+###################################################################################
+# LOCAL_IP - The static IP address of the node.
+###################################################################################
+LOCAL_IP=%LOCAL_IP%
+
+###################################################################################
+# CLUSTER_IP - The IP address that will float between two nodes.
+###################################################################################
+CLUSTER_IP=%CLUSTER_IP%
+
+###################################################################################
+# CLUSTER_IP6 - The IP address that will float between two nodes.  Use this field
+#               only when dual stack is enabled. Use this for IPv6 address.
+###################################################################################
+CLUSTER_IP6=%CLUSTER_IP6%
+
+###################################################################################
+# CLUSTER_FQDN - The FQDN that will float between two nodes.
+###################################################################################
+CLUSTER_FQDN=%CLUSTER_FQDN%
+
+###################################################################################
+# NEXT_HOP - Normally the IP address of the router/switch where both nodes are
+#            connected.
+# Note: This should be the same for both nodes.
+###################################################################################
+NEXT_HOP=%NEXT_HOP%
+
+###################################################################################
+# BASEDIR - The base directory where clusterip will be installed.
+###################################################################################
+BASEDIR=/opt/vidyo/ha
+
+###################################################################################
+# NETMASK - The netmask of the floating IP or cluster IP.
+###################################################################################
+NETMASK=%NETMASK%
+
+###################################################################################
+# NETMASK6 - The netmask of the floating IP or cluster IP. USe this only when dual
+#            stack is enabled. Use this for IPv6 netmask.
+###################################################################################
+NETMASK6=%NETMASK6%
+
+###################################################################################
+# LOG_LEVEL - Verbosity if the logging. Set to 0 to disable logging.
+#             Valid values 0-4.
+###################################################################################
+LOG_LEVEL=2
+
+####################################################################################
+# DAEMON - Run the program as daemon. Do not change this value.
+###################################################################################
+DAEMON=--daemon
+
+MAX_REBOOT=3
+
+####################################################################################
+# REBOOT_CTR_FILE - This is where the watcher script will store the reboot count.
+#                   Note: reboot count should be set to 0, if network connection is
+#                   restored.
+# Note: reboot count will be stored in $REBOOT_CTR_FILE with the following format:
+#    REBOOT_COUNT=<N>
+####################################################################################
+REBOOT_CTR_FILE=/opt/vidyo/ha/reboot.count
+
+####################################################################################
+# MAINT_FLAG - Name of file to be created to put the watcher into maintenance mode.
+#              If watcher is in maintenance mode then wacher will ignore any checks.
+# Note: use the script watcher_maint.sh to put the script into maintenance mode.
+####################################################################################
+MAINT_FLAG=/opt/vidyo/ha/UNDER_MAINTENANCE
+
+####################################################################################
+# PROMOTE_FLAG - This file will be used by the clusterip application to mark the
+#                node as ACTIVE.  This can be used by other script/apps to monitor
+#                the status.
+####################################################################################
+PROMOTE_FLAG=/opt/vidyo/ha/PROMOTE
+
+####################################################################################
+# PROMOTE_FLAG - This file will be used by the clusterip application to mark the
+#                node as STANDBY.  This can be used by other script/apps to monitor
+#                the status.
+####################################################################################
+DEMOTE_FLAG=/opt/vidyo/ha/DEMOTE
+
+
+####################################################################################
+# PRIORITY - Set this field to "--preferred" if this is the preferred node otherwise
+#            leave it blank.
+####################################################################################
+PRIORITY=%PRIORITY%
+
+
+####################################################################################
+# ADMIN_PORT - Admin port of the clusterip. User cip_admin to query information from
+#              clusterip.  (DEPRECATED)
+####################################################################################
+ADMIN_PORT=9999
+
+####################################################################################
+# DBSYNC_USER - A system user that will be used for transferring files from
+#               ACTIVE/STANDBY.
+####################################################################################
+DBSYNC_USER=dbsync
+
+
+####################################################################################
+# ENCRYPT - Encrypt the UDP data...
+####################################################################################
+ENCRYPT=--encrypt
+
+####################################################################################
+# PEER_STATUS_FILE - stores the peer status. This file should contain the last time
+#                    the peer is online. This file should be deleted if the peer
+#                    becomes online.
+####################################################################################
+PEER_STATUS_FILE=/opt/vidyo/vm/.peer_status
+
+###################################################################################
+# CRYPT_MUTEX - Use this as a flag/mutex to indicate that Cryptar is encrypting
+#               the file. This will prevent someone from copying/accesing the file
+#               while CryptTar is in the middle of encrypting it.
+###################################################################################
+CRYPT_MUTEX=/tmp/cryptar.enc
+
+###################################################################################
+# DB_VERSION_INFO - This is a file that will contain DB version from
+#                   portal2->Configuration.
+###################################################################################
+DB_VERSION_INFO=/opt/vidyo/ha/db_version
+
+###################################################################################
+# BACKUP_DIR - Location of the backup file.
+###################################################################################
+BACKUP_DIR=/home/dbsync
+
+###################################################################################
+# BACKUP_FILE - This is the unencrypted backup file that will contain the database
+#               dump.
+###################################################################################
+BACKUP_FILE=$BACKUP_DIR/PORTAL_BACKUP.tgz
+
+###################################################################################
+# ENVRYPT_BACKUP_FILE  - This is the encrypted backup file that will contain the
+#                        database dump.
+###################################################################################
+ENCRYPT_BACKUP_FILE=$BACKUP_DIR/PORTAL_BACKUP.vidyo
+
+
+###################################################################################
+# LOCAL_ETH1_IP - Local eth1 IP address. (OPTIONAL)
+###################################################################################
+LOCAL_ETH1_IP=%LOCAL_ETH1_IP%
+
+###################################################################################
+# PEER_ETH1_IP - Peer's eth1 IP address. (OPTIONAL)
+###################################################################################
+PEER_ETH1_IP=%PEER_ETH1_IP%
+
+###################################################################################
+# KEEP_NATIVE_IP - YES|NO.  If YES then ACTIVE node will have two IP addresses on 
+#                           on the interface.
+###################################################################################
+KEEP_NATIVE_IP=YES
+
+###################################################################################
+# SYNC_DB - YES|NO.  If YES then DB snapshot will be taken every N hour. Set this
+#                    to NO if the DB is on external server.
+###################################################################################
+SYNC_DB=%SYNC_DB%
+
+###################################################################################
+# SYNC_FS - YES|NO.  If YES then FS system sync will be performed every N hour. 
+#                    Note: a list of files that will be sync is defined in 'synfile'
+###################################################################################
+SYNC_FS=%SYNC_FS%
+
+###################################################################################
+#HA_DEF - File that will contain the miscellaneous variable definition.
+###################################################################################
+HA_DEFS=/opt/vidyo/ha/bin/ha-defs
+
+###################################################################################
+#Interface where heartbeat and sync will happen. Valid values eth0 or eth1.
+###################################################################################
+HB_IFC=%HB_IFC%
+
+###################################################################################
+#Set ENABLE_SHARED_IP to 'n' if floating or cluster ip is needed.
+###################################################################################
+ENABLE_SHARED_IP=%ENABLE_SHARED_IP%

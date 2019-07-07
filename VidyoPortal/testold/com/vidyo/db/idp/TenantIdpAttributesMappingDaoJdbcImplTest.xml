@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+	<Tenant tenantID="1" tenantName="portalgdtest.vidyoqa.lo" description="" tenantPrefix="12" tenantDialIn="" tenantReplayUrl="" mobileLogin="1" vidyoGatewayControllerDns="asdf" scheduledRoomEnabled="0"/>
+	<Tenant tenantID="2" tenantName="portalgdtest1.vidyoqa.lo" description="" tenantPrefix="13" tenantDialIn="" tenantReplayUrl="" mobileLogin="1" vidyoGatewayControllerDns="dfggg" scheduledRoomEnabled="0"/>
+	
+	<TenantIdpAttributeMapping mappingID="1" tenantID="1" vidyoAttributeName="UserName" idpAttributeName="aaa:bbb:111" defaultAttributeValue=""/>
+	<TenantIdpAttributeMapping mappingID="2" tenantID="1" vidyoAttributeName="DisplayName" idpAttributeName="" defaultAttributeValue=""/>
+	<TenantIdpAttributeMapping mappingID="3" tenantID="1" vidyoAttributeName="EmailAddress" idpAttributeName="aaa:bbb:222" defaultAttributeValue="yourcompany.com"/>
+	<TenantIdpAttributeMapping mappingID="4" tenantID="1" vidyoAttributeName="Extension" idpAttributeName="" defaultAttributeValue=""/>
+	<TenantIdpAttributeMapping mappingID="5" tenantID="1" vidyoAttributeName="Group" idpAttributeName="" defaultAttributeValue="Default"/>
+	<TenantIdpAttributeMapping mappingID="6" tenantID="1" vidyoAttributeName="Proxy" idpAttributeName="aaa:bbb:333" defaultAttributeValue="No Proxy"/>
+	
+	<TenantIdpAttributeValueMapping valueID="1" mappingID="5" vidyoValueName="Default" idpValueName=""/>
+	<TenantIdpAttributeValueMapping valueID="2" mappingID="6" vidyoValueName="VP" idpValueName="dsad"/>
+	
+</dataset>

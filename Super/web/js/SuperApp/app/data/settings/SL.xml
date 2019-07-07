@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+	<results>12</results>
+	<row>
+		
+			<feature>License Line Start Date</feature>
+		
+		<license>Default License</license>
+		<inuse></inuse>
+	</row>
+	<row>
+		
+		
+			<feature>License Line Expiration Date</feature>
+		
+		<license>Default License</license>
+		<inuse></inuse>
+	</row>
+
+	
+
+	
+
+	<row>
+		<feature/>
+		<license/>
+		<inuse/>
+	</row>
+	<row>
+		<feature>License Key</feature>
+		<license>admin</license>
+		<inuse></inuse>
+	</row>
+	<row>
+		<feature>License Token</feature>
+		<license>password</license>
+		<inuse></inuse>
+	</row>
+
+	<row>
+		<feature/>
+		<license/>
+		<inuse/>
+	</row>
+	<row>
+		<feature>Number of Seats</feature>
+		<license>1/5 ( Used/Licensed )</license>
+		<inuse>1</inuse>
+	</row>
+	<row>
+		
+		
+			<feature>Number of Lines</feature>
+		
+		<license>0/2 ( Used/Licensed )</license>
+		<inuse>0</inuse>
+	</row>
+	<row>
+		<feature>Number of Installs</feature>
+		<license>0/5 ( Used/Licensed )</license>
+		<inuse>0</inuse>
+	</row>
+
+	
+		<row>
+			<feature>Number of Executive / VidyoRoom SE Systems</feature>
+			<license>0/0 ( Used/Licensed )</license>
+			<inuse>0</inuse>
+		</row>
+		<row>
+			<feature>Number of VidyoPanorama Systems</feature>
+			<license>0/0 ( Used/Licensed )</license>
+			<inuse>0</inuse>
+		</row>
+	
+
+	
+
+	<row>
+		<feature/>
+		<license/>
+		<inuse/>
+	</row>
+	<row>
+		<feature>Encryption</feature>
+		
+		
+			<license>None</license>
+		
+		<inuse></inuse>
+	</row>
+	<row>
+		<feature>MultiTenant</feature>
+		
+		
+		<inuse></inuse>
+	</row>
+	<row>
+		<feature>Allow UC Clients</feature>
+		
+		
+		<inuse></inuse>
+	</row>
+
+	<row>
+		<feature/>
+		<license/>
+		<inuse/>
+	</row>
+	<row>
+		<feature>License Serial Number</feature>
+		<license></license>
+		<inuse></inuse>
+	</row>
+
+</dataset>

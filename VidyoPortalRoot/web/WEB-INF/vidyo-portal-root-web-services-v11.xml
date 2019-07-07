@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans
+	   http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- Portal Admin Service v1_1 -->
+	<bean id="vidyoPortalAdminServiceEndPoint_v1_1" class="com.vidyo.portal.admin.v1_1.VidyoPortalAdminServiceSkeleton">
+		<property name="memberService" ref="memberService"/>
+		<property name="roomService" ref="roomService"/>
+		<property name="groupService" ref="groupService"/>
+		<property name="conferenceService" ref="conferenceService"/>
+		<property name="systemService" ref="systemService"/>
+		<property name="licenseService" ref="licensingService"/>
+		<property name="userService" ref="userService"/>
+		<property name="tenantService" ref="tenantService"/>
+		<property name="serviceService" ref="serviceService"/>
+        <property name="adminOrOperatorDeleteMessageMQtopic" ref="adminOrOperatorDeleteMessageMQtopic"/>
+        <property name="jmsProducerTemplate" ref="jmsProducerTemplate"/>
+        <property name="ms" ref="messageSource"/>
+	</bean>
+
+	<!-- Portal User Service V1_1 -->
+	<bean id="vidyoPortalUserServiceEndPoint_v1_1" class="com.vidyo.portal.user.v1_1.VidyoPortalUserServiceSkeleton">
+		<property name="userService" ref="userService"/>
+		<property name="memberService" ref="memberService"/>
+		<property name="roomService" ref="roomService"/>
+		<property name="conferenceService" ref="conferenceService"/>
+		<property name="serviceService" ref="serviceService"/>
+		<property name="licensingService" ref="licensingService"/>
+		<property name="tenantService" ref="tenantService"/>
+		<property name="systemService" ref="systemService"/>
+		<property name="ms" ref="messageSource"/>
+		<property name="vidyoPersistentTokenRepository" ref="tokenRepository"/>
+        <property name="ipcConfigurationService" ref="ipcConfigurationService" />
+        <property name="conferenceAppService" ref="conferenceAppService" />
+        <property name="persistentTokenService" ref="persistentTokenService"/>
+        <property name="memberPasswordHistoryService" ref="memberPasswordHistoryService"/>
+        <property name="memberLoginHistoryService" ref="memberLoginHistoryService"/>
+        <property name="endpointService" ref="endpointService"/>
+        <property name="thumbNailLocation" value="${upload.thumbnail.dir}" />
+        <property name="testCallService" ref="testCallService" />
+	</bean>
+
+</beans>

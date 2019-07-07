@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- This file was auto-generated from WSDL -->
+<!-- by the Apache Axis2 version: 1.6.2  Built on : Apr 17, 2012 (05:33:49 IST) -->
+<serviceGroup>
+    <service name="VidyoPortalSuperService">
+        <messageReceivers>
+            <messageReceiver mep="http://www.w3.org/ns/wsdl/in-out" class="com.vidyo.portal.superapi.VidyoPortalSuperServiceMessageReceiverInOut"/>
+        </messageReceivers>
+        <!--  <parameter name="ServiceClass">com.vidyo.portal.superapi.VidyoPortalSuperServiceSkeleton</parameter> -->
+        <parameter name="ServiceObjectSupplier" locked="false">org.apache.axis2.extensions.spring.receivers.SpringServletContextObjectSupplier</parameter>
+        <parameter name="SpringBeanName" locked="false">vidyoPortalSuperServiceEndPoint</parameter>
+        <parameter name="useOriginalwsdl">true</parameter>
+        <parameter name="modifyUserWSDLPortAddress">true</parameter>
+        <operation name="saveDb" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://portal.vidyo.com/superapi/">
+            <actionMapping>saveDb</actionMapping>
+            <outputActionMapping>http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/saveDbResponse</outputActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/saveDb/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/saveDb/Fault/GeneralFault</faultActionMapping>
+        </operation>
+        <operation name="getServiceComponentsData" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://portal.vidyo.com/superapi/">
+            <actionMapping>getServiceComponentsData</actionMapping>
+            <outputActionMapping>http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/getServiceComponentsDataResponse</outputActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/getServiceComponentsData/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/getServiceComponentsData/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/getServiceComponentsData/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/getServiceComponentsData/Fault/GeneralFault</faultActionMapping>
+        </operation>
+        <operation name="getTenantDetails" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://portal.vidyo.com/superapi/">
+            <actionMapping>getTenantDetails</actionMapping>
+            <outputActionMapping>http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/getTenantDetailsResponse</outputActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/getTenantDetails/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/getTenantDetails/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidTenantFault">http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/getTenantDetails/Fault/InvalidTenantFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidTenantFault_Exception">http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/getTenantDetails/Fault/InvalidTenantFault</faultActionMapping>
+        </operation>
+        <operation name="getLicenseData" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://portal.vidyo.com/superapi/">
+            <actionMapping>getLicenseData</actionMapping>
+            <outputActionMapping>http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/getLicenseDataResponse</outputActionMapping>
+            <faultActionMapping faultName="NotLicensedFault">http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/getLicenseData/Fault/NotLicensedFault</faultActionMapping>
+            <faultActionMapping faultName="NotLicensedFault_Exception">http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/getLicenseData/Fault/NotLicensedFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/getLicenseData/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/getLicenseData/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="NotAuthorizedFault">http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/getLicenseData/Fault/NotAuthorizedFault</faultActionMapping>
+            <faultActionMapping faultName="NotAuthorizedFault_Exception">http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/getLicenseData/Fault/NotAuthorizedFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidTenantFault">http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/getLicenseData/Fault/InvalidTenantFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidTenantFault_Exception">http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/getLicenseData/Fault/InvalidTenantFault</faultActionMapping>
+        </operation>
+        <operation name="deleteTenant" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://portal.vidyo.com/superapi/">
+            <actionMapping>deleteTenant</actionMapping>
+            <outputActionMapping>http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/deleteTenantResponse</outputActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/deleteTenant/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/deleteTenant/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidTenantFault">http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/deleteTenant/Fault/InvalidTenantFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidTenantFault_Exception">http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/deleteTenant/Fault/InvalidTenantFault</faultActionMapping>
+        </operation>
+        <operation name="setChatStateSuper" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://portal.vidyo.com/superapi/">
+            <actionMapping>setChatStateSuper</actionMapping>
+            <outputActionMapping>http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/setChatStateSuperResponse</outputActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/setChatStateSuper/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/setChatStateSuper/Fault/GeneralFault</faultActionMapping>
+        </operation>
+        <operation name="setLoginAndWelcomeBanner" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://portal.vidyo.com/superapi/">
+            <actionMapping>setLoginAndWelcomeBanner</actionMapping>
+            <outputActionMapping>http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/setLoginAndWelcomeBannerResponse</outputActionMapping>
+            <faultActionMapping faultName="BannerTextFault">http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/setLoginAndWelcomeBanner/Fault/BannerTextFault</faultActionMapping>
+            <faultActionMapping faultName="BannerTextFault_Exception">http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/setLoginAndWelcomeBanner/Fault/BannerTextFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/setLoginAndWelcomeBanner/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/setLoginAndWelcomeBanner/Fault/GeneralFault</faultActionMapping>
+        </operation>
+        <operation name="listNetworkComponents" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://portal.vidyo.com/superapi/">
+            <actionMapping>listNetworkComponents</actionMapping>
+            <outputActionMapping>http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/listNetworkComponentsResponse</outputActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/listNetworkComponents/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/listNetworkComponents/Fault/GeneralFault</faultActionMapping>
+        </operation>
+        <operation name="getRouterPoolList" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://portal.vidyo.com/superapi/">
+            <actionMapping>getRouterPoolList</actionMapping>
+            <outputActionMapping>http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/getRouterPoolListResponse</outputActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/getRouterPoolList/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/getRouterPoolList/Fault/GeneralFault</faultActionMapping>
+        </operation>
+        <operation name="setIpcDomains" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://portal.vidyo.com/superapi/">
+            <actionMapping>setIpcDomains</actionMapping>
+            <outputActionMapping>http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/setIpcDomainsResponse</outputActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/setIpcDomains/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/setIpcDomains/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="IncorrectIpcAccessLevelFault">http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/setIpcDomains/Fault/IncorrectIpcAccessLevelFault</faultActionMapping>
+            <faultActionMapping faultName="IncorrectIpcAccessLevelFault_Exception">http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/setIpcDomains/Fault/IncorrectIpcAccessLevelFault</faultActionMapping>
+        </operation>
+        <operation name="getIpcAccessControl" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://portal.vidyo.com/superapi/">
+            <actionMapping>getIpcAccessControl</actionMapping>
+            <outputActionMapping>http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/getIpcAccessControlResponse</outputActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/getIpcAccessControl/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/getIpcAccessControl/Fault/GeneralFault</faultActionMapping>
+        </operation>
+        <operation name="createTenant" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://portal.vidyo.com/superapi/">
+            <actionMapping>createTenant</actionMapping>
+            <outputActionMapping>http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/createTenantResponse</outputActionMapping>
+            <faultActionMapping faultName="NotLicensedFault">http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/createTenant/Fault/NotLicensedFault</faultActionMapping>
+            <faultActionMapping faultName="NotLicensedFault_Exception">http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/createTenant/Fault/NotLicensedFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/createTenant/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/createTenant/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="ExistingTenantFault">http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/createTenant/Fault/ExistingTenantFault</faultActionMapping>
+            <faultActionMapping faultName="ExistingTenantFault_Exception">http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/createTenant/Fault/ExistingTenantFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/createTenant/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/createTenant/Fault/GeneralFault</faultActionMapping>
+        </operation>
+        <operation name="getLocationTags" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://portal.vidyo.com/superapi/">
+            <actionMapping>getLocationTags</actionMapping>
+            <outputActionMapping>http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/getLocationTagsResponse</outputActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/getLocationTags/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/getLocationTags/Fault/GeneralFault</faultActionMapping>
+        </operation>
+        <operation name="deleteDb" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://portal.vidyo.com/superapi/">
+            <actionMapping>deleteDb</actionMapping>
+            <outputActionMapping>http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/deleteDbResponse</outputActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/deleteDb/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/deleteDb/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/deleteDb/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/deleteDb/Fault/GeneralFault</faultActionMapping>
+        </operation>
+        <operation name="getListOfTenants" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://portal.vidyo.com/superapi/">
+            <actionMapping>getListOfTenants</actionMapping>
+            <outputActionMapping>http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/getListOfTenantsResponse</outputActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/getListOfTenants/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/getListOfTenants/Fault/GeneralFault</faultActionMapping>
+        </operation>
+        <operation name="updateTenant" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://portal.vidyo.com/superapi/">
+            <actionMapping>updateTenant</actionMapping>
+            <outputActionMapping>http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/updateTenantResponse</outputActionMapping>
+            <faultActionMapping faultName="NotLicensedFault">http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/updateTenant/Fault/NotLicensedFault</faultActionMapping>
+            <faultActionMapping faultName="NotLicensedFault_Exception">http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/updateTenant/Fault/NotLicensedFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/updateTenant/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/updateTenant/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="ExistingTenantFault">http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/updateTenant/Fault/ExistingTenantFault</faultActionMapping>
+            <faultActionMapping faultName="ExistingTenantFault_Exception">http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/updateTenant/Fault/ExistingTenantFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/updateTenant/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/updateTenant/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidTenantFault">http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/updateTenant/Fault/InvalidTenantFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidTenantFault_Exception">http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/updateTenant/Fault/InvalidTenantFault</faultActionMapping>
+        </operation>
+        <operation name="getIpcDomainList" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://portal.vidyo.com/superapi/">
+            <actionMapping>getIpcDomainList</actionMapping>
+            <outputActionMapping>http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/getIpcDomainListResponse</outputActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/getIpcDomainList/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/getIpcDomainList/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="IncorrectIpcAccessLevelFault">http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/getIpcDomainList/Fault/IncorrectIpcAccessLevelFault</faultActionMapping>
+            <faultActionMapping faultName="IncorrectIpcAccessLevelFault_Exception">http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/getIpcDomainList/Fault/IncorrectIpcAccessLevelFault</faultActionMapping>
+        </operation>
+        <operation name="getChatStateSuper" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://portal.vidyo.com/superapi/">
+            <actionMapping>getChatStateSuper</actionMapping>
+            <outputActionMapping>http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/getChatStateSuperResponse</outputActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/getChatStateSuper/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/getChatStateSuper/Fault/GeneralFault</faultActionMapping>
+        </operation>
+        <operation name="setIpcAccessControl" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://portal.vidyo.com/superapi/">
+            <actionMapping>setIpcAccessControl</actionMapping>
+            <outputActionMapping>http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/setIpcAccessControlResponse</outputActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/setIpcAccessControl/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/setIpcAccessControl/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="MissingArgumentFault">http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/setIpcAccessControl/Fault/MissingArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="MissingArgumentFault_Exception">http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/setIpcAccessControl/Fault/MissingArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/setIpcAccessControl/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/setIpcAccessControl/Fault/GeneralFault</faultActionMapping>
+        </operation>
+        <operation name="backupDb" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://portal.vidyo.com/superapi/">
+            <actionMapping>backupDb</actionMapping>
+            <outputActionMapping>http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/backupDbResponse</outputActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/backupDb/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/backupDb/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/backupDb/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/backupDb/Fault/GeneralFault</faultActionMapping>
+        </operation>
+        <operation name="listDb" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://portal.vidyo.com/superapi/">
+            <actionMapping>listDb</actionMapping>
+            <outputActionMapping>http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/listDbResponse</outputActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/listDb/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/listDb/Fault/GeneralFault</faultActionMapping>
+        </operation>
+	    <operation name="addClientVersion" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://portal.vidyo.com/superapi/">
+            <actionMapping>addClientVersion</actionMapping>
+            <outputActionMapping>http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/addClientVersionResponse</outputActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/addClientVersion/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/addClientVersion/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/addClientVersion/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/addClientVersion/Fault/GeneralFault</faultActionMapping>
+        </operation>
+         <operation name="setCustomRole" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://portal.vidyo.com/superapi/">
+            <actionMapping>setCustomRole</actionMapping>
+            <outputActionMapping>http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/setCustomRoleResponse</outputActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/setCustomRole/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/setCustomRole/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/setCustomRole/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/setCustomRole/Fault/GeneralFault</faultActionMapping>
+        </operation>
+        <operation name="setLogAggregationServer" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://portal.vidyo.com/superapi/">
+            <actionMapping>setLogAggregationServer</actionMapping>
+            <outputActionMapping>http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/setLogAggregationServerResponse</outputActionMapping>
+            <faultActionMapping faultName="NotLicensedFault">http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/setLogAggregationServer/Fault/NotLicensedFault</faultActionMapping>
+            <faultActionMapping faultName="NotLicensedFault_Exception">http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/setLogAggregationServer/Fault/NotLicensedFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/setLogAggregationServer/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/setLogAggregationServer/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/setLogAggregationServer/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/setLogAggregationServer/Fault/GeneralFault</faultActionMapping>
+        </operation>
+       <operation name="getLogAggregationServer" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://portal.vidyo.com/superapi/">
+            <actionMapping>getLogAggregationServer</actionMapping>
+            <outputActionMapping>http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/getLogAggregationServerResponse</outputActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/getLogAggregationServer/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://portal.vidyo.com/superapi/VidyoPortalSuperServicePortType/getLogAggregationServer/Fault/GeneralFault</faultActionMapping>
+        </operation>
+    </service>
+</serviceGroup>

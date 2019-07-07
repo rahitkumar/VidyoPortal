@@ -1,0 +1,439 @@
+
+/*
+Ext.Toast related css changes. Please dont remove.If you want to give 
+different look and feel use cls:'abc' instead of tastcls and override like below
+**/
+.toastcls .x-window-header-default-top {
+   background-color: #2D7D04;
+}
+.toastcls .x-window-header-default .x-tool-img {
+    background-color: #2D7D04;
+}
+.toastwarningcls .x-window-header-default-top {
+   background-color: #98270E;
+}
+.toastwarningcls .x-window-header-default .x-tool-img {
+    background-color: #98270E;
+}
+
+/* this is a hack for the bug only in chrome when there is no scroll-bar after upgrading to ext js 6.*/
+.x-viewport, .x-viewport > .x-body {
+    margin: 0;
+    padding: 0;
+    border: 0 none;
+    overflow: auto;
+    position: static;
+   }
+
+/* font awesome icon css*/
+.fa-download,.fa-upload,.fa-refresh, .fa-plus-circle, .fa-check-circle,.fa-file-text,.fa-play,.fa-edit, .fa-check{
+    color: #5FA2DD;
+}
+.fa-exclamation-triangle,.fa-minus-circle,.fa-ban,.fa-warning, .fa-power-off{
+    color: #BB2D2D;
+}
+.headertabcss .x-panel-body-default{
+box-shadow: 0px 5px 15px 8px rgba(0,0,0,0.2);
+}
+.pools-grid{
+    border-width: 3px ;
+    border-color :gainsboro;
+    border-style:double;
+}
+.transparentCls {
+    background-color: transparent !important;
+}
+.transparentBG, .transparentBG  {
+    background-color: #F3F3F3 !important;
+}
+/*---- login */
+.login-form,
+.centerd {
+    background-color: #F3F3F3 !important;
+    margin : auto !important;
+    width : 100%;
+    border-radius: 5px;
+    box-shadow: 0px 5px 15px 3px rgba(0,0,0,0.2);
+}
+
+.container {
+    width: 960px;
+    text-align: left;
+    margin: 0 auto;
+}
+.msg-warning {
+   
+    width: 100%;
+   
+}
+/*--*/
+
+a {
+    text-decoration: none;
+}
+
+.linkclass {
+    text-decoration: underline;
+    color: #117;
+    cursor: pointer;
+}
+.customtextreadcls {
+    cursor: not-allowed;
+    width: 470px;
+    background: #e2e2e2;
+    border: 0px transparent;
+}
+.columnwithclickevent {
+    text-decoration: underline;
+    color: rgb(100,100,255);
+    cursor: pointer;
+}
+.componentsGrid .x-panel-default {
+    height: 100% !important;
+}
+.add-button-icon {
+    background-image: url("../images/icon_add.gif");
+}
+.delete-button-icon {
+    background-image: url("../images/icon_remove.gif");
+}
+.edit-button-icon {
+    background-image: url("../images/icon_success.gif");
+}
+.refresh-button-icon {
+    background-image: url("../../ext/packages/ext-theme-neptune/resources/images/grid/refresh.png");
+}
+.back-button-icon {
+    background-image: url("../images/back-icon.png");
+}
+.tab-main.x-panel-default {
+    background-image: none;
+    background-color: #FFFFFF !important;
+}
+
+.logoutclass {
+    background: none;
+    border: none;
+    font-size: 11px;
+    color: #000;
+}
+.logoutclass:hover {
+    background: none;
+    font-size: 11px;
+    border: none;
+    color: #000;
+}
+.logoutclass .x-btn-inner-default-small {
+    color: #000;
+    font-size: 11px;
+}
+.mypaneltransparent .x-panel-header-default {
+    background-image: none;
+    background-color: transparent;
+    border: 1px solid transparent;
+}
+.mypaneltransparent .x-panel-header-title-default {
+    color: #000;
+}
+.settings_title_text {
+    text-align: right;
+}
+.red-label-button-text .x-btn-inner {
+  color: #c00;
+  font-weight: bold;
+}
+.red-label {
+    color: #c00;
+    font-weight: bold;
+}
+.active-row {
+    background-color: #c0ffc0 !important;
+}
+.cursor-pointer {
+    cursor: pointer;
+}
+.tenants-nav-grid .x-grid-body {
+    border-width: 0px;
+    border-right-width: 1px;
+}
+.tenants-nav-grid .x-grid-body .x-grid-view {
+    width: 100% !important;
+}
+.tenants-nav-grid .x-grid-body .x-grid-item, .tenants-nav-grid .x-grid-body .x-grid-item .x-grid-cell-inner {
+    cursor: pointer;
+}
+.manage-tenant-grid .x-toolbar-default {
+    border-width: 1px;
+    
+}
+.manage-tenant-grid .x-panel-body {
+    border-width: 1px !important;
+    border-style:solid;
+}
+.manage-tenant-grid .x-grid-header-ct {
+    border-width: 1px !important;
+}
+
+.manage-call-grid .x-toolbar-default {
+    border-width: 0px;
+}
+.manage-call-grid .x-panel-body {
+    border-width: 0px !important;
+}
+.manage-call-grid .x-grid-header-ct {
+    border-width: 0px !important;
+}
+.add-tenant-form .x-accordion-item .x-panel-header {
+    cursor: pointer;
+}
+.bold-fieldset-header .x-fieldset-header-text {
+    font-weight: bold;
+}
+.tenants-center-container {
+    border-width: 0px 0px 0px 1px;
+    border-style: solid;
+    border-color: #c1c1c1;
+}
+.tenants-center-line {
+    border-width: 0px 1px 0px 0px;
+    border-style: solid;
+    border-color: #c1c1c1;
+    z-index: 9;
+}
+
+.icon-upload {
+    width: 16px;
+    height: 16px;
+    background: transparent;
+    background-image: url("../images/upload-icon.png");
+}
+.icon-add {
+    width: 16px;
+    height: 16px;
+    background: transparent;
+    background-image: url("../images/icon_add.gif");
+}
+.icon-remove {
+    width: 16px;
+    height: 16px;
+    background: transparent;
+    background-image: url("../images/icon_remove.gif");
+}
+.icon-success {
+    width: 16px;
+    height: 16px;
+    background: transparent;
+    background-image: url("../images/icon_success.gif");
+}
+.icon-reset {
+    width: 16px;
+    height: 16px;
+    background: transparent;
+    background-image: url("../icons/reset.gif");
+}
+.icon-save {
+    width: 16px;
+    height: 16px;
+    background: transparent;
+    background-image: url("../images/icon_save.gif");
+}
+.icon-shutdown {
+    width: 16px;
+    height: 16px;
+    background: transparent;
+    background-image: url("../images/icon_shutdown.gif");
+}
+/* this is for icons in the invite page-please don't remove*/
+.x-tool-dialin_number_icon {
+    background-image: url('../icons/phonenumber.png') !important;
+}
+.x-tool-pin_only_icon  {
+    background-image: url('../icons/pin.png') !important;
+}
+.x-tool-extension_only_icon  {
+    background-image: url('../icons/extension.png') !important;
+}
+.x-tool-room_link_icon  {
+    background-image: url('../icons/roomlink.png') !important;
+}
+.x-tool-sip_link_icon  {
+    background-image: url('../icons/external.png') !important;
+}
+.x-tool-meeting_link_icon  {
+    background-image: url('../icons/dialstring.png') !important;
+}
+.x-tool-webcast_icon  {
+    background-image: url('../icons/webcast.png') !important;
+}
+.x-tool-avatar_icon  {
+    background-image: url('../icons/user_avatar.png') !important;
+}
+.x-tool-user_title_icon  {
+    background-image: url('../icons/user_role.png') !important;
+}
+.x-tool-user_displayname_icon  {
+    background-image: url('../icons/user_display.png') !important;
+}
+.x-tool-room_name_icon  {
+    background-image: url('../icons/room_name.png') !important;
+}
+.x-tool-tenant_logo_icon  {
+    background-image: url('../icons/tenant_logo.png') !important;
+}
+.x-tool-international_dialin_icon  {
+    background-image: url('../icons/international_dialing.png') !important;
+}
+/*-----------**/
+.bold-label-style {
+    font-weight: bold;
+    font-size: 11px;
+}
+.question-tip {
+    background: transparent;
+    background-image: none;
+    border: 0 !important;
+    background-image: url('../images/Q.png') !important;
+    background-repeat-y: no-repeat;
+    width: 16px !important;
+    height: 16px !important;
+}
+
+.linkheader {
+    color: #99ca3c;
+    font-size: 24px;
+    margin: 0 0 11px 0;
+}
+.footerlinks {
+    background-image: none !important;
+    background-color: transparent !important;
+    border: 0 !important;
+}
+.footerlinks .x-btn-inner {
+    color: #1818ff !important;
+    text-decoration: underline !important;
+    font-weight: normal !important;
+}
+.copyright {
+    background-image: none !important;
+    background-color: transparent !important;
+    border: 0 !important;
+}
+.copyright .x-btn-inner {
+    color: #404040 !important;
+    text-decoration: none !important;
+    font-weight: normal !important;
+}
+address {
+    font-style: normal !important;
+}
+
+
+.sub-tab-panel .x-tab-bar-default {
+    background-color : #FFF;
+}
+.sub-tab-panel  .x-tab-bar-left>.x-tab-bar-strip-default {
+    border-width: 1px ;
+    border-color :gainsboro;
+    border-style:double;
+    width : 0;
+}
+
+.sub-tab-panel .x-tab-left {
+	height: 25px;
+	background-color: white;
+	border-width: 0px 0px 1px 0px;
+	border-color: #ededed;
+	border-radius: 0px;
+}
+
+.sub-tab-panel .x-tab-left.x-tab-active {
+	height: 25px;
+	background-color: #c1ddf1;
+}
+
+.sub-tab-panel .x-tab-left .x-tab-inner, .sub-tab-panel .x-tab-left.x-tab-active .x-tab-inner {
+	font-weight: normal;
+	color: black;
+}
+
+.sub-tab-panel .x-tab-bar-left>.x-tab-bar-body-default {
+	padding: 0px;
+}
+
+.x-tool-poolsback {
+    background-image: url("../images/control_rewind.png") !important;
+}  
+
+.x-form-item-label-inner {
+	text-align: right !important;
+}
+
+.back-button.x-btn-default-toolbar-small {
+	background-color: #3892d3;
+	background-image: -webkit-gradient(linear,50% 0,50% 100%,color-stop(0%,#4b9cd7),color-stop(50%,#3892d3),color-stop(51%,#358ac8),color-stop(100%,#3892d3));
+	background-image: -webkit-linear-gradient(top,#4b9cd7,#3892d3 50%,#358ac8 51%,#3892d3);
+	background-image: -moz-linear-gradient(top,#4b9cd7,#3892d3 50%,#358ac8 51%,#3892d3);
+	background-image: -o-linear-gradient(top,#4b9cd7,#3892d3 50%,#358ac8 51%,#3892d3);
+	background-image: -ms-linear-gradient(top,#4b9cd7,#3892d3 50%,#358ac8 51%,#3892d3);
+	background-image: linear-gradient(top,#4b9cd7,#3892d3 50%,#358ac8 51%,#3892d3);
+	border-width: 1px;
+  	border-style: solid;
+  	border-color: #126daf;
+}
+.key-text {
+    font :normal 12px monospace;
+}
+
+.logoform img {
+    float: left;
+    max-width: 145px;
+    height: 50px;
+}
+
+.extra-div-class {
+	background-color: #F3F3F3 !important;
+	position: absolute;
+	height: 100%;
+	right: 0px;
+	top: 0px;
+}
+
+.x-btn.x-item-disabled {
+	cursor: default;
+}
+p.MsoNormal, li.MsoNormal, div.MsoNormal {
+    margin: 0in;
+    margin-bottom: .0001pt;
+    font-size: 11.0pt;
+    font-family: "Calibri", "sans-serif";
+}
+
+@page WordSection1 {
+    size: 8.5in 11.0in;
+    margin: 1.0in 1.0in 1.0in 1.0in;
+}
+div.WordSection1 {
+    page: WordSection1;
+}
+.x-node-hide {
+    display : none !important;
+}
+.x-node-show {
+    display : block !important;
+}
+.x-body {
+	background: #fff; /* url(i/body_top_bg.gif) no-repeat 50% 0; */
+	color: #000;
+	#height: 100%;
+}
+
+#maincontent {
+	width: auto;
+	background: #fff;
+	min-height: 610px;
+	height: 610px;
+}
+/* font awesome icon css*/
+.fa-download,.fa-upload,.fa-refresh{
+    color: #5FA2DD;
+}

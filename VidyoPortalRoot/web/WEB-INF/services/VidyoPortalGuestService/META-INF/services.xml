@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- This file was auto-generated from WSDL -->
+<!-- by the Apache Axis2 version: 1.6.2  Built on : Apr 17, 2012 (05:33:49 IST) -->
+<serviceGroup>
+    <service name="VidyoPortalGuestService">
+        <messageReceivers>
+            <messageReceiver mep="http://www.w3.org/ns/wsdl/in-out" class="com.vidyo.portal.guest.VidyoPortalGuestServiceMessageReceiverInOut"/>
+        </messageReceivers>
+        <!--parameter name="ServiceClass">com.vidyo.portal.guest.VidyoPortalGuestServiceSkeleton</parameter-->
+		<parameter name="ServiceObjectSupplier" locked="false">org.apache.axis2.extensions.spring.receivers.SpringServletContextObjectSupplier</parameter>
+		<parameter name="SpringBeanName" locked="false">vidyoPortalGuestServiceEndPoint</parameter>
+        <parameter name="useOriginalwsdl">true</parameter>
+        <parameter name="modifyUserWSDLPortAddress">true</parameter>
+        <operation name="setEndpointDetails" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://portal.vidyo.com/guest">
+            <actionMapping>setEndpointDetails</actionMapping>
+            <outputActionMapping>http://portal.vidyo.com/guest/VidyoPortalGuestServicePortType/setEndpointDetailsResponse</outputActionMapping>
+            <faultActionMapping faultName="EndpointNotBoundFault">http://portal.vidyo.com/guest/VidyoPortalGuestServicePortType/setEndpointDetails/Fault/EndpointNotBoundFault</faultActionMapping>
+            <faultActionMapping faultName="EndpointNotBoundFault_Exception">http://portal.vidyo.com/guest/VidyoPortalGuestServicePortType/setEndpointDetails/Fault/EndpointNotBoundFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://portal.vidyo.com/guest/VidyoPortalGuestServicePortType/setEndpointDetails/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://portal.vidyo.com/guest/VidyoPortalGuestServicePortType/setEndpointDetails/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://portal.vidyo.com/guest/VidyoPortalGuestServicePortType/setEndpointDetails/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://portal.vidyo.com/guest/VidyoPortalGuestServicePortType/setEndpointDetails/Fault/GeneralFault</faultActionMapping>
+        </operation>
+        <operation name="linkEndpointToGuest" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://portal.vidyo.com/guest">
+            <actionMapping>linkEndpointToGuest</actionMapping>
+            <outputActionMapping>http://portal.vidyo.com/guest/VidyoPortalGuestServicePortType/linkEndpointToGuestResponse</outputActionMapping>
+            <faultActionMapping faultName="AccessRestrictedFault">http://portal.vidyo.com/guest/VidyoPortalGuestServicePortType/linkEndpointToGuest/Fault/AccessRestrictedFault</faultActionMapping>
+            <faultActionMapping faultName="AccessRestrictedFault_Exception">http://portal.vidyo.com/guest/VidyoPortalGuestServicePortType/linkEndpointToGuest/Fault/AccessRestrictedFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://portal.vidyo.com/guest/VidyoPortalGuestServicePortType/linkEndpointToGuest/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://portal.vidyo.com/guest/VidyoPortalGuestServicePortType/linkEndpointToGuest/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://portal.vidyo.com/guest/VidyoPortalGuestServicePortType/linkEndpointToGuest/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://portal.vidyo.com/guest/VidyoPortalGuestServicePortType/linkEndpointToGuest/Fault/GeneralFault</faultActionMapping>
+        </operation>
+        <operation name="recoverPassword" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://portal.vidyo.com/guest">
+            <actionMapping>recoverPassword</actionMapping>
+            <outputActionMapping>http://portal.vidyo.com/guest/VidyoPortalGuestServicePortType/recoverPasswordResponse</outputActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://portal.vidyo.com/guest/VidyoPortalGuestServicePortType/recoverPassword/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://portal.vidyo.com/guest/VidyoPortalGuestServicePortType/recoverPassword/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="EmailAddressNotFoundFault">http://portal.vidyo.com/guest/VidyoPortalGuestServicePortType/recoverPassword/Fault/EmailAddressNotFoundFault</faultActionMapping>
+            <faultActionMapping faultName="EmailAddressNotFoundFault_Exception">http://portal.vidyo.com/guest/VidyoPortalGuestServicePortType/recoverPassword/Fault/EmailAddressNotFoundFault</faultActionMapping>
+            <faultActionMapping faultName="NotificationEmailNotConfiguredFault">http://portal.vidyo.com/guest/VidyoPortalGuestServicePortType/recoverPassword/Fault/NotificationEmailNotConfiguredFault</faultActionMapping>
+            <faultActionMapping faultName="NotificationEmailNotConfiguredFault_Exception">http://portal.vidyo.com/guest/VidyoPortalGuestServicePortType/recoverPassword/Fault/NotificationEmailNotConfiguredFault</faultActionMapping>
+        </operation>
+        <operation name="getPortalVersion" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://portal.vidyo.com/guest">
+            <actionMapping>getPortalVersion</actionMapping>
+            <outputActionMapping>http://portal.vidyo.com/guest/VidyoPortalGuestServicePortType/getPortalVersionResponse</outputActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://portal.vidyo.com/guest/VidyoPortalGuestServicePortType/getPortalVersion/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://portal.vidyo.com/guest/VidyoPortalGuestServicePortType/getPortalVersion/Fault/GeneralFault</faultActionMapping>
+        </operation>
+        <operation name="unraiseHand" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://portal.vidyo.com/guest">
+            <actionMapping>unraiseHand</actionMapping>
+            <outputActionMapping>http://portal.vidyo.com/guest/VidyoPortalGuestServicePortType/unraiseHandResponse</outputActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://portal.vidyo.com/guest/VidyoPortalGuestServicePortType/unraiseHand/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://portal.vidyo.com/guest/VidyoPortalGuestServicePortType/unraiseHand/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://portal.vidyo.com/guest/VidyoPortalGuestServicePortType/unraiseHand/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://portal.vidyo.com/guest/VidyoPortalGuestServicePortType/unraiseHand/Fault/GeneralFault</faultActionMapping>
+        </operation>
+        <operation name="guestJoinConference" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://portal.vidyo.com/guest">
+            <actionMapping>guestJoinConference</actionMapping>
+            <outputActionMapping>http://portal.vidyo.com/guest/VidyoPortalGuestServicePortType/guestJoinConferenceResponse</outputActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://portal.vidyo.com/guest/VidyoPortalGuestServicePortType/guestJoinConference/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://portal.vidyo.com/guest/VidyoPortalGuestServicePortType/guestJoinConference/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="ResourceNotAvailableFault">http://portal.vidyo.com/guest/VidyoPortalGuestServicePortType/guestJoinConference/Fault/ResourceNotAvailableFault</faultActionMapping>
+            <faultActionMapping faultName="ResourceNotAvailableFault_Exception">http://portal.vidyo.com/guest/VidyoPortalGuestServicePortType/guestJoinConference/Fault/ResourceNotAvailableFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://portal.vidyo.com/guest/VidyoPortalGuestServicePortType/guestJoinConference/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://portal.vidyo.com/guest/VidyoPortalGuestServicePortType/guestJoinConference/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="RoomIsFullFault">http://portal.vidyo.com/guest/VidyoPortalGuestServicePortType/guestJoinConference/Fault/RoomIsFullFault</faultActionMapping>
+            <faultActionMapping faultName="RoomIsFullFault_Exception">http://portal.vidyo.com/guest/VidyoPortalGuestServicePortType/guestJoinConference/Fault/RoomIsFullFault</faultActionMapping>
+            <faultActionMapping faultName="ConferenceLockedFault">http://portal.vidyo.com/guest/VidyoPortalGuestServicePortType/guestJoinConference/Fault/ConferenceLockedFault</faultActionMapping>
+            <faultActionMapping faultName="ConferenceLockedFault_Exception">http://portal.vidyo.com/guest/VidyoPortalGuestServicePortType/guestJoinConference/Fault/ConferenceLockedFault</faultActionMapping>
+            <faultActionMapping faultName="WrongPinFault">http://portal.vidyo.com/guest/VidyoPortalGuestServicePortType/guestJoinConference/Fault/WrongPinFault</faultActionMapping>
+            <faultActionMapping faultName="WrongPinFault_Exception">http://portal.vidyo.com/guest/VidyoPortalGuestServicePortType/guestJoinConference/Fault/WrongPinFault</faultActionMapping>
+            <faultActionMapping faultName="AllLinesInUseFault">http://portal.vidyo.com/guest/VidyoPortalGuestServicePortType/guestJoinConference/Fault/AllLinesInUseFault</faultActionMapping>
+            <faultActionMapping faultName="AllLinesInUseFault_Exception">http://portal.vidyo.com/guest/VidyoPortalGuestServicePortType/guestJoinConference/Fault/AllLinesInUseFault</faultActionMapping>
+        </operation>
+        <operation name="whatIsMyIPAddress" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://portal.vidyo.com/guest">
+            <actionMapping>whatIsMyIPAddress</actionMapping>
+            <outputActionMapping>http://portal.vidyo.com/guest/VidyoPortalGuestServicePortType/whatIsMyIPAddressResponse</outputActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://portal.vidyo.com/guest/VidyoPortalGuestServicePortType/whatIsMyIPAddress/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://portal.vidyo.com/guest/VidyoPortalGuestServicePortType/whatIsMyIPAddress/Fault/GeneralFault</faultActionMapping>
+        </operation>
+        <operation name="logInAsGuest" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://portal.vidyo.com/guest">
+            <actionMapping>logInAsGuest</actionMapping>
+            <outputActionMapping>http://portal.vidyo.com/guest/VidyoPortalGuestServicePortType/logInAsGuestResponse</outputActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://portal.vidyo.com/guest/VidyoPortalGuestServicePortType/logInAsGuest/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://portal.vidyo.com/guest/VidyoPortalGuestServicePortType/logInAsGuest/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="ResourceNotAvailableFault">http://portal.vidyo.com/guest/VidyoPortalGuestServicePortType/logInAsGuest/Fault/ResourceNotAvailableFault</faultActionMapping>
+            <faultActionMapping faultName="ResourceNotAvailableFault_Exception">http://portal.vidyo.com/guest/VidyoPortalGuestServicePortType/logInAsGuest/Fault/ResourceNotAvailableFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://portal.vidyo.com/guest/VidyoPortalGuestServicePortType/logInAsGuest/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://portal.vidyo.com/guest/VidyoPortalGuestServicePortType/logInAsGuest/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="RoomIsFullFault">http://portal.vidyo.com/guest/VidyoPortalGuestServicePortType/logInAsGuest/Fault/RoomIsFullFault</faultActionMapping>
+            <faultActionMapping faultName="RoomIsFullFault_Exception">http://portal.vidyo.com/guest/VidyoPortalGuestServicePortType/logInAsGuest/Fault/RoomIsFullFault</faultActionMapping>
+        </operation>
+        <operation name="getPortalFeatures" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://portal.vidyo.com/guest">
+            <actionMapping>getPortalFeatures</actionMapping>
+            <outputActionMapping>http://portal.vidyo.com/guest/VidyoPortalGuestServicePortType/getPortalFeaturesResponse</outputActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://portal.vidyo.com/guest/VidyoPortalGuestServicePortType/getPortalFeatures/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://portal.vidyo.com/guest/VidyoPortalGuestServicePortType/getPortalFeatures/Fault/GeneralFault</faultActionMapping>
+        </operation>
+        <operation name="getClientVersion" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://portal.vidyo.com/guest">
+            <actionMapping>getClientVersion</actionMapping>
+            <outputActionMapping>http://portal.vidyo.com/guest/VidyoPortalGuestServicePortType/getClientVersionResponse</outputActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://portal.vidyo.com/guest/VidyoPortalGuestServicePortType/getClientVersion/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://portal.vidyo.com/guest/VidyoPortalGuestServicePortType/getClientVersion/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://portal.vidyo.com/guest/VidyoPortalGuestServicePortType/getClientVersion/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://portal.vidyo.com/guest/VidyoPortalGuestServicePortType/getClientVersion/Fault/GeneralFault</faultActionMapping>
+        </operation>
+        <operation name="raiseHand" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://portal.vidyo.com/guest">
+            <actionMapping>raiseHand</actionMapping>
+            <outputActionMapping>http://portal.vidyo.com/guest/VidyoPortalGuestServicePortType/raiseHandResponse</outputActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://portal.vidyo.com/guest/VidyoPortalGuestServicePortType/raiseHand/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://portal.vidyo.com/guest/VidyoPortalGuestServicePortType/raiseHand/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://portal.vidyo.com/guest/VidyoPortalGuestServicePortType/raiseHand/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://portal.vidyo.com/guest/VidyoPortalGuestServicePortType/raiseHand/Fault/GeneralFault</faultActionMapping>
+        </operation>
+        <operation name="createTestcallRoom" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://portal.vidyo.com/guest">
+            <actionMapping>createTestcallRoom</actionMapping>
+            <outputActionMapping>http://portal.vidyo.com/guest/VidyoPortalGuestServicePortType/createTestcallRoomResponse</outputActionMapping>
+            <faultActionMapping faultName="TestcallRoomCreationFault">http://portal.vidyo.com/guest/VidyoPortalGuestServicePortType/createTestcallRoom/Fault/TestcallRoomCreationFault</faultActionMapping>
+            <faultActionMapping faultName="TestcallRoomCreationFault_Exception">http://portal.vidyo.com/guest/VidyoPortalGuestServicePortType/createTestcallRoom/Fault/TestcallRoomCreationFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://portal.vidyo.com/guest/VidyoPortalGuestServicePortType/createTestcallRoom/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://portal.vidyo.com/guest/VidyoPortalGuestServicePortType/createTestcallRoom/Fault/GeneralFault</faultActionMapping>
+        </operation>
+        <operation name="getRoomDetailsByRoomKey" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://portal.vidyo.com/guest">
+            <actionMapping>getRoomDetailsByRoomKey</actionMapping>
+            <outputActionMapping>http://portal.vidyo.com/guest/VidyoPortalGuestServicePortType/getRoomDetailsByRoomKeyResponse</outputActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://portal.vidyo.com/guest/VidyoPortalGuestServicePortType/getRoomDetailsByRoomKeyResponse/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://portal.vidyo.com/guest/VidyoPortalGuestServicePortType/getRoomDetailsByRoomKeyResponse/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="ResourceNotAvailableFault">http://portal.vidyo.com/guest/VidyoPortalGuestServicePortType/getRoomDetailsByRoomKeyResponse/Fault/ResourceNotAvailableFault</faultActionMapping>
+            <faultActionMapping faultName="ResourceNotAvailableFault_Exception">http://portal.vidyo.com/guest/VidyoPortalGuestServicePortType/getRoomDetailsByRoomKeyResponse/Fault/ResourceNotAvailableFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://portal.vidyo.com/guest/VidyoPortalGuestServicePortType/getRoomDetailsByRoomKeyResponse/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://portal.vidyo.com/guest/VidyoPortalGuestServicePortType/getRoomDetailsByRoomKeyResponse/Fault/GeneralFault</faultActionMapping>
+        </operation>
+    </service>
+</serviceGroup>

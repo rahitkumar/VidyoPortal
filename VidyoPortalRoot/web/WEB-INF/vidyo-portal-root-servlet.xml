@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+- Application context definition for "vidyo-portal" DispatcherServlet.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:sec="http://www.springframework.org/schema/security"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans.xsd
+            http://www.springframework.org/schema/mvc
+            http://www.springframework.org/schema/mvc/spring-mvc.xsd
+            http://www.springframework.org/schema/context
+            http://www.springframework.org/schema/context/spring-context.xsd
+            http://www.springframework.org/schema/security
+			http://www.springframework.org/schema/security/spring-security.xsd">
+	
+	<mvc:annotation-driven />
+
+    <mvc:interceptors>
+        <bean id="localeChangeInterceptor" class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
+            <property name="paramName" value="lang"/>
+        </bean>
+    </mvc:interceptors>
+
+	<mvc:resources location="/themes/" mapping="/themes/**"/>
+	<mvc:resources location="/js/" mapping="/js/**" />
+    <mvc:resources location="/vidyo.jpg" mapping="/vidyo.jpg" />
+    <mvc:resources location="/blank.png" mapping="/blank.png" />
+    <mvc:resources location="/favicon.ico" mapping="favicon.ico" />
+    <mvc:resources location="/green.png" mapping="/green.png" />
+    <mvc:resources location="/1px.jpg" mapping="/1px.jpg" />
+    <mvc:resources location="/btn_green.png" mapping="/btn_green.png" />
+    <mvc:resources location="/logo.swf" mapping="/logo.swf" />
+    <mvc:resources location="/remote.png" mapping="/remote.png" />
+    <mvc:resources location="/tryagain.png" mapping="/tryagain.png" />
+    <mvc:resources location="classpath:/META-INF/resources/swagger-ui.html" mapping="/swagger-ui.html"/>
+    <mvc:resources location="classpath:/META-INF/resources/webjars/" mapping="/webjars/**"/>
+
+    <sec:global-method-security pre-post-annotations="enabled"/>
+
+    <context:component-scan base-package="com.vidyo.rest.controllers,
+        com.vidyo.web.portal,
+        com.vidyo.webshared,
+        com.vidyo.superapp,
+        com.vidyo.config,
+        com.vidyo.framework.swagger">
+    </context:component-scan>
+
+    <!-- Configurer that replaces ${...} placeholders with values from a properties file -->
+    <!-- (in this case, JDBC-related settings for the dataSoource definition below) -->
+    <bean id="propertyConfigurer" class="com.vidyo.framework.propertyconfig.OpenPropertyPlaceholderConfigurer">
+        <property name="location" value="file:/usr/local/tomcat/repo/vidyoportal/portal.properties" />
+    </bean>
+
+    <!-- Message source for this context, loaded from localized "messages_xx" files -->
+    <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+        <property name="basename" value="classpath:messages"/>
+        <property name="defaultEncoding" value="UTF-8"/>
+    </bean>
+
+    <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
+        <property name="prefix" value="/WEB-INF/jsp/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+
+    <bean id="localeResolver" class="com.vidyo.interceptors.web.VidyoCookieLocaleResolver">
+        <property name="cookiePath" value="/"/>
+        <property name="cookieName" value="VidyoPortalLanguage"/>
+        <property name="cookieMaxAge" value="-1"/>
+        <property name="defaultLocale" value="en" />
+        <property name="cookieHttpOnly" value="true"/>
+        <property name="cookieSecure" value="true"/>
+    </bean>
+
+    <bean id="themeResolver" class="org.springframework.web.servlet.theme.FixedThemeResolver">
+        <property name="defaultThemeName" value="vidyo"/>
+    </bean>
+
+    <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+        <property name="staticMethod" value="com.vidyo.framework.security.htmlcleaner.AntiSamyHtmlCleaner.setResource"/>
+        <property name="arguments">
+            <ref bean="policyResource"/>
+        </property>
+    </bean>
+
+    <bean id="policyResource" class="org.springframework.core.io.ClassPathResource">
+        <constructor-arg value="antisamy-ebay-1.5.3.xml"/>
+    </bean>
+</beans>

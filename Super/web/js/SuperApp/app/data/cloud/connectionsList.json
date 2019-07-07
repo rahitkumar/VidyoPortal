@@ -1,0 +1,45 @@
+[{
+	connections_list : [{
+		source: 'Pool ABC',
+        target: 'Pool DEF',
+        left: true,
+        right: false,
+        name: 28	
+	}, {
+		source: 'Pool STU',
+        target: 'Pool DEF',
+        left: true,
+        right: false,
+        name: 74		
+	}, {
+		source: 'Pool STU',
+        target: 'Pool MNO',
+        left: false,
+        right: true,
+        name: 56		
+	}, {
+		source: 'Pool MNO',
+        target: 'Pool JKL',
+        left: true,
+        right: false,
+        name: 14		
+	}, {
+		source: 'Pool GHI',
+        target: 'Pool DEF',
+        left: true,
+        right: true,
+        name: 99		
+	}, {
+		source: 'Pool MNO',
+        target: 'Pool GHI',
+        left: true,
+        right: false,
+        name: 24		
+	}, {
+		source: 'Pool ABC',
+        target: 'Pool JKL',
+        left: false,
+        right: true,
+        name: 66		
+	}]
+}]

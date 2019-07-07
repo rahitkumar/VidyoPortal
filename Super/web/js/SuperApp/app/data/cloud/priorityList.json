@@ -1,0 +1,35 @@
+[{
+	pool_priority_list : {
+		name: 'Pool Priority List 1',
+		pools: [{
+			name: 'Pool ABC',
+			priority: 1
+		}, {
+			name: 'Pool DEF',
+			priority: 2
+		}, {
+			name: 'Pool GHI',
+			priority: 1
+		}, {
+			name: 'Pool JKL',
+			priority: 3
+		}]
+	}
+}, {
+	pool_priority_list : {
+		name: 'Pool Priority List 2',
+		pools: [{
+			name: 'Pool ABC',
+			priority: 2
+		}, {
+			name: 'Pool XYZ',
+			priority: 2
+		}, {
+			name: 'Pool DEF',
+			priority: 5
+		}, {
+			name: 'Pool OPQ',
+			priority: 3
+		}]
+	}
+}]

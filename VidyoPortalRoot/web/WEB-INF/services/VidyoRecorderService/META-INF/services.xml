@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- This file was auto-generated from WSDL -->
+<!-- by the Apache Axis2 version: 1.6.0  Built on : May 17, 2011 (04:19:43 IST) -->
+<serviceGroup>
+    <service name="VidyoRecorderService">
+        <messageReceivers>
+            <messageReceiver mep="http://www.w3.org/ns/wsdl/in-out" class="com.vidyo.ws.recorder.VidyoRecorderServiceMessageReceiverInOut"/>
+        </messageReceivers>
+        <!--parameter name="ServiceClass">com.vidyo.ws.recorder.VidyoRecorderServiceSkeleton</parameter-->
+        <parameter name="ServiceObjectSupplier" locked="false">org.apache.axis2.extensions.spring.receivers.SpringServletContextObjectSupplier</parameter>
+        <parameter name="SpringBeanName" locked="false">vidyoRecorderServiceEndPoint</parameter>
+        <parameter name="useOriginalwsdl">true</parameter>
+        <parameter name="modifyUserWSDLPortAddress">true</parameter>
+        <operation name="registerRecorderEndpoint" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://ws.vidyo.com/recorder">
+            <actionMapping>registerRecorderEndpoint</actionMapping>
+            <outputActionMapping>http://ws.vidyo.com/recorder/VidyoRecorderServicePortType/registerRecorderEndpointResponse</outputActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://ws.vidyo.com/recorder/VidyoRecorderServicePortType/registerRecorderEndpoint/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://ws.vidyo.com/recorder/VidyoRecorderServicePortType/registerRecorderEndpoint/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://ws.vidyo.com/recorder/VidyoRecorderServicePortType/registerRecorderEndpoint/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://ws.vidyo.com/recorder/VidyoRecorderServicePortType/registerRecorderEndpoint/Fault/GeneralFault</faultActionMapping>
+        </operation>
+    </service>
+</serviceGroup>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="66px" height="66px" viewBox="0 0 66 66" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 40.3 (33839) - http://www.bohemiancoding.com/sketch -->
+    <title>checkmark</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Downloads" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="11.-Login-Confirmation" transform="translate(-479.000000, -181.000000)">
+            <g id="content-area" transform="translate(64.000000, 118.000000)">
+                <g id="content" transform="translate(232.000000, 64.000000)">
+                    <g id="checkmark" transform="translate(184.000000, 0.000000)">
+                        <circle id="Oval-1" stroke="#1ECC00" fill-opacity="0.140511775" fill="#26FF00" cx="32" cy="32" r="32"></circle>
+                        <path d="M23.7936945,38.8918927 L45.4762354,17.2093518 L51.0448611,22.7779775 L25.4766448,48.3461938 L25.3353479,48.204897 L23.6523977,49.8878472 L9.9551389,36.1905885 L15.5237646,30.6219628 L23.7936945,38.8918927 Z" id="Combined-Shape" fill="#1ECC00"></path>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- This file was auto-generated from WSDL -->
+<!-- by the Apache Axis2 version: 1.6.0  Built on : May 17, 2011 (04:19:43 IST) -->
+<serviceGroup>
+    <service name="VidyoReplayService">
+        <messageReceivers>
+            <messageReceiver mep="http://www.w3.org/ns/wsdl/in-out" class="com.vidyo.ws.replay.VidyoReplayServiceMessageReceiverInOut"/>
+        </messageReceivers>
+        <!--parameter name="ServiceClass">com.vidyo.ws.replay.VidyoReplayServiceSkeleton</parameter-->
+        <parameter name="ServiceObjectSupplier" locked="false">org.apache.axis2.extensions.spring.receivers.SpringServletContextObjectSupplier</parameter>
+        <parameter name="SpringBeanName" locked="false">vidyoReplayServiceEndPoint</parameter>
+        <parameter name="useOriginalwsdl">true</parameter>
+        <parameter name="modifyUserWSDLPortAddress">true</parameter>
+        <operation name="getUserByUsername" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://ws.vidyo.com/replay">
+            <actionMapping>getUserByUsername</actionMapping>
+            <outputActionMapping>http://ws.vidyo.com/replay/VidyoReplayServicePortType/getUserByUsernameResponse</outputActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://ws.vidyo.com/replay/VidyoReplayServicePortType/getUserByUsername/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://ws.vidyo.com/replay/VidyoReplayServicePortType/getUserByUsername/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="UserNotFoundFault">http://ws.vidyo.com/replay/VidyoReplayServicePortType/getUserByUsername/Fault/UserNotFoundFault</faultActionMapping>
+            <faultActionMapping faultName="UserNotFoundFault_Exception">http://ws.vidyo.com/replay/VidyoReplayServicePortType/getUserByUsername/Fault/UserNotFoundFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://ws.vidyo.com/replay/VidyoReplayServicePortType/getUserByUsername/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://ws.vidyo.com/replay/VidyoReplayServicePortType/getUserByUsername/Fault/GeneralFault</faultActionMapping>
+        </operation>
+        <operation name="getTenantByHost" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://ws.vidyo.com/replay">
+            <actionMapping>getTenantByHost</actionMapping>
+            <outputActionMapping>http://ws.vidyo.com/replay/VidyoReplayServicePortType/getTenantByHostResponse</outputActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://ws.vidyo.com/replay/VidyoReplayServicePortType/getTenantByHost/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://ws.vidyo.com/replay/VidyoReplayServicePortType/getTenantByHost/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://ws.vidyo.com/replay/VidyoReplayServicePortType/getTenantByHost/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://ws.vidyo.com/replay/VidyoReplayServicePortType/getTenantByHost/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="TenantNotFoundFault">http://ws.vidyo.com/replay/VidyoReplayServicePortType/getTenantByHost/Fault/TenantNotFoundFault</faultActionMapping>
+            <faultActionMapping faultName="TenantNotFoundFault_Exception">http://ws.vidyo.com/replay/VidyoReplayServicePortType/getTenantByHost/Fault/TenantNotFoundFault</faultActionMapping>
+        </operation>
+        <operation name="getTermsOfServiceForTenant" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://ws.vidyo.com/replay">
+            <actionMapping>getTermsOfServiceForTenant</actionMapping>
+            <outputActionMapping>http://ws.vidyo.com/replay/VidyoReplayServicePortType/getTermsOfServiceForTenantResponse</outputActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://ws.vidyo.com/replay/VidyoReplayServicePortType/getTermsOfServiceForTenant/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://ws.vidyo.com/replay/VidyoReplayServicePortType/getTermsOfServiceForTenant/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://ws.vidyo.com/replay/VidyoReplayServicePortType/getTermsOfServiceForTenant/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://ws.vidyo.com/replay/VidyoReplayServicePortType/getTermsOfServiceForTenant/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="TenantNotFoundFault">http://ws.vidyo.com/replay/VidyoReplayServicePortType/getTermsOfServiceForTenant/Fault/TenantNotFoundFault</faultActionMapping>
+            <faultActionMapping faultName="TenantNotFoundFault_Exception">http://ws.vidyo.com/replay/VidyoReplayServicePortType/getTermsOfServiceForTenant/Fault/TenantNotFoundFault</faultActionMapping>
+        </operation>
+        <operation name="getContactUsForTenant" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://ws.vidyo.com/replay">
+            <actionMapping>getContactUsForTenant</actionMapping>
+            <outputActionMapping>http://ws.vidyo.com/replay/VidyoReplayServicePortType/getContactUsForTenantResponse</outputActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://ws.vidyo.com/replay/VidyoReplayServicePortType/getContactUsForTenant/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://ws.vidyo.com/replay/VidyoReplayServicePortType/getContactUsForTenant/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://ws.vidyo.com/replay/VidyoReplayServicePortType/getContactUsForTenant/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://ws.vidyo.com/replay/VidyoReplayServicePortType/getContactUsForTenant/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="TenantNotFoundFault">http://ws.vidyo.com/replay/VidyoReplayServicePortType/getContactUsForTenant/Fault/TenantNotFoundFault</faultActionMapping>
+            <faultActionMapping faultName="TenantNotFoundFault_Exception">http://ws.vidyo.com/replay/VidyoReplayServicePortType/getContactUsForTenant/Fault/TenantNotFoundFault</faultActionMapping>
+        </operation>
+        <operation name="getLogoForTenant" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://ws.vidyo.com/replay">
+            <actionMapping>getLogoForTenant</actionMapping>
+            <outputActionMapping>http://ws.vidyo.com/replay/VidyoReplayServicePortType/getLogoForTenantResponse</outputActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://ws.vidyo.com/replay/VidyoReplayServicePortType/getLogoForTenant/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://ws.vidyo.com/replay/VidyoReplayServicePortType/getLogoForTenant/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://ws.vidyo.com/replay/VidyoReplayServicePortType/getLogoForTenant/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://ws.vidyo.com/replay/VidyoReplayServicePortType/getLogoForTenant/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="TenantNotFoundFault">http://ws.vidyo.com/replay/VidyoReplayServicePortType/getLogoForTenant/Fault/TenantNotFoundFault</faultActionMapping>
+            <faultActionMapping faultName="TenantNotFoundFault_Exception">http://ws.vidyo.com/replay/VidyoReplayServicePortType/getLogoForTenant/Fault/TenantNotFoundFault</faultActionMapping>
+        </operation>
+        <operation name="getUserByToken" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://ws.vidyo.com/replay">
+            <actionMapping>getUserByToken</actionMapping>
+            <outputActionMapping>http://ws.vidyo.com/replay/VidyoReplayServicePortType/getUserByTokenResponse</outputActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://ws.vidyo.com/replay/VidyoReplayServicePortType/getUserByToken/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://ws.vidyo.com/replay/VidyoReplayServicePortType/getUserByToken/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="UserNotFoundFault">http://ws.vidyo.com/replay/VidyoReplayServicePortType/getUserByToken/Fault/UserNotFoundFault</faultActionMapping>
+            <faultActionMapping faultName="UserNotFoundFault_Exception">http://ws.vidyo.com/replay/VidyoReplayServicePortType/getUserByToken/Fault/UserNotFoundFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://ws.vidyo.com/replay/VidyoReplayServicePortType/getUserByToken/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://ws.vidyo.com/replay/VidyoReplayServicePortType/getUserByToken/Fault/GeneralFault</faultActionMapping>
+        </operation>
+        <operation name="getAboutUsForTenant" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://ws.vidyo.com/replay">
+            <actionMapping>getAboutUsForTenant</actionMapping>
+            <outputActionMapping>http://ws.vidyo.com/replay/VidyoReplayServicePortType/getAboutUsForTenantResponse</outputActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://ws.vidyo.com/replay/VidyoReplayServicePortType/getAboutUsForTenant/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://ws.vidyo.com/replay/VidyoReplayServicePortType/getAboutUsForTenant/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://ws.vidyo.com/replay/VidyoReplayServicePortType/getAboutUsForTenant/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://ws.vidyo.com/replay/VidyoReplayServicePortType/getAboutUsForTenant/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="TenantNotFoundFault">http://ws.vidyo.com/replay/VidyoReplayServicePortType/getAboutUsForTenant/Fault/TenantNotFoundFault</faultActionMapping>
+            <faultActionMapping faultName="TenantNotFoundFault_Exception">http://ws.vidyo.com/replay/VidyoReplayServicePortType/getAboutUsForTenant/Fault/TenantNotFoundFault</faultActionMapping>
+        </operation>
+    </service>
+</serviceGroup>

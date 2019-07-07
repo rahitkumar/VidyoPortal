@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?><!-- This file was auto-generated from WSDL --><!-- by the Apache Axis2 version: 1.6.2  Built on : Apr 17, 2012 (05:33:49 IST) --><serviceGroup>
+    <service name="VidyoDesktopService">
+        <messageReceivers>
+            <messageReceiver mep="http://www.w3.org/ns/wsdl/in-out" class="com.vidyo.ws.desktop.VidyoDesktopServiceMessageReceiverInOut"/>
+        </messageReceivers>
+        <!--parameter name="ServiceClass">com.vidyo.ws.desktop.VidyoDesktopServiceSkeleton</parameter-->
+        <parameter name="ServiceObjectSupplier" locked="false">org.apache.axis2.extensions.spring.receivers.SpringServletContextObjectSupplier</parameter>
+        <parameter name="SpringBeanName" locked="false">vidyoDesktopServiceEndPoint</parameter>
+        <parameter name="useOriginalwsdl">true</parameter>
+        <parameter name="modifyUserWSDLPortAddress">true</parameter>
+        <operation name="createMyRoomURL" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://ws.vidyo.com/desktop">
+            <actionMapping>createMyRoomURL</actionMapping>
+            <outputActionMapping>http://ws.vidyo.com/desktop/VidyoDesktopServicePortType/createMyRoomURLResponse</outputActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://ws.vidyo.com/desktop/VidyoDesktopServicePortType/createMyRoomURL/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://ws.vidyo.com/desktop/VidyoDesktopServicePortType/createMyRoomURL/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://ws.vidyo.com/desktop/VidyoDesktopServicePortType/createMyRoomURL/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://ws.vidyo.com/desktop/VidyoDesktopServicePortType/createMyRoomURL/Fault/GeneralFault</faultActionMapping>
+        </operation>
+        <operation name="startMyConference" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://ws.vidyo.com/desktop">
+            <actionMapping>startMyConference</actionMapping>
+            <outputActionMapping>http://ws.vidyo.com/desktop/VidyoDesktopServicePortType/startMyConferenceResponse</outputActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://ws.vidyo.com/desktop/VidyoDesktopServicePortType/startMyConference/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://ws.vidyo.com/desktop/VidyoDesktopServicePortType/startMyConference/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://ws.vidyo.com/desktop/VidyoDesktopServicePortType/startMyConference/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://ws.vidyo.com/desktop/VidyoDesktopServicePortType/startMyConference/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="RoomDisabledFault">http://ws.vidyo.com/desktop/VidyoDesktopServicePortType/startMyConference/Fault/RoomDisabledFault</faultActionMapping>
+            <faultActionMapping faultName="RoomDisabledFault_Exception">http://ws.vidyo.com/desktop/VidyoDesktopServicePortType/startMyConference/Fault/RoomDisabledFault</faultActionMapping>
+        </operation>
+        <operation name="joinConference" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://ws.vidyo.com/desktop">
+            <actionMapping>joinConference</actionMapping>
+            <outputActionMapping>http://ws.vidyo.com/desktop/VidyoDesktopServicePortType/joinConferenceResponse</outputActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://ws.vidyo.com/desktop/VidyoDesktopServicePortType/joinConference/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://ws.vidyo.com/desktop/VidyoDesktopServicePortType/joinConference/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://ws.vidyo.com/desktop/VidyoDesktopServicePortType/joinConference/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://ws.vidyo.com/desktop/VidyoDesktopServicePortType/joinConference/Fault/GeneralFault</faultActionMapping>
+        </operation>
+        <operation name="generateAuthToken" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://ws.vidyo.com/desktop">
+            <actionMapping>generateAuthToken</actionMapping>
+            <outputActionMapping>http://ws.vidyo.com/desktop/VidyoDesktopServicePortType/generateAuthTokenResponse</outputActionMapping>
+            <faultActionMapping faultName="EndpointNotBoundFault">http://ws.vidyo.com/desktop/VidyoDesktopServicePortType/generateAuthToken/Fault/EndpointNotBoundFault</faultActionMapping>
+            <faultActionMapping faultName="EndpointNotBoundFault_Exception">http://ws.vidyo.com/desktop/VidyoDesktopServicePortType/generateAuthToken/Fault/EndpointNotBoundFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://ws.vidyo.com/desktop/VidyoDesktopServicePortType/generateAuthToken/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://ws.vidyo.com/desktop/VidyoDesktopServicePortType/generateAuthToken/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://ws.vidyo.com/desktop/VidyoDesktopServicePortType/generateAuthToken/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://ws.vidyo.com/desktop/VidyoDesktopServicePortType/generateAuthToken/Fault/GeneralFault</faultActionMapping>
+        </operation>
+        <operation name="inviteToConference" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://ws.vidyo.com/desktop">
+            <actionMapping>inviteToConference</actionMapping>
+            <outputActionMapping>http://ws.vidyo.com/desktop/VidyoDesktopServicePortType/inviteToConferenceResponse</outputActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://ws.vidyo.com/desktop/VidyoDesktopServicePortType/inviteToConference/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://ws.vidyo.com/desktop/VidyoDesktopServicePortType/inviteToConference/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://ws.vidyo.com/desktop/VidyoDesktopServicePortType/inviteToConference/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://ws.vidyo.com/desktop/VidyoDesktopServicePortType/inviteToConference/Fault/GeneralFault</faultActionMapping>
+        </operation>
+        <operation name="getUserData" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://ws.vidyo.com/desktop">
+            <actionMapping>getUserData</actionMapping>
+            <outputActionMapping>http://ws.vidyo.com/desktop/VidyoDesktopServicePortType/getUserDataResponse</outputActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://ws.vidyo.com/desktop/VidyoDesktopServicePortType/getUserData/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://ws.vidyo.com/desktop/VidyoDesktopServicePortType/getUserData/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://ws.vidyo.com/desktop/VidyoDesktopServicePortType/getUserData/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://ws.vidyo.com/desktop/VidyoDesktopServicePortType/getUserData/Fault/GeneralFault</faultActionMapping>
+        </operation>
+        <operation name="getUserStatus" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://ws.vidyo.com/desktop">
+            <actionMapping>getUserStatus</actionMapping>
+            <outputActionMapping>http://ws.vidyo.com/desktop/VidyoDesktopServicePortType/getUserStatusResponse</outputActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://ws.vidyo.com/desktop/VidyoDesktopServicePortType/getUserStatus/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://ws.vidyo.com/desktop/VidyoDesktopServicePortType/getUserStatus/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://ws.vidyo.com/desktop/VidyoDesktopServicePortType/getUserStatus/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://ws.vidyo.com/desktop/VidyoDesktopServicePortType/getUserStatus/Fault/GeneralFault</faultActionMapping>
+        </operation>
+        <operation name="getBrowserAccessKey" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://ws.vidyo.com/desktop">
+            <actionMapping>getBrowserAccessKey</actionMapping>
+            <outputActionMapping>http://ws.vidyo.com/desktop/VidyoDesktopServicePortType/getBrowserAccessKeyResponse</outputActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://ws.vidyo.com/desktop/VidyoDesktopServicePortType/getBrowserAccessKey/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://ws.vidyo.com/desktop/VidyoDesktopServicePortType/getBrowserAccessKey/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://ws.vidyo.com/desktop/VidyoDesktopServicePortType/getBrowserAccessKey/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://ws.vidyo.com/desktop/VidyoDesktopServicePortType/getBrowserAccessKey/Fault/GeneralFault</faultActionMapping>
+        </operation>
+    </service>
+</serviceGroup>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+		<Tenant tenantID="191" tenantName="MyTenant" tenantUrl="valid.tenant.com" description="test tenant" tenantPrefix="301" tenantDialIn="" tenantReplayUrl="replay.vidyo.com" mobileLogin="1" vidyoGatewayControllerDns="" scheduledRoomEnabled="1"/>
+		<Configuration configurationID="1" tenantID="191" configurationName="NumInstalls" configurationValue="10" configDate="2013-12-13 11:12:12"/>
+		<Configuration configurationID="2" tenantID="191" configurationName="NumSeats" configurationValue="5" configDate="2013-12-13 11:12:12"/>
+		<Configuration configurationID="3" tenantID="191" configurationName="NumPorts" configurationValue="30" configDate="2013-12-13 11:12:12"/>
+		<Configuration configurationID="4" tenantID="191" configurationName="GuestLogin" configurationValue="1" configDate="2013-12-13 11:12:12"/>
+		<Configuration configurationID="5" tenantID="191" configurationName="NumExecutives" configurationValue="4" configDate="2013-12-13 11:12:12"/>
+		<Configuration configurationID="6" tenantID="191" configurationName="NumPanoramas" configurationValue="12" configDate="2013-12-13 11:12:12"/>
+		
+		<TenantConfiguration tenantID="191" endpointPrivateChat="0" endpointPublicChat="0" zincurl="" zincenabled="0"/>
+</dataset>

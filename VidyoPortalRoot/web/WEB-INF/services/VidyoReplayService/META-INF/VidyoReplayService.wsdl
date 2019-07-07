@@ -1,0 +1,524 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<wsdl:definitions name="VidyoReplayService"
+        xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+        xmlns:tns="http://ws.vidyo.com/replay"
+        xmlns:xs="http://www.w3.org/2001/XMLSchema"
+        xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+        targetNamespace="http://ws.vidyo.com/replay">
+
+    <!-- Types -->
+    <wsdl:types>
+        <xs:schema xmlns:tns="http://ws.vidyo.com/replay"
+                   targetNamespace="http://ws.vidyo.com/replay"
+                   elementFormDefault="qualified"
+                   attributeFormDefault="qualified">
+
+            <xs:annotation>
+                <xs:documentation xml:lang="en"/>
+            </xs:annotation>
+
+            <!-- Exceptions -->
+            <xs:element name="ErrorMessage" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>
+                        String presentation of fault
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+
+            <xs:element name="GeneralFault">
+                <xs:annotation>
+                    <xs:documentation>
+                        This means that some exception happened in system.
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element ref="tns:ErrorMessage"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+            <xs:element name="InvalidArgumentFault">
+                <xs:annotation>
+                    <xs:documentation>
+                        This means that the arguments which are passed into services are wrong.
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element ref="tns:ErrorMessage"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+			<xs:element name="UserNotFoundFault">
+				<xs:annotation>
+					<xs:documentation>
+						User not found in system.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element ref="tns:ErrorMessage"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+
+            <xs:element name="TenantNotFoundFault">
+                <xs:annotation>
+                    <xs:documentation>
+                        Tenant not found in system.
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element ref="tns:ErrorMessage"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+            <xs:element name="Language">
+                <xs:annotation>
+                    <xs:documentation>Languages supported by VidyoPortal</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:enumeration value="en"/>
+                        <xs:enumeration value="de"/>
+                        <xs:enumeration value="es"/>
+                        <xs:enumeration value="fr"/>
+                        <xs:enumeration value="it"/>
+                        <xs:enumeration value="ja"/>
+                        <xs:enumeration value="ko"/>
+                        <xs:enumeration value="pt"/>
+                        <xs:enumeration value="zh_CN"/>
+                        <xs:enumeration value="fi"/>
+                        <xs:enumeration value="pl"/>
+                        <xs:enumeration value="zh_TW"/>
+                        <xs:enumeration value="th"/>
+                        <xs:enumeration value="ru"/>
+                        <xs:enumeration value="tr"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+
+            <!-- getUserByUsername -->
+            <xs:element name="getUserByUsernameRequest">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="username" type="xs:string"/>
+						<xs:element name="password" type="xs:string"/>
+                        <xs:element name="tenanthost" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="getUserByUsernameResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="displayname" type="xs:string"/>
+                        <xs:element name="username" type="xs:string"/>
+                        <xs:element name="password" type="xs:string"/>
+                        <xs:element name="emailAddress" type="xs:string"/>
+                        <xs:element name="enable" type="xs:boolean"/>
+                        <xs:element name="userrole" type="xs:string"/>
+                        <xs:element ref="tns:Language"/>
+                        <xs:element name="tenantName" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+            <!-- getUserByToken -->
+            <xs:element name="getUserByTokenRequest">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="token" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="getUserByTokenResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="displayname" type="xs:string"/>
+                        <xs:element name="username" type="xs:string"/>
+                        <xs:element name="password" type="xs:string"/>
+                        <xs:element name="emailAddress" type="xs:string"/>
+                        <xs:element name="enable" type="xs:boolean"/>
+                        <xs:element name="userrole" type="xs:string"/>
+                        <xs:element ref="tns:Language"/>
+                        <xs:element name="tenantName" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+            <!-- getTenantByHost -->
+            <xs:element name="getTenantByHostRequest">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="tenanthost" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="getTenantByHostResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="tenantName" type="xs:string"/>
+                        <xs:element ref="tns:Language"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+            <!-- getAboutUsForTenant -->
+            <xs:element name="getAboutUsForTenantRequest">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="tenantName" type="xs:string"/>
+                        <xs:element ref="tns:Language"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="getAboutUsForTenantResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="content" type="xs:base64Binary"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+            <!-- getContactUsForTenant -->
+            <xs:element name="getContactUsForTenantRequest">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="tenantName" type="xs:string"/>
+                        <xs:element ref="tns:Language"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="getContactUsForTenantResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="content" type="xs:base64Binary"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+            <!-- getTermsOfServiceForTenant -->
+            <xs:element name="getTermsOfServiceForTenantRequest">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="tenantName" type="xs:string"/>
+                        <xs:element ref="tns:Language"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="getTermsOfServiceForTenantResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="content" type="xs:base64Binary"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+			<!-- getLogoForTenant -->
+			<xs:element name="getLogoForTenantRequest">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="replayTenantName" type="xs:string"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="getLogoForTenantResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="content" type="xs:base64Binary"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+
+		</xs:schema>
+
+    </wsdl:types>
+
+    <!-- Messages -->
+    <wsdl:message name="getUserByUsernameInput">
+        <wsdl:part name="parameter" element="tns:getUserByUsernameRequest"/>
+    </wsdl:message>
+    <wsdl:message name="getUserByUsernameOutput">
+        <wsdl:part name="parameter" element="tns:getUserByUsernameResponse"/>
+    </wsdl:message>
+
+    <wsdl:message name="getUserByTokenInput">
+        <wsdl:part name="parameter" element="tns:getUserByTokenRequest"/>
+    </wsdl:message>
+    <wsdl:message name="getUserByTokenOutput">
+        <wsdl:part name="parameter" element="tns:getUserByTokenResponse"/>
+    </wsdl:message>
+
+    <wsdl:message name="getTenantByHostInput">
+        <wsdl:part name="parameter" element="tns:getTenantByHostRequest"/>
+    </wsdl:message>
+    <wsdl:message name="getTenantByHostOutput">
+        <wsdl:part name="parameter" element="tns:getTenantByHostResponse"/>
+    </wsdl:message>
+
+    <wsdl:message name="getAboutUsForTenantInput">
+        <wsdl:part name="parameter" element="tns:getAboutUsForTenantRequest"/>
+    </wsdl:message>
+    <wsdl:message name="getAboutUsForTenantOutput">
+        <wsdl:part name="parameter" element="tns:getAboutUsForTenantResponse"/>
+    </wsdl:message>
+
+    <wsdl:message name="getContactUsForTenantInput">
+        <wsdl:part name="parameter" element="tns:getContactUsForTenantRequest"/>
+    </wsdl:message>
+    <wsdl:message name="getContactUsForTenantOutput">
+        <wsdl:part name="parameter" element="tns:getContactUsForTenantResponse"/>
+    </wsdl:message>
+
+    <wsdl:message name="getTermsOfServiceForTenantInput">
+        <wsdl:part name="parameter" element="tns:getTermsOfServiceForTenantRequest"/>
+    </wsdl:message>
+    <wsdl:message name="getTermsOfServiceForTenantOutput">
+        <wsdl:part name="parameter" element="tns:getTermsOfServiceForTenantResponse"/>
+    </wsdl:message>
+
+	<wsdl:message name="getLogoForTenantInput">
+		<wsdl:part name="parameter" element="tns:getLogoForTenantRequest"/>
+	</wsdl:message>
+	<wsdl:message name="getLogoForTenantOutput">
+		<wsdl:part name="parameter" element="tns:getLogoForTenantResponse"/>
+	</wsdl:message>
+
+    <wsdl:message name="GeneralFault">
+        <wsdl:part name="fault" element="tns:GeneralFault"/>
+    </wsdl:message>
+
+    <wsdl:message name="InvalidArgumentFault">
+        <wsdl:part name="fault" element="tns:InvalidArgumentFault"/>
+    </wsdl:message>
+
+    <wsdl:message name="UserNotFoundFault">
+        <wsdl:part name="fault" element="tns:UserNotFoundFault"/>
+    </wsdl:message>
+
+    <wsdl:message name="TenantNotFoundFault">
+        <wsdl:part name="fault" element="tns:TenantNotFoundFault"/>
+    </wsdl:message>
+
+    <!-- Ports -->
+    <wsdl:portType name="VidyoReplayServicePortType">
+
+        <wsdl:operation name="getUserByUsername">
+            <wsdl:documentation>Retrive user details</wsdl:documentation>
+            <wsdl:input message="tns:getUserByUsernameInput"/>
+            <wsdl:output message="tns:getUserByUsernameOutput"/>
+            <wsdl:fault name="GeneralFault" message="tns:GeneralFault"/>
+            <wsdl:fault name="InvalidArgumentFault" message="tns:InvalidArgumentFault"/>
+            <wsdl:fault name="UserNotFoundFault" message="tns:UserNotFoundFault"/>
+        </wsdl:operation>
+
+        <wsdl:operation name="getUserByToken">
+            <wsdl:documentation>Retrive user details</wsdl:documentation>
+            <wsdl:input message="tns:getUserByTokenInput"/>
+            <wsdl:output message="tns:getUserByTokenOutput"/>
+            <wsdl:fault name="GeneralFault" message="tns:GeneralFault"/>
+            <wsdl:fault name="InvalidArgumentFault" message="tns:InvalidArgumentFault"/>
+            <wsdl:fault name="UserNotFoundFault" message="tns:UserNotFoundFault"/>
+        </wsdl:operation>
+
+        <wsdl:operation name="getTenantByHost">
+            <wsdl:documentation>Retrive tenant name</wsdl:documentation>
+            <wsdl:input message="tns:getTenantByHostInput"/>
+            <wsdl:output message="tns:getTenantByHostOutput"/>
+            <wsdl:fault name="GeneralFault" message="tns:GeneralFault"/>
+            <wsdl:fault name="InvalidArgumentFault" message="tns:InvalidArgumentFault"/>
+            <wsdl:fault name="TenantNotFoundFault" message="tns:TenantNotFoundFault"/>
+        </wsdl:operation>
+
+        <wsdl:operation name="getAboutUsForTenant">
+            <wsdl:documentation>Retrive tenant's About Us content</wsdl:documentation>
+            <wsdl:input message="tns:getAboutUsForTenantInput"/>
+            <wsdl:output message="tns:getAboutUsForTenantOutput"/>
+            <wsdl:fault name="GeneralFault" message="tns:GeneralFault"/>
+            <wsdl:fault name="InvalidArgumentFault" message="tns:InvalidArgumentFault"/>
+            <wsdl:fault name="TenantNotFoundFault" message="tns:TenantNotFoundFault"/>
+        </wsdl:operation>
+
+        <wsdl:operation name="getContactUsForTenant">
+            <wsdl:documentation>Retrive tenant's Contact Us content</wsdl:documentation>
+            <wsdl:input message="tns:getContactUsForTenantInput"/>
+            <wsdl:output message="tns:getContactUsForTenantOutput"/>
+            <wsdl:fault name="GeneralFault" message="tns:GeneralFault"/>
+            <wsdl:fault name="InvalidArgumentFault" message="tns:InvalidArgumentFault"/>
+            <wsdl:fault name="TenantNotFoundFault" message="tns:TenantNotFoundFault"/>
+        </wsdl:operation>
+
+        <wsdl:operation name="getTermsOfServiceForTenant">
+            <wsdl:documentation>Retrive tenant's Terms Of Service content</wsdl:documentation>
+            <wsdl:input message="tns:getTermsOfServiceForTenantInput"/>
+            <wsdl:output message="tns:getTermsOfServiceForTenantOutput"/>
+            <wsdl:fault name="GeneralFault" message="tns:GeneralFault"/>
+            <wsdl:fault name="InvalidArgumentFault" message="tns:InvalidArgumentFault"/>
+            <wsdl:fault name="TenantNotFoundFault" message="tns:TenantNotFoundFault"/>
+        </wsdl:operation>
+
+		<wsdl:operation name="getLogoForTenant">
+			<wsdl:documentation>Retrive tenant's Logo as binary stream (or Default)</wsdl:documentation>
+			<wsdl:input message="tns:getLogoForTenantInput"/>
+			<wsdl:output message="tns:getLogoForTenantOutput"/>
+			<wsdl:fault name="GeneralFault" message="tns:GeneralFault"/>
+			<wsdl:fault name="InvalidArgumentFault" message="tns:InvalidArgumentFault"/>
+			<wsdl:fault name="TenantNotFoundFault" message="tns:TenantNotFoundFault"/>
+		</wsdl:operation>
+
+    </wsdl:portType>
+
+    <!-- Binding -->
+    <wsdl:binding name="VidyoReplayServiceBinding" type="tns:VidyoReplayServicePortType">
+
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+
+        <wsdl:operation name="getUserByUsername">
+            <soap:operation soapAction="getUserByUsername"/>
+            <wsdl:input>
+                <soap:body use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </wsdl:output>
+            <wsdl:fault name="GeneralFault">
+                <soap:fault name="GeneralFault" use="literal"/>
+            </wsdl:fault>
+            <wsdl:fault name="InvalidArgumentFault">
+                <soap:fault name="InvalidArgumentFault" use="literal"/>
+            </wsdl:fault>
+            <wsdl:fault name="UserNotFoundFault">
+                <soap:fault name="UserNotFoundFault" use="literal"/>
+            </wsdl:fault>
+        </wsdl:operation>
+
+        <wsdl:operation name="getUserByToken">
+            <soap:operation soapAction="getUserByToken"/>
+            <wsdl:input>
+                <soap:body use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </wsdl:output>
+            <wsdl:fault name="GeneralFault">
+                <soap:fault name="GeneralFault" use="literal"/>
+            </wsdl:fault>
+            <wsdl:fault name="InvalidArgumentFault">
+                <soap:fault name="InvalidArgumentFault" use="literal"/>
+            </wsdl:fault>
+            <wsdl:fault name="UserNotFoundFault">
+                <soap:fault name="UserNotFoundFault" use="literal"/>
+            </wsdl:fault>
+        </wsdl:operation>
+
+        <wsdl:operation name="getTenantByHost">
+            <soap:operation soapAction="getTenantByHost"/>
+            <wsdl:input>
+                <soap:body use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </wsdl:output>
+            <wsdl:fault name="GeneralFault">
+                <soap:fault name="GeneralFault" use="literal"/>
+            </wsdl:fault>
+            <wsdl:fault name="InvalidArgumentFault">
+                <soap:fault name="InvalidArgumentFault" use="literal"/>
+            </wsdl:fault>
+            <wsdl:fault name="TenantNotFoundFault">
+                <soap:fault name="TenantNotFoundFault" use="literal"/>
+            </wsdl:fault>
+        </wsdl:operation>
+
+        <wsdl:operation name="getAboutUsForTenant">
+            <soap:operation soapAction="getAboutUsForTenant"/>
+            <wsdl:input>
+                <soap:body use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </wsdl:output>
+            <wsdl:fault name="GeneralFault">
+                <soap:fault name="GeneralFault" use="literal"/>
+            </wsdl:fault>
+            <wsdl:fault name="InvalidArgumentFault">
+                <soap:fault name="InvalidArgumentFault" use="literal"/>
+            </wsdl:fault>
+            <wsdl:fault name="TenantNotFoundFault">
+                <soap:fault name="TenantNotFoundFault" use="literal"/>
+            </wsdl:fault>
+        </wsdl:operation>
+
+        <wsdl:operation name="getContactUsForTenant">
+            <soap:operation soapAction="getContactUsForTenant"/>
+            <wsdl:input>
+                <soap:body use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </wsdl:output>
+            <wsdl:fault name="GeneralFault">
+                <soap:fault name="GeneralFault" use="literal"/>
+            </wsdl:fault>
+            <wsdl:fault name="InvalidArgumentFault">
+                <soap:fault name="InvalidArgumentFault" use="literal"/>
+            </wsdl:fault>
+            <wsdl:fault name="TenantNotFoundFault">
+                <soap:fault name="TenantNotFoundFault" use="literal"/>
+            </wsdl:fault>
+        </wsdl:operation>
+
+        <wsdl:operation name="getTermsOfServiceForTenant">
+            <soap:operation soapAction="getTermsOfServiceForTenant"/>
+            <wsdl:input>
+                <soap:body use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </wsdl:output>
+            <wsdl:fault name="GeneralFault">
+                <soap:fault name="GeneralFault" use="literal"/>
+            </wsdl:fault>
+            <wsdl:fault name="InvalidArgumentFault">
+                <soap:fault name="InvalidArgumentFault" use="literal"/>
+            </wsdl:fault>
+            <wsdl:fault name="TenantNotFoundFault">
+                <soap:fault name="TenantNotFoundFault" use="literal"/>
+            </wsdl:fault>
+        </wsdl:operation>
+
+		<wsdl:operation name="getLogoForTenant">
+			<soap:operation soapAction="getLogoForTenant"/>
+			<wsdl:input>
+				<soap:body use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+			</wsdl:output>
+			<wsdl:fault name="GeneralFault">
+				<soap:fault name="GeneralFault" use="literal"/>
+			</wsdl:fault>
+			<wsdl:fault name="InvalidArgumentFault">
+				<soap:fault name="InvalidArgumentFault" use="literal"/>
+			</wsdl:fault>
+			<wsdl:fault name="TenantNotFoundFault">
+				<soap:fault name="TenantNotFoundFault" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+
+    </wsdl:binding>
+
+    <!-- Services -->
+    <wsdl:service name="VidyoReplayService">
+        <wsdl:port name="VidyoReplayServicePort" binding="tns:VidyoReplayServiceBinding">
+            <soap:address location="http://localhost:8080/services/VidyoReplayService"/>
+        </wsdl:port>
+    </wsdl:service>
+
+</wsdl:definitions>

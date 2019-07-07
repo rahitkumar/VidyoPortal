@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+	">
+
+	<bean id="portalDatasource" class="com.jolbox.bonecp.BoneCPDataSource"
+		destroy-method="close">
+		<property name="driverClass" value="org.mariadb.jdbc.Driver" />
+		<property name="jdbcUrl" value="jdbc:mariadb://localhost:3306/portal2" />
+		<property name="username" value="vidyo" />
+		<property name="password" value="v1dy03x" />
+		<property name="idleConnectionTestPeriodInSeconds" value="60" />
+		<property name="idleMaxAgeInSeconds" value="240" />
+		<property name="maxConnectionsPerPartition" value="7" />
+		<property name="minConnectionsPerPartition" value="2" />
+		<property name="partitionCount" value="3" />
+		<property name="acquireIncrement" value="2" />
+		<property name="statementsCacheSize" value="100" />
+		<property name="releaseHelperThreads" value="3" />
+	</bean>
+
+	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource" ref="portalDatasource" />
+	</bean>
+
+	<bean id="namedParamJdbcTemplate" class="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate">
+		<constructor-arg name="dataSource" ref="portalDatasource"/>
+	</bean>
+
+	<bean id="portalBatchDataSource" class="com.jolbox.bonecp.BoneCPDataSource"
+		destroy-method="close">
+		<property name="driverClass" value="org.mariadb.jdbc.Driver" />
+		<property name="jdbcUrl" value="jdbc:mariadb://localhost:3306/PORTAL_BATCH" />
+		<property name="username" value="vidyo" />
+		<property name="password" value="v1dy03x" />
+		<property name="idleConnectionTestPeriodInSeconds" value="60" />
+		<property name="idleMaxAgeInSeconds" value="240" />
+		<property name="maxConnectionsPerPartition" value="7" />
+		<property name="minConnectionsPerPartition" value="2" />
+		<property name="partitionCount" value="3" />
+		<property name="acquireIncrement" value="5" />
+		<property name="statementsCacheSize" value="100" />
+		<property name="releaseHelperThreads" value="3" />
+	</bean>
+
+    <bean id="auditDataSource" class="com.jolbox.bonecp.BoneCPDataSource"
+		destroy-method="close">
+		<property name="driverClass" value="org.mariadb.jdbc.Driver" />
+		<property name="jdbcUrl" value="jdbc:mariadb://localhost:3306/portal2audit" />
+		<property name="username" value="vidyo" />
+		<property name="password" value="v1dy03x" />
+		<property name="idleConnectionTestPeriodInSeconds" value="60" />
+		<property name="idleMaxAgeInSeconds" value="240" />
+		<property name="maxConnectionsPerPartition" value="7" />
+		<property name="minConnectionsPerPartition" value="2" />
+		<property name="partitionCount" value="3" />
+		<property name="acquireIncrement" value="5" />
+		<property name="statementsCacheSize" value="100" />
+		<property name="releaseHelperThreads" value="3" />
+	</bean>
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="portalDatasource" />
+	</bean>
+
+	<bean id="batchTransactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager"
+		lazy-init="true">
+		<property name="dataSource" ref="portalBatchDataSource" />
+	</bean>
+
+</beans>

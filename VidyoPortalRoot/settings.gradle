@@ -1,0 +1,3 @@
+rootProject.name = 'VidyoPortalRoot'
+include ":VidyoPortal"
+project(":VidyoPortal").projectDir = file("../VidyoPortal")

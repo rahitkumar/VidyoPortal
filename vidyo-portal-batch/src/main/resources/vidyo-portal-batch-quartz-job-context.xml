@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+	">
+
+	<import resource="vidyo-portal-batch-jobs-service.xml" />
+	<import resource="vidyo-portal-batch-job-context.xml" />
+
+	<bean id="jobRegistry"
+		class="org.springframework.batch.core.configuration.support.MapJobRegistry" />
+
+	<bean id="jobLauncher"
+		class="org.springframework.batch.core.launch.support.SimpleJobLauncher">
+		<property name="jobRepository" ref="jobRepository" />
+		<property name="taskExecutor">
+			<bean class="org.springframework.core.task.SimpleAsyncTaskExecutor" />
+		</property>
+	</bean>
+
+	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers">
+			<list>
+				<ref bean="removeGuestEndpointsTrigger"/>
+				<ref bean="statusNotificationsTrigger"/>
+				<ref bean="ipcCleanupTrigger"/>
+				<ref bean="licenseExpiryNotificationTrigger"/>
+				<ref bean="authTokensInvalidationTrigger"/>
+				<ref bean="certExpiryNotificationTrigger"/>
+                <ref bean="transactionCleanupTrigger"/>
+                <ref bean="cdrDeletionTrigger"/>
+                <ref bean="schRoomCleanupTrigger"/>
+                <ref bean="cleanUpGatewayEndpointsAndConferenceRecordsTrigger"/>
+                <ref bean="purgeGatewayPrefixesTrigger"/>
+                <ref bean="licenseCacheValidationTrigger"/>
+				<ref bean="clearInactiveMemberBAKTrigger"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="statusNotificationsTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="statusNotificationsJobDetail" />
+		<!-- Every Hour -->
+		<property name="cronExpression" value="0 0 * * * ?" />
+	</bean>
+
+	<bean id="statusNotificationsJobDetail" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+		<property name="jobClass"
+			value="com.vidyo.portal.batch.jobs.quartz.JobLauncherDetails" />
+		<property name="group" value="quartz-batch" />
+		<property name="jobDataAsMap">
+			<map>
+				<entry key="jobName" value="statusNotificationsJob" />
+				<entry key="jobLocator" value-ref="jobRegistry" />
+				<entry key="jobLauncher" value-ref="jobLauncher" />
+			</map>
+		</property>
+	</bean>
+
+	<bean id="removeGuestEndpointsTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="removeGuestEndpointsJobDetail" />
+		<!-- Every Hour -->
+		<property name="cronExpression" value="0 0 * * * ?" />
+	</bean>
+
+	<bean id="removeGuestEndpointsJobDetail" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+		<property name="jobClass"
+			value="com.vidyo.portal.batch.jobs.quartz.JobLauncherDetails" />
+		<property name="group" value="quartz-batch" />
+		<property name="jobDataAsMap">
+			<map>
+				<entry key="jobName" value="removeGuestEndpointsJob" />
+				<entry key="jobLocator" value-ref="jobRegistry" />
+				<entry key="jobLauncher" value-ref="jobLauncher" />
+			</map>
+		</property>
+	</bean>
+
+	<bean id="ipcCleanupTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="ipcCleanupJobDetail" />
+		<!-- Every 10 minutes -->
+		<property name="cronExpression" value="0 0/10 * * * ?" />
+	</bean>
+
+	<bean id="ipcCleanupJobDetail" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+		<property name="jobClass"
+			value="com.vidyo.portal.batch.jobs.quartz.JobLauncherDetails" />
+		<property name="group" value="quartz-batch" />
+		<property name="jobDataAsMap">
+			<map>
+				<entry key="jobName" value="ipcCleanupJob" />
+				<entry key="jobLocator" value-ref="jobRegistry" />
+				<entry key="jobLauncher" value-ref="jobLauncher" />
+			</map>
+		</property>
+	</bean>
+
+	<bean id="licenseExpiryNotificationJobDetail" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+		<property name="jobClass"
+			value="com.vidyo.portal.batch.jobs.quartz.JobLauncherDetails" />
+		<property name="group" value="quartz-batch" />
+		<property name="jobDataAsMap">
+			<map>
+				<entry key="jobName" value="checkLicenseExpireJob" />
+				<entry key="jobLocator" value-ref="jobRegistry" />
+				<entry key="jobLauncher" value-ref="jobLauncher" />
+			</map>
+		</property>
+	</bean>
+
+	<bean id="licenseExpiryNotificationTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="licenseExpiryNotificationJobDetail" />
+		<!-- Every day 1:30 AM -->
+		<property name="cronExpression" value="0 30 1 * * ?" />
+	</bean>
+
+	<bean id="authTokensInvalidationTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="authTokensInvalidationJobDetail" />
+		<!-- Every 5 minutes -->
+		<property name="cronExpression" value="0 0/5 * * * ?" />
+	</bean>
+
+	<bean id="authTokensInvalidationJobDetail" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+		<property name="jobClass"
+			value="com.vidyo.portal.batch.jobs.quartz.JobLauncherDetails" />
+		<property name="group" value="quartz-batch" />
+		<property name="jobDataAsMap">
+			<map>
+				<entry key="jobName" value="authTokensInvalidationJob" />
+				<entry key="jobLocator" value-ref="jobRegistry" />
+				<entry key="jobLauncher" value-ref="jobLauncher" />
+			</map>
+		</property>
+	</bean>
+
+	<bean id="certExpiryNotificationJobDetail" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+		<property name="jobClass"
+			value="com.vidyo.portal.batch.jobs.quartz.JobLauncherDetails" />
+		<property name="group" value="quartz-batch" />
+		<property name="jobDataAsMap">
+			<map>
+				<entry key="jobName" value="certExpiryReminderJob" />
+				<entry key="jobLocator" value-ref="jobRegistry" />
+				<entry key="jobLauncher" value-ref="jobLauncher" />
+			</map>
+		</property>
+	</bean>
+
+	<bean id="certExpiryNotificationTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="certExpiryNotificationJobDetail" />
+		<!-- Every day 1 AM -->
+		<property name="cronExpression" value="0 0 1 * * ?" />
+	</bean>
+    <bean id="transactionCleanupJobDetail" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+		<property name="jobClass"
+			value="com.vidyo.portal.batch.jobs.quartz.JobLauncherDetails" />
+		<property name="group" value="quartz-batch" />
+		<property name="jobDataAsMap">
+			<map>
+				<entry key="jobName" value="transactionCleanupJob" />
+				<entry key="jobLocator" value-ref="jobRegistry" />
+				<entry key="jobLauncher" value-ref="jobLauncher" />
+			</map>
+		</property>
+	</bean>
+
+	<bean id="transactionCleanupTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="transactionCleanupJobDetail" />
+        <!-- Every day 4 AM -->
+		<property name="cronExpression" value="0 0 4 * * ?" />
+		<!-- Every minute for test -->
+		<!--<property name="cronExpression" value="0 0/1 * * * ?" />-->
+	</bean>
+
+	<bean id="cdrDeletionJobDetail" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+		<property name="jobClass" value="com.vidyo.portal.batch.jobs.quartz.JobLauncherDetails" />
+		<property name="group" value="quartz-batch"/>
+		<property name="jobDataAsMap">
+			<map>
+				<entry key="jobName" value="cdrDeletionJob" />
+				<entry key="jobLocator" value-ref="jobRegistry" />
+				<entry key="jobLauncher" value-ref="jobLauncher" />
+			</map>
+		</property>
+	</bean>
+
+	<bean id="cdrDeletionTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="cdrDeletionJobDetail" />
+		<!-- Saturday at 3:30 AM -->
+		<property name="cronExpression" value="0 30 3 ? * SAT" />
+	</bean>
+
+	    <bean id="schRoomCleanupJobDetail" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+		<property name="jobClass"
+			value="com.vidyo.portal.batch.jobs.quartz.JobLauncherDetails" />
+		<property name="jobDataAsMap">
+			<map>
+				<entry key="jobName" value="schRoomCleanupJob" />
+				<entry key="jobLocator" value-ref="jobRegistry" />
+				<entry key="jobLauncher" value-ref="jobLauncher" />
+			</map>
+		</property>
+	</bean>
+
+	<bean id="schRoomCleanupTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="schRoomCleanupJobDetail" />
+        <!-- Every day 4 30 AM -->
+		<property name="cronExpression" value="0 30 4 * * ?" />
+		<!-- Every minute for test -->
+		<!--<property name="cronExpression" value="0 0/1 * * * ?" />-->
+	</bean>
+
+    <bean id="cleanUpGatewayEndpointsAndConferenceRecordsJobDetail" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+        <property name="jobClass"
+                  value="com.vidyo.portal.batch.jobs.quartz.JobLauncherDetails" />
+        <property name="group" value="quartz-batch" />
+        <property name="jobDataAsMap">
+            <map>
+                <entry key="jobName" value="cleanUpGatewayEndpointsAndConferenceRecordsJob" />
+                <entry key="jobLocator" value-ref="jobRegistry" />
+                <entry key="jobLauncher" value-ref="jobLauncher" />
+            </map>
+        </property>
+    </bean>
+
+    <bean id="cleanUpGatewayEndpointsAndConferenceRecordsTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail" ref="cleanUpGatewayEndpointsAndConferenceRecordsJobDetail" />
+        <!-- Every 10 minutes -->
+        <property name="cronExpression" value="0 0/10 * * * ?" />
+    </bean>
+
+    <bean id="purgeGatewayPrefixesJobDetail" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+        <property name="jobClass"
+                  value="com.vidyo.portal.batch.jobs.quartz.JobLauncherDetails" />
+        <property name="group" value="quartz-batch" />
+        <property name="jobDataAsMap">
+            <map>
+                <entry key="jobName" value="purgeGatewayPrefixesJob" />
+                <entry key="jobLocator" value-ref="jobRegistry" />
+                <entry key="jobLauncher" value-ref="jobLauncher" />
+            </map>
+        </property>
+    </bean>
+
+    <bean id="purgeGatewayPrefixesTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail" ref="purgeGatewayPrefixesJobDetail" />
+        <!-- Every 5 minutes -->
+        <!-- should coincide with age of prefixes to purge, see vidyo-portal-batch-gateway-prefix-purge-job.xml -->
+        <property name="cronExpression" value="0 0/5 * * * ?" />
+    </bean>
+
+    <bean id="licenseCacheValidationJobDetail" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+		<property name="jobClass"
+			value="com.vidyo.portal.batch.jobs.quartz.JobLauncherDetails" />
+		<property name="group" value="quartz-batch" />
+		<property name="jobDataAsMap">
+			<map>
+				<entry key="jobName" value="licenseCacheValidationJob" />
+				<entry key="jobLocator" value-ref="jobRegistry" />
+				<entry key="jobLauncher" value-ref="jobLauncher" />
+			</map>
+		</property>
+	</bean>
+
+	<bean id="clearInactiveMemberBAKJobDetails" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+		<property name="jobClass"
+				  value="com.vidyo.portal.batch.jobs.quartz.JobLauncherDetails" />
+		<property name="group" value="quartz-batch" />
+		<property name="jobDataAsMap">
+			<map>
+				<entry key="jobName" value="deleteMemberBakCleanupJob" />
+				<entry key="jobLocator" value-ref="jobRegistry" />
+				<entry key="jobLauncher" value-ref="jobLauncher" />
+			</map>
+		</property>
+	</bean>
+
+	<bean id="licenseCacheValidationTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="licenseCacheValidationJobDetail" />
+		<!-- Every Hour -->
+		<property name="cronExpression" value="0 0/60 * * * ?" />
+	</bean>
+
+	<bean id="clearInactiveMemberBAKTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="clearInactiveMemberBAKJobDetails" />
+		<!-- Every 18 min past hour-->
+		<property name="cronExpression" value="0 18 * * * ?" />
+	</bean>
+</beans>

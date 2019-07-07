@@ -1,0 +1,136 @@
+[{
+	pools_list : [{
+		name: 'Pool ABC',
+		x: 100,
+		y:50,
+		routers: [{
+			name: 'Router 11'
+		},{
+			name: 'Router 12'
+		},{
+			name: 'Router 13'
+		},{
+			name: 'Router 14'
+		},{
+			name: 'Router 15'
+		}]		
+	}, {
+		name: 'Pool DEF',
+		x: 200,
+		y:30,
+		routers: [{
+			name: 'Router 21'
+		},{
+			name: 'Router 22'
+		},{
+			name: 'Router 23'
+		},{
+			name: 'Router 24'
+		},{
+			name: 'Router 25'
+		}]		
+	}, {
+		name: 'Pool GHI',
+		x: 140,
+		y:230,
+		routers: [{
+			name: 'Router 31'
+		},{
+			name: 'Router 32'
+		},{
+			name: 'Router 33'
+		},{
+			name: 'Router 34'
+		},{
+			name: 'Router 35'
+		}]		
+	}, {
+		name: 'Pool JKL',
+		x: 30,
+		y:150,
+		routers: [{
+			name: 'Router 41'
+		},{
+			name: 'Router 42'
+		},{
+			name: 'Router 43'
+		},{
+			name: 'Router 44'
+		},{
+			name: 'Router 45'
+		}]		
+	}, {
+		name: 'Pool MNO',
+		x: 430,
+		y:160,
+		routers: [{
+			name: 'Router 51'
+		},{
+			name: 'Router 52'
+		},{
+			name: 'Router 53'
+		},{
+			name: 'Router 54'
+		},{
+			name: 'Router 55'
+		}]		
+	}, {
+		name: 'Pool PQR',
+		x: 350,
+		y:100,
+		routers: [{
+			name: 'Router 61'
+		},{
+			name: 'Router 62'
+		},{
+			name: 'Router 63'
+		},{
+			name: 'Router 64'
+		},{
+			name: 'Router 65'
+		}]		
+	}, {
+		name: 'Pool STU',
+		x: 590,
+		y:80,
+		routers: [{
+			name: 'Router 71'
+		},{
+			name: 'Router 72'
+		},{
+			name: 'Router 73'
+		},{
+			name: 'Router 74'
+		},{
+			name: 'Router 75'
+		}]		
+	}],
+	
+	availableRouters: [{
+		name: 'Router 01'
+	},{
+		name: 'Router 02'
+	},{
+		name: 'Router 03'
+	},{
+		name: 'Router 04'
+	},{
+		name: 'Router 05'
+	},{
+		name: 'Router 06'
+	},{
+		name: 'Router 07'
+	},{
+		name: 'Router 08'
+	},{
+		name: 'Router 09'
+	},{
+		name: 'Router 010'
+	},{
+		name: 'Router 011'
+	},{
+		name: 'Router 012'
+	},{
+		name: 'Router 013'
+	}] 
+}]

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+	<appender name="LOGFILE" class="org.apache.log4j.RollingFileAppender">
+		<param name="Threshold" value="ALL" />
+		<!--<param name="file" value="/usr/local/tomcat/logs/batch-jobs.log" />-->
+		 <param name="file" value="/opt/vidyo/logs/vidyo-portal-batch/batch-jobs.log" />
+		<param name="MaxFileSize" value="5MB" />
+		<param name="MaxBackupIndex" value="10" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d %-5p [%t](%C:%L) - %m%n" />
+		</layout>
+	</appender>
+
+	<logger name="com.vidyo.portal.batch.jobs" additivity="false">
+		<level value="DEBUG" />
+		<appender-ref ref="LOGFILE" />
+	</logger>
+
+	<logger name="com.vidyo.service.email.EmailServiceImpl" additivity="false">
+		<level value="DEBUG" />
+		<appender-ref ref="LOGFILE" />
+	</logger>	
+	
+	<logger name="org.springframework.batch.core.launch.support" additivity="false">
+		<level value="DEBUG" />
+		<appender-ref ref="LOGFILE" />
+	</logger>	
+
+	<root>
+		<priority value="WARN" />
+		<appender-ref ref="LOGFILE" />
+	</root>
+
+</log4j:configuration>

@@ -1,0 +1,20 @@
+tomcat   ALL=NOPASSWD: \
+   /opt/vidyo/bin/ssl_functions.pl, \
+   /opt/vidyo/bin/ocsp_config.sh, \
+   /opt/vidyo/bin/reset_vidyohost.sh, \
+   /opt/vidyo/bin/pack_security.sh, \
+   /opt/vidyo/bin/update_portal.sh, \
+   /opt/vidyo/bin/authuser, \
+   /opt/vidyo/bin/restart_tomcat.sh, \
+   /opt/vidyo/bin/use_vidyo_cacert.sh, \
+   /opt/vidyo/bin/unpack_security.sh, \
+   /opt/vidyo/app/diagnostic_tool/run_diagnostics.sh, \
+   /opt/vidyo/bin/vidyo_pfx.sh, \
+   /opt/vidyo/bin/import_pfx.sh, \
+   /opt/vidyo/bin/export_pfx.sh, \
+   /opt/vidyo/bin/vidyo_ssl.sh, \
+   /etc/init.d/apache2 reload, \
+   /opt/vidyo/bin/vidyo_used_tcpport.sh, \
+   /opt/vidyo/bin/vidyo_update_security.sh, \
+   /opt/vidyo/bin/vidyo_server.sh, \
+   /opt/vidyo/bin/vidyo_file_utils.sh

@@ -1,0 +1,16 @@
+ [
+        {
+            "recorderid": "EDRFTHUSH",
+            "endpointguid": "4223",
+            "prefix": "DFR",
+            "info": "Information",
+            "status": "UP"
+        },
+        {
+            "recorderid": "EDUSGALO",
+            "endpointguid": "4223",
+            "prefix": "DFR",
+            "info": "Information",
+            "status": "UP"
+        }
+    ]

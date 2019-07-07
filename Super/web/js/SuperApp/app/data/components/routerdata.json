@@ -1,0 +1,19 @@
+[
+    {
+        "id": "CPW4C6X12XTHUT3XDVWEWRETX3NKHH23KUMRNYP3QVKHG00VR0001",
+        "name": "LocalVidyoRouter",
+        "managementurl": "nrouter001.vidyo.com",
+        "fqdn": "",
+        "scipport": 12707,
+        "mediaportstart": 50000,
+        "mediaportend": 65535,
+        "videodscpstatus": false,
+        "videodscpvalue": 0,
+        "audiodscpstatus": false,
+        "audiodscpvalue": 0,
+        "contentdscpstatus": false,
+        "contentdscpvalue": 0,
+        "signalingdscpstatus": false,
+        "signalingdscpvalue": 0
+    }
+]

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="90px" height="170px" viewBox="0 0 90 170" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 3.8.3 (29802) - http://www.bohemiancoding.com/sketch -->
+    <title>down arrow</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <filter x="-50%" y="-50%" width="200%" height="200%" filterUnits="objectBoundingBox" id="filter-1">
+            <feOffset dx="0" dy="2" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="3" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.5 0" type="matrix" in="shadowBlurOuter1" result="shadowMatrixOuter1"></feColorMatrix>
+            <feMerge>
+                <feMergeNode in="shadowMatrixOuter1"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+            </feMerge>
+        </filter>
+    </defs>
+    <g id="Downloads" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Joining-Screen---Downloading" transform="translate(-78.000000, -678.000000)" fill="#4590C0">
+            <g id="down-arrow" filter="url(#filter-1)" transform="translate(83.061772, 682.409353)">
+                <polygon id="Triangle-1" transform="translate(40.000000, 128.000000) scale(1, -1) translate(-40.000000, -128.000000) " points="40 96 80 160 40 141.7375 0 160"></polygon>
+                <rect id="Rectangle-54" x="24" y="0" width="32" height="115.2"></rect>
+            </g>
+        </g>
+    </g>
+</svg>

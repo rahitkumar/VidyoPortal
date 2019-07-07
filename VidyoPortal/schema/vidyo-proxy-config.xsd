@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:element name="Config" type="VPConfigType">
+	</xs:element>
+
+	<xs:complexType name="VPConfigType">
+		<xs:sequence>
+			<xs:element name="URL" type="xs:string" />
+			<xs:element name="Host" type="xs:string" minOccurs="1"
+				maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

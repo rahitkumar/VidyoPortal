@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="VidyoPortalGeneralService"
+                  targetNamespace="http://portal.vidyo.com/general"
+                  xmlns="http://portal.vidyo.com/general"
+                  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+                  xmlns:http="http://schemas.xmlsoap.org/wsdl/http/"
+                  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+
+    <wsdl:types>
+
+        <xs:schema attributeFormDefault="qualified"
+                   elementFormDefault="qualified"
+                   targetNamespace="http://portal.vidyo.com/general"
+                   xmlns="http://portal.vidyo.com/general">
+
+            <xs:annotation>
+                <xs:documentation xml:lang="en"/>
+            </xs:annotation>
+
+            <xs:element name="ErrorMessage" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>String presentation of fault</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+
+            <xs:element name="GeneralFault">
+                <xs:annotation>
+                    <xs:documentation>
+                        This means that the exceptions happens in system.
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element ref="ErrorMessage"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+            <xs:element name="InvalidArgumentFault">
+                <xs:annotation>
+                    <xs:documentation>
+                        This means that the arguments which are passed into services are wrong.
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element ref="ErrorMessage"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+            <xs:element name="LogInType">
+                <xs:annotation>
+                    <xs:documentation>
+                        The authentication framework used to log the user in.
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:enumeration value="PORTAL"/>
+                        <xs:enumeration value="FACEBOOK_OAUTH2_CLIENT"/>
+                        <xs:enumeration value="SAML_BROWSER"/>
+                        <xs:enumeration value="CAC"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+
+            <xs:element name="LogInTypeRequest">
+                <xs:annotation>
+                    <xs:documentation>
+                        Request to return the type of authentication used (PORTAL/SAML/FACEBOOK/etc).
+                    </xs:documentation>
+                </xs:annotation>
+                <!-- VPTL-7657 - Optional request parameter to send login types-->
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="samlToken" type="xs:boolean" default="false" minOccurs="0" maxOccurs="1" nillable="false"/>
+                        <xs:element name="returnPolicyDetails" type="xs:boolean" default="false" minOccurs="0" maxOccurs="1" nillable="false"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+            <xs:element name="LogInTypeResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element ref="LogInType" minOccurs="1" maxOccurs="1" />
+                        <xs:element name="url" type="xs:anyURI" minOccurs="1" maxOccurs="1" nillable="false" />
+                        <!-- VPTL-7657 - Optional response value to send saml token-->
+                        <xs:element name="samlToken" type="xs:string" minOccurs="0" maxOccurs="1" nillable="false" />
+                        <xs:element ref="TermsAndConditions" minOccurs="0" maxOccurs="1"/>
+               		<xs:element ref="PrivacyPolicy" minOccurs="0" maxOccurs="1"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            
+            <xs:element name="TermsAndConditions">
+       			<xs:annotation>
+           			<xs:documentation>
+               			Terms and Conditions Details.
+           			</xs:documentation>
+       			</xs:annotation>
+       			<xs:complexType>
+               		<xs:sequence>
+                   		<xs:element name="tcURI" type="xs:anyURI"/>
+                   		<xs:element name="version" type="xs:string"/>
+               		</xs:sequence>
+       			</xs:complexType>        
+   	    </xs:element>
+    
+   	    <xs:element name="PrivacyPolicy">
+       			<xs:annotation>
+           			<xs:documentation>
+               			Privacy Policy Details.
+           			</xs:documentation>
+       			</xs:annotation>
+       			<xs:complexType>
+               		<xs:sequence>
+                   		<xs:element name="ppURI" type="xs:anyURI"/>
+                   		<xs:element name="version" type="xs:string"/>
+               		</xs:sequence>
+       			</xs:complexType>        
+   	    </xs:element>
+
+            <xs:element name="WebRTCLoginIsEnabledRequest">
+                <xs:annotation>
+                    <xs:documentation>
+                        Request to return whether user login via webRTC is permitted.
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                    <xs:sequence/>
+                </xs:complexType>
+            </xs:element>
+
+            <!-- VPTL-7657 - transaction status request for returning the status of the saml authentication -->
+            <xs:element name="TransactionStatusRequest">
+                <xs:annotation>
+                    <xs:documentation>
+                        Request to return the Transaction status for a given auth token.
+                    </xs:documentation>
+                </xs:annotation>
+                <!-- VPTL-7657 - Request token for getting the transaction status -->
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="token" type="xs:string" minOccurs="1" maxOccurs="1" nillable="false"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+            <!-- VPTL-7657 - transaction status response for returning the status of the saml authentication -->
+            <xs:element name="TransactionStatusResponse">
+                <xs:annotation>
+                    <xs:documentation>
+                        Returns the transaction status for the auth token.
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element ref="TransactionStatus"/>
+                        <xs:element name="authToken" type="xs:string" minOccurs="0" nillable="true"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+            <xs:element name="TransactionStatus">
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:enumeration value="SUCCESS"/>
+                        <xs:enumeration value="FAILED"/>
+                        <xs:enumeration value="PENDING"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+
+
+            <xs:element name="WebRTCLoginIsEnabledResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="webRTCLoginEnabled" type="xs:boolean" minOccurs="1" maxOccurs="1" nillable="false" />
+                    </xs:sequence>
+                 </xs:complexType>
+            </xs:element>
+
+        </xs:schema>
+
+    </wsdl:types>
+
+    <wsdl:message name="InvalidArgumentFault">
+        <wsdl:part name="fault" element="InvalidArgumentFault"/>
+    </wsdl:message>
+
+    <wsdl:message name="GeneralFault">
+        <wsdl:part name="fault" element="GeneralFault"/>
+    </wsdl:message>
+
+    <wsdl:message name="getLogInTypeRequestMessage">
+        <wsdl:part name="getLogInTypeRequest" element="LogInTypeRequest" />
+    </wsdl:message>
+
+    <wsdl:message name="getLogInTypeResponseMessage">
+        <wsdl:part name="getLogInTypeResponse" element="LogInTypeResponse" />
+    </wsdl:message>
+
+    <wsdl:message name="webRTCLoginIsEnabledRequestMessage">
+        <wsdl:part name="webRTCLoginIsEnabledRequest" element="WebRTCLoginIsEnabledRequest" />
+    </wsdl:message>
+
+    <wsdl:message name="transactionStatusRequest">
+        <wsdl:part name="transactionStatusRequest" element="TransactionStatusRequest" />
+    </wsdl:message>
+
+    <wsdl:message name="webRTCLoginIsEnabledResponseMessage">
+        <wsdl:part name="webRTCLoginIsEnabledResponse" element="WebRTCLoginIsEnabledResponse" />
+    </wsdl:message>
+
+    <wsdl:message name="transactionStatusResponseMessage">
+        <wsdl:part name="transactionStatusResponse" element="TransactionStatusResponse" />
+    </wsdl:message>
+
+    <wsdl:portType name="VidyoPortalGeneralServicePortType">
+
+        <wsdl:operation name="getLogInType">
+            <wsdl:input message="getLogInTypeRequestMessage"/>
+            <wsdl:output message="getLogInTypeResponseMessage"/>
+            <wsdl:fault name="GeneralFault" message="GeneralFault"/>
+            <wsdl:fault name="InvalidArgumentFault" message="InvalidArgumentFault"/>
+        </wsdl:operation>
+
+        <wsdl:operation name="webRTCLoginIsEnabled">
+            <wsdl:input message="webRTCLoginIsEnabledRequestMessage"/>
+            <wsdl:output message="webRTCLoginIsEnabledResponseMessage"/>
+            <wsdl:fault name="GeneralFault" message="GeneralFault"/>
+        </wsdl:operation>
+
+        <!-- VPTL-7657 - method for returning the status of the saml authentication -->
+        <wsdl:operation name="getTransactionStatus">
+            <wsdl:input message="transactionStatusRequest"/>
+            <wsdl:output message="transactionStatusResponseMessage"/>
+            <wsdl:fault name="GeneralFault" message="GeneralFault"/>
+            <wsdl:fault name="InvalidArgumentFault" message="InvalidArgumentFault"/>
+        </wsdl:operation>
+
+    </wsdl:portType>
+
+    <wsdl:binding name="VidyoPortalGeneralServiceBinding" type="VidyoPortalGeneralServicePortType">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+
+        <wsdl:operation name="getLogInType">
+            <soap:operation soapAction="getLogInType"/>
+            <wsdl:input>
+                <soap:body use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </wsdl:output>
+            <wsdl:fault name="GeneralFault">
+                <soap:fault name="GeneralFault" use="literal"/>
+            </wsdl:fault>
+            <wsdl:fault name="InvalidArgumentFault">
+                <soap:fault name="InvalidArgumentFault" use="literal" />
+            </wsdl:fault>
+        </wsdl:operation>
+
+        <wsdl:operation name="webRTCLoginIsEnabled">
+            <soap:operation soapAction="webRTCLoginIsEnabled"/>
+            <wsdl:input>
+                <soap:body use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </wsdl:output>
+            <wsdl:fault name="GeneralFault">
+                <soap:fault name="GeneralFault" use="literal"/>
+            </wsdl:fault>
+        </wsdl:operation>
+
+        <wsdl:operation name="getTransactionStatus">
+            <soap:operation soapAction="getTransactionStatus"/>
+            <wsdl:input>
+                <soap:body use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </wsdl:output>
+            <wsdl:fault name="GeneralFault">
+                <soap:fault name="GeneralFault" use="literal"/>
+            </wsdl:fault>
+            <wsdl:fault name="InvalidArgumentFault">
+                <soap:fault name="InvalidArgumentFault" use="literal" />
+            </wsdl:fault>
+        </wsdl:operation>
+
+    </wsdl:binding>
+
+    <wsdl:service name="VidyoPortalGeneralService">
+        <wsdl:port name="VidyoPortalGeneralServicePort" binding="VidyoPortalGeneralServiceBinding">
+            <soap:address location="http://localhost:8080/services/VidyoPortalGeneralService"/>
+        </wsdl:port>
+    </wsdl:service>
+
+</wsdl:definitions>

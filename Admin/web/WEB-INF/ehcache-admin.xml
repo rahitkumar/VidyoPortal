@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd"
+	updateCheck="false" dynamicConfig="false" monitoring="autodetect" name="sharedCache">
+
+	<!-- Location of persistent caches on disk -->
+	<!-- <diskStore path="java.io.tmpdir/EhCacheForAdmin"/> -->
+	<cacheManagerPeerProviderFactory
+		class="net.sf.ehcache.distribution.jgroups.JGroupsCacheManagerPeerProviderFactory"
+		properties="file=tcp.xml" />
+
+	<cache name="memberLocationCache" maxElementsInMemory="70000"
+		eternal="true" overflowToDisk="false">
+		<cacheEventListenerFactory
+			class="net.sf.ehcache.distribution.jgroups.JGroupsCacheReplicatorFactory"
+			properties="replicateAsynchronously=true, replicatePuts=true, replicateUpdates=true, replicateUpdatesViaCopy=true, replicateRemovals=true" />
+	</cache>
+	<cache name="memberLangCache" maxElementsInMemory="70000"
+		eternal="true" overflowToDisk="false">
+		<cacheEventListenerFactory
+			class="net.sf.ehcache.distribution.jgroups.JGroupsCacheReplicatorFactory"
+			properties="replicateAsynchronously=true, replicatePuts=true, replicateUpdates=true, replicateUpdatesViaCopy=true, replicateRemovals=true" />
+	</cache>
+	<cache name="userDetailCache" maxElementsInMemory="70000"
+		eternal="true" overflowToDisk="false">
+		<cacheEventListenerFactory
+			class="net.sf.ehcache.distribution.jgroups.JGroupsCacheReplicatorFactory"
+			properties="replicateAsynchronously=true, replicatePuts=true, replicateUpdates=true, replicateUpdatesViaCopy=true, replicateRemovals=true" />
+	</cache>
+	<cache name="tenantConfigCache" maxElementsInMemory="10000"
+		eternal="true" overflowToDisk="false">
+		<cacheEventListenerFactory
+			class="net.sf.ehcache.distribution.jgroups.JGroupsCacheReplicatorFactory"
+			properties="replicateAsynchronously=true, replicatePuts=true, replicateUpdates=true, replicateUpdatesViaCopy=true, replicateRemovals=true" />
+	</cache>
+	<cache name="servicesCache" maxElementsInMemory="70000" eternal="true"
+		overflowToDisk="false">
+		<cacheEventListenerFactory
+			class="net.sf.ehcache.distribution.jgroups.JGroupsCacheReplicatorFactory"
+			properties="replicateAsynchronously=true, replicatePuts=true, replicateUpdates=true, replicateUpdatesViaCopy=true, replicateRemovals=true" />
+	</cache>
+	<cache name="groupDataCache" maxElementsInMemory="100" eternal="true"
+		overflowToDisk="false">
+		<cacheEventListenerFactory
+			class="net.sf.ehcache.distribution.jgroups.JGroupsCacheReplicatorFactory"
+			properties="replicateAsynchronously=true, replicatePuts=true, replicateUpdates=true, replicateUpdatesViaCopy=true, replicateRemovals=true" />
+	</cache>
+	<cache name="endpointCache" maxElementsInMemory="100" eternal="true"
+		overflowToDisk="false">
+		<cacheEventListenerFactory
+			class="net.sf.ehcache.distribution.jgroups.JGroupsCacheReplicatorFactory"
+			properties="replicateAsynchronously=true, replicatePuts=true, replicateUpdates=true, replicateUpdatesViaCopy=true, replicateRemovals=true" />
+	</cache>
+    <cache name="endpointFeaturesCache" maxElementsInMemory="1000" eternal="true"
+           overflowToDisk="false">
+        <cacheEventListenerFactory
+                class="net.sf.ehcache.distribution.jgroups.JGroupsCacheReplicatorFactory"
+                properties="replicateAsynchronously=true, replicatePuts=true, replicateUpdates=true, replicateUpdatesViaCopy=true, replicateRemovals=true" />
+    </cache>
+	<cache name="vidyoManagerServiceCache" maxElementsInMemory="10"
+		eternal="false" overflowToDisk="false" timeToLiveSeconds="3600">
+		<cacheEventListenerFactory
+			class="net.sf.ehcache.distribution.jgroups.JGroupsCacheReplicatorFactory"
+			properties="replicateAsynchronously=true, replicatePuts=true, replicateUpdates=true, replicateUpdatesViaCopy=true, replicateRemovals=true" />
+	</cache>
+
+	<cache name="tenantXCallCache" maxElementsInMemory="10000"
+		eternal="true" overflowToDisk="false">
+		<cacheEventListenerFactory
+			class="net.sf.ehcache.distribution.jgroups.JGroupsCacheReplicatorFactory"
+			properties="replicateAsynchronously=true, replicatePuts=true, replicateUpdates=true, replicateUpdatesViaCopy=true, replicateRemovals=true" />
+	</cache>	
+	<cache name="vidyoManagerServiceStubCache" maxElementsInMemory="100"
+		eternal="false" overflowToDisk="false" timeToLiveSeconds="3600">
+		<cacheEventListenerFactory
+			class="net.sf.ehcache.distribution.jgroups.JGroupsCacheReplicatorFactory"
+			properties="replicateAsynchronously=true, replicatePuts=true, replicateUpdates=true, replicateUpdatesViaCopy=true, replicateRemovals=true" />
+	</cache>
+	<cache name="tenantGuestConfigCache" maxElementsInMemory="20000"
+		eternal="true" overflowToDisk="false">
+		<cacheEventListenerFactory
+			class="net.sf.ehcache.distribution.jgroups.JGroupsCacheReplicatorFactory"
+			properties="replicateAsynchronously=true, replicatePuts=true, replicateUpdates=true, replicateUpdatesViaCopy=true, replicateRemovals=true" />
+	</cache>
+	<cache name="memberRolesCache" maxElementsInMemory="1" eternal="true"
+		overflowToDisk="false">
+		<cacheEventListenerFactory
+			class="net.sf.ehcache.distribution.jgroups.JGroupsCacheReplicatorFactory"
+			properties="replicateAsynchronously=true, replicatePuts=true, replicateUpdates=true, replicateUpdatesViaCopy=true, replicateRemovals=true" />
+	</cache>
+	<cache name="allMemberRolesCache" maxElementsInMemory="1" eternal="true"
+		overflowToDisk="false">
+		<cacheEventListenerFactory
+			class="net.sf.ehcache.distribution.jgroups.JGroupsCacheReplicatorFactory"
+			properties="replicateAsynchronously=true, replicatePuts=true, replicateUpdates=true, replicateUpdatesViaCopy=true, replicateRemovals=true" />
+	</cache>
+	<cache name="samlMemberRolesCache" maxElementsInMemory="1" eternal="true"
+		overflowToDisk="false">
+		<cacheEventListenerFactory
+			class="net.sf.ehcache.distribution.jgroups.JGroupsCacheReplicatorFactory"
+			properties="replicateAsynchronously=true, replicatePuts=true, replicateUpdates=true, replicateUpdatesViaCopy=true, replicateRemovals=true" />
+	</cache>
+
+	<cache name="endpointSettingsCache" maxElementsInMemory="100"
+		eternal="true" overflowToDisk="false">
+		<cacheEventListenerFactory
+			class="net.sf.ehcache.distribution.jgroups.JGroupsCacheReplicatorFactory"
+			properties="replicateAsynchronously=true, replicatePuts=true, replicateUpdates=true, replicateUpdatesViaCopy=true, replicateRemovals=true" />
+	</cache>
+
+	<cache name="memberLoginHistoryLimitCache" maxElementsInMemory="1"
+		eternal="true" overflowToDisk="false">
+		<cacheEventListenerFactory
+			class="net.sf.ehcache.distribution.jgroups.JGroupsCacheReplicatorFactory"
+			properties="replicateAsynchronously=true, replicatePuts=true, replicateUpdates=true, replicateUpdatesViaCopy=true, replicateRemovals=true" />
+	</cache>
+
+	<cache name="tenantDataCache" maxElementsInMemory="10000" eternal="true"
+		overflowToDisk="false">
+		<cacheEventListenerFactory
+			class="net.sf.ehcache.distribution.jgroups.JGroupsCacheReplicatorFactory"
+			properties="replicateAsynchronously=true, replicatePuts=true, replicateUpdates=true, replicateUpdatesViaCopy=true, replicateRemovals=true" />
+	</cache>
+
+	<cache name="vidyoManagerIdCache" maxElementsInMemory="1"
+		eternal="false" overflowToDisk="false" timeToLiveSeconds="3600">
+		<cacheEventListenerFactory
+			class="net.sf.ehcache.distribution.jgroups.JGroupsCacheReplicatorFactory"
+			properties="replicateAsynchronously=true, replicatePuts=true, replicateUpdates=true, replicateUpdatesViaCopy=true, replicateRemovals=true" />
+	</cache>
+
+	<cache name="vmConnectAddressCache" maxElementsInMemory="1"
+		eternal="false" overflowToDisk="false" timeToLiveSeconds="3600">
+		<cacheEventListenerFactory
+			class="net.sf.ehcache.distribution.jgroups.JGroupsCacheReplicatorFactory"
+			properties="replicateAsynchronously=true, replicatePuts=true, replicateUpdates=true, replicateUpdatesViaCopy=true, replicateRemovals=true" />
+	</cache>
+
+	<cache name="networkConfigDataCache" maxElementsInMemory="1"
+		eternal="true" overflowToDisk="false">
+		<cacheEventListenerFactory
+			class="net.sf.ehcache.distribution.jgroups.JGroupsCacheReplicatorFactory"
+			properties="replicateAsynchronously=true, replicatePuts=true, replicateUpdates=true, replicateUpdatesViaCopy=true, replicateRemovals=true" />
+	</cache>
+
+	<cache name="routerPoolIdsCache" maxElementsInMemory="1" eternal="true"
+		overflowToDisk="false">
+		<cacheEventListenerFactory
+			class="net.sf.ehcache.distribution.jgroups.JGroupsCacheReplicatorFactory"
+			properties="replicateAsynchronously=true, replicatePuts=true, replicateUpdates=true, replicateUpdatesViaCopy=true, replicateRemovals=true" />
+	</cache>
+
+	<cache name="routerPoolNamesCache" maxElementsInMemory="1"
+		eternal="true" overflowToDisk="false">
+		<cacheEventListenerFactory
+			class="net.sf.ehcache.distribution.jgroups.JGroupsCacheReplicatorFactory"
+			properties="replicateAsynchronously=true, replicatePuts=true, replicateUpdates=true, replicateUpdatesViaCopy=true, replicateRemovals=true" />
+	</cache>
+
+	<cache name="tenantAuthConfigCache" maxElementsInMemory="10000"
+		eternal="true" overflowToDisk="false">
+		<cacheEventListenerFactory
+			class="net.sf.ehcache.distribution.jgroups.JGroupsCacheReplicatorFactory"
+			properties="replicateAsynchronously=true, replicatePuts=true, replicateUpdates=true, replicateUpdatesViaCopy=true, replicateRemovals=true" />
+	</cache>
+
+	<cache name="licenseFeatureDataCache" maxElementsInMemory="100"
+		eternal="false" overflowToDisk="false" timeToLiveSeconds="3600">
+	</cache>
+
+	<cache name="userDataCache" maxElementsInMemory="50000" eternal="true"
+		overflowToDisk="false">
+		<cacheEventListenerFactory
+			class="net.sf.ehcache.distribution.jgroups.JGroupsCacheReplicatorFactory"
+			properties="replicateAsynchronously=true, replicatePuts=true, replicateUpdates=true, replicateUpdatesViaCopy=true, replicateRemovals=true" />
+	</cache>
+
+	<cache name="statusNotificationDataCache" maxElementsInMemory="1" eternal="true"
+		overflowToDisk="false">
+		<cacheEventListenerFactory
+			class="net.sf.ehcache.distribution.jgroups.JGroupsCacheReplicatorFactory"
+			properties="replicateAsynchronously=true, replicatePuts=true, replicateUpdates=true, replicateUpdatesViaCopy=true, replicateRemovals=true" />		
+	</cache>
+	
+	<cache name="licenseDataCache" maxElementsInMemory="1"
+		eternal="false" overflowToDisk="false" timeToLiveSeconds="3600">
+	</cache>
+	
+	<cache name="tenantConfigurationCache" maxElementsInMemory="10000"
+		eternal="true" overflowToDisk="false">
+		<cacheEventListenerFactory
+			class="net.sf.ehcache.distribution.jgroups.JGroupsCacheReplicatorFactory"
+			properties="replicateAsynchronously=true, replicatePuts=true, replicateUpdates=true, replicateUpdatesViaCopy=true, replicateRemovals=true" />
+	</cache>
+	
+	<cache name="componentsUserDataCache" maxElementsInMemory="100"
+		eternal="false" timeToLiveSeconds="3600" overflowToDisk="false">
+		<cacheEventListenerFactory
+			class="net.sf.ehcache.distribution.jgroups.JGroupsCacheReplicatorFactory"
+			properties="replicateAsynchronously=false, replicatePuts=true, replicateUpdates=true, replicateUpdatesViaCopy=false, replicateRemovals=true" />
+	</cache>	
+	
+	<cache name="configurationCache" maxElementsInMemory="100000"
+		eternal="true" overflowToDisk="false">
+		<cacheEventListenerFactory
+			class="net.sf.ehcache.distribution.jgroups.JGroupsCacheReplicatorFactory"
+			properties="replicateAsynchronously=true, replicatePuts=true, replicateUpdates=true, replicateUpdatesViaCopy=true, replicateRemovals=true" />
+	</cache>
+	
+	<cache name="endpointBehaviorCache" maxElementsInMemory="100"
+		eternal="true" overflowToDisk="false">
+		<cacheEventListenerFactory
+			class="net.sf.ehcache.distribution.jgroups.JGroupsCacheReplicatorFactory"
+			properties="replicateAsynchronously=true, replicatePuts=true, replicateUpdates=true, replicateUpdatesViaCopy=true, replicateRemovals=true" />
+	</cache>
+	<cache name="tenantDialInCache" maxElementsInMemory="500"
+		eternal="true" overflowToDisk="false">
+		<cacheEventListenerFactory
+			class="net.sf.ehcache.distribution.jgroups.JGroupsCacheReplicatorFactory"
+			properties="replicateAsynchronously=true, replicatePuts=true, replicateUpdates=true, replicateUpdatesViaCopy=true, replicateRemovals=true" />
+	</cache>
+	<cache name="countryCache" maxElementsInMemory="100"
+		eternal="true" overflowToDisk="false">
+		<cacheEventListenerFactory
+			class="net.sf.ehcache.distribution.jgroups.JGroupsCacheReplicatorFactory"
+			properties="replicateAsynchronously=true, replicatePuts=true, replicateUpdates=true, replicateUpdatesViaCopy=true, replicateRemovals=true" />
+	</cache>
+	<cache name="disRecUserCache" maxElementsInMemory="1"
+		eternal="true" overflowToDisk="false">
+		<cacheEventListenerFactory
+			class="net.sf.ehcache.distribution.jgroups.JGroupsCacheReplicatorFactory"
+			properties="replicateAsynchronously=true, replicatePuts=true, replicateUpdates=true, replicateUpdatesViaCopy=true, replicateRemovals=true" />
+	</cache>
+	<cache name="roomCountCache" maxElementsInMemory="1"
+		   eternal="true" overflowToDisk="false">
+		<cacheEventListenerFactory
+				class="net.sf.ehcache.distribution.jgroups.JGroupsCacheReplicatorFactory"
+				properties="replicateAsynchronously=true, replicatePuts=true, replicateUpdates=true, replicateUpdatesViaCopy=true, replicateRemovals=true" />
+	</cache>
+</ehcache>

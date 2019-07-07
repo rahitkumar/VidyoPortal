@@ -1,0 +1,132 @@
+
+.menu {
+        border: 1px solid black;
+        background-color: grey;
+        display: none;
+        position: relative;
+      }
+      .menu,
+      .menu li {
+        padding: 0px;
+        margin: 0px;
+      }
+      .menu li {
+        color: white;
+      }
+      .menu > li:hover {
+        background-color: lightblue;
+        color: black;
+      }
+      .menu li {
+        display: none;
+      }
+
+      .menu.svg li.svg ,
+      .menu.svg li.svg li,
+      .menu.path li.path ,
+      .menu.circle li.circle li,
+      .menu.circle li.circle {
+        display: block;
+      }
+      /* Support sub menu */
+      .menu li ul {
+        display:none;
+      }
+      .menu li:hover ul {
+        display:inline-block;
+        position: relative;
+        top: 0;
+      }
+
+      li.color {
+        width: 30px;
+        height: 20px;
+      }
+      li.color-1 {
+        background-color: red;
+      }
+      li.color:hover {
+        opacity: 0.5;
+      }
+      li.color-2 {
+        background-color: green;
+      }
+rect {
+  fill: none;
+  pointer-events: all;
+}
+
+.svg-buttons {
+	margin: 5px;
+	padding: 3px;
+	background-color: #1374bb;
+	border: 1px solid #1064a1;
+	border-radius: 3px;
+	color: white;
+	background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #4b9cd7), color-stop(50%, #3892d3), color-stop(51%, #358ac8), color-stop(100%, #3892d3));
+	font-weight: bold;
+}
+
+.svg-buttons.highlight-button {
+	background-image: -webkit-linear-gradient(top, #2a81c1, #1374bb 50%, #126eb1 51%, #1374bb) !important;
+}
+
+.hidden-textpath {
+	stroke: transparent;
+	stroke-width: 10px;
+}
+
+circle.node {
+  fill: #FBC21D;
+  stroke: #000;
+}
+
+circle.free-node {
+	fill: #c1c1c1;
+	stroke: #000;
+}
+
+.node text, .path_label {
+  font: 11px sans-serif;
+  pointer-events: none;
+  fill: #000;
+}
+
+.link-count {
+	text-anchor: middle;
+}
+
+text {
+  font: 15px sans-serif;
+  pointer-events: none;
+}
+
+.cursor {
+  fill: none;
+  stroke: brown;
+  pointer-events: none;
+}
+
+.link {
+  stroke: #999;
+}
+
+.editNodeDiv, .editLinkDiv, .editNodeDivFull, editLinkDivFull {
+	width: 100%;
+	height: 100%;
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	background-color: #111111;
+	opacity: 0.5;
+}
+.center-popup, .editNodeDivFull .center-popup, .editNodeDiv .center-popup, .editLinkDiv .center-popup, editLinkDivFull .center-popup{
+	position: fixed;
+	
+	padding: 10px;
+	background-color: white;
+	color: black;
+	border: 1px solid black;
+	top: 30%;
+	left: 30%;
+}

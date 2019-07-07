@@ -1,0 +1,826 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<wsdl:definitions name="VidyoFederationService"
+        xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+        xmlns:tns="http://ws.vidyo.com/federation"
+        xmlns:xs="http://www.w3.org/2001/XMLSchema"
+        xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+        targetNamespace="http://ws.vidyo.com/federation">
+
+    <!-- Types -->
+    <wsdl:types>
+        <xs:schema xmlns:tns="http://ws.vidyo.com/federation"
+                   targetNamespace="http://ws.vidyo.com/federation"
+                   elementFormDefault="qualified"
+                   attributeFormDefault="qualified">
+
+            <xs:annotation>
+                <xs:documentation xml:lang="en"/>
+            </xs:annotation>
+
+            <xs:element name="Status">
+                <xs:annotation>
+                    <xs:documentation>String presentation of operation</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:enumeration value="OK"/>
+                        <xs:enumeration value="YES"/>
+                        <xs:enumeration value="NO"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+
+            <!-- Exceptions -->
+            <xs:element name="ErrorMessage" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>
+                        String presentation of fault
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+
+            <xs:element name="GeneralFault">
+                <xs:annotation>
+                    <xs:documentation>
+                        This means that some exception happened in system.
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element ref="tns:ErrorMessage"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+            <xs:element name="InvalidArgumentFault">
+                <xs:annotation>
+                    <xs:documentation>
+                        This means that the arguments which are passed into services are wrong.
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element ref="tns:ErrorMessage"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+			<xs:element name="UserNotFoundFault">
+				<xs:annotation>
+					<xs:documentation>
+						User not found in system.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element ref="tns:ErrorMessage"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+
+            <xs:element name="TenantNotFoundFault">
+                <xs:annotation>
+                    <xs:documentation>
+                        Tenant not found in system.
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element ref="tns:ErrorMessage"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+            <xs:element name="FederationNotAllowedFault">
+                <xs:annotation>
+                    <xs:documentation>
+                        Federation not allowed for this tenant.
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element ref="tns:ErrorMessage"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+            <xs:element name="WrongPinFault">
+                <xs:annotation>
+                    <xs:documentation>
+                        This means that the PIN provided to joinConference is wrong.
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element ref="tns:ErrorMessage"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+            <xs:element name="ConferenceLockedFault">
+                <xs:annotation>
+                    <xs:documentation>
+                        This means that the conference on federated portal is unable to be join, due to the fact that it is locked.
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element ref="tns:ErrorMessage"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+            <!-- JoinRemoteConference -->
+            <xs:element name="JoinRemoteConferenceRequest">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="requestID" type="xs:string"/>
+                        <xs:element name="fromSystemID" type="xs:string"/>
+                        <xs:element name="fromUserName" type="xs:string"/>
+                        <xs:element name="fromTenantHost" type="xs:string"/>
+                        <xs:element name="toUserName" type="xs:string"/>
+                        <xs:element name="toTenantHost" type="xs:string"/>
+                        <xs:element name="pin" type="xs:string" minOccurs="0" nillable="true"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="JoinRemoteConferenceResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="requestID" type="xs:string"/>
+                        <xs:element name="toSystemID" type="xs:string"/>
+                        <xs:element ref="tns:Status"/>
+                        <xs:element name="toConferenceName" type="xs:string" minOccurs="0" maxOccurs="1"/>
+                        <xs:element name="roomMaxUsers" type="xs:string" minOccurs="0" maxOccurs="1"/>
+                        <xs:element name="userMaxBandWidthIn" type="xs:string" minOccurs="0" maxOccurs="1"/>
+                        <xs:element name="userMaxBandWidthOut" type="xs:string" minOccurs="0" maxOccurs="1"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+            <!-- ExchangeRoutersInfo -->
+            <xs:element name="ExchangeMediaInfoRequest">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="requestID" type="xs:string"/>
+                        <xs:element name="fromConferenceName" type="xs:string"/>
+                        <xs:element name="toConferenceName" type="xs:string"/>
+                        <xs:element name="MediaAddress" type="xs:string"/>
+                        <xs:element name="MediaAdditionalInfo" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="ExchangeMediaInfoResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element ref="tns:Status"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+            <!-- DropRemoteConference -->
+            <xs:element name="DropRemoteConferenceRequest">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="fromSystemID" type="xs:string"/>
+                        <xs:element name="fromConferenceName" type="xs:string"/>
+                        <xs:element name="toSystemID" type="xs:string"/>
+                        <xs:element name="toConferenceName" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="DropRemoteConferenceResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element ref="tns:Status"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+            <!-- SendEndpointInfoToHost -->
+            <xs:element name="SendEndpointInfoToHostRequest">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="conferenceName" type="xs:string"/>
+                        <xs:element name="conferenceType" type="xs:string"/>
+                        <xs:element name="endpointID" type="xs:string"/>
+                        <xs:element name="endpointGUID" type="xs:string"/>
+                        <xs:element name="endpointType" type="xs:string"/>
+                        <xs:element name="endpointCaller" type="xs:string"/>
+                        <xs:element name="userNameAtTenant" type="xs:string"/>
+                        <xs:element name="displayName" type="xs:string"/>
+                        <xs:element name="extension" type="xs:string"/>
+                        <xs:element name="dialIn" type="xs:string"/>
+                        <xs:element name="video" type="xs:int"/>
+                        <xs:element name="audio" type="xs:int"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="SendEndpointInfoToHostResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element ref="tns:Status"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+            <!-- RemoveEndpointInfoFromHost -->
+            <xs:element name="RemoveEndpointInfoFromHostRequest">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="endpointGUID" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="RemoveEndpointInfoFromHostResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element ref="tns:Status"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+            <!-- DisconnectEndpointFromHost -->
+            <xs:element name="DisconnectEndpointFromHostRequest">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="conferenceName" type="xs:string"/>
+                        <xs:element name="endpointID" type="xs:string"/>
+                        <xs:element name="endpointGUID" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="DisconnectEndpointFromHostResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element ref="tns:Status"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+            <xs:element name="MuteAudioRequest">
+                <xs:annotation>
+                    <xs:documentation>
+                        Request to mute the audio for a given Endpoint GUID in the conference.
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="endpointGUID" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="MuteAudioResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element ref="tns:Status"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+            <xs:element name="UnmuteAudioRequest">
+                <xs:annotation>
+                    <xs:documentation>
+                        Request to unmute the audio for a given Endpoint GUID in the conference.
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="endpointGUID" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="UnmuteAudioResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element ref="tns:Status"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+            <xs:element name="StartVideoRequest">
+                <xs:annotation>
+                    <xs:documentation>
+                        Request to start the video for a given Endpoint GUID in the conference.
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="endpointGUID" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="StartVideoResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element ref="tns:Status"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+            <xs:element name="StopVideoRequest">
+                <xs:annotation>
+                    <xs:documentation>
+                        Request to stop the video for a given Endpoint GUID in the conference.
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="endpointGUID" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="StopVideoResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element ref="tns:Status"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+			<xs:element name="SilenceAudioRequest">
+				<xs:annotation>
+					<xs:documentation>
+						Request to Silence the audio for a given Endpoint GUID in the conference.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="endpointGUID" type="xs:string"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="SilenceAudioResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element ref="tns:Status"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			
+			<xs:element name="SilenceVideoRequest">
+				<xs:annotation>
+					<xs:documentation>
+						Request to Silence the video for a given Endpoint GUID in the conference.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="endpointGUID" type="xs:string"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="SilenceVideoResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element ref="tns:Status"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+
+		</xs:schema>
+
+    </wsdl:types>
+
+    <!-- Messages -->
+    <wsdl:message name="JoinRemoteConferenceInput">
+        <wsdl:part name="parameter" element="tns:JoinRemoteConferenceRequest"/>
+    </wsdl:message>
+    <wsdl:message name="JoinRemoteConferenceOutput">
+        <wsdl:part name="parameter" element="tns:JoinRemoteConferenceResponse"/>
+    </wsdl:message>
+
+    <wsdl:message name="ExchangeMediaInfoInput">
+        <wsdl:part name="parameter" element="tns:ExchangeMediaInfoRequest"/>
+    </wsdl:message>
+    <wsdl:message name="ExchangeMediaInfoOutput">
+        <wsdl:part name="parameter" element="tns:ExchangeMediaInfoResponse"/>
+    </wsdl:message>
+
+    <wsdl:message name="DropRemoteConferenceInput">
+        <wsdl:part name="parameter" element="tns:DropRemoteConferenceRequest"/>
+    </wsdl:message>
+    <wsdl:message name="DropRemoteConferenceOutput">
+        <wsdl:part name="parameter" element="tns:DropRemoteConferenceResponse"/>
+    </wsdl:message>
+
+    <wsdl:message name="SendEndpointInfoToHostInput">
+        <wsdl:part name="parameter" element="tns:SendEndpointInfoToHostRequest"/>
+    </wsdl:message>
+    <wsdl:message name="SendEndpointInfoToHostOutput">
+        <wsdl:part name="parameter" element="tns:SendEndpointInfoToHostResponse"/>
+    </wsdl:message>
+
+    <wsdl:message name="RemoveEndpointInfoFromHostInput">
+        <wsdl:part name="parameter" element="tns:RemoveEndpointInfoFromHostRequest"/>
+    </wsdl:message>
+    <wsdl:message name="RemoveEndpointInfoFromHostOutput">
+        <wsdl:part name="parameter" element="tns:RemoveEndpointInfoFromHostResponse"/>
+    </wsdl:message>
+
+    <wsdl:message name="DisconnectEndpointFromHostInput">
+        <wsdl:part name="parameter" element="tns:DisconnectEndpointFromHostRequest"/>
+    </wsdl:message>
+    <wsdl:message name="DisconnectEndpointFromHostOutput">
+        <wsdl:part name="parameter" element="tns:DisconnectEndpointFromHostResponse"/>
+    </wsdl:message>
+
+    <wsdl:message name="MuteAudioInput">
+        <wsdl:part name="parameter" element="tns:MuteAudioRequest"/>
+    </wsdl:message>
+    <wsdl:message name="MuteAudioOutput">
+        <wsdl:part name="parameter" element="tns:MuteAudioResponse"/>
+    </wsdl:message>
+
+    <wsdl:message name="UnmuteAudioInput">
+        <wsdl:part name="parameter" element="tns:UnmuteAudioRequest"/>
+    </wsdl:message>
+    <wsdl:message name="UnmuteAudioOutput">
+        <wsdl:part name="parameter" element="tns:UnmuteAudioResponse"/>
+    </wsdl:message>
+
+    <wsdl:message name="StopVideoInput">
+        <wsdl:part name="parameter" element="tns:StopVideoRequest"/>
+    </wsdl:message>
+    <wsdl:message name="StopVideoOutput">
+        <wsdl:part name="parameter" element="tns:StopVideoResponse"/>
+    </wsdl:message>
+
+    <wsdl:message name="StartVideoInput">
+        <wsdl:part name="parameter" element="tns:StartVideoRequest"/>
+    </wsdl:message>
+    <wsdl:message name="StartVideoOutput">
+        <wsdl:part name="parameter" element="tns:StartVideoResponse"/>
+    </wsdl:message>
+
+	<wsdl:message name="SilenceAudioInput">
+		<wsdl:part name="parameter" element="tns:SilenceAudioRequest"/>
+	</wsdl:message>
+	<wsdl:message name="SilenceAudioOutput">
+		<wsdl:part name="parameter" element="tns:SilenceAudioResponse"/>
+	</wsdl:message>
+	
+	<wsdl:message name="SilenceVideoInput">
+		<wsdl:part name="parameter" element="tns:SilenceVideoRequest"/>
+	</wsdl:message>
+	<wsdl:message name="SilenceVideoOutput">
+		<wsdl:part name="parameter" element="tns:SilenceVideoResponse"/>
+	</wsdl:message>
+
+    <wsdl:message name="GeneralFault">
+        <wsdl:part name="fault" element="tns:GeneralFault"/>
+    </wsdl:message>
+
+    <wsdl:message name="InvalidArgumentFault">
+        <wsdl:part name="fault" element="tns:InvalidArgumentFault"/>
+    </wsdl:message>
+
+    <wsdl:message name="UserNotFoundFault">
+        <wsdl:part name="fault" element="tns:UserNotFoundFault"/>
+    </wsdl:message>
+
+    <wsdl:message name="TenantNotFoundFault">
+        <wsdl:part name="fault" element="tns:TenantNotFoundFault"/>
+    </wsdl:message>
+
+    <wsdl:message name="FederationNotAllowedFault">
+        <wsdl:part name="fault" element="tns:FederationNotAllowedFault"/>
+    </wsdl:message>
+
+    <wsdl:message name="WrongPinFault">
+        <wsdl:part name="fault" element="tns:WrongPinFault"/>
+    </wsdl:message>
+
+    <wsdl:message name="ConferenceLockedFault">
+        <wsdl:part name="fault" element="tns:ConferenceLockedFault"/>
+    </wsdl:message>
+
+    <!-- Ports -->
+    <wsdl:portType name="VidyoFederationServicePortType">
+
+        <wsdl:operation name="joinRemoteConference">
+            <wsdl:documentation>Join to remote conference on federation of Vidyo Portals</wsdl:documentation>
+            <wsdl:input message="tns:JoinRemoteConferenceInput"/>
+            <wsdl:output message="tns:JoinRemoteConferenceOutput"/>
+            <wsdl:fault name="GeneralFault" message="tns:GeneralFault"/>
+            <wsdl:fault name="InvalidArgumentFault" message="tns:InvalidArgumentFault"/>
+            <wsdl:fault name="UserNotFoundFault" message="tns:UserNotFoundFault"/>
+            <wsdl:fault name="TenantNotFoundFault" message="tns:TenantNotFoundFault"/>
+            <wsdl:fault name="FederationNotAllowedFault" message="tns:FederationNotAllowedFault"/>
+            <wsdl:fault name="WrongPinFault" message="tns:WrongPinFault"/>
+            <wsdl:fault name="ConferenceLockedFault" message="tns:ConferenceLockedFault"/>
+        </wsdl:operation>
+
+        <wsdl:operation name="exchangeMediaInfo">
+            <wsdl:documentation>Exchange information about Cascaded Vidyo Routers</wsdl:documentation>
+            <wsdl:input message="tns:ExchangeMediaInfoInput"/>
+            <wsdl:output message="tns:ExchangeMediaInfoOutput"/>
+            <wsdl:fault name="GeneralFault" message="tns:GeneralFault"/>
+            <wsdl:fault name="InvalidArgumentFault" message="tns:InvalidArgumentFault"/>
+        </wsdl:operation>
+
+        <wsdl:operation name="dropRemoteConference">
+            <wsdl:documentation>Disconnect from remote conference on federation of Vidyo Portals</wsdl:documentation>
+            <wsdl:input message="tns:DropRemoteConferenceInput"/>
+            <wsdl:output message="tns:DropRemoteConferenceOutput"/>
+            <wsdl:fault name="GeneralFault" message="tns:GeneralFault"/>
+            <wsdl:fault name="InvalidArgumentFault" message="tns:InvalidArgumentFault"/>
+        </wsdl:operation>
+
+        <wsdl:operation name="sendEndpointInfoToHost">
+            <wsdl:documentation>Send info about remote Endpoint to Host portal</wsdl:documentation>
+            <wsdl:input message="tns:SendEndpointInfoToHostInput"/>
+            <wsdl:output message="tns:SendEndpointInfoToHostOutput"/>
+            <wsdl:fault name="GeneralFault" message="tns:GeneralFault"/>
+            <wsdl:fault name="InvalidArgumentFault" message="tns:InvalidArgumentFault"/>
+        </wsdl:operation>
+
+        <wsdl:operation name="removeEndpointInfoFromHost">
+            <wsdl:documentation>Remove info about remote Endpoint from Host portal</wsdl:documentation>
+            <wsdl:input message="tns:RemoveEndpointInfoFromHostInput"/>
+            <wsdl:output message="tns:RemoveEndpointInfoFromHostOutput"/>
+            <wsdl:fault name="GeneralFault" message="tns:GeneralFault"/>
+            <wsdl:fault name="InvalidArgumentFault" message="tns:InvalidArgumentFault"/>
+        </wsdl:operation>
+
+        <wsdl:operation name="disconnectEndpointFromHost">
+            <wsdl:documentation>Disconnect remote participant from the conference</wsdl:documentation>
+            <wsdl:input message="tns:DisconnectEndpointFromHostInput"/>
+            <wsdl:output message="tns:DisconnectEndpointFromHostOutput"/>
+            <wsdl:fault name="GeneralFault" message="tns:GeneralFault"/>
+            <wsdl:fault name="InvalidArgumentFault" message="tns:InvalidArgumentFault"/>
+        </wsdl:operation>
+
+        <wsdl:operation name="muteAudio">
+            <wsdl:documentation>Mute the audio for a given Endpoint GUID in the conference.</wsdl:documentation>
+            <wsdl:input message="tns:MuteAudioInput"/>
+            <wsdl:output message="tns:MuteAudioOutput"/>
+            <wsdl:fault name="GeneralFault" message="tns:GeneralFault"/>
+            <wsdl:fault name="InvalidArgumentFault" message="tns:InvalidArgumentFault"/>
+        </wsdl:operation>
+
+        <wsdl:operation name="unmuteAudio">
+            <wsdl:documentation>Unmute the audio for a given Endpoint GUID in the conference.</wsdl:documentation>
+            <wsdl:input message="tns:UnmuteAudioInput"/>
+            <wsdl:output message="tns:UnmuteAudioOutput"/>
+            <wsdl:fault name="GeneralFault" message="tns:GeneralFault"/>
+            <wsdl:fault name="InvalidArgumentFault" message="tns:InvalidArgumentFault"/>
+        </wsdl:operation>
+
+        <wsdl:operation name="stopVideo">
+            <wsdl:documentation>Stop the video for a given Endpoint GUID in the conference.</wsdl:documentation>
+            <wsdl:input message="tns:StopVideoInput"/>
+            <wsdl:output message="tns:StopVideoOutput"/>
+            <wsdl:fault name="GeneralFault" message="tns:GeneralFault"/>
+            <wsdl:fault name="InvalidArgumentFault" message="tns:InvalidArgumentFault"/>
+        </wsdl:operation>
+
+        <wsdl:operation name="startVideo">
+            <wsdl:documentation>Start the video for a given Endpoint GUID in the conference.</wsdl:documentation>
+            <wsdl:input message="tns:StartVideoInput"/>
+            <wsdl:output message="tns:StartVideoOutput"/>
+            <wsdl:fault name="GeneralFault" message="tns:GeneralFault"/>
+            <wsdl:fault name="InvalidArgumentFault" message="tns:InvalidArgumentFault"/>
+        </wsdl:operation>
+
+		<wsdl:operation name="silenceAudio">
+			<wsdl:documentation>Silence the audio for a given Endpoint GUID in the conference.</wsdl:documentation>
+			<wsdl:input message="tns:SilenceAudioInput"/>
+			<wsdl:output message="tns:SilenceAudioOutput"/>
+			<wsdl:fault name="GeneralFault" message="tns:GeneralFault"/>
+			<wsdl:fault name="InvalidArgumentFault" message="tns:InvalidArgumentFault"/>
+		</wsdl:operation>
+		
+		<wsdl:operation name="silenceVideo">
+			<wsdl:documentation>Silence the video for a given Endpoint GUID in the conference.</wsdl:documentation>
+			<wsdl:input message="tns:SilenceVideoInput"/>
+			<wsdl:output message="tns:SilenceVideoOutput"/>
+			<wsdl:fault name="GeneralFault" message="tns:GeneralFault"/>
+			<wsdl:fault name="InvalidArgumentFault" message="tns:InvalidArgumentFault"/>
+		</wsdl:operation>
+
+    </wsdl:portType>
+
+    <!-- Binding -->
+    <wsdl:binding name="VidyoFederationServiceBinding" type="tns:VidyoFederationServicePortType">
+
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+
+        <wsdl:operation name="joinRemoteConference">
+            <soap:operation soapAction="joinRemoteConference"/>
+            <wsdl:input>
+                <soap:body use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </wsdl:output>
+            <wsdl:fault name="GeneralFault">
+                <soap:fault name="GeneralFault" use="literal"/>
+            </wsdl:fault>
+            <wsdl:fault name="InvalidArgumentFault">
+                <soap:fault name="InvalidArgumentFault" use="literal"/>
+            </wsdl:fault>
+            <wsdl:fault name="UserNotFoundFault">
+                <soap:fault name="UserNotFoundFault" use="literal"/>
+            </wsdl:fault>
+            <wsdl:fault name="TenantNotFoundFault">
+                <soap:fault name="TenantNotFoundFault" use="literal"/>
+            </wsdl:fault>
+            <wsdl:fault name="FederationNotAllowedFault">
+                <soap:fault name="FederationNotAllowedFault" use="literal"/>
+            </wsdl:fault>
+            <wsdl:fault name="WrongPinFault">
+                <soap:fault name="WrongPinFault" use="literal"/>
+            </wsdl:fault>
+            <wsdl:fault name="ConferenceLockedFault">
+                <soap:fault name="ConferenceLockedFault" use="literal"/>
+            </wsdl:fault>
+        </wsdl:operation>
+
+        <wsdl:operation name="exchangeMediaInfo">
+            <soap:operation soapAction="exchangeMediaInfo"/>
+            <wsdl:input>
+                <soap:body use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </wsdl:output>
+            <wsdl:fault name="GeneralFault">
+                <soap:fault name="GeneralFault" use="literal"/>
+            </wsdl:fault>
+            <wsdl:fault name="InvalidArgumentFault">
+                <soap:fault name="InvalidArgumentFault" use="literal"/>
+            </wsdl:fault>
+        </wsdl:operation>
+
+        <wsdl:operation name="dropRemoteConference">
+            <soap:operation soapAction="dropRemoteConference"/>
+            <wsdl:input>
+                <soap:body use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </wsdl:output>
+            <wsdl:fault name="GeneralFault">
+                <soap:fault name="GeneralFault" use="literal"/>
+            </wsdl:fault>
+            <wsdl:fault name="InvalidArgumentFault">
+                <soap:fault name="InvalidArgumentFault" use="literal"/>
+            </wsdl:fault>
+        </wsdl:operation>
+
+        <wsdl:operation name="sendEndpointInfoToHost">
+            <soap:operation soapAction="sendEndpointInfoToHost"/>
+            <wsdl:input>
+                <soap:body use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </wsdl:output>
+            <wsdl:fault name="GeneralFault">
+                <soap:fault name="GeneralFault" use="literal"/>
+            </wsdl:fault>
+            <wsdl:fault name="InvalidArgumentFault">
+                <soap:fault name="InvalidArgumentFault" use="literal"/>
+            </wsdl:fault>
+        </wsdl:operation>
+
+        <wsdl:operation name="removeEndpointInfoFromHost">
+            <soap:operation soapAction="removeEndpointInfoFromHost"/>
+            <wsdl:input>
+                <soap:body use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </wsdl:output>
+            <wsdl:fault name="GeneralFault">
+                <soap:fault name="GeneralFault" use="literal"/>
+            </wsdl:fault>
+            <wsdl:fault name="InvalidArgumentFault">
+                <soap:fault name="InvalidArgumentFault" use="literal"/>
+            </wsdl:fault>
+        </wsdl:operation>
+
+        <wsdl:operation name="disconnectEndpointFromHost">
+            <soap:operation soapAction="disconnectEndpointFromHost"/>
+            <wsdl:input>
+                <soap:body use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </wsdl:output>
+            <wsdl:fault name="GeneralFault">
+                <soap:fault name="GeneralFault" use="literal"/>
+            </wsdl:fault>
+            <wsdl:fault name="InvalidArgumentFault">
+                <soap:fault name="InvalidArgumentFault" use="literal"/>
+            </wsdl:fault>
+        </wsdl:operation>
+
+        <wsdl:operation name="muteAudio">
+            <soap:operation soapAction="muteAudio"/>
+            <wsdl:input>
+                <soap:body use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </wsdl:output>
+            <wsdl:fault name="GeneralFault">
+                <soap:fault name="GeneralFault" use="literal"/>
+            </wsdl:fault>
+            <wsdl:fault name="InvalidArgumentFault">
+                <soap:fault name="InvalidArgumentFault" use="literal"/>
+            </wsdl:fault>
+        </wsdl:operation>
+
+        <wsdl:operation name="unmuteAudio">
+            <soap:operation soapAction="unmuteAudio"/>
+            <wsdl:input>
+                <soap:body use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </wsdl:output>
+            <wsdl:fault name="GeneralFault">
+                <soap:fault name="GeneralFault" use="literal"/>
+            </wsdl:fault>
+            <wsdl:fault name="InvalidArgumentFault">
+                <soap:fault name="InvalidArgumentFault" use="literal"/>
+            </wsdl:fault>
+        </wsdl:operation>
+
+        <wsdl:operation name="stopVideo">
+            <soap:operation soapAction="stopVideo"/>
+            <wsdl:input>
+                <soap:body use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </wsdl:output>
+            <wsdl:fault name="GeneralFault">
+                <soap:fault name="GeneralFault" use="literal"/>
+            </wsdl:fault>
+            <wsdl:fault name="InvalidArgumentFault">
+                <soap:fault name="InvalidArgumentFault" use="literal"/>
+            </wsdl:fault>
+        </wsdl:operation>
+
+        <wsdl:operation name="startVideo">
+            <soap:operation soapAction="startVideo"/>
+            <wsdl:input>
+                <soap:body use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </wsdl:output>
+            <wsdl:fault name="GeneralFault">
+                <soap:fault name="GeneralFault" use="literal"/>
+            </wsdl:fault>
+            <wsdl:fault name="InvalidArgumentFault">
+                <soap:fault name="InvalidArgumentFault" use="literal"/>
+            </wsdl:fault>
+        </wsdl:operation>
+
+		<wsdl:operation name="silenceAudio">
+			<soap:operation soapAction="silenceAudio"/>
+			<wsdl:input>
+				<soap:body use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+			</wsdl:output>
+			<wsdl:fault name="GeneralFault">
+				<soap:fault name="GeneralFault" use="literal"/>
+			</wsdl:fault>
+			<wsdl:fault name="InvalidArgumentFault">
+				<soap:fault name="InvalidArgumentFault" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		
+		<wsdl:operation name="silenceVideo">
+			<soap:operation soapAction="silenceVideo"/>
+			<wsdl:input>
+				<soap:body use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+			</wsdl:output>
+			<wsdl:fault name="GeneralFault">
+				<soap:fault name="GeneralFault" use="literal"/>
+			</wsdl:fault>
+			<wsdl:fault name="InvalidArgumentFault">
+				<soap:fault name="InvalidArgumentFault" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+
+    </wsdl:binding>
+
+    <!-- Services -->
+    <wsdl:service name="VidyoFederationService">
+        <wsdl:port name="VidyoFederationServicePort" binding="tns:VidyoFederationServiceBinding">
+            <soap:address location="http://localhost:8080/services/VidyoFederationService"/>
+        </wsdl:port>
+    </wsdl:service>
+
+</wsdl:definitions>

@@ -1,0 +1,244 @@
+<?xml version='1.0' encoding='utf-8' ?> 
+<xs:schema xmlns:xs='http://www.w3.org/2001/XMLSchema'>
+	<xs:complexType name='NetworkElement'>
+		<xs:sequence>
+			<xs:element name='Identifier' type='xs:string'/>
+			<xs:element name='Name' type='xs:string'/>
+			<xs:element name='Type'>
+				<xs:simpleType>
+					<xs:restriction base='xs:string'>
+						<xs:enumeration value='VidyoRouter'/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name='ConnectUri' type='xs:string' minOccurs='0' maxOccurs='1'/>
+				<xs:element name="SCIPAddressList">
+			<xs:complexType>
+				<xs:sequence>
+					<xs:element name="SCIPListenAddress" type="xs:string" minOccurs="1" maxOccurs="unbounded"/>
+				</xs:sequence>
+        	</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+
+    <xs:complexType name='CategoriesType'>
+      <xs:sequence>
+        <xs:element name='Category' type='xs:string' minOccurs='0' maxOccurs='unbounded' />
+      </xs:sequence>
+    </xs:complexType>
+
+  <xs:complexType name='Candidates'>
+    <xs:sequence>
+      <!-- Supported Candidates are: 
+      	"ExternalAddress", "InternalAddress", "EndpointIdentifier", and "LocationString"  -->
+      <xs:element name='Candidate' type='xs:string' minOccurs='1' maxOccurs='unbounded'/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name='GroupType'>
+		<xs:sequence>
+		
+      <xs:element name='ID' type='xs:string'/>
+			<xs:element name='Name' type='xs:string'/>
+
+      <xs:element name='NetworkElements'>
+			  <xs:complexType>
+          <xs:sequence>
+            <xs:element name='Identifier' type='xs:string' minOccurs='0' maxOccurs='unbounded' />
+          </xs:sequence>
+        </xs:complexType>
+			</xs:element>
+
+      <xs:element name='Categories' type='CategoriesType'/>
+    
+    </xs:sequence>
+	</xs:complexType>
+
+  <xs:complexType name='EqualToType'>
+    <xs:sequence>
+      <xs:element name='Candidate' type='xs:string'/>
+      <xs:element name='Value' type='xs:string'/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name='GreaterThanType'>
+    <xs:sequence>
+      <xs:element name='Candidate' type='xs:string'/>
+      <xs:element name='Value' type='xs:string'/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name='LessThanType'>
+    <xs:sequence>
+      <xs:element name='Candidate' type='xs:string'/>
+      <xs:element name='Value' type='xs:string'/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name='GreaterThanOrEqualToType'>
+    <xs:sequence>
+      <xs:element name='Candidate' type='xs:string'/>
+      <xs:element name='Value' type='xs:string'/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name='LessThanOrEqualToType'>
+    <xs:sequence>
+      <xs:element name='Candidate' type='xs:string'/>
+      <xs:element name='Value' type='xs:string'/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name='ListMemberType'>
+    <xs:sequence>
+      <xs:element name='Candidate' type='xs:string'/>
+      <xs:element name='ListItem' type='xs:string' maxOccurs='unbounded' minOccurs='0'/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name='IPV4AddressRangeType'>
+    <xs:sequence>
+      <xs:element name='Candidate' type='xs:string'/>
+      <xs:element name='IPAddrLow' type='xs:string'/>
+      <xs:element name='IPAddrHigh' type='xs:string'/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name='IPV4SubnetType'>
+    <xs:sequence>
+      <xs:element name='Candidate' type='xs:string'/>
+      <xs:element name='IPAddr' type='xs:string'/>
+      <!-- must be between 0 and 32 -->
+      <xs:element name='CIDRBits' type='xs:integer'/> 
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="BasicRuleType">
+    <xs:sequence>
+      <xs:choice>
+        <xs:element name="EqualTo" type="EqualToType"/>
+        <xs:element name="GreaterThan" type="GreaterThanType"/>
+        <xs:element name="LessThan" type="LessThanType"/>
+        <xs:element name="GreaterThanOrEqualTo" type="GreaterThanOrEqualToType"/>
+        <xs:element name="LessThanOrEqualTo" type="LessThanOrEqualToType"/>
+        <xs:element name="ListMember" type="ListMemberType"/>
+        <xs:element name="IPAddrRange" type="IPV4AddressRangeType"/>
+        <xs:element name="IPSubnet" type="IPV4SubnetType"/>
+      </xs:choice>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="BasicAndType">
+    <xs:sequence>
+      <xs:element name="Arg" type="BasicRuleType" minOccurs="1" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="BasicOrType">
+    <xs:sequence>
+      <xs:element name="Arg" type="BasicRuleType" minOccurs="1" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="BasicNotType">
+    <xs:sequence>
+      <xs:element name="Arg1" type="BasicRuleType"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="BasicRuleSet">
+    <xs:sequence>
+      <!-- Apply the rules to the candidates to determine if the Target applies to this set of candidates -->
+      <xs:choice>
+        <xs:element name="BasicAnd" type="BasicAndType"/>
+        <xs:element name="BasicOr" type="BasicOrType"/>
+        <xs:element name="BasicNot" type="BasicNotType"/>
+        <xs:element name="BasicRule" type="BasicRuleType"/>
+      </xs:choice>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="AndType">
+    <xs:sequence>
+      <xs:element name="Arg" type="BasicRuleSet" minOccurs="1" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="OrType">
+    <xs:sequence>
+      <xs:element name="Arg" type="BasicRuleSet" minOccurs="1" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="NotType">
+    <xs:sequence>
+      <xs:element name="Arg" type="BasicRuleSet"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="RuleSetType">
+    <xs:sequence>
+      <!-- Apply the rules to the candidates to determine if the Target applies to this set of candidates -->
+      <xs:choice>
+        <xs:element name="And" type="AndType"/>
+        <xs:element name="Or" type="OrType"/>
+        <xs:element name="Not" type="NotType"/>
+        <xs:element name="BasicRule" type="BasicRuleType"/>
+      </xs:choice>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="LocationType">
+    <xs:sequence>
+      <xs:element name='ID' type='xs:string'/>
+      <xs:element name='Name' type='xs:string'/>
+      <xs:element name="RuleSet" type="RuleSetType"/>
+      
+      <xs:element name="PrioritizedGroupLists">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="GroupList" minOccurs="1" maxOccurs="unbounded">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name="GroupID" type="xs:string" minOccurs="1" maxOccurs="unbounded"/>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="BandwidthMapType">
+    <xs:sequence>
+      <xs:element name="BandwidthMapElement" minOccurs="0" maxOccurs="unbounded">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="FromRouterGroupID" type="xs:string"/>
+            <xs:element name="ToRouterGroupID" type="xs:string"/>
+            
+            <xs:element name="WeightedBandwidth">
+              <xs:simpleType>
+                <!-- 0 means no connection, 100 means LAN
+                  Default: Within the Group = 100, Between the Groups = 50 -->
+                <xs:restriction base="xs:unsignedInt">
+                  <xs:minInclusive value="0"/>
+                  <xs:maxInclusive value="100"/>
+                </xs:restriction>
+              </xs:simpleType>
+            </xs:element>
+            
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name='NetworkConfigType'>
+		<xs:sequence>
+      <xs:element name="DocumentVersion" type="xs:string"/>
+			<xs:element name='NetworkElement' type='NetworkElement' minOccurs='0' maxOccurs='unbounded'/>
+      <xs:element name='Categories' type='CategoriesType'/>
+      <xs:element name='Group' type='GroupType' maxOccurs='unbounded' minOccurs='0'/>
+      <xs:element name="LocationCandidates" type="Candidates"/>
+      <xs:element name='Location' type='LocationType' maxOccurs='unbounded' minOccurs='0'/>
+      <xs:element name='BandwidthMap' type='BandwidthMapType' minOccurs='0'/>
+    </xs:sequence>
+	</xs:complexType>
+	<xs:element name='NetworkConfig' type='NetworkConfigType'>
+		<xs:annotation id='root'/>
+	</xs:element>
+</xs:schema>

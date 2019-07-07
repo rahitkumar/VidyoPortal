@@ -1,0 +1,13 @@
+[
+        {
+            "id": "TB76B2R7K79TZ9HPGZX5D94V1PGZSNY61PAFXAB4RZS7800VM0001",
+            "name": "LocalVidyoManager",
+            "managementurl": "bddsbj",
+            "emcpport": "1205",
+            "soapport": "1207",
+            "rmcpport": "1208",
+            "fqdn": "ng2.vidyo.com",
+            "dscpstatus": true,
+            "dscpvalue": "20"
+        }
+    ]

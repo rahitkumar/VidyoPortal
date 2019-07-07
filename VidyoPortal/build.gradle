@@ -1,0 +1,251 @@
+apply plugin: 'java'
+
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+
+apply plugin: 'com.github.ben-manes.versions' // run 'gradle dependencyUpdates' to check for newer versions
+
+apply plugin: 'propdeps' // https://github.com/spring-projects/gradle-plugins/ (see https://issues.gradle.org/browse/GRADLE-784)
+apply plugin: 'propdeps-idea'
+apply plugin: 'propdeps-eclipse'
+apply plugin: 'org.asciidoctor.convert'
+
+buildscript {
+    repositories {
+        jcenter()
+        maven { url 'http://repo.spring.io/plugins-release' }
+    }
+
+    dependencies {
+        classpath 'com.github.ben-manes:gradle-versions-plugin:0.13.0'
+        classpath 'org.springframework.build.gradle:propdeps-plugin:0.0.7'
+        classpath("org.asciidoctor:asciidoctor-gradle-plugin:1.5.3")
+    }
+}
+
+repositories {
+    jcenter()
+}
+
+compileJava {
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+}
+
+configurations {
+    all*.exclude group: 'commons-logging'        // use jcl-over-sl4j instead
+    compile.exclude module: 'servlet-api'        // otherwise axis2-transport-local will bring in servlet-api:2.3
+
+    compile.exclude module: 'jgroups'            // we have a custom one to disable diagnostics port.
+    //compile.exclude module: 'commons-httpclient' // we have a custom one with a fix for certificate checks
+
+    compile.exclude module: 'el-api'             // provided by tomcat
+}
+
+ext {
+    axis2Version = "1.6.2"
+    springVersion = "5.1.0.RELEASE"
+    springSecurityVersion = "5.1.0.RELEASE"
+}
+
+dependencies {
+    compile files('lib/vcap.jar')
+    compile files('lib/RoomProfile.jar')
+
+    // start customized jars: syslog4j-0.9.46-bin / commons-httpclient-3.1 / jgroups-3.5.2-Final
+    compile files('lib/syslog4j-0.9.46-bin.jar')
+    runtime 'net.java.dev.jna:jna:4.2.2' // dep of syslog4j
+    runtime 'joda-time:joda-time:2.9.4' // dep of syslog4j
+
+    //compile files('lib/commons-httpclient-3.1.jar')
+    compile files('lib/jgroups-3.5.2.Final.jar')
+    // end customized jars
+
+    compile 'net.sourceforge.javacsv:javacsv:2.0'
+
+    compile 'commons-codec:commons-codec:1.10'
+    compile 'commons-io:commons-io:2.5'
+    compile 'commons-lang:commons-lang:2.6'
+    compile 'commons-beanutils:commons-beanutils:1.9.2'
+    compile 'commons-validator:commons-validator:1.5.1'
+    compile 'org.apache.commons:commons-compress:1.12'
+    runtime 'commons-httpclient:commons-httpclient:3.1'
+    runtime 'commons-fileupload:commons-fileupload:1.3.2'
+
+    // https://mvnrepository.com/artifact/org.apache.commons/commons-rng-core
+    compile 'org.apache.commons:commons-rng-core:1.0'
+    // https://mvnrepository.com/artifact/org.apache.commons/commons-rng-simple
+    compile 'org.apache.commons:commons-rng-simple:1.0'
+    
+    compile 'org.apache.xmlbeans:xmlbeans:2.6.0'
+
+    compile 'org.apache.axis2:axis2:'+axis2Version
+    compile 'org.apache.axis2:axis2-transport-local:'+axis2Version
+    compile 'org.apache.axis2:axis2-transport-http:'+axis2Version
+    runtime 'org.apache.axis2:axis2-spring:'+axis2Version
+    runtime 'org.apache.axis2:soapmonitor:'+axis2Version
+    runtime 'org.apache.axis2:axis2-jaxws:'+axis2Version // required? see axis2.xml Dispatch phase
+
+    runtime 'org.aspectj:aspectjweaver:1.8.9' // required?
+
+
+    compile group: 'org.springframework', name: 'spring-web', version: springVersion
+    compile group: 'org.springframework', name: 'spring-webflux', version: springVersion
+
+    compile 'org.springframework:spring-webmvc:'+springVersion
+    compile 'org.springframework:spring-context-support:'+springVersion
+    compile 'org.springframework:spring-jms:'+springVersion
+    compile 'org.springframework:spring-oxm:'+springVersion
+    runtime 'org.springframework:spring-orm:'+springVersion
+
+    compile 'org.springframework.security:spring-security-web:'+springSecurityVersion
+    runtime 'org.springframework.security:spring-security-core:'+springSecurityVersion
+    runtime 'org.springframework.security:spring-security-config:'+springSecurityVersion
+    runtime 'org.springframework.security:spring-security-taglibs:'+springSecurityVersion
+
+    compile 'org.springframework.ldap:spring-ldap-core:2.1.0.RELEASE'
+
+    compile 'org.springframework.security.extensions:spring-security-saml2-core:1.0.3.RELEASE'
+    compile 'org.springframework.integration:spring-integration-core:5.0.5.RELEASE'
+    compile 'org.springframework.integration:spring-integration-ip:5.0.5.RELEASE'
+    compile 'org.springframework.ws:spring-ws-core:2.4.2.RELEASE'
+    compile group: 'javax.validation', name: 'validation-api', version: '2.0.1.Final'
+
+
+    compile 'org.springframework.data:spring-data-jpa:1.11.12.RELEASE'
+    compile 'org.hibernate.javax.persistence:hibernate-jpa-2.1-api:1.0.0.Final'
+    runtime 'org.hibernate:hibernate-entitymanager:5.2.2.Final'
+    compile 'org.hibernate:hibernate-core:5.2.2.Final'
+    // https://mvnrepository.com/artifact/org.hibernate/hibernate-validator
+    compile group: 'org.hibernate', name: 'hibernate-validator', version: '6.0.13.Final'
+    // https://mvnrepository.com/artifact/io.projectreactor.netty/reactor-netty
+    compile group: 'io.projectreactor.netty', name: 'reactor-netty', version: '0.8.0.RELEASE'
+
+
+
+    compile 'com.googlecode.ehcache-spring-annotations:ehcache-spring-annotations:1.2.0'
+    runtime 'net.sf.ehcache:ehcache-core:2.6.11'
+    runtime 'net.sf.ehcache:ehcache-jgroupsreplication:1.7'
+
+    compile 'org.owasp.antisamy:antisamy:1.5.3'
+    compile 'org.owasp.esapi:esapi:2.1.0.1'
+
+    compile 'com.fasterxml.jackson.core:jackson-databind:2.9.4'
+    compile 'com.fasterxml.jackson.core:jackson-annotations:2.9.4'
+
+    compile 'org.glassfish.web:el-impl:2.2'
+
+    compile 'org.apache.activemq:activemq-spring:5.14.0'
+
+    runtime 'javax.mail:mail:1.4.7'
+
+    compile 'org.slf4j:slf4j-api:1.7.21'
+    compile 'org.slf4j:jcl-over-slf4j:1.7.21'
+    compile group: 'javax.jms', name: 'javax.jms-api', version: '2.0'
+    runtime 'org.slf4j:slf4j-log4j12:1.7.21'
+    runtime 'log4j:log4j:1.2.17'
+    // https://mvnrepository.com/artifact/javax.el/javax.el-api
+    compile group: 'javax.el', name: 'javax.el-api', version: '3.0.0'
+    compile 'org.springframework.restdocs:spring-restdocs-mockmvc:1.2.1.RELEASE'
+    compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.0'
+    compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.0'
+    compile group: 'org.springframework.plugin', name: 'spring-plugin-core', version: '1.2.0.RELEASE'
+	compile group: 'com.sun.jersey', name: 'jersey-client', version: '1.19.4'
+	compile group: 'com.sun.jersey', name: 'jersey-core', version: '1.19.4'
+	compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.4.1'
+    runtime 'javax.servlet:jstl:1.2'
+    provided 'javax.servlet.jsp:javax.servlet.jsp-api:2.3.0'
+    provided 'javax.servlet:javax.servlet-api:3.0.1'
+
+    // test dependencies
+    testCompile 'junit:junit:4.12'
+    testCompile 'org.springframework:spring-test:' + springVersion
+    testCompile 'org.unitils:unitils-spring:3.4.3'
+    testCompile 'org.easymock:easymock:3.4'
+    testCompile 'org.unitils:unitils-easymock:3.4.3'
+    testCompile 'org.unitils:unitils-mock:3.4.3'
+    testCompile 'org.unitils:unitils-dbunit:3.4.3'
+    //testCompile 'org.dbunit:dbunit:2.4.9'
+    testCompile 'com.github.springtestdbunit:spring-test-dbunit:1.3.0'
+    testCompile 'commons-dbcp:commons-dbcp:1.4'
+    testCompile 'org.testng:testng:6.11'
+    testCompile 'org.mockito:mockito-core:2.9.0'
+    testCompile 'org.powermock:powermock-module-testng:1.7.0RC2'
+    testCompile 'org.powermock:powermock-api-mockito2:1.7.0RC2'
+    // https://mvnrepository.com/artifact/org.springframework/spring-test
+    testCompile 'org.springframework:spring-test:'+springVersion
+    // https://mvnrepository.com/artifact/org.skyscreamer/jsonassert
+    testCompile 'org.skyscreamer:jsonassert:1.5.0'
+
+    // see https://discuss.gradle.org/t/build-failure-when-4-1-0-of-net-java-dev-jna-jna-is-selected-in-place-of-3-3-0-due-to-change-in-artifacts-with-classifiers/9377/2
+
+    testRuntime files('lib/mariadb-java-client-1.1.9-vidyo.jar')
+    //testRuntime('org.mariadb.jdbc:mariadb-java-client:1.1.9') {
+    //    exclude group: 'net.java.dev.jna'
+    //}
+    testRuntime 'net.java.dev.jna:jna:4.2.2'
+    testRuntime 'net.java.dev.jna:jna-platform:4.2.2'
+}
+
+sourceSets {
+    main {
+        java {
+            srcDir 'src'
+        }
+        resources {
+            srcDirs = ['src', 'resources']
+        }
+    }
+    test {
+        java {
+            srcDir 'test'
+        }
+        resources {
+            srcDir 'test'
+        }
+    }
+}
+
+task testng(type: Test) {
+    useTestNG()
+    include 'com/vidyo/**'
+    testLogging.showStandardStreams = true
+    beforeTest { descriptor ->
+        logger.lifecycle("Running test: " + descriptor)
+    }
+}
+
+
+test {
+    // explicitly include or exclude tests
+    include 'com/vidyo/**'
+
+    // show standard out and standard error of the test JVM(s) on the console
+    testLogging.showStandardStreams = true
+
+    // listen to events in the test execution lifecycle
+    beforeTest { descriptor ->
+        logger.lifecycle("Running test: " + descriptor)
+    }
+
+    // listen to standard out and standard error of the test JVM(s)
+    onOutput { descriptor, event ->
+        //logger.lifecycle("Test: " + descriptor + " produced standard out/err: " + event.message )
+    }
+}
+
+asciidoctor {
+    dependsOn test
+    sourceDir 'src/asciidoc'
+    outputDir = file('build/docs')
+    copy {
+        from 'build/docs/html5'
+        into "${parent}/../../Admin/web/docs"
+        include 'index.html'
+    }
+    attributes 'snippets' : file('target/generated-snippets')
+}
+
+test.dependsOn testng
+check.dependsOn test, testng, asciidoctor
+

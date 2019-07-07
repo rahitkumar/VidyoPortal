@@ -1,0 +1,2234 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="VidyoPortalSuperService" targetNamespace="http://portal.vidyo.com/superapi/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://portal.vidyo.com/superapi/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <wsdl:types>
+    <xs:schema attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://portal.vidyo.com/superapi/" xmlns:tns="http://portal.vidyo.com/superapi/">
+
+			<xs:annotation>
+				<xs:documentation xml:lang="en"/>
+			</xs:annotation>
+
+			<xs:simpleType name="EntityID">
+				<xs:annotation>
+					<xs:documentation>
+						This is an ID of addressing object in VidyoPortal
+						(Member, Room, or
+						Legacy device, etc).
+					</xs:documentation>
+				</xs:annotation>
+				<xs:restriction base="xs:int"/>
+			</xs:simpleType>
+
+			<xs:simpleType name="NonNegativeInt">
+				<xs:annotation>
+					<xs:documentation>
+						Non negative integer.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:restriction base="xs:int">
+					<xs:minInclusive value="0"/>
+				</xs:restriction>
+			</xs:simpleType>
+
+			<xs:simpleType name="String20">
+				<xs:annotation>
+					<xs:documentation>
+						String which max length is 20.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:restriction base="xs:string">
+					<xs:maxLength value="20"/>
+				</xs:restriction>
+			</xs:simpleType>
+
+			<xs:simpleType name="NotEmptyString">
+				<xs:annotation>
+					<xs:documentation>
+						String which min length is 1.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:restriction base="xs:string">
+					<xs:minLength value="1"/>
+				</xs:restriction>
+			</xs:simpleType>
+
+			<xs:simpleType name="TenantNamePattern">
+				<xs:annotation>
+					<xs:documentation>
+						Pattern of tenant name.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:restriction base="xs:string">
+					<xs:pattern value="[a-zA-Z0-9\-]{1,128}"/>
+				</xs:restriction>
+			</xs:simpleType>
+
+			<xs:simpleType name="TenantUrlPattern">
+				<xs:annotation>
+					<xs:documentation>
+						Pattern of tenant url.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:restriction base="xs:string">
+					<xs:pattern value="^[a-zA-Z0-9./\-:]+$"/>
+				</xs:restriction>
+			</xs:simpleType>
+
+			<xs:simpleType name="TenantExtensionPrefixPattern">
+				<xs:annotation>
+					<xs:documentation>
+						Pattern of tenant extension prefix.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:restriction base="xs:string">
+					<xs:pattern value="^[0-9]{1,7}$"/>
+				</xs:restriction>
+			</xs:simpleType>
+
+			<xs:simpleType name="IntHolder">
+				<xs:annotation>
+					<xs:documentation>
+						Holder for int type elements which should be
+						declared as nullable.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:restriction base="xs:int"/>
+			</xs:simpleType>
+
+			<xs:simpleType name="ComponentStatus">
+				<xs:annotation>
+					<xs:documentation>
+						Component status.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="NEW"/>
+					<xs:enumeration value="UP"/>
+					<xs:enumeration value="DOWN"/>
+					<xs:enumeration value="DISABLED"/>
+				</xs:restriction>
+			</xs:simpleType>
+
+			<xs:simpleType name="SystemComponentType">
+				<xs:annotation>
+					<xs:documentation>
+						System component type.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="VidyoRouter"/>
+					<xs:enumeration value="VidyoProxy"/>
+					<xs:enumeration value="VidyoManager"/>
+					<xs:enumeration value="VidyoReplay"/>
+					<xs:enumeration value="VidyoGateway"/>
+				</xs:restriction>
+			</xs:simpleType>
+
+			<xs:simpleType name="ServiceComponentType">
+				<xs:annotation>
+					<xs:documentation>
+						Service component type.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="VidyoManager"/>
+					<xs:enumeration value="VidyoGateway"/>
+					<xs:enumeration value="VidyoProxy"/>
+					<xs:enumeration value="VidyoRecorder"/>
+					<xs:enumeration value="VidyoReplay"/>
+				</xs:restriction>
+			</xs:simpleType>
+
+			<xs:simpleType name="TenantSortingField">
+				<xs:annotation>
+					<xs:documentation>
+						Tenant sorting field.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="tenantName"/>
+					<xs:enumeration value="tenantURL"/>
+					<xs:enumeration value="extensionPrefix"/>
+				</xs:restriction>
+			</xs:simpleType>
+
+			<xs:simpleType name="SortingDirection">
+				<xs:annotation>
+					<xs:documentation>
+						Sorting direction.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="ASC"/>
+					<xs:enumeration value="DESC"/>
+				</xs:restriction>
+			</xs:simpleType>
+
+			<xs:simpleType name="IpcAccessControlLevel">
+				<xs:annotation>
+					<xs:documentation>
+						IpcAccessControl level.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="Tenant"/>
+					<xs:enumeration value="System"/>
+				</xs:restriction>
+			</xs:simpleType>
+
+			<xs:simpleType name="IpcAccessControlAccessMode">
+				<xs:annotation>
+					<xs:documentation>
+						IpcAccessControl access mode.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="Allow"/>
+					<xs:enumeration value="Block"/>
+				</xs:restriction>
+			</xs:simpleType>
+
+			<xs:complexType name="IpcAccessControl">
+				<xs:sequence>
+					<xs:element name="level" type="tns:IpcAccessControlLevel"/>
+					<xs:element minOccurs="0" name="accessMode" nillable="true" type="tns:IpcAccessControlAccessMode"/>
+					<xs:element minOccurs="0" name="routerID" nillable="true" type="xs:string"/>
+				</xs:sequence>
+			</xs:complexType>
+
+			<xs:complexType name="RouterPool">
+				<xs:sequence>
+					<xs:element name="routerID" type="xs:string"/>
+					<xs:element name="routerName" type="xs:string"/>
+				</xs:sequence>
+			</xs:complexType>
+
+			<xs:complexType name="SingleComponentDataType">
+				<xs:sequence>
+					<xs:element name="identifier" type="xs:string"/>
+					<xs:element name="displayName" type="xs:string"/>
+					<xs:element name="componentType" type="tns:SystemComponentType"/>
+					<xs:element name="ipAddress" type="xs:string"/>
+					<xs:element maxOccurs="1" minOccurs="0" name="runningVersion" type="xs:int"/>
+					<xs:element maxOccurs="1" minOccurs="0" name="version" type="xs:int"/>
+					<xs:element name="alarm" type="xs:string"/>
+					<xs:element name="swVer" type="xs:string"/>
+					<xs:element name="componentStatus" type="tns:ComponentStatus"/>
+				</xs:sequence>
+			</xs:complexType>
+
+			<xs:simpleType name="ExternalEndpointSoftwareFileserver">
+				<xs:annotation>
+					<xs:documentation>
+						ExternalEndpointSoftwareFileserver is 'External' or 'VidyoPortal'
+					</xs:documentation>
+				</xs:annotation>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="External"/>
+					<xs:enumeration value="VidyoPortal"/>
+				</xs:restriction>
+			</xs:simpleType>
+
+			<xs:complexType name="SingleTenantDataType">
+				<xs:sequence>
+					<xs:element name="tenantId" type="tns:EntityID"/>
+					<xs:element name="tenantName" type="xs:string"/>
+					<xs:element minOccurs="0" name="tenantURL" type="xs:string"/>
+					<xs:element name="extensionPrefix" type="xs:string"/>
+					<xs:element minOccurs="0" name="dialinNumber" type="xs:string"/>
+					<xs:element minOccurs="0" name="vidyoReplayUrl" type="xs:string"/>
+					<xs:element minOccurs="0" name="description" type="xs:string"/>
+					<xs:element name="vidyoMobileAllowed" type="xs:int"/>
+				</xs:sequence>
+			</xs:complexType>
+			
+			<xs:simpleType name="MobileLoginMode">
+				<xs:annotation>
+					<xs:documentation>
+						Mobile Login Mode selection for the tenant.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="DISABLED"/>
+					<xs:enumeration value="VidyoMobile"/>
+					<xs:enumeration value="NeoMobile"/>
+				</xs:restriction>
+			</xs:simpleType>
+
+			<xs:complexType name="TenantDataType">
+				<xs:sequence>
+					<xs:element name="tenantName" type="tns:TenantNamePattern"/>
+					<xs:element name="tenantUrl" type="tns:TenantUrlPattern"/>
+					<xs:element name="extensionPrefix" type="tns:TenantExtensionPrefixPattern"/>
+					<xs:element minOccurs="0" name="dialinNumber" nillable="true" type="tns:String20"/>
+					<xs:element minOccurs="0" name="vidyoReplayUrl" nillable="true" type="tns:TenantUrlPattern"/>
+					<xs:element minOccurs="0" name="description" nillable="true" type="xs:string"/>
+					<xs:element minOccurs="0" name="vidyoGatewayControllerDns" nillable="true" type="tns:TenantUrlPattern"/>
+					<xs:element name="numOfInstalls" type="tns:NonNegativeInt"/>
+					<xs:element name="numOfSeats" type="tns:NonNegativeInt"/>
+					<xs:element name="numOfLines" type="tns:NonNegativeInt"/>
+					<xs:element name="numOfExecutives" type="tns:NonNegativeInt"/>
+					<xs:element name="numOfPanoramas" type="tns:NonNegativeInt"/>
+					<xs:element default="1" minOccurs="0" name="enableGuestLogin" nillable="true" type="xs:boolean"/>
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="allowedTenantList" nillable="true" type="xs:int"/>
+					<xs:element name="vidyoManager" type="xs:int"/>
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="vidyoProxyList" nillable="true" type="xs:int"/>
+					<xs:element minOccurs="0" name="defaultGuestProxy" nillable="false" type="xs:nonNegativeInteger"/>
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="allowedVidyoGatewayList" nillable="true" type="xs:int"/>
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="allowedVidyoReplayRecorderList" nillable="true" type="xs:int"/>
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="allowedVidyoRepalyList" nillable="true" type="xs:int"/>
+					<xs:element maxOccurs="unbounded" minOccurs="1" name="allowedLocationTagList" type="xs:int"/>
+					<xs:element minOccurs="0" name="defaultGuestLocationTag" nillable="false" type="xs:nonNegativeInteger"/>
+					<xs:element default="1" minOccurs="0" name="vidyoMobileAllowed" nillable="true" type="xs:boolean"/>
+					<xs:element default="1" minOccurs="0" name="ipcAllowOutbound" nillable="true" type="xs:boolean"/>
+					<xs:element default="1" minOccurs="0" name="ipcAllowInbound" nillable="true" type="xs:boolean"/>
+					<xs:element minOccurs="0" name="numOfPublicRooms" nillable="true" type="xs:nonNegativeInteger"/>
+					<xs:element minOccurs="0" name="tenantWebRTCURL" nillable="true" type="tns:TenantUrlPattern"/>
+					<xs:element minOccurs="0" name="adminUser" nillable="true" type="tns:AdminMember"/>
+					<xs:element minOccurs="0" name="externalEndpointSoftwareFileserver" type="tns:ExternalEndpointSoftwareFileserver"/>
+					<xs:element minOccurs="0" name="enableCustomRole" nillable="false" type="xs:boolean"/>
+					<xs:element name="enableEndpointLogAggregation" type="xs:boolean" default="0" minOccurs="0" nillable="false" />
+					<!-- Mobile login mode, when used , will make the VidyoMobileAllowed ignored -->
+					<xs:element minOccurs="0" name="mobileLoginMode" type="tns:MobileLoginMode"/>
+				</xs:sequence>
+			</xs:complexType>
+
+			<xs:complexType name="TenantDataExtType">
+				<xs:complexContent>
+					<xs:extension base="tns:TenantDataType">
+						<xs:sequence>
+							<xs:element name="tenantID" type="tns:EntityID"/>
+						</xs:sequence>
+					</xs:extension>
+				</xs:complexContent>
+			</xs:complexType>
+
+			<xs:simpleType name="ClientType">
+				<xs:annotation>
+					<xs:documentation>
+						Type is 'M' for MacOS platform.
+						Type is 'V' for
+						VidyoRoom HD200 (Windows platform).
+						Type is 'R' for VidyoRoom
+						HD100/HD50 (Windows platform).
+						Type
+						is 'S' for SL5 platform.
+						Type is 'U' for Ubuntu platform.
+						Type is
+						'T' for SL5 64bit platform.
+						Type is 'X' for Ubuntu 64bit platform.
+						Type is 'P' for VidyoPanorama VP600.
+						Type is 'N' for VidyoPanorama
+						600 running Windows 64-bit.
+						Type is 'E' for VidyoPanorama 600
+						running Linux 32-bit.
+						Type is 'O' for VidyoPanorama 600 running
+						Linux 64-bit.
+						Type is 'Q' for VidyoRoom running Windows 32-bit.
+						Type is 'Y' for VidyoRoom running Windows 64-bit.
+						Type is 'F' for
+						VidyoRoom running Linux 32-bit.
+						Type is 'Z' for VidyoRoom running
+						Linux 64-bit.
+						Type is 'B' for VidyoRoom SE Windows.
+						Type is 'C' for
+						VidyoRoom SE Linux.
+						Type is 'D' for VidyoRoom SE OS X.
+						Type is 'W32'
+						for Windows 32 bit platform.
+						Type is 'W64' for Windows 64 bit
+						platform.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="M"/>
+					<xs:enumeration value="V"/>
+					<xs:enumeration value="R"/>
+					<xs:enumeration value="S"/>
+					<xs:enumeration value="U"/>
+					<xs:enumeration value="T"/>
+					<xs:enumeration value="X"/>
+					<xs:enumeration value="P"/>
+					<xs:enumeration value="N"/>
+					<xs:enumeration value="E"/>
+					<xs:enumeration value="O"/>
+					<xs:enumeration value="Q"/>
+					<xs:enumeration value="Y"/>
+					<xs:enumeration value="F"/>
+					<xs:enumeration value="Z"/>
+					<xs:enumeration value="B"/>
+					<xs:enumeration value="C"/>
+					<xs:enumeration value="D"/>
+					<xs:enumeration value="W32"/>
+					<xs:enumeration value="W64"/>
+				</xs:restriction>
+			</xs:simpleType>
+
+			<xs:simpleType name="EndpointVersionPattern">
+				<xs:annotation>
+					<xs:documentation>
+						Pattern of Endpoint Upload version.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:restriction base="xs:string">
+					<xs:pattern value="^[a-zA-Z0-9._]+$"/>
+				</xs:restriction>
+			</xs:simpleType>
+
+			<xs:element name="OK">
+				<xs:annotation>
+					<xs:documentation>
+						String representation of successful operation -
+						'ok'
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="OK"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+
+			<xs:element name="ErrorMessage" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+						String presentation of fault
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+
+			<xs:complexType name="LicenseFeatureData">
+				<xs:sequence>
+					<xs:element maxOccurs="1" minOccurs="1" name="name" type="xs:string"/>
+					<xs:element maxOccurs="1" minOccurs="1" name="maxValue" type="xs:string"/>
+					<xs:element maxOccurs="1" minOccurs="0" name="currentValue" type="xs:string"/>
+				</xs:sequence>
+			</xs:complexType>
+
+			<xs:complexType name="ComponentData">
+				<xs:sequence>
+					<xs:element maxOccurs="1" minOccurs="1" name="componentType" type="tns:ServiceComponentType"/>
+					<xs:element maxOccurs="1" minOccurs="1" name="identifier" type="xs:string"/>
+					<xs:element maxOccurs="1" minOccurs="0" name="displayName" type="xs:string"/>
+				</xs:sequence>
+			</xs:complexType>
+
+			<xs:complexType name="LocationTag">
+				<xs:sequence>
+					<xs:element name="locationTagID" type="xs:int"/>
+					<xs:element name="locationTagName" type="xs:string"/>
+				</xs:sequence>
+			</xs:complexType>
+
+			<xs:complexType name="AdminMember">
+				<xs:annotation>
+					<xs:documentation>
+						Admin user description on VidyoPortal for ternant
+						creation.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:sequence>
+					<xs:element name="name" type="xs:string"/>
+					<xs:element name="password" type="xs:string"/>
+					<xs:element name="displayName" type="xs:string"/>
+					<xs:element name="emailAddress" type="xs:string"/>
+					<xs:element minOccurs="0" name="description" type="xs:string"/>
+				</xs:sequence>
+			</xs:complexType>
+
+			<xs:complexType name="Banner">
+				<xs:sequence>
+					<xs:element name="showLoginBanner" type="xs:boolean"/>
+					<xs:element name="showWelcomeBanner" type="xs:boolean"/>
+					<xs:element minOccurs="0" name="loginBannerText" nillable="true" type="xs:string"/>
+					<xs:element minOccurs="0" name="welcomeBannerText" nillable="true" type="xs:string"/>
+				</xs:sequence>
+			</xs:complexType>
+
+			<xs:complexType name="ChatState">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="chatAvailability" type="xs:boolean"/>
+					<xs:element minOccurs="0" name="privateChatState" type="xs:boolean"/>
+					<xs:element minOccurs="0" name="publicChatState" type="xs:boolean"/>
+				</xs:sequence>
+			</xs:complexType>
+
+			<xs:complexType name="DatabaseBackup">
+				<xs:sequence>
+					<xs:element maxOccurs="1" minOccurs="1" name="backupURL" type="xs:anyURI"/>
+					<xs:element maxOccurs="1" minOccurs="1" name="timestamp" type="xs:dateTime"/>
+				</xs:sequence>
+			</xs:complexType>
+
+			<xs:element name="GetLicenseDataRequest">
+				<xs:annotation>
+					<xs:documentation>
+						Request for currently effective license data.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="0" name="tenantId" nillable="true" type="tns:EntityID"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+
+			<xs:element name="GetLicenseDataResponse">
+				<xs:annotation>
+					<xs:documentation>
+						License Data currently in effect.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element maxOccurs="unbounded" name="licenseFeature" type="tns:LicenseFeatureData"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+
+			<xs:element name="GetServiceComponentsDataRequest">
+				<xs:annotation>
+					<xs:documentation>
+						Request for list of service components data.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="0" name="serviceComponentType" nillable="true" type="tns:ServiceComponentType"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+
+			<xs:element name="GetServiceComponentsDataResponse">
+				<xs:annotation>
+					<xs:documentation>
+						List of service components data.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element maxOccurs="unbounded" minOccurs="0" name="component" type="tns:ComponentData"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+
+			<xs:element name="ListNetworkComponentsRequest">
+				<xs:annotation>
+					<xs:documentation>
+						Request for list of network components.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="0" name="componentName" type="xs:string"/>
+						<xs:element minOccurs="0" name="componentType" type="tns:SystemComponentType"/>
+						<xs:element minOccurs="0" name="status" type="tns:ComponentStatus"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+
+			<xs:element name="ListNetworkComponentsResponse">
+				<xs:annotation>
+					<xs:documentation>
+						A list of network components.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element maxOccurs="unbounded" minOccurs="0" name="networkComponent" type="tns:SingleComponentDataType"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+
+			<xs:element name="ListTenantsRequest">
+				<xs:annotation>
+					<xs:documentation>
+						Request for list of tenants.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="0" name="tenantName" type="xs:string"/>
+						<xs:element minOccurs="0" name="tenantURL" type="xs:string"/>
+						<xs:element minOccurs="0" name="start" nillable="true" type="tns:IntHolder"/>
+						<xs:element minOccurs="0" name="limit" nillable="true" type="tns:IntHolder"/>
+						<xs:element minOccurs="0" name="sortBy" type="tns:TenantSortingField"/>
+						<xs:element minOccurs="0" name="dir" type="tns:SortingDirection"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+
+			<xs:element name="ListTenantsResponse">
+				<xs:annotation>
+					<xs:documentation>
+						A list of tenants.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element maxOccurs="unbounded" minOccurs="0" name="tenant" type="tns:SingleTenantDataType"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+
+			<xs:element name="CreateTenantRequest">
+				<xs:annotation>
+					<xs:documentation>
+						Request for tenant creation.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="TenantData" type="tns:TenantDataType"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+
+			<xs:element name="CreateTenantResponse">
+				<xs:annotation>
+					<xs:documentation>
+						OK.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element ref="tns:OK"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+
+			<xs:element name="DeleteTenantRequest">
+				<xs:annotation>
+					<xs:documentation>
+						Request for tenant deletion.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="tenantId" type="tns:EntityID"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+
+			<xs:element name="DeleteTenantResponse">
+				<xs:annotation>
+					<xs:documentation>
+						OK.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element ref="tns:OK"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+
+			<xs:element name="GetTenantDetailsRequest">
+				<xs:annotation>
+					<xs:documentation>
+						Request for getting tenant details.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="tenantId" type="tns:EntityID"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+
+			<xs:element name="GetTenantDetailsResponse">
+				<xs:annotation>
+					<xs:documentation>
+						Tenant details.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="tenantDetail" type="tns:TenantDataExtType"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+
+			<xs:element name="UpdateTenantRequest">
+				<xs:annotation>
+					<xs:documentation>
+						Request for tenant update.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="tenantData" type="tns:TenantDataExtType"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+
+			<xs:element name="UpdateTenantResponse">
+				<xs:annotation>
+					<xs:documentation>
+						OK.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element ref="tns:OK"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+
+			<xs:element name="setIpcAccessControlRequest">
+				<xs:annotation>
+					<xs:documentation>
+						Request for setting IpcAccessControl.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="ipcAccessControl" type="tns:IpcAccessControl"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+
+			<xs:element name="setIpcAccessControlResponse">
+				<xs:annotation>
+					<xs:documentation>
+						OK.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element ref="tns:OK"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+
+			<xs:element name="setIpcDomainsRequest">
+				<xs:annotation>
+					<xs:documentation>
+						Request for setting IpcDomains.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element maxOccurs="unbounded" minOccurs="0" name="addIpcDomainList" nillable="true" type="tns:NotEmptyString"/>
+						<xs:element maxOccurs="unbounded" minOccurs="0" name="removeIpcDomainList" nillable="true" type="tns:NotEmptyString"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+
+			<xs:element name="setIpcDomainsResponse">
+				<xs:annotation>
+					<xs:documentation>
+						Acknowledgement that some domains were
+						added/removed successfully. Specifies the
+						list of domains that were
+						not deleted/added
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element ref="tns:OK"/>
+						<xs:element maxOccurs="unbounded" minOccurs="0" name="notAddedIpcDomainList" nillable="true" type="xs:string"/>
+						<xs:element maxOccurs="unbounded" minOccurs="0" name="notRemovedIpcDomainList" nillable="true" type="xs:string"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+
+			<xs:element name="saveDBRequest">
+				<xs:annotation>
+					<xs:documentation>
+						Request for saving DB. Note, this operation is no
+						longer supported.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+
+			<xs:element name="saveDBResponse">
+				<xs:annotation>
+					<xs:documentation>
+						Saved DB file name.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="databaseName" type="xs:string"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+
+			<xs:element name="backupDbRequest">
+				<xs:annotation>
+					<xs:documentation>
+						Request for saving database with password.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element maxOccurs="1" minOccurs="1" name="password" nillable="false" type="xs:string"/>
+						<xs:element minOccurs="0" name="includeThumbNail" nillable="true" type="xs:boolean"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+
+			<xs:element name="backupDbResponse">
+				<xs:annotation>
+					<xs:documentation>
+						Saved DB file name.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="databaseBackup" type="tns:DatabaseBackup"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+
+			<xs:element name="listDbRequest">
+				<xs:annotation>
+					<xs:documentation>
+						Request for list of database backup files.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+				</xs:complexType>
+			</xs:element>
+
+			<xs:element name="listDbResponse">
+				<xs:annotation>
+					<xs:documentation>
+						List of database backups.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element maxOccurs="unbounded" minOccurs="0" name="databaseBackups" type="tns:DatabaseBackup"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+
+			<xs:element name="deleteDBRequest">
+				<xs:annotation>
+					<xs:documentation>
+						Request for deleting backup DB file.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="databaseName" type="xs:string"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+
+			<xs:element name="deleteDBResponse">
+				<xs:annotation>
+					<xs:documentation>
+						Ok.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element ref="tns:OK"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+
+			<xs:element name="getIpcAccessControlRequest">
+				<xs:annotation>
+					<xs:documentation>
+						Request for getting IpcAccessControl.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+
+			<xs:element name="getIpcAccessControlResponse">
+				<xs:annotation>
+					<xs:documentation>
+						Response for getting IpcAccessControl.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="ipcAccessControl" type="tns:IpcAccessControl"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+
+			<xs:element name="getIpcDomainListRequest">
+				<xs:annotation>
+					<xs:documentation>
+						Request for getting Allowed or Blocked
+						IpcDomainList.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+
+			<xs:element name="getIpcDomainListResponse">
+				<xs:annotation>
+					<xs:documentation>
+						Response for getting Allowed or Blocked
+						IpcDomainList.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element maxOccurs="unbounded" minOccurs="0" name="ipcDomainList" nillable="true" type="xs:string"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+
+			<xs:element name="getRouterPoolListRequest">
+				<xs:annotation>
+					<xs:documentation>
+						Request for getting RouterPoolList.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+
+			<xs:element name="getRouterPoolListResponse">
+				<xs:annotation>
+					<xs:documentation>
+						Response for getting RouterPoolList.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element maxOccurs="unbounded" minOccurs="0" name="routerPoolsList" nillable="true" type="tns:RouterPool"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+
+			<xs:element name="getLocationTagsRequest">
+				<xs:annotation>
+					<xs:documentation>
+						Request for getting LocationTags.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+
+			<xs:element name="getLocationTagsResponse">
+				<xs:annotation>
+					<xs:documentation>
+						Response for getting LocationTags.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element maxOccurs="unbounded" minOccurs="0" name="locationTagsList" nillable="true" type="tns:LocationTag"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+
+			<xs:element name="setLoginAndWelcomeBannerRequest">
+				<xs:annotation>
+					<xs:documentation>
+						Request for setting Login And Welcome Banners.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="banner" type="tns:Banner"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+
+			<xs:element name="setLoginAndWelcomeBannerResponse">
+				<xs:annotation>
+					<xs:documentation>
+						Response for getting Login And Welcome Banners.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="banner" type="tns:Banner"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+
+			<xs:element name="setChatStateSuperRequest">
+				<xs:annotation>
+					<xs:documentation>
+						Request for setting Chat state.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="chatState" type="tns:ChatState"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+
+			<xs:element name="setChatStateSuperResponse">
+				<xs:annotation>
+					<xs:documentation>
+						Response for getting Chat state.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element ref="tns:OK"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+
+			<xs:element name="getChatStateSuperRequest">
+				<xs:annotation>
+					<xs:documentation>
+						Request for getting Chat state.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+
+			<xs:element name="getChatStateSuperResponse">
+				<xs:annotation>
+					<xs:documentation>
+						Response for getting Chat state.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="chatState" type="tns:ChatState"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		<xs:element name="setCustomRoleRequest">
+        <xs:annotation>
+          <xs:documentation>
+            Request for enabling/disabling custom role.
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:sequence>
+              <xs:element name="enableCustomRole" type="xs:boolean"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+	
+      <xs:element name="setCustomRoleResponse">
+        <xs:annotation>
+          <xs:documentation>
+            Response  for enabling/disabling custom role.
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="tns:OK"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+			<xs:element name="addClientVersionRequest">
+				<xs:annotation>
+					<xs:documentation>
+						Add a client version for the external CDN URL.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="clientType" type="tns:ClientType"/>
+						<xs:element maxOccurs="1" minOccurs="1" name="currentTag" nillable="false" type="tns:EndpointVersionPattern"/>
+						<xs:element maxOccurs="1" minOccurs="1" name="installerURL" nillable="false" type="xs:string"/>
+						<xs:element default="0" maxOccurs="1" minOccurs="0" name="setActive" nillable="true" type="xs:boolean"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+
+			<xs:element name="addClientVersionResponse">
+				<xs:annotation>
+					<xs:documentation>
+						OK.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="endpointUploadID" type="xs:integer"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+  
+      <xs:element name="setLogAggregationServerRequest">
+        <xs:annotation>
+          <xs:documentation>
+            Request for setting log aggregation server name.
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:sequence>
+              <xs:element name="logServer" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+	
+      <xs:element name="setLogAggregationServerResponse">
+        <xs:annotation>
+          <xs:documentation>
+            Response for setting log aggregation server name.
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="tns:OK"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      
+      <xs:element name="setMobileLoginModeRequest">
+      	<xs:annotation>
+      		<xs:documentation>
+      			Set the mobile login mode at system level. This will be applied on all tenants.
+      		</xs:documentation>
+      	</xs:annotation>
+      	<xs:complexType>
+      		<xs:sequence>
+      			<xs:element name="mobileLoginMode" type="tns:MobileLoginMode"/>
+      		</xs:sequence>
+      	</xs:complexType>
+      </xs:element>
+      
+      <xs:element name="setMobileLoginModeResponse">
+        <xs:annotation>
+          <xs:documentation>
+            Response for setting mobile login mode.
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="tns:OK"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+			<!-- Exceptions -->
+			<xs:element name="GeneralFault">
+				<xs:annotation>
+					<xs:documentation>
+						This means that the exceptions happens in system.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element ref="tns:ErrorMessage"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+
+			<xs:element name="NotLicensedFault">
+				<xs:annotation>
+					<xs:documentation>
+						This means that the Portal has not Portal API
+						license.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element ref="tns:ErrorMessage"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+
+			<xs:element name="InvalidTenantFault">
+				<xs:annotation>
+					<xs:documentation>
+						This means that the tenantID which is passed into
+						service is wrong.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element ref="tns:ErrorMessage"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+
+			<xs:element name="InvalidArgumentFault">
+				<xs:annotation>
+					<xs:documentation>
+						This means that the argument which is passed into
+						service is wrong.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element ref="tns:ErrorMessage"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+
+			<xs:element name="NotAuthorizedFault">
+				<xs:annotation>
+					<xs:documentation>
+						This means that user which trying to access the
+						API is not authorized
+						super user.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element ref="tns:ErrorMessage"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+
+			<xs:element name="ExistingTenantFault">
+				<xs:annotation>
+					<xs:documentation>
+						The specified Tenant name or URL already exist.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element ref="tns:ErrorMessage"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+
+			<xs:element name="MissingArgumentFault">
+				<xs:annotation>
+					<xs:documentation>
+						Some required request parameters were not
+						specified.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element ref="tns:ErrorMessage"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+
+			<xs:element name="IncorrectIpcAccessLevelFault">
+				<xs:annotation>
+					<xs:documentation>
+						Generated when the user doesn't have access to
+						get IPC domain access.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element ref="tns:ErrorMessage"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+
+			<xs:element name="BannerTextFault">
+				<xs:annotation>
+					<xs:documentation>
+						Specifies that the content provided overrides the
+						character limit.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element ref="tns:ErrorMessage"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+
+			<xs:element name="ExternalModeFault">
+				<xs:annotation>
+					<xs:documentation>
+						Specifies that the External mode is not selected.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element ref="tns:ErrorMessage"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+
+		</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="setIpcDomainsInput">
+    <wsdl:part name="parameters" element="tns:setIpcDomainsRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="NotLicensedFault">
+    <wsdl:part name="fault" element="tns:NotLicensedFault">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getLocationTagsOutput">
+    <wsdl:part name="parameters" element="tns:getLocationTagsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getIpcAccessControlOutput">
+    <wsdl:part name="parameters" element="tns:getIpcAccessControlResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="setChatStateSuperInput">
+    <wsdl:part name="parameters" element="tns:setChatStateSuperRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="listDbOutput">
+    <wsdl:part name="parameters" element="tns:listDbResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="ListNetworkComponentsInput">
+    <wsdl:part name="parameters" element="tns:ListNetworkComponentsRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="InvalidArgumentFault">
+    <wsdl:part name="fault" element="tns:InvalidArgumentFault">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="GetTenantDetailsOutput">
+    <wsdl:part name="parameters" element="tns:GetTenantDetailsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="GetTenantDetailsInput">
+    <wsdl:part name="parameters" element="tns:GetTenantDetailsRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="setLoginAndWelcomeBannerInput">
+    <wsdl:part name="parameters" element="tns:setLoginAndWelcomeBannerRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="addClientVersionInput">
+    <wsdl:part name="parameters" element="tns:addClientVersionRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="MissingArgumentFault">
+    <wsdl:part name="fault" element="tns:MissingArgumentFault">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="ListTenantsOutput">
+    <wsdl:part name="parameters" element="tns:ListTenantsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="setIpcAccessControlInput">
+    <wsdl:part name="parameters" element="tns:setIpcAccessControlRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="UpdateTenantOutput">
+    <wsdl:part name="parameters" element="tns:UpdateTenantResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="CreateTenantInput">
+    <wsdl:part name="parameters" element="tns:CreateTenantRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="NotAuthorizedFault">
+    <wsdl:part name="fault" element="tns:NotAuthorizedFault">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="saveDBOutput">
+    <wsdl:part name="parameters" element="tns:saveDBResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getIpcDomainListInput">
+    <wsdl:part name="parameters" element="tns:getIpcDomainListRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="ExternalModeFault">
+    <wsdl:part name="fault" element="tns:ExternalModeFault">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="GetServiceComponentsDataOutput">
+    <wsdl:part name="parameters" element="tns:GetServiceComponentsDataResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="setChatStateSuperOutput">
+    <wsdl:part name="parameters" element="tns:setChatStateSuperResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="GetLicenseDataOutput">
+    <wsdl:part name="parameters" element="tns:GetLicenseDataResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="InvalidTenantFault">
+    <wsdl:part name="fault" element="tns:InvalidTenantFault">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="setIpcDomainsOutput">
+    <wsdl:part name="parameters" element="tns:setIpcDomainsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="setIpcAccessControlOutput">
+    <wsdl:part name="parameters" element="tns:setIpcAccessControlResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteDBOutput">
+    <wsdl:part name="parameters" element="tns:deleteDBResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="setLoginAndWelcomeBannerOutput">
+    <wsdl:part name="parameters" element="tns:setLoginAndWelcomeBannerResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getRouterPoolListInput">
+    <wsdl:part name="parameters" element="tns:getRouterPoolListRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="ListNetworkComponentsOutput">
+    <wsdl:part name="parameters" element="tns:ListNetworkComponentsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="backupDbOutput">
+    <wsdl:part name="parameters" element="tns:backupDbResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getRouterPoolListOutput">
+    <wsdl:part name="parameters" element="tns:getRouterPoolListResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="listDbInput">
+    <wsdl:part name="parameters" element="tns:listDbRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getChatStateSuperOutput">
+    <wsdl:part name="parameters" element="tns:getChatStateSuperResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="GetServiceComponentsDataInput">
+    <wsdl:part name="parameters" element="tns:GetServiceComponentsDataRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="ExistingTenantFault">
+    <wsdl:part name="fault" element="tns:ExistingTenantFault">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="GeneralFault">
+    <wsdl:part name="fault" element="tns:GeneralFault">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="DeleteTenantOutput">
+    <wsdl:part name="parameters" element="tns:DeleteTenantResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="CreateTenantOutput">
+    <wsdl:part name="parameters" element="tns:CreateTenantResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="UpdateTenantInput">
+    <wsdl:part name="parameters" element="tns:UpdateTenantRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getLocationTagsInput">
+    <wsdl:part name="parameters" element="tns:getLocationTagsRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getIpcAccessControlInput">
+    <wsdl:part name="parameters" element="tns:getIpcAccessControlRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="saveDBInput">
+    <wsdl:part name="parameters" element="tns:saveDBRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="GetLicenseDataInput">
+    <wsdl:part name="parameters" element="tns:GetLicenseDataRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="ListTenantsInput">
+    <wsdl:part name="parameters" element="tns:ListTenantsRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="backupDbInput">
+    <wsdl:part name="parameters" element="tns:backupDbRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteDBInput">
+    <wsdl:part name="parameters" element="tns:deleteDBRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getChatStateSuperInput">
+    <wsdl:part name="parameters" element="tns:getChatStateSuperRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="DeleteTenantInput">
+    <wsdl:part name="parameters" element="tns:DeleteTenantRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="BannerTextFault">
+    <wsdl:part name="fault" element="tns:BannerTextFault">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="addClientVersionOutput">
+    <wsdl:part name="parameters" element="tns:addClientVersionResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getIpcDomainListOutput">
+    <wsdl:part name="parameters" element="tns:getIpcDomainListResponse">
+    </wsdl:part>
+  </wsdl:message>
+   <wsdl:message name="setCustomRoleInput">
+    <wsdl:part name="parameters" element="tns:setCustomRoleRequest" />
+  </wsdl:message>
+  <wsdl:message name="setCustomRoleOutput">
+    <wsdl:part name="parameters" element="tns:setCustomRoleResponse" />
+  </wsdl:message>
+    <wsdl:message name="setLogAggregationServerInput">
+    <wsdl:part name="parameters" element="tns:setLogAggregationServerRequest" />
+  </wsdl:message>
+  <wsdl:message name="setLogAggregationServerOutput">
+    <wsdl:part name="parameters" element="tns:setLogAggregationServerResponse" />
+  </wsdl:message>
+  
+  <wsdl:message name="setMobileLoginModeInput">
+    <wsdl:part name="parameters" element="tns:setMobileLoginModeRequest" />
+  </wsdl:message>
+  <wsdl:message name="setMobileLoginModeOutput">
+    <wsdl:part name="parameters" element="tns:setMobileLoginModeResponse" />
+  </wsdl:message>
+  
+  
+  <wsdl:message name="IncorrectIpcAccessLevelFault">
+    <wsdl:part name="fault" element="tns:IncorrectIpcAccessLevelFault">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="VidyoPortalSuperServicePortType">
+    <wsdl:operation name="getLicenseData">
+<wsdl:documentation>Provides license data. If a tenant is not
+				specified, the license parameters should be provided for all tenants
+				as a Total number
+			</wsdl:documentation>
+      <wsdl:input message="tns:GetLicenseDataInput">
+    </wsdl:input>
+      <wsdl:output message="tns:GetLicenseDataOutput">
+    </wsdl:output>
+      <wsdl:fault name="NotLicensedFault" message="tns:NotLicensedFault">
+    </wsdl:fault>
+      <wsdl:fault name="GeneralFault" message="tns:GeneralFault">
+    </wsdl:fault>
+      <wsdl:fault name="NotAuthorizedFault" message="tns:NotAuthorizedFault">
+    </wsdl:fault>
+      <wsdl:fault name="InvalidTenantFault" message="tns:InvalidTenantFault">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getServiceComponentsData">
+<wsdl:documentation>Provides the list of available service
+				components. If the type is not specified, all lists will be
+				provided. If the type is specified, only the list associated with
+				this type will be provided
+			</wsdl:documentation>
+      <wsdl:input message="tns:GetServiceComponentsDataInput">
+    </wsdl:input>
+      <wsdl:output message="tns:GetServiceComponentsDataOutput">
+    </wsdl:output>
+      <wsdl:fault name="InvalidArgumentFault" message="tns:InvalidArgumentFault">
+    </wsdl:fault>
+      <wsdl:fault name="GeneralFault" message="tns:GeneralFault">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="listNetworkComponents">
+<wsdl:documentation>List all network components</wsdl:documentation>
+      <wsdl:input message="tns:ListNetworkComponentsInput">
+    </wsdl:input>
+      <wsdl:output message="tns:ListNetworkComponentsOutput">
+    </wsdl:output>
+      <wsdl:fault name="GeneralFault" message="tns:GeneralFault">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getListOfTenants">
+<wsdl:documentation>Provides the list of all tenants in the system
+				with the following filters. All filters are optional and if a filter
+				is not provided the query will use the defaults, which are sorting
+				in a descending order all the tenants by the tenant names.
+			</wsdl:documentation>
+      <wsdl:input message="tns:ListTenantsInput">
+    </wsdl:input>
+      <wsdl:output message="tns:ListTenantsOutput">
+    </wsdl:output>
+      <wsdl:fault name="GeneralFault" message="tns:GeneralFault">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createTenant">
+<wsdl:documentation>Create a new tenant based on the information
+				provided below.
+			</wsdl:documentation>
+      <wsdl:input message="tns:CreateTenantInput">
+    </wsdl:input>
+      <wsdl:output message="tns:CreateTenantOutput">
+    </wsdl:output>
+      <wsdl:fault name="NotLicensedFault" message="tns:NotLicensedFault">
+    </wsdl:fault>
+      <wsdl:fault name="InvalidArgumentFault" message="tns:InvalidArgumentFault">
+    </wsdl:fault>
+      <wsdl:fault name="ExistingTenantFault" message="tns:ExistingTenantFault">
+    </wsdl:fault>
+      <wsdl:fault name="GeneralFault" message="tns:GeneralFault">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="deleteTenant">
+<wsdl:documentation>Deleting an existing tenant from the system. The
+				default tenant can not be deleted.
+			</wsdl:documentation>
+      <wsdl:input message="tns:DeleteTenantInput">
+    </wsdl:input>
+      <wsdl:output message="tns:DeleteTenantOutput">
+    </wsdl:output>
+      <wsdl:fault name="GeneralFault" message="tns:GeneralFault">
+    </wsdl:fault>
+      <wsdl:fault name="InvalidTenantFault" message="tns:InvalidTenantFault">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getTenantDetails">
+<wsdl:documentation>Get the tenant details based on the tenant ID.
+			</wsdl:documentation>
+      <wsdl:input message="tns:GetTenantDetailsInput">
+    </wsdl:input>
+      <wsdl:output message="tns:GetTenantDetailsOutput">
+    </wsdl:output>
+      <wsdl:fault name="GeneralFault" message="tns:GeneralFault">
+    </wsdl:fault>
+      <wsdl:fault name="InvalidTenantFault" message="tns:InvalidTenantFault">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="updateTenant">
+<wsdl:documentation>Update an existing tenant by the tenant ID. Each
+				optional parameter that is provided aside from the tenant ID will
+				overwrite the existing parameters.
+			</wsdl:documentation>
+      <wsdl:input message="tns:UpdateTenantInput">
+    </wsdl:input>
+      <wsdl:output message="tns:UpdateTenantOutput">
+    </wsdl:output>
+      <wsdl:fault name="NotLicensedFault" message="tns:NotLicensedFault">
+    </wsdl:fault>
+      <wsdl:fault name="InvalidArgumentFault" message="tns:InvalidArgumentFault">
+    </wsdl:fault>
+      <wsdl:fault name="ExistingTenantFault" message="tns:ExistingTenantFault">
+    </wsdl:fault>
+      <wsdl:fault name="GeneralFault" message="tns:GeneralFault">
+    </wsdl:fault>
+      <wsdl:fault name="InvalidTenantFault" message="tns:InvalidTenantFault">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="setIpcAccessControl">
+<wsdl:documentation>Define IPC control access (Allow / Block) for
+				Tenant and System levels.
+			</wsdl:documentation>
+      <wsdl:input message="tns:setIpcAccessControlInput">
+    </wsdl:input>
+      <wsdl:output message="tns:setIpcAccessControlOutput">
+    </wsdl:output>
+      <wsdl:fault name="InvalidArgumentFault" message="tns:InvalidArgumentFault">
+    </wsdl:fault>
+      <wsdl:fault name="MissingArgumentFault" message="tns:MissingArgumentFault">
+    </wsdl:fault>
+      <wsdl:fault name="GeneralFault" message="tns:GeneralFault">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="setIpcDomains">
+<wsdl:documentation>Add and / or remove a list of allowed IPC
+				domains. The user can add and remove IPC domains at the same time.
+			</wsdl:documentation>
+      <wsdl:input message="tns:setIpcDomainsInput">
+    </wsdl:input>
+      <wsdl:output message="tns:setIpcDomainsOutput">
+    </wsdl:output>
+      <wsdl:fault name="GeneralFault" message="tns:GeneralFault">
+    </wsdl:fault>
+      <wsdl:fault name="IncorrectIpcAccessLevelFault" message="tns:IncorrectIpcAccessLevelFault">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="saveDb">
+<wsdl:documentation>Save all tenant and user information about the
+				entire system, and provides the saved backup file name.
+			</wsdl:documentation>
+      <wsdl:input message="tns:saveDBInput">
+    </wsdl:input>
+      <wsdl:output message="tns:saveDBOutput">
+    </wsdl:output>
+      <wsdl:fault name="GeneralFault" message="tns:GeneralFault">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="backupDb">
+<wsdl:documentation>Save all tenant and user information about the
+				entire system, and provides the saved backup URL for download.
+			</wsdl:documentation>
+      <wsdl:input message="tns:backupDbInput">
+    </wsdl:input>
+      <wsdl:output message="tns:backupDbOutput">
+    </wsdl:output>
+      <wsdl:fault name="InvalidArgumentFault" message="tns:InvalidArgumentFault">
+    </wsdl:fault>
+      <wsdl:fault name="GeneralFault" message="tns:GeneralFault">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="listDb">
+<wsdl:documentation>Get a list of database backups
+			</wsdl:documentation>
+      <wsdl:input message="tns:listDbInput">
+    </wsdl:input>
+      <wsdl:output message="tns:listDbOutput">
+    </wsdl:output>
+      <wsdl:fault name="GeneralFault" message="tns:GeneralFault">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="deleteDb">
+<wsdl:documentation>Delete saved database backup from the disk.
+			</wsdl:documentation>
+      <wsdl:input message="tns:deleteDBInput">
+    </wsdl:input>
+      <wsdl:output message="tns:deleteDBOutput">
+    </wsdl:output>
+      <wsdl:fault name="InvalidArgumentFault" message="tns:InvalidArgumentFault">
+    </wsdl:fault>
+      <wsdl:fault name="GeneralFault" message="tns:GeneralFault">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getIpcAccessControl">
+<wsdl:documentation>Provide the level of access that user has to view
+				and modify allowed IPC domains.
+			</wsdl:documentation>
+      <wsdl:input message="tns:getIpcAccessControlInput">
+    </wsdl:input>
+      <wsdl:output message="tns:getIpcAccessControlOutput">
+    </wsdl:output>
+      <wsdl:fault name="GeneralFault" message="tns:GeneralFault">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getIpcDomainList">
+<wsdl:documentation>Get the list of all allowed or blocked IPC
+				domains that are stored the database.
+			</wsdl:documentation>
+      <wsdl:input message="tns:getIpcDomainListInput">
+    </wsdl:input>
+      <wsdl:output message="tns:getIpcDomainListOutput">
+    </wsdl:output>
+      <wsdl:fault name="GeneralFault" message="tns:GeneralFault">
+    </wsdl:fault>
+      <wsdl:fault name="IncorrectIpcAccessLevelFault" message="tns:IncorrectIpcAccessLevelFault">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getRouterPoolList">
+<wsdl:documentation>Retrieve the pool of routers.
+			</wsdl:documentation>
+      <wsdl:input message="tns:getRouterPoolListInput">
+    </wsdl:input>
+      <wsdl:output message="tns:getRouterPoolListOutput">
+    </wsdl:output>
+      <wsdl:fault name="GeneralFault" message="tns:GeneralFault">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getLocationTags">
+<wsdl:documentation>Provide the location tags available on the
+				portal.
+			</wsdl:documentation>
+      <wsdl:input message="tns:getLocationTagsInput">
+    </wsdl:input>
+      <wsdl:output message="tns:getLocationTagsOutput">
+    </wsdl:output>
+      <wsdl:fault name="GeneralFault" message="tns:GeneralFault">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="setLoginAndWelcomeBanner">
+<wsdl:documentation>Set the login and welcome banner parameters on
+				the VidyoPortal tenants and enable / disable the feature altogether.
+			</wsdl:documentation>
+      <wsdl:input message="tns:setLoginAndWelcomeBannerInput">
+    </wsdl:input>
+      <wsdl:output message="tns:setLoginAndWelcomeBannerOutput">
+    </wsdl:output>
+      <wsdl:fault name="BannerTextFault" message="tns:BannerTextFault">
+    </wsdl:fault>
+      <wsdl:fault name="GeneralFault" message="tns:GeneralFault">
+    </wsdl:fault>
+    </wsdl:operation>
+      <wsdl:operation name="setCustomRole">
+      <wsdl:documentation>      
+          The objective of this API is to  enable/disable custom role.
+      </wsdl:documentation>
+      <wsdl:input message="tns:setCustomRoleInput" />
+      <wsdl:output message="tns:setCustomRoleOutput" />
+      <wsdl:fault name="GeneralFault" message="tns:GeneralFault" />
+      <wsdl:fault name="InvalidArgumentFault" message="tns:InvalidArgumentFault"/>
+       
+    </wsdl:operation>
+    
+    <wsdl:operation name="setChatStateSuper">
+<wsdl:documentation>
+				The objective of this API is to set whether chat
+				is available on the
+				VidyoPortal and the default values for private /
+				public chat on the
+				newly created tenants.
+				Once made unavailable,
+				tenant admins will not be able to enable chat on
+				the VidyoPortal and
+				Vidyo clients joining the conferences on this
+				VidyoPortal won't be
+				able to engage in chat conversations.
+			</wsdl:documentation>
+      <wsdl:input message="tns:setChatStateSuperInput">
+    </wsdl:input>
+      <wsdl:output message="tns:setChatStateSuperOutput">
+    </wsdl:output>
+      <wsdl:fault name="GeneralFault" message="tns:GeneralFault">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getChatStateSuper">
+<wsdl:documentation>
+				The objective of this API is to get the
+				configured value for chat
+				availability on the VidyoPortal as well as
+				the default values for
+				private and public chat for newly created
+				tenants.
+			</wsdl:documentation>
+      <wsdl:input message="tns:getChatStateSuperInput">
+    </wsdl:input>
+      <wsdl:output message="tns:getChatStateSuperOutput">
+    </wsdl:output>
+      <wsdl:fault name="GeneralFault" message="tns:GeneralFault">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="addClientVersion">
+<wsdl:documentation>
+				Allows for adding an additional client version at
+				the super level. This
+				new client version will be seen by all tenants.
+				The new client
+				version will not be activated.
+			</wsdl:documentation>
+      <wsdl:input message="tns:addClientVersionInput">
+    </wsdl:input>
+      <wsdl:output message="tns:addClientVersionOutput">
+    </wsdl:output>
+      <wsdl:fault name="InvalidArgumentFault" message="tns:InvalidArgumentFault">
+    </wsdl:fault>
+      <wsdl:fault name="ExternalModeFault" message="tns:ExternalModeFault">
+    </wsdl:fault>
+      <wsdl:fault name="GeneralFault" message="tns:GeneralFault">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="setLogAggregationServer">
+      <wsdl:documentation>      
+          The objective of this API is to set log aggregation server FQDN on the VidyoPortal.
+      </wsdl:documentation>
+      <wsdl:input message="tns:setLogAggregationServerInput" />
+      <wsdl:output message="tns:setLogAggregationServerOutput" />
+      <wsdl:fault name="GeneralFault" message="tns:GeneralFault" />
+      <wsdl:fault name="NotLicensedFault" message="tns:NotLicensedFault"/>
+      <wsdl:fault name="InvalidArgumentFault" message="tns:InvalidArgumentFault"/>
+       
+    </wsdl:operation>
+    
+    <wsdl:operation name="setMobileLoginMode">
+      <wsdl:documentation>      
+          Set mobile login mode at system level , enforce all tenants to use it.
+      </wsdl:documentation>
+      <wsdl:input message="tns:setMobileLoginModeInput" />
+      <wsdl:output message="tns:setMobileLoginModeOutput" />
+      <wsdl:fault name="GeneralFault" message="tns:GeneralFault" />
+      <wsdl:fault name="NotLicensedFault" message="tns:NotLicensedFault"/>
+      <wsdl:fault name="InvalidArgumentFault" message="tns:InvalidArgumentFault"/>
+    </wsdl:operation>
+    
+  </wsdl:portType>
+  <wsdl:binding name="VidyoPortalSuperServiceBinding" type="tns:VidyoPortalSuperServicePortType">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="getLicenseData">
+      <soap:operation soapAction="getLicenseData"/>
+      <wsdl:input>
+        <soap:body use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </wsdl:output>
+      <wsdl:fault name="NotLicensedFault">
+        <soap:fault name="NotLicensedFault" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="GeneralFault">
+        <soap:fault name="GeneralFault" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="NotAuthorizedFault">
+        <soap:fault name="NotAuthorizedFault" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="InvalidTenantFault">
+        <soap:fault name="InvalidTenantFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getServiceComponentsData">
+      <soap:operation soapAction="getServiceComponentsData"/>
+      <wsdl:input>
+        <soap:body use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidArgumentFault">
+        <soap:fault name="InvalidArgumentFault" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="GeneralFault">
+        <soap:fault name="GeneralFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="listNetworkComponents">
+      <soap:operation soapAction="listNetworkComponents"/>
+      <wsdl:input>
+        <soap:body use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </wsdl:output>
+      <wsdl:fault name="GeneralFault">
+        <soap:fault name="GeneralFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getListOfTenants">
+      <soap:operation soapAction="getListOfTenants"/>
+      <wsdl:input>
+        <soap:body use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </wsdl:output>
+      <wsdl:fault name="GeneralFault">
+        <soap:fault name="GeneralFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createTenant">
+      <soap:operation soapAction="createTenant"/>
+      <wsdl:input>
+        <soap:body use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </wsdl:output>
+      <wsdl:fault name="NotLicensedFault">
+        <soap:fault name="NotLicensedFault" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="InvalidArgumentFault">
+        <soap:fault name="InvalidArgumentFault" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="ExistingTenantFault">
+        <soap:fault name="ExistingTenantFault" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="GeneralFault">
+        <soap:fault name="GeneralFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="deleteTenant">
+      <soap:operation soapAction="deleteTenant"/>
+      <wsdl:input>
+        <soap:body use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </wsdl:output>
+      <wsdl:fault name="GeneralFault">
+        <soap:fault name="GeneralFault" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="InvalidTenantFault">
+        <soap:fault name="InvalidTenantFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getTenantDetails">
+      <soap:operation soapAction="getTenantDetails"/>
+      <wsdl:input>
+        <soap:body use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </wsdl:output>
+      <wsdl:fault name="GeneralFault">
+        <soap:fault name="GeneralFault" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="InvalidTenantFault">
+        <soap:fault name="InvalidTenantFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="updateTenant">
+      <soap:operation soapAction="updateTenant"/>
+      <wsdl:input>
+        <soap:body use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </wsdl:output>
+      <wsdl:fault name="NotLicensedFault">
+        <soap:fault name="NotLicensedFault" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="InvalidArgumentFault">
+        <soap:fault name="InvalidArgumentFault" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="ExistingTenantFault">
+        <soap:fault name="ExistingTenantFault" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="GeneralFault">
+        <soap:fault name="GeneralFault" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="InvalidTenantFault">
+        <soap:fault name="InvalidTenantFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="setIpcAccessControl">
+      <soap:operation soapAction="setIpcAccessControl"/>
+      <wsdl:input>
+        <soap:body use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidArgumentFault">
+        <soap:fault name="InvalidArgumentFault" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingArgumentFault">
+        <soap:fault name="MissingArgumentFault" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="GeneralFault">
+        <soap:fault name="GeneralFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="setIpcDomains">
+      <soap:operation soapAction="setIpcDomains"/>
+      <wsdl:input>
+        <soap:body use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </wsdl:output>
+      <wsdl:fault name="GeneralFault">
+        <soap:fault name="GeneralFault" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="IncorrectIpcAccessLevelFault">
+        <soap:fault name="IncorrectIpcAccessLevelFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="saveDb">
+      <soap:operation soapAction="saveDb"/>
+      <wsdl:input>
+        <soap:body use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </wsdl:output>
+      <wsdl:fault name="GeneralFault">
+        <soap:fault name="GeneralFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="backupDb">
+      <soap:operation soapAction="backupDb"/>
+      <wsdl:input>
+        <soap:body use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidArgumentFault">
+        <soap:fault name="InvalidArgumentFault" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="GeneralFault">
+        <soap:fault name="GeneralFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="listDb">
+      <soap:operation soapAction="listDb"/>
+      <wsdl:input>
+        <soap:body use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </wsdl:output>
+      <wsdl:fault name="GeneralFault">
+        <soap:fault name="GeneralFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="deleteDb">
+      <soap:operation soapAction="deleteDb"/>
+      <wsdl:input>
+        <soap:body use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidArgumentFault">
+        <soap:fault name="InvalidArgumentFault" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="GeneralFault">
+        <soap:fault name="GeneralFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getIpcAccessControl">
+      <soap:operation soapAction="getIpcAccessControl"/>
+      <wsdl:input>
+        <soap:body use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </wsdl:output>
+      <wsdl:fault name="GeneralFault">
+        <soap:fault name="GeneralFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getIpcDomainList">
+      <soap:operation soapAction="getIpcDomainList"/>
+      <wsdl:input>
+        <soap:body use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </wsdl:output>
+      <wsdl:fault name="GeneralFault">
+        <soap:fault name="GeneralFault" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="IncorrectIpcAccessLevelFault">
+        <soap:fault name="IncorrectIpcAccessLevelFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getRouterPoolList">
+      <soap:operation soapAction="getRouterPoolList"/>
+      <wsdl:input>
+        <soap:body use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </wsdl:output>
+      <wsdl:fault name="GeneralFault">
+        <soap:fault name="GeneralFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getLocationTags">
+      <soap:operation soapAction="getLocationTags"/>
+      <wsdl:input>
+        <soap:body use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </wsdl:output>
+      <wsdl:fault name="GeneralFault">
+        <soap:fault name="GeneralFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="setLoginAndWelcomeBanner">
+      <soap:operation soapAction="setLoginAndWelcomeBanner"/>
+      <wsdl:input>
+        <soap:body use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </wsdl:output>
+      <wsdl:fault name="BannerTextFault">
+        <soap:fault name="BannerTextFault" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="GeneralFault">
+        <soap:fault name="GeneralFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+     <wsdl:operation name="setCustomRole">
+      <soap:operation soapAction="setCustomRole"/>
+      <wsdl:input>
+        <soap:body use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </wsdl:output>
+      <wsdl:fault name="GeneralFault">
+        <soap:fault name="GeneralFault" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="GeneralFault">
+        <soap:fault name="GeneralFault" use="literal"/>
+      </wsdl:fault>
+  
+       <wsdl:fault name="InvalidArgumentFault">
+        <soap:fault name="InvalidArgumentFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="setChatStateSuper">
+      <soap:operation soapAction="setChatStateSuper"/>
+      <wsdl:input>
+        <soap:body use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </wsdl:output>
+      <wsdl:fault name="GeneralFault">
+        <soap:fault name="GeneralFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getChatStateSuper">
+      <soap:operation soapAction="getChatStateSuper"/>
+      <wsdl:input>
+        <soap:body use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </wsdl:output>
+      <wsdl:fault name="GeneralFault">
+        <soap:fault name="GeneralFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="addClientVersion">
+      <soap:operation soapAction="addClientVersion"/>
+      <wsdl:input>
+        <soap:body use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidArgumentFault">
+        <soap:fault name="InvalidArgumentFault" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="ExternalModeFault">
+        <soap:fault name="ExternalModeFault" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="GeneralFault">
+        <soap:fault name="GeneralFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="setLogAggregationServer">
+      <soap:operation soapAction="setLogAggregationServer"/>
+      <wsdl:input>
+        <soap:body use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </wsdl:output>
+      <wsdl:fault name="GeneralFault">
+        <soap:fault name="GeneralFault" use="literal"/>
+      </wsdl:fault>
+           <wsdl:fault name="NotLicensedFault">
+        <soap:fault name="NotLicensedFault" use="literal"/>
+      </wsdl:fault>
+       <wsdl:fault name="InvalidArgumentFault">
+        <soap:fault name="InvalidArgumentFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    
+    <wsdl:operation name="setMobileLoginMode">
+      <soap:operation soapAction="setMobileLoginMode"/>
+      <wsdl:input>
+        <soap:body use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </wsdl:output>
+      <wsdl:fault name="GeneralFault">
+        <soap:fault name="GeneralFault" use="literal"/>
+      </wsdl:fault>
+           <wsdl:fault name="NotLicensedFault">
+        <soap:fault name="NotLicensedFault" use="literal"/>
+      </wsdl:fault>
+       <wsdl:fault name="InvalidArgumentFault">
+        <soap:fault name="InvalidArgumentFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    
+  </wsdl:binding>
+  <wsdl:service name="VidyoPortalSuperService">
+    <wsdl:port name="VidyoPortalSuperServicePort" binding="tns:VidyoPortalSuperServiceBinding">
+      <soap:address location="http://localhost:8080/services/VidyoPortalSuperService"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

@@ -1,0 +1,454 @@
+.child-row .x-grid-cell { 
+    background-color: #ffe2e2; 
+    color: #900; 
+}
+/*this is used in the ldap attribute mapping-existing code*/
+.red-row {
+    background-color: #F5C0C0 !important;
+}
+/* another bug in ext js 6 which causing issue that not able to show tooltip if the field is disabled.*/
+.override-for-tooltip.x-item-disabled {
+    
+     pointer-events: all; 
+}
+
+.thumbnailcss{
+	border: 1px solid #000;
+    padding: 0.4em;
+    background: #B0A4A4;
+
+} 
+/* added for increasing the opacity in disabled fields in the edit user screen*/
+.user-edit-disabled .x-form-item-label {
+    filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=90);
+  opacity: 0.9;      
+} 
+.user-edit-disabled .x-form-field {
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=60);
+  opacity: 0.6; 
+}​
+.tabcss .x-panel-body-default{
+box-shadow: 0px 5px 15px 8px rgba(0,0,0,0.2);
+}
+/*.tabcss .x-tab-focus. x-tab-default{
+   incase if you want to do changes on the default selected on on mouse click 
+}*/
+/*.tabcss .x-tab-bar-default-top .x-tab-bar-body-default {
+    padding: 0px 0px 0 0px;
+    box-shadow: 0px 5px 15px 3px rgba(0,0,0,0.2);
+}
+/* font awesome icon css*/
+/* this is a hack for the bug only in chrome when there is no scroll-bar after upgrading to ext js 6.*/
+.x-viewport, .x-viewport > .x-body {
+    margin: 0;
+    padding: 0;
+    border: 0 none;
+    overflow: auto;
+    position: static;
+   }
+
+.fa-download,.fa-upload,.fa-refresh, .fa-plus-circle, .fa-check-circle{
+    color: #5FA2DD;
+}
+.fa-minus-circle,.fa-ban, .fa-history{
+    color: #BB2D2D;
+}
+/* this is a hack for the bug only in chrome when there is no scroll-bar after upgrading to ext js 6.*/
+
+   /* overriding since the default one is not good. we cant determine the header and selected type.this is for item selector */
+.x-boundlist-selected-authenitication-page .x-boundlist-selected {
+    color: #fff;
+    background: rgba(95, 162, 221, 0.56);
+    border-color: #5fa2dd;
+}
+/* related to item-selector in the auth page
+*/
+.baseCls-itemselector {
+   
+    background: rgba(95, 162, 221, 0.56);
+   
+}
+/*---- login */
+.login-form,
+.centerd {
+	background-color: #F3F3F3 !important;
+    margin : auto !important;
+    width : 100%;
+    border-radius: 5px;
+    box-shadow: 0px 5px 15px 3px rgba(0,0,0,0.2);
+}
+
+.container {
+    width: 960px;
+    text-align: left;
+    margin: 0 auto;
+}
+.msg-warning {
+   
+    width: 100%;
+   
+}
+.transparentCls {
+    background-color: transparent !important;
+}
+.transparentBG, .transparentBG {
+    background-color: #F3F3F3 !important;
+}
+/*--*/
+.tab-main.x-panel-default {
+    background-image: none;
+    background-color: #FFFFFF !important;
+}
+.linkclass {
+    text-decoration: underline;
+    color: #117;
+    cursor: pointer;
+}
+.customtextreadcls {
+    cursor: not-allowed;
+    width: 400px;
+    background: #e2e2e2;
+    border: 0px transparent;
+}
+.columnwithclickevent {
+    text-decoration: underline;
+    color: rgb(100,100,255);
+    cursor: pointer;
+}
+.componentsGrid .x-panel-default {
+    height: 100% !important;
+}
+.add-button-icon {
+    background-image: url("../images/add-icon.png");
+}
+.delete-button-icon {
+    background-image: url("../images/delete-icon.png");
+}
+.edit-button-icon {
+    background-image: url("../images/edit-icon.png");
+}
+.refresh-button-icon {
+    background-image: url("../images/refresh-icon.png");
+}
+.back-button.x-btn-default-toolbar-small {
+    background-color: #3892d3;
+    background-image: -webkit-gradient(linear,50% 0,50% 100%,color-stop(0%,#4b9cd7),color-stop(50%,#3892d3),color-stop(51%,#358ac8),color-stop(100%,#3892d3));
+    background-image: -webkit-linear-gradient(top,#4b9cd7,#3892d3 50%,#358ac8 51%,#3892d3);
+    background-image: -moz-linear-gradient(top,#4b9cd7,#3892d3 50%,#358ac8 51%,#3892d3);
+    background-image: -o-linear-gradient(top,#4b9cd7,#3892d3 50%,#358ac8 51%,#3892d3);
+    background-image: -ms-linear-gradient(top,#4b9cd7,#3892d3 50%,#358ac8 51%,#3892d3);
+    background-image: linear-gradient(top,#4b9cd7,#3892d3 50%,#358ac8 51%,#3892d3);
+    border-width: 1px;
+    border-style: solid;
+    border-color: #126daf;
+}
+.back-button-icon {
+    background-image: url("../images/back-icon.png");
+}
+/*
+.x-panel-header-default {
+   background-image: none !important;
+    background-color: #f5f5f5 !important;
+    border: 0 !important;
+}
+.x-panel-header-title-default {
+    color: #000 !important;;
+    font-size: 13px;
+    font-weight: bold;
+    font-family: helvetica, arial, verdana, sans-serif;
+    line-height: 16px;
+}
+.x-panel-header-default .x-tool-img {
+    background-color: transparent;
+}
+*/
+/**/
+.logoutclass {
+    background: none;
+    border: none;
+    color: #000;
+}
+.logoutclass:hover {
+    background: none;
+    border: none;
+    color: #000;
+}
+.logoutclass .x-btn-inner-default-small {
+    color: #000;
+}
+/*.mypaneltransparent .x-panel-header-default {
+    background-image: none;
+    background-color: transparent;
+    border: 1px solid transparent;
+}
+.mypaneltransparent .x-panel-header-title-default {
+    color: #000;
+}*/
+.settings_title_text {
+    text-align: right;
+}
+.red {
+    color: #c00;
+}
+.red-label {
+    color: #c00;
+    font-weight: bold;
+}
+.active-row {
+    background-color: #c0ffc0 !important;
+}
+.cursor-pointer {
+    cursor: pointer;
+}
+.bold-fieldset-header .x-fieldset-header-text {
+    font-weight: bold;
+}
+.x-tool-dialin_number_icon {
+    background-image: url('icons/phonenumber.png') !important;
+}
+.x-tool-pin_only_icon  {
+    background-image: url('icons/pin.png') !important;
+}
+.x-tool-extension_only_icon  {
+    background-image: url('icons/extension.png') !important;
+}
+.x-tool-room_link_icon  {
+    background-image: url('icons/roomlink.png') !important;
+}
+.x-tool-sip_link_icon  {
+    background-image: url('icons/external.png') !important;
+}
+.x-tool-meeting_link_icon  {
+    background-image: url('icons/dialstring.png') !important;
+}
+.x-tool-webcast_icon  {
+    background-image: url('icons/webcast.png') !important;
+}
+.x-tool-avatar_icon  {
+    background-image: url('icons/user_avatar.png') !important;
+}
+.x-tool-user_title_icon  {
+    background-image: url('icons/user_role.png') !important;
+}
+.x-tool-user_displayname_icon  {
+    background-image: url('icons/user_display.png') !important;
+}
+.x-tool-room_name_icon  {
+    background-image: url('icons/room_name.png') !important;
+}
+.x-tool-tenant_logo_icon  {
+    background-image: url('icons/tenant_logo.png') !important;
+}
+.x-tool-international_dialin_icon  {
+    background-image: url('icons/international_dialing.png') !important;
+}
+.bold-label-style {
+    font-weight: bold;
+     font-size: 11px;
+}
+.icon-upload {
+    width: 16px;
+    height: 16px;
+    background: transparent;
+    background-image: url("../resources/images/upload-icon.png");
+}
+.icon-add {
+    width: 16px;
+    height: 16px;
+    background: transparent;
+    background-image: url("../resources/images/icon_add.gif");
+}
+.icon-remove {
+    width: 16px;
+    height: 16px;
+    background: transparent;
+    background-image: url("../resources/images/icon_remove.gif");
+}
+.icon-success {
+    width: 16px;
+    height: 16px;
+    background: transparent;
+    background-image: url("../resources/images/icon_success.gif");
+}
+.icon-reset {
+    width: 16px;
+    height: 16px;
+    background: transparent;
+    background-image: url("../resources/icons/reset.gif");
+}
+.icon-save {
+    width: 16px;
+    height: 16px;
+    background: transparent;
+    background-image: url("../resources/images/icon_save.gif");
+}
+.icon-shutdown {
+    width: 16px;
+    height: 16px;
+    background: transparent;
+    background-image: url("../resources/images/icon_shutdown.gif");
+}
+.icon-value-map {
+    background-image: url("../resources/images/icon_add.gif");
+    height: 18px;
+    background-repeat: no-repeat;
+}
+/*****Login page******
+.bodyCls {
+    background-color: #fff;
+    color: #000;
+    text-align: left;
+    height: 100%;
+}
+.container {
+    width: 960px;
+    text-align: left;
+    margin: 0 auto;
+}
+.msg-warning {
+    border: 1px solid #4b9cd7;
+    padding: 10px;
+    width: 100%;
+    color: #000000;
+}
+.warning-text {
+    font-weight: bold;
+    font-size: 13px;
+}
+.login-form .x-panel-header-default {
+    background-image: none !important;
+    background-color: #3892D3 !important;
+    border: 1px solid #3892D3 !important;
+}
+.login-form .x-panel-header-title-default {
+    color: #FFFFFF !important;
+}
+
+.login-form .x-panel-header-default-horizontal.x-header-noborder {
+	padding: 5px 10px 10px 10px;
+}
+
+.login-form .x-panel-body {
+	border-width: 0px;
+}
+
+.login-form.x-panel-default {
+	border: 5px solid #3892D3 !important;
+	border-radius: 5px;
+	-webkit-box-shadow: 0px 5px 15px 3px rgba(0,0,0,0.2);
+	-moz-box-shadow: 0px 5px 15px 3px rgba(0,0,0,0.2);
+	box-shadow: 0px 5px 15px 3px rgba(0,0,0,0.2);
+}
+
+.enabled-buttons .x-btn-inner {
+    cursor: pointer;
+}
+.x-body {
+    line-height: 16px;
+}
+.x-form-text {
+    display: inherit !important;
+}
+.white-footer, .white-footer .x-toolbar-footer {
+    background-color: #FFF;
+}
+.white-header-footer, .white-header-footer .x-toolbar-footer, .white-header-footer .x-panel-header-default {
+    background-color: #FFF !important;
+}
+*/
+.linkheader {
+    color: #99ca3c;
+    font-size: 24px;
+    margin: 0 0 11px 0;
+}
+.footerlinks {
+    background-image: none !important;
+    background-color: transparent !important;
+    border: 0 !important;
+}
+.footerlinks .x-btn-inner {
+    color: #1818ff !important;
+    text-decoration: underline !important;
+    font-weight: normal !important;
+}
+.copyright {
+    background-image: none !important;
+    background-color: transparent !important;
+    border: 0 !important;
+}
+.copyright .x-btn-inner {
+    color: #404040 !important;
+    text-decoration: none !important;
+    font-weight: normal !important;
+}
+address {
+    font-style: normal !important;
+}
+.transparentBG .x-panel-body-default {
+    background-color: transparent !important;
+}
+
+.question-tip {
+    background: transparent;
+    background-image: none;
+    border: 0 !important;
+    background-image: url('images/Q.png') !important;
+    background-repeat-y: no-repeat;
+    width: 16px !important;
+    height: 16px !important;
+}
+
+.header-title {
+    -webkit-margin-after: 5px;
+    -webkit-margin-before: 5px;
+    line-height: 20px;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.footer-header-cls .x-autocontainer-innerCt{
+	vertical-align: middle !important;
+}
+.x-form-item-label-inner {
+	text-align: right !important;
+}
+.logoform img {
+    float: left;
+    max-width: 145px;
+    height: 38px;
+}
+.x-btn.x-item-disabled {
+	cursor: default;
+}
+.disableFieldCls{
+	opacity: 0.7;
+    filter: alpha(opacity=70);
+}
+.transparentCls {
+    background-color: transparent !important;
+}p.MsoNormal, li.MsoNormal, div.MsoNormal {
+    margin: 0in;
+    margin-bottom: .0001pt;
+    font-size: 11.0pt;
+    font-family: "Calibri", "sans-serif";
+}
+
+@page WordSection1 {
+    size: 8.5in 11.0in;
+    margin: 1.0in 1.0in 1.0in 1.0in;
+}
+div.WordSection1 {
+    page: WordSection1;
+}
+.x-body {
+    background: #fff; /* url(i/body_top_bg.gif) no-repeat 50% 0; */
+    color: #000;
+    height: 100%;
+}
+
+#maincontent {
+    width: auto;
+    background: #fff;
+    min-height: 610px;
+    height: 610px;
+}

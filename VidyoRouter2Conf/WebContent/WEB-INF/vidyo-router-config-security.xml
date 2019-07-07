@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/security
+        http://www.springframework.org/schema/security/spring-security.xsd">
+
+    <http pattern="/images/**" security="none"/>
+    <http pattern="/js/**" security="none"/>
+    <http pattern="/themes/**" security="none"/>
+
+    <http realm="VidyoRouter Conf Realm" disable-url-rewriting="true">
+        <intercept-url pattern="/jsp/**" access="denyAll"/>
+        <intercept-url pattern="/login.html" access="permitAll"/>
+        <intercept-url pattern="/config_security_check" method="POST" access="permitAll"/>
+        <intercept-url pattern="/logout.html" method="POST" access="permitAll"/>
+        <intercept-url pattern="/*.ajax" method="GET" access="denyAll"/>
+        <intercept-url pattern="/*.ajax" method="POST" access="hasRole('ROLE_USER')"/>
+        <intercept-url pattern="/**" access="hasRole('ROLE_USER')"/>
+
+        <form-login login-page="/login.html"
+                    default-target-url="/loginhistory.html"
+                    always-use-default-target="true"
+                    login-processing-url="/config_security_check"
+                    username-parameter="username"
+                    password-parameter="password"
+                    authentication-failure-url="/login.html?error=1"/>
+
+        <logout logout-url="/logout.html" logout-success-url="/login.html?error=3" />
+        <session-management invalid-session-url="/login.html?error=3" session-authentication-error-url="/login.html?error=1">
+            <concurrency-control max-sessions="1" expired-url="/login.html?error=4" error-if-maximum-exceeded="false" />
+        </session-management>
+        <csrf/>
+    </http>
+
+    <authentication-manager>
+        <authentication-provider ref='routerConfigAuthenticationProvider'/>
+    </authentication-manager>
+
+
+    <beans:bean id="routerConfigAuthenticationProvider" class="com.vidyo.framework.security.RouterConfigAuthenticationProvider">
+        <beans:property name="dao" ref="routerConfigService"/>
+        <beans:property name="tmpDirectory" value="/opt/vidyo/temp/tomcat/"/>
+    </beans:bean>
+
+    <!--<b:bean id="loggerListener" class="org.springframework.security.authentication.event.LoggerListener"/>-->
+
+</beans:beans>
+

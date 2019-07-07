@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+	<Tenant tenantID="1" tenantName="portalgdtest.vidyoqa.lo" description="" tenantPrefix="12" tenantDialIn="" tenantReplayUrl="" mobileLogin="1" vidyoGatewayControllerDns="asdf" scheduledRoomEnabled="0"/>
+	<Tenant tenantID="2" tenantName="portalgdtest1.vidyoqa.lo" description="" tenantPrefix="13" tenantDialIn="" tenantReplayUrl="" mobileLogin="1" vidyoGatewayControllerDns="dfggg" scheduledRoomEnabled="0"/>
+	
+	<IpcConfiguration ipcID="1" tenantID="1" inbound="1" outbound="1" inboundLines="9999" outboundLines="9999" allowed="0"/>
+	<IpcConfiguration ipcID="2" tenantID="2" inbound="1" outbound="1" inboundLines="9999" outboundLines="9999" allowed="1"/>
+	
+	<IpcTenantDomainList ID="1" ipcID="2" hostname="*.vidyo.com"/>
+	
+</dataset>

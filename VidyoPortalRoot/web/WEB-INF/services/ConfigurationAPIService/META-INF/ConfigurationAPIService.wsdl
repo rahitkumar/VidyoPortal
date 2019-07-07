@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="ConfigurationAPIServices" targetNamespace="http://ws.vidyo.com/configurationapi" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://ws.vidyo.com/configurationapi" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/">
+  <wsdl:types>
+    <xs:schema attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://ws.vidyo.com/configurationapi" xmlns:tns="http://ws.vidyo.com/configurationapi">
+	
+            <xs:annotation>
+                <xs:documentation xml:lang="en"/>
+            </xs:annotation>
+            
+		 	<xs:element name="Status">
+			 	<xs:simpleType>
+			        <xs:restriction base="xs:string">
+				        <xs:enumeration value="NEW"/>
+				        <xs:enumeration value="UP"/>
+				        <xs:enumeration value="DOWN"/>
+				        <xs:enumeration value="DISABLED"/>
+			        </xs:restriction>
+		        </xs:simpleType>
+		    </xs:element>
+ 			<xs:element name="Action">
+			    <xs:simpleType>
+			        <xs:restriction base="xs:string">
+				        <xs:enumeration value="ENABLE"/>
+				        <xs:enumeration value="DISABLE"/>
+			        </xs:restriction>
+			    </xs:simpleType>
+		    </xs:element>
+	    
+			<xs:element name="ComponentType">
+			    <xs:simpleType>
+			        <xs:restriction base="xs:string">
+				        <xs:enumeration value="All"/>
+				        <xs:enumeration value="VidyoManager"/>
+				        <xs:enumeration value="VidyoRouter"/>
+				        <xs:enumeration value="VidyoProxy"/>
+				        <xs:enumeration value="VidyoGateway"/>
+				        <xs:enumeration value="VidyoReplayRecorder"/>
+			        </xs:restriction>
+			    </xs:simpleType>
+		    </xs:element>
+	    
+		    <xs:complexType name="SingleComponentDataType">
+		    	<xs:sequence>
+		    		<xs:element name="Identifier" type="xs:string"/>
+					<xs:element name="DisplayName" type="xs:string"/>
+					<xs:element ref="tns:ComponentType"/> 
+					<xs:element name="ConfigData" type="xs:base64Binary"/>
+					<xs:element name="IpAddress" type="xs:string"/>
+					<xs:element maxOccurs="1" minOccurs="0" name="RunningVersion" type="xs:int"/>
+					<xs:element maxOccurs="1" minOccurs="0" name="Version" type="xs:int"/>
+					<xs:element name="Alarm" type="xs:string"/>
+					<xs:element name="SwVer" type="xs:string"/>
+					<xs:element ref="tns:Status"/>
+		    	</xs:sequence>
+		    </xs:complexType>
+		
+		    <xs:element name="ErrorMessage" type="xs:string">
+		        <xs:annotation>
+		            <xs:documentation>String presentation of fault</xs:documentation>
+		        </xs:annotation>
+		    </xs:element>
+		      
+		    <xs:element name="GeneralFault">
+		        <xs:annotation>
+		            <xs:documentation>
+		                This means that some exception happened in system.
+		            </xs:documentation>
+		        </xs:annotation>
+		        <xs:complexType>
+		            <xs:sequence>
+		                <xs:element ref="tns:ErrorMessage"/>
+		            </xs:sequence>
+		        </xs:complexType>
+		    </xs:element>
+	
+
+		        
+			<xs:element name="ListNetworkComponentsRequest">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element ref="tns:ComponentType"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			
+			<xs:element name="ListNetworkComponentsResponse">
+			    <xs:annotation>
+		          <xs:documentation>
+		            a list of network components
+		          </xs:documentation>
+		        </xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element maxOccurs="unbounded" minOccurs="0" name="NetworkComponent" type="tns:SingleComponentDataType"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+
+			<xs:element name="EnableNetworkComponentRequest">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Identifier" type="xs:string"/>
+						<xs:element ref="tns:Action"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			
+			<xs:element name="EnableNetworkComponentResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Identifier" type="xs:string"/>
+						<xs:element ref="tns:Action"/>
+						<xs:element name="Success" type="xs:boolean"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+	    </xs:schema>
+  </wsdl:types>
+  <wsdl:message name="EnableNetworkComponentInput">
+    <wsdl:part name="parameters" element="tns:EnableNetworkComponentRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="ListNetworkComponentsOutput">
+    <wsdl:part name="parameters" element="tns:ListNetworkComponentsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="ListNetworkComponentsInput">
+    <wsdl:part name="parameters" element="tns:ListNetworkComponentsRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="GeneralFault">
+    <wsdl:part name="fault" element="tns:GeneralFault">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="EnableNetworkComponentOutput">
+    <wsdl:part name="parameters" element="tns:EnableNetworkComponentResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="ConfigurationAPIServicePortType">
+    <wsdl:operation name="ListNetworkComponents">
+<wsdl:documentation>List all network components</wsdl:documentation>
+      <wsdl:input message="tns:ListNetworkComponentsInput">
+    </wsdl:input>
+      <wsdl:output message="tns:ListNetworkComponentsOutput">
+    </wsdl:output>
+      <wsdl:fault name="GeneralFault" message="tns:GeneralFault">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="EnableNetworkComponent">
+<wsdl:documentation>Enable or Disable a network component</wsdl:documentation>
+      <wsdl:input message="tns:EnableNetworkComponentInput">
+    </wsdl:input>
+      <wsdl:output message="tns:EnableNetworkComponentOutput">
+    </wsdl:output>
+      <wsdl:fault name="GeneralFault" message="tns:GeneralFault">
+    </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="ConfigurationAPIServiceBinding" type="tns:ConfigurationAPIServicePortType">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="ListNetworkComponents">
+      <soap:operation soapAction="ListNetworkComponents"/>
+      <wsdl:input>
+        <soap:body use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </wsdl:output>
+      <wsdl:fault name="GeneralFault">
+        <soap:fault name="GeneralFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="EnableNetworkComponent">
+      <soap:operation soapAction="EnableNetworkComponent"/>
+      <wsdl:input>
+        <soap:body use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </wsdl:output>
+      <wsdl:fault name="GeneralFault">
+        <soap:fault name="GeneralFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="ConfigurationAPIService">
+    <wsdl:port name="ConfigurationAPIServicePort" binding="tns:ConfigurationAPIServiceBinding">
+      <soap:address location="http://localhost:8080/services/ConfigurationAPIService/"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

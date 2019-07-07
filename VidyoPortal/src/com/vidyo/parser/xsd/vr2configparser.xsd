@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://www.vidyo.com/vr2configparser.xsd"
+		elementFormDefault="qualified"
+			xmlns:vr2configparser="http://www.vidyo.com/vr2configparser.xsd"
+				  xmlns:xs="http://www.w3.org/2001/XMLSchema">
+   
+  <xs:annotation>
+    <xs:appinfo>
+      <NamespaceInfo filePrefix="vr2configparser" cNamePrefix="vr2configparser" namespaceCheck="false" version="1"/>
+    </xs:appinfo>
+  </xs:annotation>
+
+	<xs:complexType name="vrURI">
+        <xs:sequence>
+            <xs:element name="Uri" type="xs:string"/>
+            <xs:element name="Priority" minOccurs="0" type="xs:unsignedInt"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:simpleType name="VMAccessType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Listen"/>
+            <xs:enumeration value="Connect"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:complexType name="MediaStreamPrecedenceType">
+        <xs:sequence>
+			<!-- Allowed values: 0 to 39 -->
+            <xs:element name="LowPrioDSCPBits" type="xs:unsignedInt"/>
+            <xs:element name="MedPrioDSCPBits" type="xs:unsignedInt"/>
+            <xs:element name="HighPrioDSCPBits" type="xs:unsignedInt"/>
+        </xs:sequence>
+    </xs:complexType>
+
+	<xs:complexType name="CMCPAddressListType">
+	   <xs:sequence>
+		  <xs:element name="CMCPListenAddress" type="xs:string" minOccurs="1" maxOccurs="unbounded"/>
+	   </xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="ListenVMListType">
+	   <xs:sequence>
+		  <xs:element name="ListenVM" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+	   </xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="ConnectVMListType">
+	   <xs:sequence>
+		  <xs:element name="ConnectVM" type="vr2configparser:vrURI" minOccurs="0" maxOccurs="unbounded"/>
+	   </xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="MediaAddressMapType">
+	   <xs:sequence>
+		  <xs:element name="LocalAddress" type="xs:string"/>
+		  <xs:element name="RemoteAddress" type="xs:string"/>
+	   </xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="MediaPortRangeType">
+	   <xs:sequence>
+		  <xs:element name="Start" type="xs:unsignedInt"/>
+		  <xs:element name="End" type="xs:unsignedInt"/>
+	   </xs:sequence>
+	</xs:complexType>
+
+    <xs:complexType name="VRConfigType">
+        <xs:sequence>
+            <xs:element name="DocumentVersion" type="xs:string"/>
+            <xs:element name="RouterName" type="xs:string"/>
+            <xs:element name="CMCPAddressList" type="vr2configparser:CMCPAddressListType"/>
+            <xs:element name="VidyoManagerAccess" type="vr2configparser:VMAccessType"/>
+            <xs:element name="ListenVMList" type="vr2configparser:ListenVMListType"/>
+            <xs:element name="ConnectVMList" type="vr2configparser:ConnectVMListType"/>
+            <xs:element name="MediaAddressMap" type="vr2configparser:MediaAddressMapType" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="StunServerAddress" type="xs:string" minOccurs="0"/>
+            <xs:element name="MediaPortRange" type="vr2configparser:MediaPortRangeType" minOccurs="0"/>
+            <xs:element name="SecurityEnabled" type="xs:boolean" minOccurs="0"/>
+            <xs:element name="VideoPrecedence" type="vr2configparser:MediaStreamPrecedenceType" minOccurs="0"/>
+            <xs:element name="AudioPrecedence" type="vr2configparser:MediaStreamPrecedenceType" minOccurs="0"/>
+            <xs:element name="AppPrecedence" type="vr2configparser:MediaStreamPrecedenceType" minOccurs="0"/>
+            <xs:element name="SignalingPrecedence" type="xs:unsignedInt" minOccurs="0"/>
+            <xs:element name="ProxyEnable" type="xs:boolean" minOccurs="0"/>
+            <xs:element name="ProxyCompatibility" type="xs:boolean" minOccurs="0"/>
+            <xs:element name="ProxyUseTls" type="xs:boolean" minOccurs="0"/>            
+            <xs:element name="LogFileHistoryDays" type="xs:unsignedInt" minOccurs="0"/>
+            <xs:element name="LogFileName" type="xs:string" minOccurs="0"/>
+            <xs:element name="LogLevel" type="xs:string" minOccurs="0"/>
+            <xs:element name="MaxLogFileSizeKB" type="xs:unsignedInt" minOccurs="0"/>
+            <xs:element name="Stat" type="xs:string"/>
+            <xs:element name="NumberOfThreads" type="xs:unsignedInt"/>
+	    	<xs:any minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:element name="Config" type="vr2configparser:VRConfigType">
+		<xs:annotation id="root"/>
+    </xs:element>
+</xs:schema>

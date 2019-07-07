@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+        xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+
+        xsi:schemaLocation="http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
+            http://www.springframework.org/schema/aop
+            http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+	<!-- Enables the Spring MVC @Controller programming model -->
+	<mvc:annotation-driven />
+
+	<context:component-scan base-package="com.vidyo.web" use-default-filters="false">
+    		<context:include-filter expression="org.springframework.stereotype.Controller" type="annotation"/>
+	</context:component-scan>
+
+    <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+        <property name="basename" value="classpath:messages" />
+        <property name="defaultEncoding" value="UTF-8"/>
+    </bean>
+
+    <bean id="localeChangeInterceptor" class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
+        <property name="paramName" value="lang" />
+    </bean>
+
+    <bean id="localeResolver" class="com.vidyo.interceptors.web.VidyoCookieLocaleResolver">
+        <property name="cookiePath" value="/vr2conf"/>
+        <property name="cookieName" value="VidyoRouterConfigLanguage"/>
+        <property name="cookieMaxAge" value="-1"/>
+        <property name="defaultLocale" value="en" />
+        <property name="cookieHttpOnly" value="true"/>
+        <property name="cookieSecure" value="true"/>
+    </bean>
+
+    <bean id="themeResolver" class="org.springframework.web.servlet.theme.FixedThemeResolver">
+        <property name="defaultThemeName" value="vidyo"/>
+    </bean>
+
+    <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
+        <property name="prefix" value="/WEB-INF/jsp/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+
+    <bean id="appEventListener" class="com.vidyo.framework.listeners.ApplicationEventListener">
+        <property name="routerConfigService" ref="routerConfigService" />
+    </bean>
+
+    <bean id="networkService" class="com.vidyo.service.NetworkServiceImpl" />
+
+    <bean id="serviceLoginHolder"
+          class="com.vidyo.bo.LoginHolder" scope="session">
+        <aop:scoped-proxy/>
+    </bean>
+
+    <bean id="routerConfigService" class="com.vidyo.service.RouterConfigServiceImpl">
+        <property name="messages" ref="messageSource"/>
+        <property name="tmpDirectory" value="/opt/vidyo/temp/tomcat/"/>
+    </bean>
+
+	<!--
+    <bean id="urlMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+        <property name="mappings">
+            <props>
+                <prop key="/login.html">loginController</prop>
+                <prop key="/loginhistory.html">loginController</prop>
+                 <prop key="/loginhistory.ajax">loginController</prop>
+                <prop key="/menu_content.html">routerConfigController</prop>
+                <prop key="/security.html">routerConfigController</prop>
+                <prop key="/maintenance.html">routerConfigController</prop>
+
+                <prop key="/network.html">routerConfigController</prop>
+                <prop key="/network.ajax">routerConfigController</prop>
+
+                <prop key="/securedmaint/update_config_server.ajax">routerConfigController</prop>
+                <prop key="/securedmaint/maintenance_system_reset.ajax">routerConfigController</prop>
+                <prop key="/securedmaint/maintenance_system_upgrade_upload.ajax">routerConfigController</prop>
+                <prop key="/securedmaint/maintenance_system_upgrade.ajax">routerConfigController</prop>
+                <prop key="/securedmaint/maintenance_system_restart.ajax">routerConfigController</prop>
+                 <prop key="/serverstartedtime.ajax">routerConfigController</prop>
+                <prop key="/securedmaint/maintenance_logs.ajax">routerConfigController</prop>
+                <prop key="/securedmaint/update_log_settings.ajax">routerConfigController</prop>
+                <prop key="/logs_download.html">routerConfigController</prop>
+                <prop key="/audit_logs_download.html">routerConfigController</prop>
+                
+                <prop key="/securedmaint/maintenance_install_log_list.ajax">routerConfigController</prop>
+				<prop key="/maintenance_download_install_log.html">routerConfigController</prop>
+				<prop key="/maintenance_installed_patches.html">routerConfigController</prop>
+
+                <prop key="/security/security_key.ajax">securityController</prop>
+                <prop key="/security/security_generate_key.ajax">securityController</prop>
+                
+                <prop key="/security/security_export_key.ajax">securityController</prop>
+                <prop key="/security/security_csr.ajax">securityController</prop>
+                <prop key="/security/security_generate_csr.ajax">securityController</prop>
+                <prop key="/security/security_server_cert.ajax">securityController</prop>
+                <prop key="/security/security_generate_cert.ajax">securityController</prop>
+                <prop key="/security/security_server_cert_update.ajax">securityController</prop>
+                <prop key="/security/security_server_ca_cert.ajax">securityController</prop>
+                <prop key="/security/security_upload_file.ajax">securityController</prop>
+                <prop key="/security/security_command.ajax">securityController</prop>
+                <prop key="/security/security_applications_get.ajax">securityController</prop>
+                <prop key="/security/security_applications_network_interfaces.ajax">securityController</prop>
+                <prop key="/security/security_applications_update.ajax">securityController</prop>
+                <prop key="/security/security_advanced_upload_bundle.ajax">securityController</prop>
+                <prop key="/security/security_advanced_export_bundle.ajax">securityController</prop>
+                <prop key="/security/security_advanced_upload_root.ajax">securityController</prop>
+                <prop key="/security/security_advanced_factory_reset.ajax">securityController</prop>
+				<prop key="/security/security_advanced_ocsp.ajax">securityController</prop>
+                <prop key="/security/security_use_default_root.ajax">securityController</prop>
+
+                <prop key="/securedmaint/maintenance_diagnostics_list.ajax">routerConfigController</prop>
+                <prop key="/maintenance_diagnostics_view.html">routerConfigController</prop>
+                <prop key="/securedmaint/maintenance_diagnostics_run.ajax">routerConfigController</prop>
+                <prop key="/maintenance_diagnostics_download.html">routerConfigController</prop>
+
+            </props>
+        </property>
+        <property name="interceptors">
+            <list>
+                <ref bean="localeChangeInterceptor"/>
+            </list>
+        </property>
+    </bean>   -->
+
+    <bean id="loginController" class="com.vidyo.web.LoginController">
+        <!--
+        <property name="methodNameResolver">
+            <bean class="org.springframework.web.servlet.mvc.multiaction.PropertiesMethodNameResolver">
+                <property name="mappings">
+                    <props>
+                        <prop key="/login.html">getLoginHtml</prop>
+                        <prop key="/loginhistory.html">getLoginHistoryDetailsHtml</prop>
+                        <prop key="/loginhistory.ajax">getLoginHistoryAjax</prop>
+                    </props>
+                </property>
+            </bean>
+        </property>  -->
+        <property name="routerConfigAuthenticationProvider" ref="routerConfigAuthenticationProvider"/>
+        <property name="loginHolder" ref="serviceLoginHolder"/>
+    </bean>
+
+    <bean id="routerConfigController" class="com.vidyo.web.RouterConfigController">
+    	<!--
+        <property name="methodNameResolver">
+            <bean class="org.springframework.web.servlet.mvc.multiaction.PropertiesMethodNameResolver">
+                <property name="mappings">
+                    <props>
+                        <prop key="/menu_content.html">getMenuContentHtml</prop>
+                        <prop key="/security.html">getSecurityHtml</prop>
+                        <prop key="/maintenance.html">getMaintenanceHtml</prop>
+
+                        <prop key="/securedmaint/update_config_server.ajax">updateConfigServerAjax</prop>
+                        <prop key="/securedmaint/maintenance_system_reset.ajax">systemResetAjax</prop>
+                        <prop key="/securedmaint/maintenance_system_upgrade_upload.ajax">maintenanceSystemUpgradeUploadAjax</prop>
+                        <prop key="/securedmaint/maintenance_system_upgrade.ajax">systemUpgradeAjax</prop>
+                        <prop key="/securedmaint/maintenance_system_restart.ajax">maintenanceSystemRestart</prop>
+                        <prop key="/serverstartedtime.ajax">getServerStartedAjax</prop>
+                        <prop key="/securedmaint/maintenance_logs.ajax">systemLogsAjax</prop>
+                        <prop key="/securedmaint/update_log_settings.ajax">systemUpdateLogSettingsAjax</prop>
+                        <prop key="/logs_download.html">systemLogsDownloadAjax</prop>
+                        <prop key="/audit_logs_download.html">systemDownloadAuditLogs</prop>
+                        
+                        <prop key="/securedmaint/maintenance_install_log_list.ajax">maintenanceInstallationLogList</prop>
+                        <prop key="/maintenance_download_install_log.html">maintenanceDownloadInstallLog</prop>
+                        <prop key="/maintenance_installed_patches.html">maintenanceInstalledPatches</prop>
+
+                        <prop key="/network.html">getNetworkHtml</prop>
+                        <prop key="/network.ajax">getNetworkAjax</prop>
+
+                        <prop key="/securedmaint/maintenance_diagnostics_list.ajax">maintenanceDiagnosticsList</prop>
+                        <prop key="/maintenance_diagnostics_view.html">maintenanceDiagnosticsView</prop>
+                        <prop key="/securedmaint/maintenance_diagnostics_run.ajax">maintenanceDiagnosticsRun</prop>
+                        <prop key="/maintenance_diagnostics_download.html">maintenanceDiagnosticsDownload</prop>
+
+                    </props>
+                </property>
+            </bean>
+        </property> -->
+        <property name="tmpDirectory" value="/opt/vidyo/temp/tomcat/"/>
+        <property name="messages" ref="messageSource"/>
+        <property name="network" ref="networkService"/>
+        <property name="securityService" ref="securityService"/>
+        <property name="routerConfigService" ref="routerConfigService"/>
+        <property name="diagnosticsService" ref="diagnosticsService"/>
+        <property name="installationService" ref="installationService"/>
+    </bean>
+
+    <!-- Security start-->
+
+    <bean id="excludeApps" class="org.springframework.beans.factory.config.ListFactoryBean">
+        <property name="sourceList">
+            <list>
+                <value>ROOT</value>
+                <value>upload</value>
+                <value>manager</value>
+                <value>host-manager</value>
+                <value>media</value>
+                <value>portal</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="diagnosticsService"
+          class="com.vidyo.service.diagnostics.DiagnosticsService">
+    </bean>
+
+
+    <bean id="securityService" class="com.vidyo.service.SecurityServiceImpl">
+        <property name="messages" ref="messageSource"/>
+        <property name="tmpDirectory" value="/opt/vidyo/temp/tomcat/"/>
+    </bean>
+    
+    <bean id="installationService" class="com.vidyo.service.installation.InstallationServiceImpl">
+    </bean>
+
+    <bean id="securityController" class="com.vidyo.web.SecurityController">
+    	<!--
+        <property name="methodNameResolver">
+            <bean class="org.springframework.web.servlet.mvc.multiaction.PropertiesMethodNameResolver">
+                <property name="mappings">
+                    <props>
+                        <prop key="/security/security_key.ajax">getKeyAjax</prop>
+                        <prop key="/security/security_generate_key.ajax">generatePrivateKeyAjax</prop>
+                        <prop key="/security/security_export_key.ajax">exportPrivateKeyAjax</prop>
+                        <prop key="/security/security_csr.ajax">getCsrAjax</prop>
+                        <prop key="/security/security_generate_csr.ajax">generateCSRAjax</prop>
+                        <prop key="/security/security_server_cert.ajax">getServerCertAjax</prop>
+                        <prop key="/security/security_generate_cert.ajax">generateSelfSignedCert</prop>
+                        <prop key="/security/security_server_cert_update.ajax">updateServerCertAjax</prop>
+                        <prop key="/security/security_server_ca_cert.ajax">getServerCACertAjax</prop>
+                        <prop key="/security/security_upload_file.ajax">uploadFileAjax</prop>
+                        <prop key="/security/security_command.ajax">handleSecurityCommand</prop>
+                        <prop key="/security/security_applications_get.ajax">getApplicationsInfo</prop>
+                        <prop key="/security/security_applications_update.ajax">updateAppSettings</prop>
+                        <prop key="/security/security_applications_network_interfaces.ajax">getNetworkInterfaces</prop>
+                        <prop key="/security/security_advanced_upload_bundle.ajax">handleBundleUpload</prop>
+                        <prop key="/security/security_advanced_export_bundle.ajax">handleExportBundle</prop>
+                        <prop key="/security/security_advanced_upload_root.ajax">handleRootUpload</prop>
+                        <prop key="/security/security_advanced_factory_reset.ajax">handleFactoryReset</prop>
+                        <prop key="/security/security_advanced_ocsp.ajax">saveOcspSettings</prop>
+                        <prop key="/security/security_use_default_root.ajax">useDefaultRootCerts</prop>
+                    </props>
+                </property>
+            </bean>
+        </property> -->
+        <property name="tmpDirectory" value="/opt/vidyo/temp/tomcat/"/>
+        <property name="securityService" ref="securityService"/>
+        <property name="localeResolver" ref="localeResolver"/>
+        <property name="messages" ref="messageSource"/>
+        <property name="excludeApps" ref="excludeApps" />
+        <property name="routerConfigService" ref="routerConfigService" />
+    </bean>
+
+    <!-- Security end -->
+
+    <bean id="filterMultipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+    </bean>
+
+    <mvc:resources location="/images/" mapping="/images/**" cache-period="2592000" />
+    <mvc:resources location="/themes/" mapping="/themes/**" cache-period="2592000" />
+    <mvc:resources location="/js/" mapping="/js/**" />
+
+    <mvc:annotation-driven />
+    
+    <mvc:interceptors>
+    	<mvc:interceptor>
+    		<mvc:mapping path="/security/**"/>
+    		<mvc:mapping path="/securedmaint/**"/>
+    		<bean id="securityAccessInterceptor" class="com.vidyo.interceptors.web.SecurityAccessInterceptor">
+    		</bean>
+    	</mvc:interceptor>
+    </mvc:interceptors>
+</beans>    

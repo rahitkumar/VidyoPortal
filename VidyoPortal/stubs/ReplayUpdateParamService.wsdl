@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<definitions name="ReplayUpdateParamService"
+             targetNamespace="http://replay.vidyo.com/update"
+             xmlns:tns="http://replay.vidyo.com/update"
+             xmlns:soapbind="http://schemas.xmlsoap.org/wsdl/soap/"
+             xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+             xmlns="http://schemas.xmlsoap.org/wsdl/">
+             
+             
+    <types>
+        <xsd:schema
+                xmlns:tns="http://replay.vidyo.com/update"
+                targetNamespace="http://replay.vidyo.com/update"
+                elementFormDefault="qualified"
+                attributeFormDefault="qualified">
+
+            <xsd:element name="UpdateTenantRequest">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="oldName" type="xsd:string" />
+                        <xsd:element name="newName" type="xsd:string" />
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+                
+            <xsd:element name="UpdateStatusResponse">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="updateStatus" type="xsd:string" />
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>                                  
+        </xsd:schema>        
+    </types>             
+             
+    <message name="UpdateTenantInput">
+        <part name="parameter" element="tns:UpdateTenantRequest"/>
+    </message>             
+             
+    <message name="UpdateStatusOutput">
+        <part name="parameter" element="tns:UpdateStatusResponse"/>
+    </message>   
+    
+    <portType name="ManageReplay">              
+         <operation name="UpdateTenant">
+             <input message="tns:UpdateTenantInput" />
+             <output message="tns:UpdateStatusOutput" />
+         </operation>             
+    </portType>  
+    
+    <binding name="ManageReplayBinding" type="tns:ManageReplay">
+         <soapbind:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
+         <operation name="UpdateTenant">
+             <soapbind:operation style="document" />
+             <input>
+                <soapbind:body use="literal" />
+             </input>
+             <output>
+                <soapbind:body use="literal" />
+             </output>
+         </operation>
+    </binding> 
+    
+    <service name="ReplayUpdateParamService">
+        <port name="ManageReplay" binding="tns:ManageReplayBinding">
+            <soapbind:address location="http://localhost/replay/services/ReplayUpdateParamService"/>
+        </port>
+    </service>       
+               
+             
+
+</definitions>

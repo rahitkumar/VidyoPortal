@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+	<Member memberID="3" roleID="1" tenantID="1" langID="1"
+		profileID="1" proxyID="1" locationID="1" modeID="1" username="unittestmember"
+		password="5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8" memberName="UnitTest Member"
+		active="1" allowedToParticipate="1" emailAddress="unitest@vidyo.com"
+		memberCreated="1389387570"/>
+		
+	<Member memberID="4" roleID="1" tenantID="1" langID="1"
+		profileID="1" proxyID="1" locationID="1" modeID="1" username="unittestmember1"
+		password="5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8" memberName="UnitTest1 Member1"
+		active="1" allowedToParticipate="1" emailAddress="unitest1@vidyo.com"
+		memberCreated="1389387570"/>
+				
+	<Room roomID="30124" roomTypeID="4" memberID="3" groupID="1"
+		profileID="0" roomName="1232656074" roomExtNumber="1232656074"
+		roomDescription="Ryan Aguilar-ScheduledRoom" roomPIN="4566"
+		roomModeratorPIN="3434" roomLocked="0" roomEnabled="1"
+		roomKey="Mwyzr2U6wyaUfB1wtuURGsOizo" roomModeratorKey="fghgfhg"
+		roomMuted="0" roomSilenced="0" roomVideoMuted="0" roomVideoSilenced="0"
+		recurring="0" last_used="2013-12-13 11:12:12" />
+
+	<Room roomID="30125" roomTypeID="1" memberID="3" groupID="1"
+		profileID="0" roomName="Aguilar-PersonalRoom" roomExtNumber="45435646546"
+		roomDescription="Ryan Aguilar-PersonalRoom" roomPIN="3443"
+		roomModeratorPIN="3434" roomLocked="0" roomEnabled="1" roomKey="fgfhgfhfghgfhgh"
+		roomModeratorKey="fghgfhg" roomMuted="0" roomSilenced="0"
+		roomVideoMuted="0" roomVideoSilenced="0" recurring="0"
+		last_used="2013-12-13 11:12:12" />
+
+	<Room roomID="30126" roomTypeID="2" memberID="3" groupID="1"
+		profileID="0" roomName="Aguilar-PublicRoom" roomExtNumber="546465565"
+		roomDescription="Ryan Aguilar-PublicRoom" roomPIN="5466"
+		roomModeratorPIN="43545" roomLocked="0" roomEnabled="1" roomKey="dfgf124afdfgd"
+		roomModeratorKey="fghgfhg" roomMuted="0" roomSilenced="0"
+		roomVideoMuted="0" roomVideoSilenced="0" recurring="0"
+		last_used="2013-12-13 11:12:12" />
+
+	<Room roomID="30127" roomTypeID="3" memberID="20" groupID="1"
+		profileID="0" roomName="Aguilar-Legacy" roomExtNumber="768678678"
+		roomDescription="Ryan Aguilar-Legacy" roomPIN="3443" roomModeratorPIN="3434"
+		roomLocked="0" roomEnabled="1" roomKey="4356565fdgh" roomModeratorKey="fghgfhg"
+		roomMuted="0" roomSilenced="0" roomVideoMuted="0" roomVideoSilenced="0"
+		recurring="0" last_used="2013-12-13 11:12:12" />
+		
+	<Room roomID="30128" roomTypeID="4" memberID="3" groupID="1"
+		profileID="0" roomName="Aguilar-Scheduled" roomExtNumber="123456789"
+		roomDescription="Aguilar-Scheduled" roomPIN="3443" roomModeratorPIN="3434"
+		roomLocked="0" roomEnabled="1" roomKey="123456789rtrdstfg" roomModeratorKey="fghgfhg"
+		roomMuted="0" roomSilenced="0" roomVideoMuted="0" roomVideoSilenced="0"
+		recurring="0" last_used="2013-12-13 11:12:12" />		
+
+	<RoomType roomTypeID="1" roomType="Personal"
+		roomTypeDescription="Personal" />
+	<RoomType roomTypeID="2" roomType="Public"
+		roomTypeDescription="Public" />
+	<RoomType roomTypeID="3" roomType="Legacy"
+		roomTypeDescription="Legacy" />
+	<RoomType roomTypeID="4" roomType="Scheduled"
+		roomTypeDescription="Scheduled" />
+	<Locations locationID="1" locationTag="Default" />
+</dataset>

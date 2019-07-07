@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<wsdl:definitions name="AuthenticationService"
+        xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+        xmlns:http="http://schemas.xmlsoap.org/wsdl/http/"
+        xmlns:tns="http://ws.vidyo.com/authentication"
+        xmlns:xs="http://www.w3.org/2001/XMLSchema"
+        xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/"
+        xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+        xmlns:ns="http://schemas.xmlsoap.org/soap/encoding/"
+        targetNamespace="http://ws.vidyo.com/authentication">
+
+	<wsdl:types>
+
+		<xs:schema xmlns:tns="http://ws.vidyo.com/authentication"
+                   targetNamespace="http://ws.vidyo.com/authentication"
+                   elementFormDefault="qualified"
+                   attributeFormDefault="qualified">
+
+			<xs:annotation>
+				<xs:documentation xml:lang="en"/>
+			</xs:annotation>
+
+            <!-- AuthenticationRequest -->
+            <xs:element name="AuthenticationRequest">
+                <xs:annotation>
+                    <xs:documentation>
+                        Send user credentions to Auth Server
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="username" type="xs:string"/>
+                        <xs:element name="password" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <!-- AuthenticationResponse -->
+            <xs:element name="AuthenticationResponse">
+                <xs:annotation>
+                    <xs:documentation>
+                        Response from Auth Server
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="passed" type="xs:boolean"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+		</xs:schema>
+
+	</wsdl:types>
+
+    <!-- messages -->
+    <wsdl:message name="AuthenticationInput">
+        <wsdl:part name="parameter" element="tns:AuthenticationRequest"/>
+    </wsdl:message>
+    <wsdl:message name="AuthenticationOutput">
+        <wsdl:part name="parameter" element="tns:AuthenticationResponse"/>
+    </wsdl:message>
+
+	<wsdl:portType name="AuthenticationServicePortType">
+        <wsdl:operation name="authentication">
+            <wsdl:input message="tns:AuthenticationInput"/>
+            <wsdl:output message="tns:AuthenticationOutput"/>
+        </wsdl:operation>
+	</wsdl:portType>
+
+	<wsdl:binding name="AuthenticationServiceBinding" type="tns:AuthenticationServicePortType">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsdl:operation name="authentication">
+            <soap:operation soapAction="authentication"/>
+            <wsdl:input>
+                <soap:body use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </wsdl:output>
+        </wsdl:operation>
+	</wsdl:binding>
+
+	<wsdl:service name="AuthenticationService">
+		<wsdl:port name="AuthenticationServicePort" binding="tns:AuthenticationServiceBinding">
+			<soap:address location="http://localhost:8080/services/AuthenticationService"/>
+		</wsdl:port>
+	</wsdl:service>
+
+</wsdl:definitions>

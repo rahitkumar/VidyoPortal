@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:batch="http://www.springframework.org/schema/batch"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/batch
+		http://www.springframework.org/schema/batch/spring-batch.xsd
+	">
+
+	<batch:job id="licenseCacheValidationJob" restartable="true">
+		<batch:step id="licenseCacheValidationStep">
+			<batch:tasklet ref="licenseCacheValidationTasklet"
+				transaction-manager="transactionManager" />
+		</batch:step>
+	</batch:job>
+
+	<bean id="licenseCacheValidationTasklet"
+		class="com.vidyo.portal.batch.jobs.licensecache.tasklet.LicenseCacheValidationTasklet">
+		<property name="licensingService" ref="licensingService1" />
+	</bean>
+
+</beans>

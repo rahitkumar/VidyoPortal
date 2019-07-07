@@ -1,0 +1,33 @@
+apply plugin: 'java'
+apply plugin: 'war'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    compile project(':VidyoPortal')
+    
+    testCompile 'junit:junit:4.12'
+    testCompile 'org.springframework:spring-test:4.3.2.RELEASE'
+    testCompile 'org.mockito:mockito-core:2.9.0'
+    providedCompile 'javax.servlet:javax.servlet-api:3.0.1'
+}
+
+war {
+    baseName 'ROOT'
+    from 'web'
+}
+
+task warNoLib(type: War) {
+    description "Generates a war archive without any jars."
+    baseName 'ROOT'
+    from 'web'
+    classpath = classpath.filter { !it.name.matches('.*\\.[jm]ar') }
+}
+
+task release(dependsOn: warNoLib)
+
+

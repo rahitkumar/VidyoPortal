@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:batch="http://www.springframework.org/schema/batch"
+       xmlns:context="http://www.springframework.org/schema/context"
+	   xsi:schemaLocation="
+		http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/batch
+		http://www.springframework.org/schema/batch/spring-batch.xsd">
+
+        <batch:job id="statusNotificationsJob" restartable="true">
+            <batch:step id="statusNotificationsStep">
+                <batch:tasklet ref="statusNotificationsTasklet" transaction-manager="jpaTransactionManager" />
+            </batch:step>
+        </batch:job>
+
+		<bean id="restTemplate" class="org.springframework.web.client.RestTemplate"></bean>
+		
+		<bean id="retryTemplate" class="org.springframework.retry.support.RetryTemplate">
+			<property name="backOffPolicy" ref="backOffPolicy"/>
+			<property name="retryPolicy" ref="retryPolicy"/>
+		</bean>
+		
+		<!-- Fixed back off policy, default is 100ms -->
+		<bean id="backOffPolicy" class="org.springframework.retry.backoff.FixedBackOffPolicy">
+			<property name="backOffPeriod" value="100"/>
+		</bean>
+	
+		<bean id="retryPolicy" class="org.springframework.retry.policy.SimpleRetryPolicy">
+			<property name="maxAttempts" value="3"></property>
+		</bean>	
+
+        <bean id="statusNotificationsTasklet" class="com.vidyo.portal.batch.jobs.notifications.tasklet.StatusNotificationsRetrySender">
+             <property name="tenantNotificationsService" ref="tenantNotificationsService" />
+             <property name="restTemplate" ref="restTemplate"/>
+             <property name="retryTemplate" ref="retryTemplate"/>
+             <property name="chunkSize" value="100" />
+        </bean>
+</beans>

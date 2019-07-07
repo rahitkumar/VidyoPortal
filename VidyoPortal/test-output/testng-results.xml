@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results skipped="0" failed="0" ignored="0" total="8" passed="8">
+  <reporter-output>
+  </reporter-output>
+  <suite name="Default suite" duration-ms="353" started-at="2018-10-25T13:21:27Z" finished-at="2018-10-25T13:21:27Z">
+    <groups>
+    </groups>
+    <test name="Default test" duration-ms="353" started-at="2018-10-25T13:21:27Z" finished-at="2018-10-25T13:21:27Z">
+      <class name="com.vidyo.service.configuration.ExtIntegrationServiceImplTest">
+        <test-method status="PASS" signature="setup()[pri:0, instance:com.vidyo.service.configuration.ExtIntegrationServiceImplTest@1a1d6a08]" name="setup" is-config="true" duration-ms="276" started-at="2018-10-25T16:21:27Z" finished-at="2018-10-25T16:21:27Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setup -->
+        <test-method status="PASS" signature="testGlobalEpicDisabled()[pri:0, instance:com.vidyo.service.configuration.ExtIntegrationServiceImplTest@1a1d6a08]" name="testGlobalEpicDisabled" duration-ms="21" started-at="2018-10-25T16:21:27Z" finished-at="2018-10-25T16:21:27Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testGlobalEpicDisabled -->
+        <test-method status="PASS" signature="setup()[pri:0, instance:com.vidyo.service.configuration.ExtIntegrationServiceImplTest@1a1d6a08]" name="setup" is-config="true" duration-ms="1" started-at="2018-10-25T16:21:27Z" finished-at="2018-10-25T16:21:27Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setup -->
+        <test-method status="PASS" signature="testGlobalEpicEnabled()[pri:0, instance:com.vidyo.service.configuration.ExtIntegrationServiceImplTest@1a1d6a08]" name="testGlobalEpicEnabled" duration-ms="4" started-at="2018-10-25T16:21:27Z" finished-at="2018-10-25T16:21:27Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testGlobalEpicEnabled -->
+        <test-method status="PASS" signature="setup()[pri:0, instance:com.vidyo.service.configuration.ExtIntegrationServiceImplTest@1a1d6a08]" name="setup" is-config="true" duration-ms="1" started-at="2018-10-25T16:21:27Z" finished-at="2018-10-25T16:21:27Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setup -->
+        <test-method status="PASS" signature="testGlobalTytoCareDisabled()[pri:0, instance:com.vidyo.service.configuration.ExtIntegrationServiceImplTest@1a1d6a08]" name="testGlobalTytoCareDisabled" duration-ms="2" started-at="2018-10-25T16:21:27Z" finished-at="2018-10-25T16:21:27Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testGlobalTytoCareDisabled -->
+        <test-method status="PASS" signature="setup()[pri:0, instance:com.vidyo.service.configuration.ExtIntegrationServiceImplTest@1a1d6a08]" name="setup" is-config="true" duration-ms="1" started-at="2018-10-25T16:21:27Z" finished-at="2018-10-25T16:21:27Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setup -->
+        <test-method status="PASS" signature="testGlobalTytoCareEnabled()[pri:0, instance:com.vidyo.service.configuration.ExtIntegrationServiceImplTest@1a1d6a08]" name="testGlobalTytoCareEnabled" duration-ms="1" started-at="2018-10-25T16:21:27Z" finished-at="2018-10-25T16:21:27Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testGlobalTytoCareEnabled -->
+        <test-method status="PASS" signature="testTenantEpicDisabled()[pri:0, instance:com.vidyo.service.configuration.ExtIntegrationServiceImplTest@1a1d6a08]" name="testTenantEpicDisabled" duration-ms="5" started-at="2018-10-25T16:21:27Z" finished-at="2018-10-25T16:21:27Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testTenantEpicDisabled -->
+        <test-method status="PASS" signature="setup()[pri:0, instance:com.vidyo.service.configuration.ExtIntegrationServiceImplTest@1a1d6a08]" name="setup" is-config="true" duration-ms="0" started-at="2018-10-25T16:21:27Z" finished-at="2018-10-25T16:21:27Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setup -->
+        <test-method status="PASS" signature="setup()[pri:0, instance:com.vidyo.service.configuration.ExtIntegrationServiceImplTest@1a1d6a08]" name="setup" is-config="true" duration-ms="1" started-at="2018-10-25T16:21:27Z" finished-at="2018-10-25T16:21:27Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setup -->
+        <test-method status="PASS" signature="testTenantEpicEnabled()[pri:0, instance:com.vidyo.service.configuration.ExtIntegrationServiceImplTest@1a1d6a08]" name="testTenantEpicEnabled" duration-ms="1" started-at="2018-10-25T16:21:27Z" finished-at="2018-10-25T16:21:27Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testTenantEpicEnabled -->
+        <test-method status="PASS" signature="setup()[pri:0, instance:com.vidyo.service.configuration.ExtIntegrationServiceImplTest@1a1d6a08]" name="setup" is-config="true" duration-ms="1" started-at="2018-10-25T16:21:27Z" finished-at="2018-10-25T16:21:27Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setup -->
+        <test-method status="PASS" signature="testTenantTytoCareDisabled()[pri:0, instance:com.vidyo.service.configuration.ExtIntegrationServiceImplTest@1a1d6a08]" name="testTenantTytoCareDisabled" duration-ms="3" started-at="2018-10-25T16:21:27Z" finished-at="2018-10-25T16:21:27Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testTenantTytoCareDisabled -->
+        <test-method status="PASS" signature="setup()[pri:0, instance:com.vidyo.service.configuration.ExtIntegrationServiceImplTest@1a1d6a08]" name="setup" is-config="true" duration-ms="1" started-at="2018-10-25T16:21:27Z" finished-at="2018-10-25T16:21:27Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setup -->
+        <test-method status="PASS" signature="testTenantTytoCareEnabled()[pri:0, instance:com.vidyo.service.configuration.ExtIntegrationServiceImplTest@1a1d6a08]" name="testTenantTytoCareEnabled" duration-ms="5" started-at="2018-10-25T16:21:27Z" finished-at="2018-10-25T16:21:27Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testTenantTytoCareEnabled -->
+      </class> <!-- com.vidyo.service.configuration.ExtIntegrationServiceImplTest -->
+    </test> <!-- Default test -->
+  </suite> <!-- Default suite -->
+</testng-results>

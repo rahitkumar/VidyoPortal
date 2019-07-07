@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+	<components_type ID="1" NAME="VidyoManager" DESCRIPTION="VidyoManager" CREATION_TIME="2015-06-19 19:42:00" UPDATE_TIME="2015-06-19 19:42:00"/>
+	<components_type ID="2" NAME="VidyoRouter" DESCRIPTION="VidyoRouter" CREATION_TIME="2015-06-19 19:42:00" UPDATE_TIME="2015-06-19 19:42:00"/>
+	<components_type ID="3" NAME="VidyoGateway" DESCRIPTION="VidyoGateway" CREATION_TIME="2015-06-19 19:42:00" UPDATE_TIME="2015-06-19 19:42:00"/>
+	<components ID="1" COMP_ID="GW0001" COMP_TYPE_ID="3" NAME="" LOCAL_IP="172.6.34.34" CLUSTER_IP="172.6.34.34" MGMT_URL="http://172.6.34.34" RUNNING_VERSION="0" CONFIG_VERSION="0" COMP_SOFTWARE_VERSION="TAG_VC2_3_5_0" STATUS="NEW" HEARTBEAT_TIME="2015-06-19 19:42:00" CREATION_TIME="2015-06-19 19:42:00" UPDATE_TIME="2015-06-19 19:42:00"/>
+	<vidyo_manager_config />
+    <router_media_addr_map/>
+	<vidyo_router_config />
+	<vidyo_gateway_config ID="1"  COMP_ID="1" USERNAME="admin" PASSWORD="password" CREATION_TIME="2015-06-19 19:42:00" UPDATE_TIME="2015-06-19 19:42:00"/>
+	<GatewayPrefixes prefixID="100"  serviceID="19" tenantID="1" gatewayID="GW0001" prefix="DEFAULT"  direction="1" updateTime="2015-06-19 19:42:00"/>
+	<GatewayPrefixes prefixID="101"  serviceID="19" tenantID="1" gatewayID="GW0001" prefix="55" direction="1" updateTime="2015-06-19 19:42:00"/>
+	<GatewayPrefixes prefixID="102"  serviceID="19" tenantID="1" gatewayID="GW0001" prefix="56" direction="0" updateTime="2015-06-19 19:42:00"/>
+</dataset>

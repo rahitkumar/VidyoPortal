@@ -1,0 +1,461 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- This file was auto-generated from WSDL -->
+<!-- by the Apache Axis2 version: 1.6.2  Built on : Apr 17, 2012 (05:33:49 IST) -->
+<serviceGroup>
+    <service name="VidyoPortalUserService">
+        <messageReceivers>
+            <messageReceiver mep="http://www.w3.org/ns/wsdl/in-out" class="com.vidyo.portal.user.VidyoPortalUserServiceMessageReceiverInOut"/>
+        </messageReceivers>
+        <!--parameter name="ServiceClass">com.vidyo.portal.user.VidyoPortalUserServiceSkeleton</parameter-->
+        <parameter name="ServiceObjectSupplier" locked="false">org.apache.axis2.extensions.spring.receivers.SpringServletContextObjectSupplier</parameter>
+        <parameter name="SpringBeanName" locked="false">vidyoPortalUserServiceEndPoint</parameter>
+        <parameter name="useOriginalwsdl">true</parameter>
+        <parameter name="modifyUserWSDLPortAddress">true</parameter>
+        <operation name="joinIPCConference" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://portal.vidyo.com/user">
+            <actionMapping>joinIPCConference</actionMapping>
+            <outputActionMapping>http://portal.vidyo.com/user/VidyoPortalUserServicePortType/joinIPCConferenceResponse</outputActionMapping>
+            <faultActionMapping faultName="NotLicensedFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/joinIPCConference/Fault/NotLicensedFault</faultActionMapping>
+            <faultActionMapping faultName="NotLicensedFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/joinIPCConference/Fault/NotLicensedFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/joinIPCConference/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/joinIPCConference/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/joinIPCConference/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/joinIPCConference/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="ConferenceLockedFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/joinIPCConference/Fault/ConferenceLockedFault</faultActionMapping>
+            <faultActionMapping faultName="ConferenceLockedFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/joinIPCConference/Fault/ConferenceLockedFault</faultActionMapping>
+            <faultActionMapping faultName="SeatLicenseExpiredFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/joinIPCConference/Fault/SeatLicenseExpiredFault</faultActionMapping>
+            <faultActionMapping faultName="SeatLicenseExpiredFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/joinIPCConference/Fault/SeatLicenseExpiredFault</faultActionMapping>
+            <faultActionMapping faultName="WrongPinFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/joinIPCConference/Fault/WrongPinFault</faultActionMapping>
+            <faultActionMapping faultName="WrongPinFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/joinIPCConference/Fault/WrongPinFault</faultActionMapping>
+        </operation>
+        <operation name="searchByEmail" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://portal.vidyo.com/user">
+            <actionMapping>searchByEmail</actionMapping>
+            <outputActionMapping>http://portal.vidyo.com/user/VidyoPortalUserServicePortType/searchByEmailResponse</outputActionMapping>
+            <faultActionMapping faultName="NotLicensedFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/searchByEmail/Fault/NotLicensedFault</faultActionMapping>
+            <faultActionMapping faultName="NotLicensedFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/searchByEmail/Fault/NotLicensedFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/searchByEmail/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/searchByEmail/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/searchByEmail/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/searchByEmail/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="SeatLicenseExpiredFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/searchByEmail/Fault/SeatLicenseExpiredFault</faultActionMapping>
+            <faultActionMapping faultName="SeatLicenseExpiredFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/searchByEmail/Fault/SeatLicenseExpiredFault</faultActionMapping>
+        </operation>
+        <operation name="createRoomURL" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://portal.vidyo.com/user">
+            <actionMapping>createRoomURL</actionMapping>
+            <outputActionMapping>http://portal.vidyo.com/user/VidyoPortalUserServicePortType/createRoomURLResponse</outputActionMapping>
+            <faultActionMapping faultName="NotLicensedFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/createRoomURL/Fault/NotLicensedFault</faultActionMapping>
+            <faultActionMapping faultName="NotLicensedFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/createRoomURL/Fault/NotLicensedFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/createRoomURL/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/createRoomURL/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/createRoomURL/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/createRoomURL/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="SeatLicenseExpiredFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/createRoomURL/Fault/SeatLicenseExpiredFault</faultActionMapping>
+            <faultActionMapping faultName="SeatLicenseExpiredFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/createRoomURL/Fault/SeatLicenseExpiredFault</faultActionMapping>
+        </operation>
+        <operation name="unmuteAudio" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://portal.vidyo.com/user">
+            <actionMapping>unmuteAudio</actionMapping>
+            <outputActionMapping>http://portal.vidyo.com/user/VidyoPortalUserServicePortType/unmuteAudioResponse</outputActionMapping>
+            <faultActionMapping faultName="NotLicensedFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/unmuteAudio/Fault/NotLicensedFault</faultActionMapping>
+            <faultActionMapping faultName="NotLicensedFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/unmuteAudio/Fault/NotLicensedFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/unmuteAudio/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/unmuteAudio/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/unmuteAudio/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/unmuteAudio/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="SeatLicenseExpiredFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/unmuteAudio/Fault/SeatLicenseExpiredFault</faultActionMapping>
+            <faultActionMapping faultName="SeatLicenseExpiredFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/unmuteAudio/Fault/SeatLicenseExpiredFault</faultActionMapping>
+        </operation>
+        <operation name="setMemberMode" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://portal.vidyo.com/user">
+            <actionMapping>setMemberMode</actionMapping>
+            <outputActionMapping>http://portal.vidyo.com/user/VidyoPortalUserServicePortType/setMemberModeResponse</outputActionMapping>
+            <faultActionMapping faultName="NotLicensedFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/setMemberMode/Fault/NotLicensedFault</faultActionMapping>
+            <faultActionMapping faultName="NotLicensedFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/setMemberMode/Fault/NotLicensedFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/setMemberMode/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/setMemberMode/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/setMemberMode/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/setMemberMode/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="SeatLicenseExpiredFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/setMemberMode/Fault/SeatLicenseExpiredFault</faultActionMapping>
+            <faultActionMapping faultName="SeatLicenseExpiredFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/setMemberMode/Fault/SeatLicenseExpiredFault</faultActionMapping>
+        </operation>
+        <operation name="search" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://portal.vidyo.com/user">
+            <actionMapping>search</actionMapping>
+            <outputActionMapping>http://portal.vidyo.com/user/VidyoPortalUserServicePortType/searchResponse</outputActionMapping>
+            <faultActionMapping faultName="NotLicensedFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/search/Fault/NotLicensedFault</faultActionMapping>
+            <faultActionMapping faultName="NotLicensedFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/search/Fault/NotLicensedFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/search/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/search/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/search/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/search/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="SeatLicenseExpiredFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/search/Fault/SeatLicenseExpiredFault</faultActionMapping>
+            <faultActionMapping faultName="SeatLicenseExpiredFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/search/Fault/SeatLicenseExpiredFault</faultActionMapping>
+        </operation>
+        <operation name="createRoom" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://portal.vidyo.com/user">
+            <actionMapping>createRoom</actionMapping>
+            <outputActionMapping>http://portal.vidyo.com/user/VidyoPortalUserServicePortType/createRoomResponse</outputActionMapping>
+            <faultActionMapping faultName="NotLicensedFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/createRoom/Fault/NotLicensedFault</faultActionMapping>
+            <faultActionMapping faultName="NotLicensedFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/createRoom/Fault/NotLicensedFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/createRoom/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/createRoom/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/createRoom/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/createRoom/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="SeatLicenseExpiredFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/createRoom/Fault/SeatLicenseExpiredFault</faultActionMapping>
+            <faultActionMapping faultName="SeatLicenseExpiredFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/createRoom/Fault/SeatLicenseExpiredFault</faultActionMapping>
+        </operation>
+        <operation name="getUserName" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://portal.vidyo.com/user">
+            <actionMapping>getUserName</actionMapping>
+            <outputActionMapping>http://portal.vidyo.com/user/VidyoPortalUserServicePortType/getUserNameResponse</outputActionMapping>
+            <faultActionMapping faultName="NotLicensedFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/getUserName/Fault/NotLicensedFault</faultActionMapping>
+            <faultActionMapping faultName="NotLicensedFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/getUserName/Fault/NotLicensedFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/getUserName/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/getUserName/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/getUserName/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/getUserName/Fault/GeneralFault</faultActionMapping>
+        </operation>
+        <operation name="inviteToConference" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://portal.vidyo.com/user">
+            <actionMapping>inviteToConference</actionMapping>
+            <outputActionMapping>http://portal.vidyo.com/user/VidyoPortalUserServicePortType/inviteToConferenceResponse</outputActionMapping>
+            <faultActionMapping faultName="NotLicensedFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/inviteToConference/Fault/NotLicensedFault</faultActionMapping>
+            <faultActionMapping faultName="NotLicensedFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/inviteToConference/Fault/NotLicensedFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/inviteToConference/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/inviteToConference/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/inviteToConference/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/inviteToConference/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="SeatLicenseExpiredFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/inviteToConference/Fault/SeatLicenseExpiredFault</faultActionMapping>
+            <faultActionMapping faultName="SeatLicenseExpiredFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/inviteToConference/Fault/SeatLicenseExpiredFault</faultActionMapping>
+        </operation>
+        <operation name="createRoomPIN" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://portal.vidyo.com/user">
+            <actionMapping>createRoomPIN</actionMapping>
+            <outputActionMapping>http://portal.vidyo.com/user/VidyoPortalUserServicePortType/createRoomPINResponse</outputActionMapping>
+            <faultActionMapping faultName="NotLicensedFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/createRoomPIN/Fault/NotLicensedFault</faultActionMapping>
+            <faultActionMapping faultName="NotLicensedFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/createRoomPIN/Fault/NotLicensedFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/createRoomPIN/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/createRoomPIN/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/createRoomPIN/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/createRoomPIN/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="SeatLicenseExpiredFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/createRoomPIN/Fault/SeatLicenseExpiredFault</faultActionMapping>
+            <faultActionMapping faultName="SeatLicenseExpiredFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/createRoomPIN/Fault/SeatLicenseExpiredFault</faultActionMapping>
+        </operation>
+        <operation name="logIn" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://portal.vidyo.com/user">
+            <actionMapping>logIn</actionMapping>
+            <outputActionMapping>http://portal.vidyo.com/user/VidyoPortalUserServicePortType/logInResponse</outputActionMapping>
+            <faultActionMapping faultName="NotLicensedFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/logIn/Fault/NotLicensedFault</faultActionMapping>
+            <faultActionMapping faultName="NotLicensedFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/logIn/Fault/NotLicensedFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/logIn/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/logIn/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/logIn/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/logIn/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="SeatLicenseExpiredFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/logIn/Fault/SeatLicenseExpiredFault</faultActionMapping>
+            <faultActionMapping faultName="SeatLicenseExpiredFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/logIn/Fault/SeatLicenseExpiredFault</faultActionMapping>
+        </operation>
+        <operation name="muteAudio" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://portal.vidyo.com/user">
+            <actionMapping>muteAudio</actionMapping>
+            <outputActionMapping>http://portal.vidyo.com/user/VidyoPortalUserServicePortType/muteAudioResponse</outputActionMapping>
+            <faultActionMapping faultName="NotLicensedFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/muteAudio/Fault/NotLicensedFault</faultActionMapping>
+            <faultActionMapping faultName="NotLicensedFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/muteAudio/Fault/NotLicensedFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/muteAudio/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/muteAudio/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/muteAudio/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/muteAudio/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="SeatLicenseExpiredFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/muteAudio/Fault/SeatLicenseExpiredFault</faultActionMapping>
+            <faultActionMapping faultName="SeatLicenseExpiredFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/muteAudio/Fault/SeatLicenseExpiredFault</faultActionMapping>
+        </operation>
+        <operation name="deleteRoom" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://portal.vidyo.com/user">
+            <actionMapping>deleteRoom</actionMapping>
+            <outputActionMapping>http://portal.vidyo.com/user/VidyoPortalUserServicePortType/deleteRoomResponse</outputActionMapping>
+            <faultActionMapping faultName="NotLicensedFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/deleteRoom/Fault/NotLicensedFault</faultActionMapping>
+            <faultActionMapping faultName="NotLicensedFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/deleteRoom/Fault/NotLicensedFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/deleteRoom/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/deleteRoom/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/deleteRoom/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/deleteRoom/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="SeatLicenseExpiredFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/deleteRoom/Fault/SeatLicenseExpiredFault</faultActionMapping>
+            <faultActionMapping faultName="SeatLicenseExpiredFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/deleteRoom/Fault/SeatLicenseExpiredFault</faultActionMapping>
+        </operation>
+        <operation name="getPortalVersion" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://portal.vidyo.com/user">
+            <actionMapping>getPortalVersion</actionMapping>
+            <outputActionMapping>http://portal.vidyo.com/user/VidyoPortalUserServicePortType/getPortalVersionResponse</outputActionMapping>
+            <faultActionMapping faultName="NotLicensedFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/getPortalVersion/Fault/NotLicensedFault</faultActionMapping>
+            <faultActionMapping faultName="NotLicensedFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/getPortalVersion/Fault/NotLicensedFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/getPortalVersion/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/getPortalVersion/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/getPortalVersion/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/getPortalVersion/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="SeatLicenseExpiredFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/getPortalVersion/Fault/SeatLicenseExpiredFault</faultActionMapping>
+            <faultActionMapping faultName="SeatLicenseExpiredFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/getPortalVersion/Fault/SeatLicenseExpiredFault</faultActionMapping>
+        </operation>
+        <operation name="unlockRoom" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://portal.vidyo.com/user">
+            <actionMapping>unlockRoom</actionMapping>
+            <outputActionMapping>http://portal.vidyo.com/user/VidyoPortalUserServicePortType/unlockRoomResponse</outputActionMapping>
+            <faultActionMapping faultName="NotLicensedFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/unlockRoom/Fault/NotLicensedFault</faultActionMapping>
+            <faultActionMapping faultName="NotLicensedFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/unlockRoom/Fault/NotLicensedFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/unlockRoom/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/unlockRoom/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/unlockRoom/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/unlockRoom/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="SeatLicenseExpiredFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/unlockRoom/Fault/SeatLicenseExpiredFault</faultActionMapping>
+            <faultActionMapping faultName="SeatLicenseExpiredFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/unlockRoom/Fault/SeatLicenseExpiredFault</faultActionMapping>
+        </operation>
+        <operation name="searchMyContacts" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://portal.vidyo.com/user">
+            <actionMapping>searchMyContacts</actionMapping>
+            <outputActionMapping>http://portal.vidyo.com/user/VidyoPortalUserServicePortType/searchMyContactsResponse</outputActionMapping>
+            <faultActionMapping faultName="NotLicensedFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/searchMyContacts/Fault/NotLicensedFault</faultActionMapping>
+            <faultActionMapping faultName="NotLicensedFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/searchMyContacts/Fault/NotLicensedFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/searchMyContacts/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/searchMyContacts/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/searchMyContacts/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/searchMyContacts/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="SeatLicenseExpiredFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/searchMyContacts/Fault/SeatLicenseExpiredFault</faultActionMapping>
+            <faultActionMapping faultName="SeatLicenseExpiredFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/searchMyContacts/Fault/SeatLicenseExpiredFault</faultActionMapping>
+        </operation>
+        <operation name="lockRoom" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://portal.vidyo.com/user">
+            <actionMapping>lockRoom</actionMapping>
+            <outputActionMapping>http://portal.vidyo.com/user/VidyoPortalUserServicePortType/lockRoomResponse</outputActionMapping>
+            <faultActionMapping faultName="NotLicensedFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/lockRoom/Fault/NotLicensedFault</faultActionMapping>
+            <faultActionMapping faultName="NotLicensedFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/lockRoom/Fault/NotLicensedFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/lockRoom/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/lockRoom/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/lockRoom/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/lockRoom/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="SeatLicenseExpiredFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/lockRoom/Fault/SeatLicenseExpiredFault</faultActionMapping>
+            <faultActionMapping faultName="SeatLicenseExpiredFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/lockRoom/Fault/SeatLicenseExpiredFault</faultActionMapping>
+        </operation>
+        <operation name="updatePassword" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://portal.vidyo.com/user">
+            <actionMapping>updatePassword</actionMapping>
+            <outputActionMapping>http://portal.vidyo.com/user/VidyoPortalUserServicePortType/updatePasswordResponse</outputActionMapping>
+            <faultActionMapping faultName="NotLicensedFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/updatePassword/Fault/NotLicensedFault</faultActionMapping>
+            <faultActionMapping faultName="NotLicensedFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/updatePassword/Fault/NotLicensedFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/updatePassword/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/updatePassword/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/updatePassword/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/updatePassword/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="SeatLicenseExpiredFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/updatePassword/Fault/SeatLicenseExpiredFault</faultActionMapping>
+            <faultActionMapping faultName="SeatLicenseExpiredFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/updatePassword/Fault/SeatLicenseExpiredFault</faultActionMapping>
+        </operation>
+        <operation name="updateLanguage" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://portal.vidyo.com/user">
+            <actionMapping>updateLanguage</actionMapping>
+            <outputActionMapping>http://portal.vidyo.com/user/VidyoPortalUserServicePortType/updateLanguageResponse</outputActionMapping>
+            <faultActionMapping faultName="NotLicensedFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/updateLanguage/Fault/NotLicensedFault</faultActionMapping>
+            <faultActionMapping faultName="NotLicensedFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/updateLanguage/Fault/NotLicensedFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/updateLanguage/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/updateLanguage/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/updateLanguage/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/updateLanguage/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="SeatLicenseExpiredFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/updateLanguage/Fault/SeatLicenseExpiredFault</faultActionMapping>
+            <faultActionMapping faultName="SeatLicenseExpiredFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/updateLanguage/Fault/SeatLicenseExpiredFault</faultActionMapping>
+        </operation>
+        <operation name="directCall" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://portal.vidyo.com/user">
+            <actionMapping>directCall</actionMapping>
+            <outputActionMapping>http://portal.vidyo.com/user/VidyoPortalUserServicePortType/directCallResponse</outputActionMapping>
+            <faultActionMapping faultName="NotLicensedFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/directCall/Fault/NotLicensedFault</faultActionMapping>
+            <faultActionMapping faultName="NotLicensedFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/directCall/Fault/NotLicensedFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/directCall/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/directCall/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/directCall/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/directCall/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="SeatLicenseExpiredFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/directCall/Fault/SeatLicenseExpiredFault</faultActionMapping>
+            <faultActionMapping faultName="SeatLicenseExpiredFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/directCall/Fault/SeatLicenseExpiredFault</faultActionMapping>
+        </operation>
+        <operation name="getEntityByRoomKey" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://portal.vidyo.com/user">
+            <actionMapping>getEntityByRoomKey</actionMapping>
+            <outputActionMapping>http://portal.vidyo.com/user/VidyoPortalUserServicePortType/getEntityByRoomKeyResponse</outputActionMapping>
+            <faultActionMapping faultName="NotLicensedFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/getEntityByRoomKey/Fault/NotLicensedFault</faultActionMapping>
+            <faultActionMapping faultName="NotLicensedFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/getEntityByRoomKey/Fault/NotLicensedFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/getEntityByRoomKey/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/getEntityByRoomKey/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/getEntityByRoomKey/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/getEntityByRoomKey/Fault/GeneralFault</faultActionMapping>
+        </operation>
+        <operation name="linkEndpoint" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://portal.vidyo.com/user">
+            <actionMapping>linkEndpoint</actionMapping>
+            <outputActionMapping>http://portal.vidyo.com/user/VidyoPortalUserServicePortType/linkEndpointResponse</outputActionMapping>
+            <faultActionMapping faultName="NotLicensedFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/linkEndpoint/Fault/NotLicensedFault</faultActionMapping>
+            <faultActionMapping faultName="NotLicensedFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/linkEndpoint/Fault/NotLicensedFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/linkEndpoint/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/linkEndpoint/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/linkEndpoint/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/linkEndpoint/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="SeatLicenseExpiredFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/linkEndpoint/Fault/SeatLicenseExpiredFault</faultActionMapping>
+            <faultActionMapping faultName="SeatLicenseExpiredFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/linkEndpoint/Fault/SeatLicenseExpiredFault</faultActionMapping>
+        </operation>
+        <operation name="leaveConference" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://portal.vidyo.com/user">
+            <actionMapping>leaveConference</actionMapping>
+            <outputActionMapping>http://portal.vidyo.com/user/VidyoPortalUserServicePortType/leaveConferenceResponse</outputActionMapping>
+            <faultActionMapping faultName="NotLicensedFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/leaveConference/Fault/NotLicensedFault</faultActionMapping>
+            <faultActionMapping faultName="NotLicensedFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/leaveConference/Fault/NotLicensedFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/leaveConference/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/leaveConference/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/leaveConference/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/leaveConference/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="SeatLicenseExpiredFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/leaveConference/Fault/SeatLicenseExpiredFault</faultActionMapping>
+            <faultActionMapping faultName="SeatLicenseExpiredFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/leaveConference/Fault/SeatLicenseExpiredFault</faultActionMapping>
+        </operation>
+        <operation name="removeRoomURL" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://portal.vidyo.com/user">
+            <actionMapping>removeRoomURL</actionMapping>
+            <outputActionMapping>http://portal.vidyo.com/user/VidyoPortalUserServicePortType/removeRoomURLResponse</outputActionMapping>
+            <faultActionMapping faultName="NotLicensedFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/removeRoomURL/Fault/NotLicensedFault</faultActionMapping>
+            <faultActionMapping faultName="NotLicensedFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/removeRoomURL/Fault/NotLicensedFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/removeRoomURL/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/removeRoomURL/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/removeRoomURL/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/removeRoomURL/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="SeatLicenseExpiredFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/removeRoomURL/Fault/SeatLicenseExpiredFault</faultActionMapping>
+            <faultActionMapping faultName="SeatLicenseExpiredFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/removeRoomURL/Fault/SeatLicenseExpiredFault</faultActionMapping>
+        </operation>
+        <operation name="myEndpointStatus" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://portal.vidyo.com/user">
+            <actionMapping>myEndpointStatus</actionMapping>
+            <outputActionMapping>http://portal.vidyo.com/user/VidyoPortalUserServicePortType/myEndpointStatusResponse</outputActionMapping>
+            <faultActionMapping faultName="NotLicensedFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/myEndpointStatus/Fault/NotLicensedFault</faultActionMapping>
+            <faultActionMapping faultName="NotLicensedFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/myEndpointStatus/Fault/NotLicensedFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/myEndpointStatus/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/myEndpointStatus/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/myEndpointStatus/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/myEndpointStatus/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="SeatLicenseExpiredFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/myEndpointStatus/Fault/SeatLicenseExpiredFault</faultActionMapping>
+            <faultActionMapping faultName="SeatLicenseExpiredFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/myEndpointStatus/Fault/SeatLicenseExpiredFault</faultActionMapping>
+        </operation>
+        <operation name="getInviteContent" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://portal.vidyo.com/user">
+            <actionMapping>getInviteContent</actionMapping>
+            <outputActionMapping>http://portal.vidyo.com/user/VidyoPortalUserServicePortType/getInviteContentResponse</outputActionMapping>
+            <faultActionMapping faultName="NotLicensedFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/getInviteContent/Fault/NotLicensedFault</faultActionMapping>
+            <faultActionMapping faultName="NotLicensedFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/getInviteContent/Fault/NotLicensedFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/getInviteContent/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/getInviteContent/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/getInviteContent/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/getInviteContent/Fault/GeneralFault</faultActionMapping>
+        </operation>
+        <operation name="myAccount" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://portal.vidyo.com/user">
+            <actionMapping>myAccount</actionMapping>
+            <outputActionMapping>http://portal.vidyo.com/user/VidyoPortalUserServicePortType/myAccountResponse</outputActionMapping>
+            <faultActionMapping faultName="NotLicensedFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/myAccount/Fault/NotLicensedFault</faultActionMapping>
+            <faultActionMapping faultName="NotLicensedFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/myAccount/Fault/NotLicensedFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/myAccount/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/myAccount/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/myAccount/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/myAccount/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="SeatLicenseExpiredFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/myAccount/Fault/SeatLicenseExpiredFault</faultActionMapping>
+            <faultActionMapping faultName="SeatLicenseExpiredFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/myAccount/Fault/SeatLicenseExpiredFault</faultActionMapping>
+        </operation>
+        <operation name="getEntityByEntityID" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://portal.vidyo.com/user">
+            <actionMapping>getEntityByEntityID</actionMapping>
+            <outputActionMapping>http://portal.vidyo.com/user/VidyoPortalUserServicePortType/getEntityByEntityIDResponse</outputActionMapping>
+            <faultActionMapping faultName="NotLicensedFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/getEntityByEntityID/Fault/NotLicensedFault</faultActionMapping>
+            <faultActionMapping faultName="NotLicensedFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/getEntityByEntityID/Fault/NotLicensedFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/getEntityByEntityID/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/getEntityByEntityID/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/getEntityByEntityID/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/getEntityByEntityID/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="SeatLicenseExpiredFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/getEntityByEntityID/Fault/SeatLicenseExpiredFault</faultActionMapping>
+            <faultActionMapping faultName="SeatLicenseExpiredFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/getEntityByEntityID/Fault/SeatLicenseExpiredFault</faultActionMapping>
+        </operation>
+        <operation name="getParticipants" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://portal.vidyo.com/user">
+            <actionMapping>getParticipants</actionMapping>
+            <outputActionMapping>http://portal.vidyo.com/user/VidyoPortalUserServicePortType/getParticipantsResponse</outputActionMapping>
+            <faultActionMapping faultName="NotLicensedFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/getParticipants/Fault/NotLicensedFault</faultActionMapping>
+            <faultActionMapping faultName="NotLicensedFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/getParticipants/Fault/NotLicensedFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/getParticipants/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/getParticipants/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/getParticipants/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/getParticipants/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="SeatLicenseExpiredFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/getParticipants/Fault/SeatLicenseExpiredFault</faultActionMapping>
+            <faultActionMapping faultName="SeatLicenseExpiredFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/getParticipants/Fault/SeatLicenseExpiredFault</faultActionMapping>
+        </operation>
+        <operation name="searchByEntityID" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://portal.vidyo.com/user">
+            <actionMapping>searchByEntityID</actionMapping>
+            <outputActionMapping>http://portal.vidyo.com/user/VidyoPortalUserServicePortType/searchByEntityIDResponse</outputActionMapping>
+            <faultActionMapping faultName="NotLicensedFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/searchByEntityID/Fault/NotLicensedFault</faultActionMapping>
+            <faultActionMapping faultName="NotLicensedFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/searchByEntityID/Fault/NotLicensedFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/searchByEntityID/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/searchByEntityID/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/searchByEntityID/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/searchByEntityID/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="SeatLicenseExpiredFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/searchByEntityID/Fault/SeatLicenseExpiredFault</faultActionMapping>
+            <faultActionMapping faultName="SeatLicenseExpiredFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/searchByEntityID/Fault/SeatLicenseExpiredFault</faultActionMapping>
+        </operation>
+        <operation name="removeRoomPIN" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://portal.vidyo.com/user">
+            <actionMapping>removeRoomPIN</actionMapping>
+            <outputActionMapping>http://portal.vidyo.com/user/VidyoPortalUserServicePortType/removeRoomPINResponse</outputActionMapping>
+            <faultActionMapping faultName="NotLicensedFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/removeRoomPIN/Fault/NotLicensedFault</faultActionMapping>
+            <faultActionMapping faultName="NotLicensedFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/removeRoomPIN/Fault/NotLicensedFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/removeRoomPIN/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/removeRoomPIN/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/removeRoomPIN/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/removeRoomPIN/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="SeatLicenseExpiredFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/removeRoomPIN/Fault/SeatLicenseExpiredFault</faultActionMapping>
+            <faultActionMapping faultName="SeatLicenseExpiredFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/removeRoomPIN/Fault/SeatLicenseExpiredFault</faultActionMapping>
+        </operation>
+        <operation name="startVideo" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://portal.vidyo.com/user">
+            <actionMapping>startVideo</actionMapping>
+            <outputActionMapping>http://portal.vidyo.com/user/VidyoPortalUserServicePortType/startVideoResponse</outputActionMapping>
+            <faultActionMapping faultName="NotLicensedFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/startVideo/Fault/NotLicensedFault</faultActionMapping>
+            <faultActionMapping faultName="NotLicensedFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/startVideo/Fault/NotLicensedFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/startVideo/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/startVideo/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/startVideo/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/startVideo/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="SeatLicenseExpiredFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/startVideo/Fault/SeatLicenseExpiredFault</faultActionMapping>
+            <faultActionMapping faultName="SeatLicenseExpiredFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/startVideo/Fault/SeatLicenseExpiredFault</faultActionMapping>
+        </operation>
+        <operation name="stopVideo" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://portal.vidyo.com/user">
+            <actionMapping>stopVideo</actionMapping>
+            <outputActionMapping>http://portal.vidyo.com/user/VidyoPortalUserServicePortType/stopVideoResponse</outputActionMapping>
+            <faultActionMapping faultName="NotLicensedFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/stopVideo/Fault/NotLicensedFault</faultActionMapping>
+            <faultActionMapping faultName="NotLicensedFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/stopVideo/Fault/NotLicensedFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/stopVideo/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/stopVideo/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/stopVideo/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/stopVideo/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="SeatLicenseExpiredFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/stopVideo/Fault/SeatLicenseExpiredFault</faultActionMapping>
+            <faultActionMapping faultName="SeatLicenseExpiredFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/stopVideo/Fault/SeatLicenseExpiredFault</faultActionMapping>
+        </operation>
+        <operation name="addToMyContacts" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://portal.vidyo.com/user">
+            <actionMapping>addToMyContacts</actionMapping>
+            <outputActionMapping>http://portal.vidyo.com/user/VidyoPortalUserServicePortType/addToMyContactsResponse</outputActionMapping>
+            <faultActionMapping faultName="NotLicensedFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/addToMyContacts/Fault/NotLicensedFault</faultActionMapping>
+            <faultActionMapping faultName="NotLicensedFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/addToMyContacts/Fault/NotLicensedFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/addToMyContacts/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/addToMyContacts/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/addToMyContacts/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/addToMyContacts/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="SeatLicenseExpiredFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/addToMyContacts/Fault/SeatLicenseExpiredFault</faultActionMapping>
+            <faultActionMapping faultName="SeatLicenseExpiredFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/addToMyContacts/Fault/SeatLicenseExpiredFault</faultActionMapping>
+        </operation>
+        <operation name="removeFromMyContacts" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://portal.vidyo.com/user">
+            <actionMapping>removeFromMyContacts</actionMapping>
+            <outputActionMapping>http://portal.vidyo.com/user/VidyoPortalUserServicePortType/removeFromMyContactsResponse</outputActionMapping>
+            <faultActionMapping faultName="NotLicensedFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/removeFromMyContacts/Fault/NotLicensedFault</faultActionMapping>
+            <faultActionMapping faultName="NotLicensedFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/removeFromMyContacts/Fault/NotLicensedFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/removeFromMyContacts/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/removeFromMyContacts/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/removeFromMyContacts/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/removeFromMyContacts/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="SeatLicenseExpiredFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/removeFromMyContacts/Fault/SeatLicenseExpiredFault</faultActionMapping>
+            <faultActionMapping faultName="SeatLicenseExpiredFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/removeFromMyContacts/Fault/SeatLicenseExpiredFault</faultActionMapping>
+        </operation>
+        <operation name="logOut" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://portal.vidyo.com/user">
+            <actionMapping>logOut</actionMapping>
+            <outputActionMapping>http://portal.vidyo.com/user/VidyoPortalUserServicePortType/logOutResponse</outputActionMapping>
+            <faultActionMapping faultName="NotLicensedFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/logOut/Fault/NotLicensedFault</faultActionMapping>
+            <faultActionMapping faultName="NotLicensedFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/logOut/Fault/NotLicensedFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/logOut/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/logOut/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/logOut/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/logOut/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="SeatLicenseExpiredFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/logOut/Fault/SeatLicenseExpiredFault</faultActionMapping>
+            <faultActionMapping faultName="SeatLicenseExpiredFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/logOut/Fault/SeatLicenseExpiredFault</faultActionMapping>
+        </operation>
+        <operation name="joinConference" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://portal.vidyo.com/user">
+            <actionMapping>joinConference</actionMapping>
+            <outputActionMapping>http://portal.vidyo.com/user/VidyoPortalUserServicePortType/joinConferenceResponse</outputActionMapping>
+            <faultActionMapping faultName="NotLicensedFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/joinConference/Fault/NotLicensedFault</faultActionMapping>
+            <faultActionMapping faultName="NotLicensedFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/joinConference/Fault/NotLicensedFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/joinConference/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/joinConference/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/joinConference/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/joinConference/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="ConferenceLockedFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/joinConference/Fault/ConferenceLockedFault</faultActionMapping>
+            <faultActionMapping faultName="ConferenceLockedFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/joinConference/Fault/ConferenceLockedFault</faultActionMapping>
+            <faultActionMapping faultName="SeatLicenseExpiredFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/joinConference/Fault/SeatLicenseExpiredFault</faultActionMapping>
+            <faultActionMapping faultName="SeatLicenseExpiredFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/joinConference/Fault/SeatLicenseExpiredFault</faultActionMapping>
+            <faultActionMapping faultName="WrongPinFault">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/joinConference/Fault/WrongPinFault</faultActionMapping>
+            <faultActionMapping faultName="WrongPinFault_Exception">http://portal.vidyo.com/user/VidyoPortalUserServicePortType/joinConference/Fault/WrongPinFault</faultActionMapping>
+        </operation>
+    </service>
+</serviceGroup>

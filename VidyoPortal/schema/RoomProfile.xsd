@@ -1,0 +1,19 @@
+<?xml version="1.0"  encoding="utf-8"?>
+
+<xs:schema targetNamespace="http://www.vidyo.com/RoomProfile.xsd"
+           elementFormDefault="qualified"
+           xmlns:rp="http://www.vidyo.com/RoomProfile.xsd"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <xs:complexType name="RoomProfileType">
+        <xs:sequence>
+            <xs:element name="AudioEnabled" type="xs:boolean"/>
+            <xs:element name="VideoEnabled" type="xs:boolean"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:element name="Profile" type="rp:RoomProfileType">
+        <xs:annotation id="root"/>
+    </xs:element>
+
+</xs:schema>

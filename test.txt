@@ -1,0 +1,79 @@
+commit c7a84d68bc78b7071147ef25f375382a39c1fd7c
+    Merge branch 'bugfix/VPTL-8847-epic-java-parameters-are-passed-into-protocol-handler' into develop
+
+commit 1c5b591c4dd865d3785903f1a294729cb6c882d0
+    Support passing extra params passed in the URL all the way to protocol
+    handler
+
+commit 93e9c49100cd1767aef186f8a394adce97774559
+    Merge branch 'feature/VPTL-8638-super-and-admin-rest-api-to-support' into feature/VPTL-8637-customize-desktop-protocol-handler
+
+commit 6c7694747ef6777ec71f1e52ac830809f16d1a2a
+    1. Room link page and saml index page to support custom desktop protocol
+    handler
+    2. Admin and Super REST config APIs to support custom desktop protocol
+    handler.
+
+commit 5df85202c613a5204016cbe7b1c7c495e44f105e
+    changes to support custom mobile app protocol, app link, package name
+
+commit dc0fb6b0cf5b9ceb2f515c7e121275bce8110a62
+    Customizing protocol handler for mobile apps per tenant
+
+commit 5cac20a0f07def29d7bd0d12ca40b0c54323352c
+    changes to support custom mobile app protocol, app link, package name
+
+commit edfb12afc9ff0d9fffceeed4f22ed033ea87f664
+    Customizing protocol handler for mobile apps per tenant
+
+commit 631f4f13a41b5be82ef9ed834e0682326829c603
+    Add display name to desktop protocol handler and remove Epic specific
+    error messages from error pages.
+
+commit f713cc1509c4e5bc4f5185724c61977f967b76c3
+    Bug fixes 1. modify externalRoomId to String data type.
+    2. Send extData & extDataType in protocol handler for epic join landing
+    page.
+
+commit 2a273ad543e1adac9e71ed6d05adae350f50ad8d
+    changes to support custom mobile app protocol, app link, package name
+
+commit 7e20d81a0a3c21e30ce3e3373c975dc0a07aa301
+    Customizing protocol handler for mobile apps per tenant
+
+commit 9c90bf1216e9a8f05373342f106cf3a7ff50700a
+    changes to support custom mobile app protocol, app link, package name
+
+commit 7a6d33c70c91d53061dafe06e71941b1d2a24e3b
+    Customizing protocol handler for mobile apps per tenant
+
+commit e2e295ed8637536b9e655befcb9313bb96bb7291
+    Add display name to desktop protocol handler and remove Epic specific
+    error messages from error pages.
+
+commit 62b84537bd6f207c7e39bd3a8278d144426e054d
+    Bug fixes 1. modify externalRoomId to String data type.
+    2. Send extData & extDataType in protocol handler for epic join landing
+    page.
+
+commit 89d1f9b9a01177a4cd4f96de9de592f61a2b61e9
+    VPTL-8122-Add Room PIN indicator in the data passed through protocol
+    handler- jsp commit
+
+commit 62989b8b9b8e1f98a845114477de15c5588f870d
+    VPTL-8122-Add Room PIN indicator in the data passed through protocol
+    handler
+
+commit 32bcbc68ad92999315ed85ef2e5853e853dc30b9
+    VPTL-7932 - disabling invocation of protocol handler of iOS on page load.
+
+commit eb72c784864e783a186ed4bda02f8cd05ad05ad7
+    VPTL-7932 - disabling invocation of protocol handler of iOS on page load.
+
+commit 620a14062b3b6d6eed79866e21fd6ce559ee23ce
+    Merge pull request #207 in POR/portal from feature/VPTL-7796-protocol-handler-to-send-portal to release/17.1.1
+
+commit 15e2ee43930612f9971f7920eed995935d997a64
+    VPTL-7704-Incorrect vidyo:// protocol handler URI for Android
+
+

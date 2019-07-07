@@ -1,0 +1,26 @@
+#NODEID-Unique node identifier. 
+NODEID=%NODEID%
+
+#DISPLAYNAME - This will be used as a sitename
+DISPLAYNAME=%DISPLAYNAME%
+
+#DATASYNCIP - This is the IP address that the ACTIVE site will allow scp/ssh. 
+DATASYNCIP=%DATASYNCIP%
+
+#PUBLICIP - This is the IP address associated with PUBLICFQDN
+PUBLICIP=%PUBLICIP%
+
+#PUBLICFQDN - This is the FQDN of the ACTIVE site
+PUBLICFQDN=%PUBLICFQDN%
+
+#ADCADDRESS - ADC IP/Hostname. This is the one who will decide who is the ACTIVE site.
+ADCADDRESS=%ADCADDRESS%
+
+#NOACTIVETIMEOUT - Number of second(s) each STANDBY site to wait for ACTIVE site to come up before it becomes force ACTIVE
+NOACTIVETIMEOUT=%NOACTIVETIMEOUT%
+
+## MAXFORCEACTIVE - Maximum duration in seconds for the site to be forced active. 
+MAXFORCEACTIVE=%MAXFORCEACTIVE%
+
+##REGISTERPORT - HTTPS port of the ACTIVE site where webservice for site registraion is available. 
+REGISTERPORT=%REGISTERPORT%

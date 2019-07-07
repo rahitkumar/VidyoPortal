@@ -1,0 +1,2 @@
+Changes:
+1. Modified Syslog.java class to comment out udp and tcp initialization as they are not used in our application. We use unix_syslog and want to block any other udp/tcp ports usage.

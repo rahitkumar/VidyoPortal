@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:oxm="http://www.springframework.org/schema/oxm"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+            http://www.springframework.org/schema/aop
+            http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
+			http://www.springframework.org/schema/oxm
+    		http://www.springframework.org/schema/oxm/spring-oxm.xsd">
+
+	<!-- Configurer that replaces ${...} placeholders with values from a properties file -->
+	<!-- (in this case, JDBC-related settings for the dataSoource definition below) -->
+	<bean id="propertyConfigurer" class="com.vidyo.framework.propertyconfig.OpenPropertyPlaceholderConfigurer">
+		<property name="location" value="file:/usr/local/tomcat/repo/vidyoportal/portal.properties" />
+	</bean>
+
+	<!-- Alternative local DataSource that works in any environment, and offers
+		much better performance. Uses Apache Commons DBCP for connection pooling. 
+		See Commons DBCP documentation for the required JAR files. See the PetStore 
+		sample application also shipped with Spring, for an example of Commons DBCP 
+		usage and the necessary build script. Alternatively you can use another connection 
+		pool such as C3P0, similarly configured using Spring. A standalone connection 
+		pool such as Commons DBCP is a good choice for use outside an application 
+		server environment, including web applications running in a web container 
+		without JTA, or integration testing using the org.springframework.test package. -->
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="${jdbc.driverClassName}" />
+		<property name="url" value="${jdbc.url}" />
+		<property name="username" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
+		<property name="removeAbandoned" value="true" />
+		<property name="logAbandoned" value="true" />
+		<property name="maxActive" value="2" />
+		<property name="initialSize" value="1" />
+		<property name="validationQuery" value="SELECT 1" />
+		<property name="testOnBorrow" value="false" />
+		<property name="testWhileIdle" value="true" />
+		<property name="timeBetweenEvictionRunsMillis" value="60000" />
+	</bean>
+
+	<!-- Transaction manager for a single JDBC DataSource (alternative to JTA) -->
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	
+	<!-- Service service -->
+	<bean id="serviceDao" class="com.vidyo.db.ServiceDaoJdbcImpl">
+		<property name="jdbcTemplate" ref="jdbcTemplate" />
+	</bean>
+	
+	<!-- Router service -->
+	<bean id="routerDao" class="com.vidyo.db.RouterDaoJdbcImpl">
+		<property name="jdbcTemplate" ref="jdbcTemplate" />
+	</bean>
+
+	<bean id="routerService" class="com.vidyo.service.RouterServiceImpl">
+		<property name="dao" ref="routerDao" />
+	</bean>
+
+	<bean id="serviceService" class="com.vidyo.service.ServiceServiceImpl">
+		<property name="dao" ref="serviceDao" />
+		<property name="router" ref="routerService" />
+        <property name="cloudMarshaller" ref="cloudJaxb2Marshaller" />
+        <property name="vmMarshaller" ref="vmJaxb2Marshaller" />
+        <property name="vrMarshaller" ref="vrJaxb2Marshaller" />
+        <property name="systemService" ref="systemService" />
+        <property name="vidyoProxyConfigMarshaller" ref="vidyoProxyConfigMarshaller"/>
+        <property name="useNewGatewayServiceInterface" value="${useNewGatewayServiceInterface}"/>
+	</bean>
+	
+    <oxm:jaxb2-marshaller id="vidyoProxyConfigMarshaller" contextPath="com.vidyo.components.vidyoproxy.schema"/>	
+	
+	<bean id="systemService" class="com.vidyo.service.SystemServiceImpl">
+		<property name="dao" ref="systemDao" />
+	</bean>
+	
+	<bean id="systemDao" class="com.vidyo.db.SystemDaoJdbcImpl">
+		<property name="jdbcTemplate" ref="jdbcTemplate" />
+	</bean>		
+
+	<bean id="cloudJaxb2Marshaller" class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
+		<property name="classesToBeBound">
+			<list>
+				<value>com.vidyo.parser.xml.cloudconfig.AndType</value>
+				<value>com.vidyo.parser.xml.cloudconfig.BandwidthMapType</value>
+				<value>com.vidyo.parser.xml.cloudconfig.BasicAndType</value>
+				<value>com.vidyo.parser.xml.cloudconfig.BasicNotType</value>
+				<value>com.vidyo.parser.xml.cloudconfig.BasicOrType</value>
+				<value>com.vidyo.parser.xml.cloudconfig.BasicRuleSet</value>
+				<value>com.vidyo.parser.xml.cloudconfig.BasicRuleType</value>
+				<value>com.vidyo.parser.xml.cloudconfig.Candidates</value>
+				<value>com.vidyo.parser.xml.cloudconfig.CategoriesType</value>
+				<value>com.vidyo.parser.xml.cloudconfig.EqualToType</value>
+				<value>com.vidyo.parser.xml.cloudconfig.GreaterThanOrEqualToType</value>
+				<value>com.vidyo.parser.xml.cloudconfig.GreaterThanType</value>
+				<value>com.vidyo.parser.xml.cloudconfig.GroupType</value>
+				<value>com.vidyo.parser.xml.cloudconfig.IPV4AddressRangeType</value>
+				<value>com.vidyo.parser.xml.cloudconfig.IPV4SubnetType</value>
+				<value>com.vidyo.parser.xml.cloudconfig.LessThanOrEqualToType</value>
+				<value>com.vidyo.parser.xml.cloudconfig.LessThanType</value>
+				<value>com.vidyo.parser.xml.cloudconfig.ListMemberType</value>
+				<value>com.vidyo.parser.xml.cloudconfig.LocationType</value>
+				<value>com.vidyo.parser.xml.cloudconfig.NetworkConfigType</value>
+				<value>com.vidyo.parser.xml.cloudconfig.NetworkElement</value>
+				<value>com.vidyo.parser.xml.cloudconfig.NotType</value>
+				<value>com.vidyo.parser.xml.cloudconfig.OrType</value>
+				<value>com.vidyo.parser.xml.cloudconfig.RuleSetType</value>
+				<value>com.vidyo.parser.xml.cloudconfig.ObjectFactory</value>
+			</list>
+		</property>
+		<property name="schema" value="classpath:com/vidyo/parser/xml/NetworkConfig.xsd" />
+	</bean>
+
+	<bean id="vmJaxb2Marshaller" class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
+		<property name="classesToBeBound">
+			<list>
+				<value>com.vidyo.parser.xml.vmconfig.VMConfigType</value>
+				<value>com.vidyo.parser.xml.vmconfig.VpURI</value>
+				<value>com.vidyo.parser.xml.vmconfig.ObjectFactory</value>
+			</list>
+		</property>
+		<property name="schema" value="classpath:com/vidyo/parser/xml/vmconfig.xsd" />
+	</bean>
+
+	<bean id="vrJaxb2Marshaller" class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
+		<property name="classesToBeBound">
+			<list>
+				<value>com.vidyo.parser.xml.vrconfig.MediaStreamPrecedenceType</value>
+				<value>com.vidyo.parser.xml.vrconfig.ObjectFactory</value>
+				<value>com.vidyo.parser.xml.vrconfig.VMAccessType</value>
+				<value>com.vidyo.parser.xml.vrconfig.VRConfigType</value>
+				<value>com.vidyo.parser.xml.vrconfig.VrURI</value>
+			</list>
+		</property>
+		<property name="schema" value="classpath:com/vidyo/parser/xml/vrconfig.xsd" />
+	</bean>
+
+    <bean id="networkConfigDataCacheBackend" class="org.springframework.cache.ehcache.EhCacheFactoryBean">
+        <property name="cacheManager" ref="superCacheManager"/>
+        <property name="cacheName" value="NetworkConfigData"/>
+    </bean>
+
+	<bean id="superCacheManager"
+		class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
+		<property name="configLocation" value="/WEB-INF/ehcache-super.xml" />
+		<property name="shared" value="true"/>
+		<property name="cacheManagerName" value="superCacheManager"/>
+	</bean>       
+   
+</beans>

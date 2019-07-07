@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- This file was auto-generated from WSDL -->
+<!-- by the Apache Axis2 version: 1.6.1  Built on : Aug 31, 2011 (12:22:40 CEST) -->
+<serviceGroup>
+    <service name="VidyoPortalGeneralService">
+        <messageReceivers>
+            <messageReceiver mep="http://www.w3.org/ns/wsdl/in-out" class="com.vidyo.portal.general.VidyoPortalGeneralServiceMessageReceiverInOut"/>
+        </messageReceivers>
+        <!--<parameter name="ServiceClass">com.vidyo.portal.general.VidyoPortalGeneralServiceSkeleton</parameter>-->
+        <parameter name="ServiceObjectSupplier" locked="false">org.apache.axis2.extensions.spring.receivers.SpringServletContextObjectSupplier</parameter>
+        <parameter name="SpringBeanName" locked="false">vidyoPortalGeneralServiceEndPoint</parameter>
+        <parameter name="useOriginalwsdl">true</parameter>
+        <parameter name="modifyUserWSDLPortAddress">true</parameter>
+        <operation name="getLogInType" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://portal.vidyo.com/general">
+            <actionMapping>getLogInType</actionMapping>
+            <outputActionMapping>http://portal.vidyo.com/general/VidyoPortalGeneralServicePortType/getLogInTypeResponse</outputActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://portal.vidyo.com/general/VidyoPortalGeneralServicePortType/getLogInType/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://portal.vidyo.com/general/VidyoPortalGeneralServicePortType/getLogInType/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://portal.vidyo.com/general/VidyoPortalGeneralServicePortType/getLogInType/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://portal.vidyo.com/general/VidyoPortalGeneralServicePortType/getLogInType/Fault/GeneralFault</faultActionMapping>
+        </operation>
+        <operation name="webRTCLoginIsEnabled" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://portal.vidyo.com/general">
+            <actionMapping>webRTCLoginIsEnabled</actionMapping>
+            <outputActionMapping>http://portal.vidyo.com/general/VidyoPortalGeneralServicePortType/webRTCLoginIsEnabledResponse</outputActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://portal.vidyo.com/general/VidyoPortalGeneralServicePortType/webRTCLoginIsEnabled/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://portal.vidyo.com/general/VidyoPortalGeneralServicePortType/webRTCLoginIsEnabled/Fault/GeneralFault</faultActionMapping>
+        </operation>
+		<operation name="getTransactionStatus" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://portal.vidyo.com/general">
+            <actionMapping>getTransactionStatus</actionMapping>
+            <outputActionMapping>http://portal.vidyo.com/general/VidyoPortalGeneralServicePortType/getTransactionStatusResponse</outputActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://portal.vidyo.com/general/VidyoPortalGeneralServicePortType/getTransactionStatus/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://portal.vidyo.com/general/VidyoPortalGeneralServicePortType/getTransactionStatus/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://portal.vidyo.com/general/VidyoPortalGeneralServicePortType/getTransactionStatus/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://portal.vidyo.com/general/VidyoPortalGeneralServicePortType/getTransactionStatus/Fault/GeneralFault</faultActionMapping>
+        </operation>
+    </service>
+</serviceGroup>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:batch="http://www.springframework.org/schema/batch"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/batch
+		http://www.springframework.org/schema/batch/spring-batch.xsd
+	">
+
+	<batch:job id="checkLicenseExpireJob" restartable="true">
+		<batch:step id="checkLicenseExpireStep">
+			<batch:tasklet ref="licenseExpiryReminderTasklet"
+				transaction-manager="transactionManager" />
+		</batch:step>
+	</batch:job>
+
+	<!-- Message source for this context, loaded from localized "messages_xx" files -->
+    <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+        <property name="basename" value="classpath:messages"/>
+        <property name="defaultEncoding" value="UTF-8"/>
+    </bean>	
+
+	<bean id="licenseExpiryReminderTasklet"
+		class="com.vidyo.portal.batch.jobs.licensecheck.tasklet.LicenseExpiryReminderTasklet">
+		<property name="systemService" ref="systemService1" />
+		<property name="tenantService" ref="tenantService" />
+		<property name="memberService" ref="memberService1" />
+		<property name="emailService" ref="emailService" />
+		<property name="messageSource" ref="messageSource" />
+		<property name="licensingService" ref="licensingService" />
+	</bean>
+
+</beans>

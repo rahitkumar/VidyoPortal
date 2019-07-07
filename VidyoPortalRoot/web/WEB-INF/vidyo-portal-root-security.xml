@@ -1,0 +1,1495 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:sec="http://www.springframework.org/schema/security"
+	   xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"	   
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context.xsd
+    http://www.springframework.org/schema/aop
+    http://www.springframework.org/schema/aop/spring-aop.xsd	
+	http://www.springframework.org/schema/security
+	http://www.springframework.org/schema/security/spring-security.xsd">
+
+	<!-- Beans of the SAML library are using auto-wiring and annotation-based configuration by default. -->
+	<context:annotation-config/>
+	<context:component-scan base-package="org.springframework.security.saml"/>
+	
+	<bean id="appContextRefreshedEventListener" class="com.vidyo.framework.listeners.AppContextRefreshedEventListener">
+		<property name="samlAuthenticationService" ref="samlAuthenticationService"/>
+	</bean>
+
+	<!-- Unsecured pages -->
+	<sec:http security="none" pattern="/swagger-resources/**"/>
+	<sec:http security="none" pattern="/swagger-ui.html**"/>
+	<sec:http security="none" pattern="/v2/api-docs"/>
+    <sec:http security="none" pattern="/webjars/**"/>
+    
+	<sec:http security="none" pattern="/saml/web/.*" request-matcher="regex"/>
+    <sec:http security="none" pattern="/favicon.ico"/>
+    <sec:http security="none" pattern="/*.png"/>
+    <sec:http security="none" pattern="/status.html"/>
+
+    <!-- Secured pages -->
+    <sec:http entry-point-ref="samlEntryPoint" request-matcher="regex" use-expressions="true" disable-url-rewriting="true" create-session="never">
+		<sec:csrf request-matcher-ref="csrfPortalRequestMatcher"/>
+		<!--https://jira.vidyo.com/browse/VPTL-7292 - Enable CSP -->
+		<sec:headers>
+			<sec:frame-options policy="SAMEORIGIN"/>
+			<sec:content-security-policy policy-directives="frame-ancestors 'self'"></sec:content-security-policy>
+		</sec:headers>
+		<sec:intercept-url pattern="/ui/forgotpassword.ajax" access="permitAll()"/>
+		<sec:intercept-url pattern="/upload/.*" access="permitAll()"/>
+		<sec:intercept-url pattern="/closelogouttab.html" access="permitAll()"/>
+        <sec:intercept-url pattern="/.*" access="isFullyAuthenticated()"/>
+        <sec:custom-filter ref="corsHandler" after="PRE_AUTH_FILTER"/>
+        <sec:custom-filter after="BASIC_AUTH_FILTER" ref="samlFilter"/>
+    </sec:http>
+
+    <bean id="corsHandler" class="com.vidyo.framework.filters.security.CorsFilter">
+		<!-- VPTL-7694 - adding whitelisted origins configures from the xml.-->
+		<!-- All whitelisted origins should be configured below.-->
+		<property name="allowedOrigins">
+			<list>
+				<value>https://outlookplugin.vidyoqa.com</value>
+				<value>https://outlook.vidyocloudstaging.com</value>
+				<value>https://outlook.vidyoclouddev.com</value>
+				<value>https://outlook.vidyocloud.com</value>
+			</list>
+		</property>
+
+    </bean>
+
+    <bean id="samlFilter" class="org.springframework.security.web.FilterChainProxy">
+        <sec:filter-chain-map request-matcher="regex">
+			<sec:filter-chain pattern="/saml/login.*" filters="tenantHostnameMatchFilter,samlAuthResolverFilter,samlEntryPoint"/>
+            <sec:filter-chain pattern="/saml/logout.*" filters="samlLogoutFilter"/>
+            <sec:filter-chain pattern="/saml/metadata/*" filters="tenantHostnameMatchFilter,metadataDisplayFilter"/>
+            <sec:filter-chain pattern="/saml/SSO/.*" filters="tenantHostnameMatchFilter,samlAuthResolverFilter,samlWebSSOProcessingFilter"/>
+            <sec:filter-chain pattern="/saml/SSOHoK/.*" filters="tenantHostnameMatchFilter,samlAuthResolverFilter,samlWebSSOHoKProcessingFilter"/>
+            <sec:filter-chain pattern="/saml/SingleLogout/.*" filters="samlLogoutProcessingFilter"/>
+            <sec:filter-chain pattern="/saml/discovery/.*" filters="samlIDPDiscovery"/>
+
+			<sec:filter-chain pattern="/services/VidyoFederationService.*"
+							  filters="tenantSelectionFilter,authenticationProcessingFilterForVidyoFederationService,anonymousProcessingFilter,exceptionTranslationFilterForVidyoPortalXYZServices,filterSecurityInterceptorForVidyoFederationService"/>
+
+			<sec:filter-chain pattern="/services/VidyoPortalAdminService.*"
+							  filters="tenantHostnameMatchFilter,authenticationProcessingFilterForVidyoPortalAdminService,anonymousProcessingFilter,exceptionTranslationFilterForVidyoPortalXYZServices,filterSecurityInterceptorForVidyoPortalAdminService"/>
+
+			<sec:filter-chain pattern="/services/VidyoPortalUserService.*"
+							  filters="tenantHostnameMatchFilter,tokenRememberMeProcessingFilter,authenticationProcessingFilterForVidyoPortalUserService,anonymousProcessingFilter,exceptionTranslationFilterForVidyoPortalXYZServices,filterSecurityInterceptorForVidyoPortalUserService"/>
+
+			<sec:filter-chain pattern="/services/VidyoPortalUCClientsService.*"
+							  filters="tenantHostnameMatchFilter,authenticationProcessingFilterForVidyoPortalUCClientsService,anonymousProcessingFilter,exceptionTranslationFilterForVidyoPortalXYZServices,filterSecurityInterceptorForVidyoPortalUCClientsService"/>
+
+			<sec:filter-chain pattern="/services/VidyoPortalService.*"
+							  filters="tenantSelectionFilter,authenticationProcessingFilterForVidyoPortalServices,anonymousProcessingFilter,exceptionTranslationFilterForVidyoPortalXYZServices,filterSecurityInterceptorForVidyoPortalServices"/>
+
+			<sec:filter-chain pattern="/services/VidyoReplayService.*"
+							  filters="tenantSelectionFilter,authenticationProcessingFilterForVidyoReplayServices,anonymousProcessingFilter,exceptionTranslationFilterForVidyoPortalXYZServices,filterSecurityInterceptorForVidyoReplayServices"/>
+
+			<sec:filter-chain pattern="/services/VidyoRecorderService.*"
+							  filters="tenantSelectionFilter,authenticationProcessingFilterForVidyoRecorderServices,anonymousProcessingFilter,exceptionTranslationFilterForVidyoPortalXYZServices,filterSecurityInterceptorForVidyoRecorderServices"/>
+
+			<sec:filter-chain pattern="/services/VidyoDesktopService.*"
+							  filters="tenantSelectionFilter,authenticationProcessingFilterForDesktopServices,anonymousProcessingFilter,exceptionTranslationFilterForVidyoPortalXYZServices,filterSecurityInterceptorForDesktopServices"/>
+			<sec:filter-chain pattern="/services/VidyoLicenseService.*"
+							  filters="tenantSelectionFilter,authenticationProcessingFilterForLicenseServices,anonymousProcessingFilter,exceptionTranslationFilterForVidyoPortalXYZServices,filterSecurityInterceptorForLicenseServices"/>
+
+			<sec:filter-chain pattern="/services/ConfigurationService.*"
+							  filters="tenantSelectionFilter,anonymousProcessingFilter,exceptionTranslationFilterForVidyoPortalXYZServices,filterSecurityInterceptorForConfigurationServices"/>
+
+			<sec:filter-chain pattern="/services/ConfigurationAPIService.*"
+							  filters="tenantSelectionFilter,authenticationProcessingFilterForConfigurationAPIServices,anonymousProcessingFilter,exceptionTranslationFilterForVidyoPortalXYZServices,filterSecurityInterceptorForConfigurationAPIServices"/>
+
+			<sec:filter-chain pattern="/bringDevice.*"
+							  filters="tenantHostnameMatchFilter,httpSessionIntegrationFilterWithASCTrue,anonymousProcessingFilter,exceptionTranslationFilterForFlexPortal"/>
+
+			<sec:filter-chain pattern="/samlindex.*"
+							  filters="tenantHostnameMatchFilter,httpSessionIntegrationFilterWithASCTrue,anonymousProcessingFilter,exceptionTranslationFilterForFlexPortal"/>
+
+			<sec:filter-chain pattern="/flex.html.*"
+							  filters="tenantHostnameMatchFilter,authResolverFilter,httpSessionIntegrationFilterWithASCTrue,logoutFilterForFlexPortal,authenticationProcessingFilterForFlexPortal,rememberMeProcessingFilter,anonymousProcessingFilter,exceptionTranslationFilterForFlexPortal,filterSecurityInterceptorForFlexPortal"/>
+
+			<sec:filter-chain pattern="/index.html"
+							  filters="tenantHostnameMatchFilter,httpSessionIntegrationFilterWithASCTrue,logoutFilterForFlexPortal,authenticationProcessingFilterForFlexPortal,rememberMeProcessingFilter,anonymousProcessingFilter,exceptionTranslationFilterForFlexPortal,filterSecurityInterceptorForFlexPortal"/>
+
+			<sec:filter-chain pattern="/services/v1_1/VidyoPortalUserService.*"
+							  filters="tenantHostnameMatchFilter,tokenRememberMeProcessingFilter,authenticationProcessingFilterForVidyoPortalUserService,anonymousProcessingFilter,exceptionTranslationFilterForVidyoPortalXYZServices,filterSecurityInterceptorForVidyoPortalUserService"/>
+
+			<sec:filter-chain pattern="/services/v1_1/VidyoPortalAdminService.*"
+							  filters="tenantHostnameMatchFilter,authenticationProcessingFilterForVidyoPortalAdminService,anonymousProcessingFilter,exceptionTranslationFilterForVidyoPortalXYZServices,filterSecurityInterceptorForVidyoPortalAdminService"/>
+
+			<sec:filter-chain pattern="/services/VidyoPortalGuestService.*"
+							  filters="tenantHostnameMatchFilter,authenticationProcessingFilterForVidyoPortalGuestService,anonymousProcessingFilter,exceptionTranslationFilterForVidyoPortalXYZServices,filterSecurityInterceptorForVidyoPortalGuestService"/>
+
+	<sec:filter-chain pattern="/services/VidyoPortalCACService.*"
+				filters="tenantHostnameMatchFilter,anonymousProcessingFilter,exceptionTranslationFilterForVidyoPortalXYZServices,filterSecurityInterceptorForVidyoPortalCACService"/>
+
+
+			<sec:filter-chain pattern="/services/VidyoPortalGeneralService.*"
+							  filters="tenantHostnameMatchFilter,authenticationProcessingFilterForVidyoPortalGeneralService,anonymousProcessingFilter,exceptionTranslationFilterForVidyoPortalXYZServices,filterSecurityInterceptorForVidyoPortalGeneralService"/>
+
+			<sec:filter-chain pattern="/gatewayService/.*"
+							  filters="tenantHostnameMatchFilter,authenticationProcessingFilterForVidyoGatewayServices,anonymousProcessingFilter,exceptionTranslationFilterForVidyoPortalXYZServices,filterSecurityInterceptorForRestGatewayServices"/>
+
+			<sec:filter-chain pattern="/ui/forgotpassword.ajax"
+							  filters="tenantHostnameMatchFilter,httpSessionIntegrationFilterWithASCTrue,anonymousProcessingFilter,exceptionTranslationFilterForFlexPortal"/>
+
+			<sec:filter-chain pattern="/ui/.*"
+							  filters="tenantHostnameMatchFilter,httpSessionIntegrationFilterWithASCTrue,authenticationProcessingFilterForFlexUI,exceptionTranslationFilterForFlexUI,filterSecurityInterceptorForFlexUI"/>
+
+			<sec:filter-chain pattern="/upload/.*"
+							  filters="tenantSelectionFilter,httpSessionIntegrationFilterWithASCTrue,anonymousProcessingFilter,exceptionTranslationFilterForFlexPortal"/>
+
+			<!-- Final fallback for any urls that didn't match like j_spring_security_check, islinked, linkendpoint -->
+			<sec:filter-chain pattern="/.*"
+							  filters="tenantHostnameMatchFilter,httpSessionIntegrationFilterWithASCTrue,logoutFilterForFlexPortal,authenticationProcessingFilterForFlexPortal,rememberMeProcessingFilter,anonymousProcessingFilter,exceptionTranslationFilterForFlexPortal,filterSecurityInterceptorForFlexPortal"/>
+
+		</sec:filter-chain-map>
+    </bean>
+
+	<bean id="csrfPortalRequestMatcher" class="com.vidyo.framework.security.web.CsrfRootRequestMatcher" />
+
+	<!--  ================== -->
+	<!--  Multitenant portal -->
+	<!--  ================== -->
+	<bean id="tenantSelectionFilter" class="com.vidyo.framework.filters.tenant.TenantSelectionFilter">
+		<property name="tenant" ref="tenantService"/>
+	</bean>
+
+	<bean id="tenantHostnameMatchFilter" class="com.vidyo.framework.filters.tenant.TenantHostnameMatchFilter">
+		<property name="tenant" ref="tenantService"/>
+	</bean>
+
+	<bean id="authResolverFilter" class="com.vidyo.framework.filters.security.AuthResolverFilter">
+		<property name="systemService" ref="systemService"/>
+        <property name="samlUrl" value="/saml/login/"/>
+	</bean>
+
+	<bean id="samlAuthResolverFilter" class="com.vidyo.framework.filters.security.SamlAuthResolverFilter">
+		<property name="systemService" ref="systemService"/>
+	</bean>
+
+	<!-- Entry point to initialize authentication, default values taken from properties file -->
+    <bean id="samlEntryPoint" class="com.vidyo.framework.security.saml.SAMLEntryPoint">
+        <property name="defaultProfileOptions">
+            <bean class="org.springframework.security.saml.websso.WebSSOProfileOptions">
+                <property name="includeScoping" value="false"/>
+            </bean>
+        </property>
+    </bean>
+
+    <!-- IDP Discovery Service -->
+    <bean id="samlIDPDiscovery" class="org.springframework.security.saml.SAMLDiscovery">
+<!--         <property name="idpSelectionPath" value="/WEB-INF/security/idpSelection.jsp"/> -->
+    </bean>
+
+
+    <!-- The filter is waiting for connections on URL suffixed with filterSuffix and presents SP metadata there -->
+    <bean id="metadataDisplayFilter" class="com.vidyo.framework.security.saml.metadata.MetadataDisplayFilter">
+     <property name="systemService" ref="systemService"/>
+     <property name="tenantService" ref="tenantService"/>
+    </bean>
+
+
+    <!-- IDP Metadata configuration - paths to metadata of IDPs in circle of trust is here -->
+    <!-- Do no forget to call initialize method on providers -->
+    <bean id="metadata" class="org.springframework.security.saml.metadata.CachingMetadataManager">
+        <constructor-arg>
+            <list>
+            </list>
+        </constructor-arg>
+        <!-- OPTIONAL used when one of the metadata files contains information about this service provider -->
+        <!-- <property name="hostedSPName" value=""/> -->
+        <!-- OPTIONAL property: can tell the system which IDP should be used for authenticating user by default. -->
+        <!-- <property name="defaultIDP" value="http://localhost:8080/opensso"/> -->
+    </bean>
+
+    <!-- Processing filter for WebSSO profile messages -->
+    <bean id="samlWebSSOProcessingFilter" class="org.springframework.security.saml.SAMLProcessingFilter">
+        <property name="authenticationManager" ref="authenticationManagerForSAML"/>
+        <property name="authenticationSuccessHandler" ref="samlSuccessRedirectHandler"/>
+        <property name="authenticationFailureHandler" ref="samlFailureRedirectHandler"/>
+    </bean>
+
+    <!-- Processing filter for WebSSO Holder-of-Key profile -->
+    <bean id="samlWebSSOHoKProcessingFilter" class="org.springframework.security.saml.SAMLWebSSOHoKProcessingFilter">
+        <property name="authenticationManager" ref="authenticationManagerForSAML"/>
+        <property name="authenticationSuccessHandler" ref="samlSuccessRedirectHandler"/>
+        <property name="authenticationFailureHandler" ref="samlFailureRedirectHandler"/>
+    </bean>
+
+    <!-- Handler deciding where to redirect user after successful login -->
+    <bean id="samlSuccessRedirectHandler"
+          class="org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler">
+        <!-- <property name="defaultTargetUrl" value="/saml/index.jsp"/> -->
+        <property name="defaultTargetUrl" value="/samlindex.html"/>
+    </bean>
+    <!--
+    Use the following for interpreting RelayState coming from unsolicited response as redirect URL:
+    <bean id="samlSuccessRedirectHandler" class="org.springframework.security.saml.SAMLRelayStateSuccessHandler">
+       <property name="defaultTargetUrl" value="/" />
+    </bean>
+    -->
+
+    <bean id="samlFailureRedirectHandler" class="org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler">
+		<property name="defaultFailureUrl" value="/samlloginfail.html"/>
+	</bean>
+
+    <!-- Handler for successful logout -->
+    <bean id="samlSuccessLogoutHandler" class="org.springframework.security.web.authentication.logout.SimpleUrlLogoutSuccessHandler">
+        <property name="defaultTargetUrl" value="/closelogouttab.html"/>
+    </bean>
+
+    <!-- Logout handler terminating local session -->
+    <bean id="logoutHandler"
+          class="org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler">
+        <property name="invalidateHttpSession" value="true"/>
+    </bean>
+
+    <!-- Override default logout processing filter with the one processing SAML messages -->
+    <bean id="samlLogoutFilter" class="org.springframework.security.saml.SAMLLogoutFilter">
+        <constructor-arg ref="samlSuccessLogoutHandler"/>
+        <constructor-arg ref="logoutHandler"/>
+        <constructor-arg ref="logoutHandler"/>
+    </bean>
+
+    <!-- Filter processing incoming logout messages -->
+    <!-- First argument determines URL user will be redirected to after successful global logout -->
+    <bean id="samlLogoutProcessingFilter" class="org.springframework.security.saml.SAMLLogoutProcessingFilter">
+        <constructor-arg ref="samlSuccessLogoutHandler"/>
+        <constructor-arg ref="logoutHandler"/>
+    </bean>
+
+    <!-- Class loading incoming SAML messages from httpRequest stream -->
+    <bean id="processor" class="org.springframework.security.saml.processor.SAMLProcessorImpl">
+        <constructor-arg>
+            <list>
+                <ref bean="redirectBinding"/>
+                <ref bean="postBinding"/>
+                <ref bean="artifactBinding"/>
+                <ref bean="soapBinding"/>
+                <ref bean="paosBinding"/>
+            </list>
+        </constructor-arg>
+    </bean>
+
+    <!-- Logger for SAML messages and events -->
+    <bean id="samlLogger" class="org.springframework.security.saml.log.SAMLDefaultLogger"/>
+
+    <!-- Central storage of cryptographic keys -->
+    <bean id="keyManager" class="org.springframework.security.saml.key.JKSKeyManager">
+        <!-- <constructor-arg value="classpath:security/saml.jks"/> -->
+        <constructor-arg value="file:${keystore.path}/saml.jks"/>
+        <constructor-arg type="java.lang.String" value="s@ml123"/>
+        <constructor-arg>
+            <map>
+                <entry key="vidyo" value="s@ml123"/>
+            </map>
+        </constructor-arg>
+        <constructor-arg type="java.lang.String" value="vidyo"/>
+    </bean>
+
+    <!-- SAML 2.0 Web SSO profile -->
+    <bean id="webSSOprofile" class="org.springframework.security.saml.websso.WebSSOProfileImpl"/>
+
+    <!-- SAML 2.0 WebSSO Assertion Consumer -->
+    <bean id="webSSOprofileConsumer" class="com.vidyo.bo.authentication.VidyoCustomWebSSOProfileConsumerImpl">
+    	<property name="maxAuthenticationAge" value="2592000"/>
+    </bean>
+
+    <!-- SAML 2.0 Holder-of-Key WebSSO Assertion Consumer -->
+    <bean id="hokWebSSOprofileConsumer" class="org.springframework.security.saml.websso.WebSSOProfileConsumerHoKImpl"/>
+
+    <!-- SAML 2.0 ECP profile -->
+    <bean id="ecpprofile" class="org.springframework.security.saml.websso.WebSSOProfileECPImpl"/>
+
+    <!-- SAML 2.0 Logout Profile -->
+    <bean id="logoutprofile" class="org.springframework.security.saml.websso.SingleLogoutProfileImpl"/>
+
+    <!-- Provider of default SAML Context -->
+    <!-- <bean id="contextProvider" class="org.springframework.security.saml.context.SAMLContextProviderImpl"/> -->
+    <bean id="contextProvider" class="com.vidyo.framework.security.saml.context.SAMLContextProviderVidyoImpl">
+        <property name="samlAuthenticationService" ref="samlAuthenticationService"/>
+        <property name="metadataResolver" ref="metadataResolver"/>
+        <property name="pkixResolver" ref="pkixResolver"/>
+    </bean>
+
+    <bean id="metadataResolver" class="com.vidyo.service.authentication.saml.MetadataNoCacheCredentialResolver">
+        <aop:scoped-proxy proxy-target-class="true"/>
+    </bean>
+
+    <bean id="pkixResolver" class="com.vidyo.service.authentication.saml.PKIXNocacheInformationResolver">
+        <aop:scoped-proxy proxy-target-class="true"/>
+    </bean>
+
+    <!-- Initialization of the velocity engine -->
+    <bean id="velocityEngine" class="org.springframework.security.saml.util.VelocityFactory" factory-method="getEngine"/>
+
+    <!-- Bindings, encoders and decoders used for creating and parsing messages -->
+    <bean id="postBinding" class="org.springframework.security.saml.processor.HTTPPostBinding">
+        <constructor-arg ref="parserPool"/>
+        <constructor-arg ref="velocityEngine"/>
+    </bean>
+
+    <bean id="redirectBinding" class="org.springframework.security.saml.processor.HTTPRedirectDeflateBinding">
+        <constructor-arg ref="parserPool"/>
+    </bean>
+
+    <bean id="artifactBinding" class="org.springframework.security.saml.processor.HTTPArtifactBinding">
+        <constructor-arg ref="parserPool"/>
+        <constructor-arg ref="velocityEngine"/>
+        <constructor-arg>
+            <bean class="org.springframework.security.saml.websso.ArtifactResolutionProfileImpl">
+                <constructor-arg>
+                    <bean class="org.apache.commons.httpclient.HttpClient"/>
+                </constructor-arg>
+                <property name="processor">
+                    <bean id="soapProcessor" class="org.springframework.security.saml.processor.SAMLProcessorImpl">
+                        <constructor-arg ref="soapBinding"/>
+                    </bean>
+                </property>
+            </bean>
+        </constructor-arg>
+    </bean>
+
+    <bean id="soapBinding" class="org.springframework.security.saml.processor.HTTPSOAP11Binding">
+        <constructor-arg ref="parserPool"/>
+    </bean>
+
+    <bean id="paosBinding" class="org.springframework.security.saml.processor.HTTPPAOS11Binding">
+        <constructor-arg ref="parserPool"/>
+    </bean>
+
+    <!-- SAML Authentication Provider responsible for validating of received SAML messages -->
+    <bean id="samlAuthenticationProvider" class="com.vidyo.bo.authentication.VidyoSAMLCustomAuthenticationProvider">
+        <!-- forcePrincipalAsString setting as false   since we are looking into principal obj to determine the User. making as false will return the UserDeatial than the string representation-->
+         <property name="forcePrincipalAsString" value="false" />
+        <property name="userDetails" ref="samlUserDetailsService" />
+
+    </bean>
+
+    <bean id="samlUserDetailsService" class="com.vidyo.service.user.SAMLUserDetailsServiceImpl">
+		<property name="userDetailsService" ref="userDetailsService"/>
+		<property name="tenantService" ref="tenantService"/>
+		<property name="memberService1" ref="memberService1"/>
+		<property name="ms" ref="messageSource"/>
+		<property name="idpUserToMemberAttributesMapper" ref="idpUserToMemberAttributesMapper"/>
+		<property name="tenantIdpAttributes" ref="tenantIdpAttributes"/>
+		<property name="roomService" ref="roomService" />
+		<property name="samlAuthenticationService" ref="samlAuthenticationService" />
+		<property name="jdbcTemplate" ref="jdbcTemplate" />
+		<property name="memberDao" ref="memberDao" />
+	</bean>
+
+	<!--  ============== -->
+	<!--  AUTHENTICATION -->
+	<!--  ============== -->
+	<bean id="authenticationProcessingFilterForFlexUI"
+		  class="org.springframework.security.web.authentication.www.BasicAuthenticationFilter">
+		<constructor-arg name="authenticationManager" ref="authenticationManagerForFlexUI"/>
+		<constructor-arg name="authenticationEntryPoint" ref="authenticationEntryPointForFlexUI"/>
+	</bean>
+
+	<bean id="rootSuccessHandler" class="org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler">
+		<property name="defaultTargetUrl" value="/flex.html"/>
+	</bean>
+
+	<bean id="rootFailureHandler" class="org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler">
+		<property name="defaultFailureUrl" value="/flex.html?login_error=1"/>
+	</bean>
+
+	<bean id="authenticationProcessingFilterForFlexPortal"
+		  class="com.vidyo.framework.security.authentication.VidyoPortalUsernamePasswordAuthenticationFilter">
+		<property name="authenticationManager" ref="authenticationManagerWithLicenseCheck"/>
+		<property name="filterProcessesUrl" value="/j_spring_security_check"/>
+		<property name="rememberMeServices" ref="rememberMeServices"/>
+		<property name="successHandler" ref="rootSuccessHandler"/>
+        <property name="failureHandler" ref="rootFailureHandler"/>
+	</bean>
+
+	<bean id="authenticationProcessingFilterForVidyoGatewayServices"
+		  class="org.springframework.security.web.authentication.www.BasicAuthenticationFilter">
+		  <constructor-arg name="authenticationManager" ref="authenticationManagerForVidyoGatewayServices"/>
+		  <constructor-arg name="authenticationEntryPoint" ref="authenticationEntryPointForServices"/>
+	</bean>
+	<bean id="authenticationProcessingFilterForVidyoPortalServices"
+		  class="org.springframework.security.web.authentication.www.BasicAuthenticationFilter">
+		  <constructor-arg name="authenticationManager" ref="authenticationManagerForVidyoPortalServices"/>
+		  <constructor-arg name="authenticationEntryPoint" ref="authenticationEntryPointForServices"/>
+	</bean>
+	<bean id="authenticationProcessingFilterForVidyoReplayServices"
+		  class="org.springframework.security.web.authentication.www.BasicAuthenticationFilter">
+		  <constructor-arg name="authenticationManager" ref="authenticationManagerForVidyoReplayServices"/>
+		  <constructor-arg name="authenticationEntryPoint" ref="authenticationEntryPointForServices"/>
+	</bean>
+	<bean id="authenticationProcessingFilterForVidyoRecorderServices"
+		  class="org.springframework.security.web.authentication.www.BasicAuthenticationFilter">
+		  <constructor-arg name="authenticationManager" ref="authenticationManagerForVidyoRecorderServices"/>
+		  <constructor-arg name="authenticationEntryPoint" ref="authenticationEntryPointForServices"/>
+	</bean>
+
+	<bean id="authenticationProcessingFilterForDesktopServices"
+		  class="org.springframework.security.web.authentication.www.BasicAuthenticationFilter">
+		  <constructor-arg name="authenticationManager" ref="authenticationManagerForDesktopServices"/>
+		  <constructor-arg name="authenticationEntryPoint" ref="authenticationEntryPointForServices"/>
+	</bean>
+
+	<bean id="authenticationProcessingFilterForLicenseServices"
+		  class="org.springframework.security.web.authentication.www.BasicAuthenticationFilter">
+		  <constructor-arg name="authenticationManager" ref="authenticationManagerForLicenseServices"/>
+		  <constructor-arg name="authenticationEntryPoint" ref="authenticationEntryPointForLicenseServices"/>
+	</bean>
+
+	<bean id="authenticationProcessingFilterForConfigurationServices"
+		  class="org.springframework.security.web.authentication.www.BasicAuthenticationFilter">
+		  <constructor-arg name="authenticationManager" ref="authenticationManagerForConfigurationServices"/>
+		  <constructor-arg name="authenticationEntryPoint" ref="authenticationEntryPointForConfigurationServices"/>
+	</bean>
+
+	<bean id="authenticationProcessingFilterForConfigurationAPIServices"
+			class="org.springframework.security.web.authentication.www.BasicAuthenticationFilter">
+		  <constructor-arg name="authenticationManager" ref="authenticationManagerForConfigurationAPIServices"/>
+		  <constructor-arg name="authenticationEntryPoint" ref="authenticationEntryPointForConfigurationAPIServices"/>
+	</bean>
+
+	<bean id="authenticationProcessingFilterForVidyoPortalAdminService"
+		  class="org.springframework.security.web.authentication.www.BasicAuthenticationFilter">
+		  <constructor-arg name="authenticationManager" ref="authenticationManagerForVidyoPortalAdminService"/>
+		  <constructor-arg name="authenticationEntryPoint" ref="authenticationEntryPointForServices"/>
+	</bean>
+
+	<bean id="authenticationProcessingFilterForVidyoPortalUserService"
+		  class="org.springframework.security.web.authentication.www.BasicAuthenticationFilter">
+		  <constructor-arg name="authenticationManager" ref="authenticationManagerForVidyoPortalUserService"/>
+		  <constructor-arg name="authenticationEntryPoint" ref="authenticationEntryPointForVidyoPortalUserService"/>
+	</bean>
+
+	<bean id="authenticationProcessingFilterForVidyoPortalUCClientsService"
+		  class="org.springframework.security.web.authentication.www.BasicAuthenticationFilter">
+		  <constructor-arg name="authenticationManager" ref="authenticationManagerForVidyoPortalUCClientsService"/>
+		  <constructor-arg name="authenticationEntryPoint" ref="authenticationEntryPointForVidyoUCClientsService"/>
+	</bean>
+
+	<bean id="authenticationProcessingFilterForVidyoFederationService"
+		  class="org.springframework.security.web.authentication.www.BasicAuthenticationFilter">
+		  <constructor-arg name="authenticationManager" ref="authenticationManagerForVidyoFederationService"/>
+		  <constructor-arg name="authenticationEntryPoint" ref="authenticationEntryPointForServices"/>
+	</bean>
+
+	<bean id="authenticationProcessingFilterForVidyoPortalGuestService"
+		  class="org.springframework.security.web.authentication.www.BasicAuthenticationFilter">
+		  <constructor-arg name="authenticationManager" ref="authenticationManagerForVidyoPortalGuestService"/>
+		  <constructor-arg name="authenticationEntryPoint" ref="authenticationEntryPointForVidyoPortalGuestService"/>
+	</bean>
+	<bean id="authenticationProcessingFilterForVidyoPortalCACService"
+          class="org.springframework.security.web.authentication.www.BasicAuthenticationFilter">
+		  <constructor-arg name="authenticationManager" ref="authenticationManagerForVidyoPortalCACService"/>
+		  <constructor-arg name="authenticationEntryPoint" ref="authenticationEntryPointForVidyoPortalCACService"/>
+    </bean>
+
+    <bean id="authenticationProcessingFilterForVidyoPortalGeneralService"
+          class="org.springframework.security.web.authentication.www.BasicAuthenticationFilter">
+		  <constructor-arg name="authenticationManager" ref="authenticationManagerForVidyoPortalGeneralService"/>
+		  <constructor-arg name="authenticationEntryPoint" ref="authenticationEntryPointForVidyoPortalGeneralService"/>
+    </bean>
+
+	<!-- ============= -->
+	<!-- AUTH MANAGERS -->
+	<!-- ============= -->
+	<sec:authentication-manager alias="authenticationManagerForSAML">
+        <sec:authentication-provider ref="samlAuthenticationProvider"/>
+    </sec:authentication-manager>
+
+	<bean id="authenticationManagerForFlexUI" class="org.springframework.security.authentication.ProviderManager">
+		<constructor-arg name="providers">
+			<list>
+				<ref bean="daoAuthenticationProviderWithLicenseCheck"/>
+			</list>
+		</constructor-arg>
+		<property name="eraseCredentialsAfterAuthentication" value="false"/>
+	</bean>
+
+	<bean id="authenticationManagerWithLicenseCheck" class="org.springframework.security.authentication.ProviderManager">
+		<constructor-arg name="providers">
+			<list>
+				<ref bean="daoAuthenticationProviderWithLicenseCheck"/>
+				<ref bean="anonymousAuthenticationProvider"/>
+				<ref bean="rememberMeAuthenticationProvider"/>
+			</list>
+		</constructor-arg>
+		<property name="eraseCredentialsAfterAuthentication" value="false"/>
+	</bean>
+
+	<bean id="authenticationManagerForVidyoGatewayServices" class="org.springframework.security.authentication.ProviderManager">
+		<constructor-arg name="providers">
+			<list>
+				<ref bean="daoAuthenticationProviderForVidyoGatewayServices"/>
+				<ref bean="anonymousAuthenticationProvider"/>
+			</list>
+		</constructor-arg>
+		<property name="eraseCredentialsAfterAuthentication" value="false"/>
+	</bean>
+	<bean id="authenticationManagerForVidyoPortalServices" class="org.springframework.security.authentication.ProviderManager">
+		<constructor-arg name="providers">
+			<list>
+				<ref bean="daoAuthenticationProviderForVidyoPortalServices"/>
+				<ref bean="anonymousAuthenticationProvider"/>
+			</list>
+		</constructor-arg>
+		<property name="eraseCredentialsAfterAuthentication" value="false"/>
+	</bean>
+	<bean id="authenticationManagerForVidyoReplayServices" class="org.springframework.security.authentication.ProviderManager">
+		<constructor-arg name="providers">
+			<list>
+				<ref bean="daoAuthenticationProviderForVidyoReplayServices"/>
+				<ref bean="anonymousAuthenticationProvider"/>
+			</list>
+		</constructor-arg>
+		<property name="eraseCredentialsAfterAuthentication" value="false"/>
+	</bean>
+	<bean id="authenticationManagerForVidyoRecorderServices" class="org.springframework.security.authentication.ProviderManager">
+		<constructor-arg name="providers">
+			<list>
+				<ref bean="daoAuthenticationProviderForVidyoRecorderServices"/>
+				<ref bean="anonymousAuthenticationProvider"/>
+			</list>
+		</constructor-arg>
+		<property name="eraseCredentialsAfterAuthentication" value="false"/>
+	</bean>
+
+	<bean id="authenticationManagerForDesktopServices" class="org.springframework.security.authentication.ProviderManager">
+		<constructor-arg name="providers">
+			<list>
+				<ref bean="daoAuthenticationProviderForDesktopServices"/>
+				<ref bean="anonymousAuthenticationProvider"/>
+			</list>
+		</constructor-arg>
+		<property name="eraseCredentialsAfterAuthentication" value="false"/>
+	</bean>
+
+	<bean id="authenticationManagerForLicenseServices" class="org.springframework.security.authentication.ProviderManager">
+		<constructor-arg name="providers">
+			<list>
+				<ref bean="daoAuthenticationProviderForLicenseServices"/>
+				<ref bean="anonymousAuthenticationProvider"/>
+			</list>
+		</constructor-arg>
+		<property name="eraseCredentialsAfterAuthentication" value="false"/>
+	</bean>
+
+	<bean id="authenticationManagerForConfigurationServices" class="org.springframework.security.authentication.ProviderManager">
+		<constructor-arg name="providers">
+			<list>
+				<ref bean="daoAuthenticationProviderForConfigurationServices"/>
+				<ref bean="anonymousAuthenticationProvider"/>
+			</list>
+		</constructor-arg>
+		<property name="eraseCredentialsAfterAuthentication" value="false"/>
+	</bean>
+
+	<bean id="authenticationManagerForConfigurationAPIServices" class="org.springframework.security.authentication.ProviderManager">
+		<constructor-arg name="providers">
+			<list>
+				<ref bean="daoAuthenticationProviderForConfigurationAPIServices"/>
+				<ref bean="anonymousAuthenticationProvider"/>
+			</list>
+		</constructor-arg>
+		<property name="eraseCredentialsAfterAuthentication" value="false"/>
+	</bean>
+
+	<bean id="authenticationManagerForVidyoPortalAdminService" class="org.springframework.security.authentication.ProviderManager">
+		<constructor-arg name="providers">
+			<list>
+				<ref bean="daoAuthenticationProviderForVidyoPortalAdminService"/>
+				<ref bean="anonymousAuthenticationProvider"/>
+			</list>
+		</constructor-arg>
+		<property name="eraseCredentialsAfterAuthentication" value="false"/>
+	</bean>
+
+	<bean id="authenticationManagerForVidyoPortalUserService" class="org.springframework.security.authentication.ProviderManager">
+		<constructor-arg name="providers">
+			<list>
+				<ref bean="daoAuthenticationProviderForVidyoPortalUserService"/>
+				<ref bean="anonymousAuthenticationProvider"/>
+			</list>
+		</constructor-arg>
+		<property name="eraseCredentialsAfterAuthentication" value="false"/>
+	</bean>
+
+	<bean id="authenticationManagerForVidyoPortalUCClientsService" class="org.springframework.security.authentication.ProviderManager">
+		<constructor-arg name="providers">
+			<list>
+				<ref bean="daoAuthenticationProviderForDesktopServices"/>
+				<ref bean="anonymousAuthenticationProvider"/>
+			</list>
+		</constructor-arg>
+		<property name="eraseCredentialsAfterAuthentication" value="false"/>
+	</bean>
+
+	<bean id="authenticationManagerForVidyoFederationService" class="org.springframework.security.authentication.ProviderManager">
+		<constructor-arg name="providers">
+			<list>
+				<ref bean="inMemoryAuthenticationProviderForFederationServices"/>
+				<ref bean="anonymousAuthenticationProvider"/>
+			</list>
+		</constructor-arg>
+		<property name="eraseCredentialsAfterAuthentication" value="false"/>
+	</bean>
+
+	<bean id="authenticationManagerForVidyoPortalGuestService" class="org.springframework.security.authentication.ProviderManager">
+		<constructor-arg name="providers">
+			<list>
+				<ref bean="anonymousAuthenticationProvider"/>
+			</list>
+		</constructor-arg>
+		<property name="eraseCredentialsAfterAuthentication" value="false"/>
+	</bean>
+	<bean id="authenticationManagerForVidyoPortalCACService" class="org.springframework.security.authentication.ProviderManager">
+		<constructor-arg name="providers">
+			<list>
+				<ref bean="dummyAuthenticationProvider"/>
+			</list>
+		</constructor-arg>
+		<property name="eraseCredentialsAfterAuthentication" value="false"/>
+	</bean>
+
+    <bean id="authenticationManagerForVidyoPortalGeneralService" class="org.springframework.security.authentication.ProviderManager">
+        <constructor-arg name="providers">
+            <list>
+                <ref bean="anonymousAuthenticationProvider"/>
+            </list>
+        </constructor-arg>
+        <property name="eraseCredentialsAfterAuthentication" value="false"/>
+    </bean>
+
+	<sec:user-service id="federationUser">
+		<sec:user name="yuriy" password="yuriy" authorities="ROLE_FEDERATION" />
+		<sec:user name="ipc" password="ipc" authorities="ROLE_FEDERATION" />
+	</sec:user-service>
+
+
+	<bean id="inMemoryAuthenticationProviderForFederationServices" class="org.springframework.security.authentication.dao.DaoAuthenticationProvider">
+		<property name="userDetailsService" ref="federationUser"/>
+		<property name="passwordEncoder" ref ="noOpPasswordEncoder"/>
+	</bean>
+
+	<bean id="daoAuthenticationProviderWithLicenseCheck" class="com.vidyo.framework.security.authentication.DaoAuthenticationProviderWithLicenseCheck">
+		<property name="userDetailsService" ref="userDetailsService"/>
+		<property name="passwordEncoder" ref ="passwordEncoder"/>
+		<property name="system" ref="systemService"/>
+        <property name="jdbcTemplate" ref="jdbcTemplate"/>
+        <property name="memberDao" ref="memberDao"/>
+	</bean>
+
+	<bean id="daoAuthenticationProviderForVidyoGatewayServices" class="com.vidyo.framework.security.authentication.components.ComponentsAuthenticationProvider">
+		<property name="userDetailsService" ref="vidyoGatewayUserDetailsService"/>
+		<property name="passwordEncoder" ref ="noOpPasswordEncoder"/>
+	</bean>
+
+	<bean id="daoAuthenticationProviderForVidyoPortalServices" class="com.vidyo.framework.security.authentication.components.ComponentsAuthenticationProvider">
+		<property name="userDetailsService" ref="vidyoPortalUserDetailsService"/>
+		<property name="passwordEncoder" ref ="noOpPasswordEncoder"/>
+	</bean>
+
+	<bean id="daoAuthenticationProviderForVidyoReplayServices" class="com.vidyo.framework.security.authentication.components.ComponentsAuthenticationProvider">
+		<property name="userDetailsService" ref="vidyoReplayUserDetailsService"/>
+		<property name="passwordEncoder" ref ="noOpPasswordEncoder"/>
+	</bean>
+
+	<bean id="daoAuthenticationProviderForVidyoRecorderServices" class="com.vidyo.framework.security.authentication.components.ComponentsAuthenticationProvider">
+		<property name="userDetailsService" ref="vidyoRecorderUserDetailsService"/>
+		<property name="passwordEncoder" ref ="noOpPasswordEncoder"/>
+	</bean>
+
+	<bean id="daoAuthenticationProviderForDesktopServices" class="com.vidyo.framework.security.authentication.DaoAuthenticationProvider">
+		<property name="userDetailsService" ref="userDetailsDesktopService"/>
+		<property name="passwordEncoder" ref ="noOpPasswordEncoder"/>
+		<property name="system" ref="systemService"/>
+        <property name="jdbcTemplate" ref="jdbcTemplate"/>
+        <property name="memberDao" ref="memberDao"/>
+	</bean>
+
+	<!-- A JdbcDaoImpl implementation of a user detail service. -->
+	<bean id="userDetailsDesktopService" class="com.vidyo.framework.security.authentication.UserDetailsDesktopService">
+        <property name="system" ref="systemService"/>
+        <property name="userAuthDao" ref="userDesktopAuthDao"/>
+	</bean>
+
+	<bean id="daoAuthenticationProviderForLicenseServices" class="com.vidyo.framework.security.authentication.license.LicenseServiceAuthenticationProvider">
+		<property name="userDetailsService" ref="userDetailsLicenseService"/>
+		<property name="passwordEncoder" ref ="noOpPasswordEncoder"/>
+	</bean>
+
+	<bean id="daoAuthenticationProviderForConfigurationServices" class="org.springframework.security.authentication.dao.DaoAuthenticationProvider">
+		<property name="userDetailsService" ref="userDetailsConfigurationService"/>
+		<property name="passwordEncoder" ref ="noOpPasswordEncoder"/>
+	</bean>
+
+	<bean id="daoAuthenticationProviderForConfigurationAPIServices" class="org.springframework.security.authentication.dao.DaoAuthenticationProvider">
+		<property name="userDetailsService" ref="userDetailsConfigurationAPIService"/>
+		<property name="passwordEncoder" ref ="passwordEncoder"/>
+	</bean>
+
+	<bean id="daoAuthenticationProviderForVidyoPortalAdminService" class="com.vidyo.framework.security.authentication.DaoAuthenticationProvider">
+		<property name="userDetailsService" ref="adminDetailsService"/>
+		<property name="passwordEncoder" ref ="passwordEncoder"/>
+		<property name="system" ref="systemService"/>
+        <property name="jdbcTemplate" ref="jdbcTemplate"/>
+        <property name="memberDao" ref="memberDao"/>
+	</bean>
+
+	<bean id="daoAuthenticationProviderForVidyoPortalUserService" class="com.vidyo.framework.security.authentication.DaoAuthenticationProviderWithLicenseCheck">
+		<property name="userDetailsService" ref="userDetailsService"/>
+		<property name="passwordEncoder" ref ="passwordEncoder"/>
+		<property name="system" ref="systemService"/>
+        <property name="jdbcTemplate" ref="jdbcTemplate"/>
+        <property name="memberDao" ref="memberDao"/>
+	</bean>
+
+	<bean id="userDetailsService" class="com.vidyo.framework.security.authentication.UserDetailsService">
+		<property name="system" ref="systemService"/>
+		<property name="userAuthDao" ref="userAuthDao"/>
+		<property name="ldapAttributesMapper" ref="ldapUserToMemberAttributesMapper"/>
+		<property name="ldapImportRoles" value="ROLE_NORMAL,ROLE_ADMIN,ROLE_OPERATOR,ROLE_VIDYOROOM,ROLE_EXECUTIVE,ROLE_VIDYOPANORAMA"></property>
+		<property name="memberService" ref="memberService1"/>
+	</bean>
+
+	<bean id="adminDetailsService" class="com.vidyo.framework.security.authentication.UserDetailsService">
+		<property name="system" ref="systemService"/>
+		<property name="userAuthDao" ref="userAuthDao"/>
+		<property name="ldapAttributesMapper" ref="ldapUserToMemberAttributesMapper"/>
+		<property name="ldapImportRoles" value="ROLE_ADMIN,ROLE_OPERATOR"></property>
+		<property name="memberService" ref="memberService1"/>
+	</bean>
+
+	<bean id="userDetailsLicenseService" class="com.vidyo.framework.security.authentication.UserGuestDetailsService">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="usersByUsernameQuery">
+			<value>
+				SELECT
+				m.username as username,
+				'dummy' as password,
+				m.pak as pak,
+				m.pak2 as pak2,
+				m.bak as bak,
+				CASE
+					WHEN m.active = 1 THEN 'true' ELSE 'false'
+				END as enabled,
+				CASE
+					WHEN m.allowedToParticipate = 1 THEN 'true' ELSE 'false'
+				END as allowedToParticipate,
+				m.tenantID as tenantID,
+				m.memberID as memberID,
+				m.memberName as memberName
+				FROM
+				Member m
+				WHERE
+				m.username = ?
+				AND
+				m.tenantID = ?
+				UNION
+				SELECT
+				g.username as username,
+				'dummy' as password,
+				g.pak as pak,
+				g.pak2 as pak2,
+				'dummy' as bak,
+				'true' as enabled,
+				'true' as allowedToParticipate,
+				g.tenantID as tenantID,
+				g.guestName as memberName,
+				g.guestID as memberID
+				FROM
+				Guests g
+				WHERE
+				g.username = ?
+				AND
+				g.tenantID = ?
+			</value>
+		</property>
+		<property name="authoritiesByUsernameQuery">
+			<value>
+				SELECT
+				m.username as username,
+				CASE
+					WHEN mr.roleName = 'Admin' THEN 'ROLE_ADMIN'
+					WHEN mr.roleName = 'Operator' THEN 'ROLE_OPERATOR'
+					WHEN mr.roleName = 'Normal' THEN 'ROLE_NORMAL'
+					WHEN mr.roleName = '${vidyoroomrolename}' THEN 'ROLE_VIDYOROOM'
+					WHEN mr.roleName = 'Super' THEN 'ROLE_SUPER'
+					WHEN mr.roleName = 'Executive' THEN 'ROLE_EXECUTIVE'
+					WHEN mr.roleName = 'VidyoPanorama' THEN 'ROLE_VIDYOPANORAMA'
+				END as authority
+				FROM
+				Member m
+				INNER JOIN MemberRole mr ON (mr.roleID=m.roleID)
+				WHERE
+				m.username = ?
+				AND
+				m.tenantID = ?
+				UNION
+				SELECT
+				g.username as username,
+				'ROLE_GUEST' as authority
+				FROM
+				Guests g
+				WHERE
+				g.username = ?
+				AND
+				g.tenantID = ?
+			</value>
+		</property>
+	</bean>
+
+	<bean id="userDetailsConfigurationAPIService" class="org.springframework.security.core.userdetails.jdbc.JdbcDaoImpl">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="usersByUsernameQuery">
+			<value>
+				SELECT
+				m.username as username,
+				m.password as password,
+				'true' as enabled
+				FROM
+				Member m
+				WHERE
+				m.username = ?
+			</value>
+		</property>
+		<property name="authoritiesByUsernameQuery">
+			<value>
+				SELECT
+				m.username as username,
+				CASE
+					WHEN mr.roleName = 'Admin' THEN 'ROLE_ADMIN'
+					WHEN mr.roleName = 'Operator' THEN 'ROLE_OPERATOR'
+					WHEN mr.roleName = 'Normal' THEN 'ROLE_NORMAL'
+					WHEN mr.roleName = '${vidyoroomrolename}' THEN 'ROLE_VIDYOROOM'
+					WHEN mr.roleName = 'Super' THEN 'ROLE_SUPER'
+					WHEN mr.roleName = 'Executive' THEN 'ROLE_EXECUTIVE'
+					WHEN mr.roleName = 'VidyoPanorama' THEN 'ROLE_VIDYOPANORAMA'
+				END as authority
+				FROM
+				Member m
+				INNER JOIN MemberRole mr ON (mr.roleID=m.roleID)
+				WHERE
+				m.username = ?
+				AND
+				m.tenantID = 1
+			</value>
+		</property>
+	</bean>
+
+	<!-- The latest decision is that we keep ConfigurationService public.(no authentication)
+	so filterSecurityInterceptorForConfigurationServices allow role of ROLE_ANONYMOUS, so, following authentication query is not really used-->
+	<bean id="userDetailsConfigurationService" class="org.springframework.security.core.userdetails.jdbc.JdbcDaoImpl">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="usersByUsernameQuery">
+			<value>
+				SELECT
+				s.user as username,
+				s.password as password,
+				'true' as enabled
+				FROM
+				Services s
+				WHERE
+				s.user = ?
+			</value>
+		</property>
+		<property name="authoritiesByUsernameQuery">
+			<value>
+				SELECT
+				s.user as username,
+				'ROLE_VIDYOMANAGER' as authority
+				FROM
+				Services s
+				INNER JOIN ServicesRole sr ON (sr.roleID=s.roleID)
+				WHERE
+				s.user = ?
+			</value>
+		</property>
+	</bean>
+
+	<!-- A JdbcDaoImpl implementation of a VidyoGateway user detail service. -->
+	<bean id="vidyoGatewayUserDetailsService" class="com.vidyo.framework.security.authentication.components.CompUserDetailsService">
+		<property name="compType" value="VidyoGateway"/>
+		<property name="compUserAuthDao" ref="vgCompUserAuthDao"/>
+	</bean>
+
+	<bean id="vgCompUserAuthDao" class="com.vidyo.db.authentication.components.CompUserAuthDaoJdbcImpl">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="usersByUsernameQuery">
+			<value>
+				SELECT
+				vg.username as username,
+				vg.password as password,
+				'true' as enabled
+				FROM
+				vidyo_gateway_config vg, components c, components_type ct
+				WHERE vg.username = ? and vg.comp_id = c.id and c.comp_type_id = ct.id and ct.name = 'VidyoGateway'
+			</value>
+		</property>
+		<property name="authoritiesByUsernameQuery">
+			<value>
+				SELECT
+				vg.username as username,
+				'ROLE_VIDYOGATEWAY' as authority
+				FROM
+				vidyo_gateway_config vg, components c, components_type ct
+				WHERE vg.username = ? and vg.comp_id = c.id and c.comp_type_id = ct.id and ct.name = 'VidyoGateway'
+			</value>
+		</property>
+	</bean>
+
+	<!-- A JdbcDaoImpl implementation of a VidyoPortal user detail service. -->
+	<bean id="vidyoPortalUserDetailsService" class="com.vidyo.framework.security.authentication.components.CompUserDetailsService">
+		<property name="compType" value="VidyoManager"/>
+		<property name="compUserAuthDao" ref="vmCompUserAuthDao"/>
+	</bean>
+	<bean id="vmCompUserAuthDao" class="com.vidyo.db.authentication.components.CompUserAuthDaoJdbcImpl">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="usersByUsernameQuery">
+			<value>
+				SELECT
+				vmc.username as username,
+				vmc.password as password,
+				'true' as enabled
+				FROM
+				vidyo_manager_config vmc, components c, components_type ct
+				WHERE vmc.username = ? and vmc.comp_id = c.id and c.comp_type_id = ct.id and ct.name = 'VidyoManager'
+			</value>
+		</property>
+		<property name="authoritiesByUsernameQuery">
+			<value>
+				SELECT
+				vmc.username as username,
+				'ROLE_VIDYOMANAGER' as authority
+				FROM
+				vidyo_manager_config vmc, components c, components_type ct
+				WHERE vmc.username = ? and vmc.comp_id = c.id and c.comp_type_id = ct.id and ct.name = 'VidyoManager'
+			</value>
+		</property>
+	</bean>
+
+	<!-- A JdbcDaoImpl implementation of a VidyoReplay user detail service. -->
+	<bean id="vidyoReplayUserDetailsService" class="com.vidyo.framework.security.authentication.components.CompUserDetailsService">
+		<property name="compType" value="VidyoReplay"/>
+		<property name="compUserAuthDao" ref="replayCompUserAuthDao"/>
+	</bean>
+
+	<bean id="replayCompUserAuthDao" class="com.vidyo.db.authentication.components.CompUserAuthDaoJdbcImpl">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="usersByUsernameQuery">
+			<value>
+				SELECT
+				vrep.username as username,
+				vrep.password as password,
+				'true' as enabled
+				FROM
+				vidyo_replay_config vrep, components c, components_type ct
+				WHERE vrep.username = ? and vrep.comp_id = c.id and c.comp_type_id = ct.id and ct.name = 'VidyoReplay'
+			</value>
+		</property>
+		<property name="authoritiesByUsernameQuery">
+			<value>
+				SELECT
+				vrep.username as username,
+				'ROLE_VIDYOREPLAY' as authority
+				FROM
+				vidyo_replay_config vrep, components c, components_type ct
+				WHERE vrep.username = ? and vrep.comp_id = c.id and c.comp_type_id = ct.id and ct.name = 'VidyoReplay'
+			</value>
+		</property>
+	</bean>
+
+	<!-- A JdbcDaoImpl implementation of a VidyoRecorder user detail service. -->
+	<bean id="vidyoRecorderUserDetailsService" class="com.vidyo.framework.security.authentication.components.CompUserDetailsService">
+		<property name="compType" value="VidyoRecorder"/>
+		<property name="compUserAuthDao" ref="recCompUserAuthDao"/>
+	</bean>
+
+	<bean id="recCompUserAuthDao" class="com.vidyo.db.authentication.components.CompUserAuthDaoJdbcImpl">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="usersByUsernameQuery">
+			<value>
+				SELECT
+				vrec.username as username,
+				vrec.password as password,
+				'true' as enabled
+				FROM
+				vidyo_recorder_config vrec, components c, components_type ct
+				WHERE vrec.username = ? and vrec.comp_id = c.id and c.comp_type_id = ct.id and ct.name = 'VidyoRecorder'
+			</value>
+		</property>
+		<property name="authoritiesByUsernameQuery">
+			<value>
+				SELECT
+				vrec.username as username,
+				'ROLE_VIDYORECORDER' as authority
+				FROM
+				vidyo_recorder_config vrec, components c, components_type ct
+				WHERE vrec.username = ? and vrec.comp_id = c.id and c.comp_type_id = ct.id and ct.name = 'VidyoRecorder'
+			</value>
+		</property>
+	</bean>
+
+	<!-- BASIC authentication entry point -->
+	<bean id="authenticationEntryPointForFlexUI" class="com.vidyo.framework.security.authentication.SeatLicenseExpiredEntryPointForFlexUI">
+		<property name="realmName" value="realmNameForFlexUI"/>
+	</bean>
+
+	<!-- Form-based authentication entry point -->
+	<bean id="authenticationEntryPointForFlexPortal" class="org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint">
+		<constructor-arg name="loginFormUrl" value="/flex.html"/>
+		<property name="forceHttps" value="false"/>
+	</bean>
+
+	<!-- BASIC authentication entry point -->
+	<bean id="authenticationEntryPointForVidyoPortalUserService" class="com.vidyo.framework.security.authentication.SeatLicenseExpiredEntryPointForVidyoPortalUserService">
+		<property name="realmName" value="realmNameForServices"/>
+	</bean>
+
+	<bean id="authenticationEntryPointForVidyoUCClientsService" class="com.vidyo.framework.security.authentication.SeatLicenseExpiredEntryPointForVidyoPortalUserService">
+		<property name="realmName" value="realmNameForServices"/>
+	</bean>
+
+	<bean id="authenticationEntryPointForServices" class="org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint">
+		<property name="realmName" value="realmNameForServices"/>
+	</bean>
+
+	<bean id="authenticationEntryPointForDesktopServices" class="org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint">
+		<property name="realmName" value="realmNameForDesktopServices"/>
+	</bean>
+
+	<bean id="authenticationEntryPointForLicenseServices" class="org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint">
+		<property name="realmName" value="realmNameForLicenseServices"/>
+	</bean>
+
+	<bean id="authenticationEntryPointForConfigurationServices" class="org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint">
+		<property name="realmName" value="realmNameForConfigurationServices"/>
+	</bean>
+
+	<bean id="authenticationEntryPointForConfigurationAPIServices" class="org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint">
+		<property name="realmName" value="realmNameForConfigurationAPIServices"/>
+	</bean>
+	<bean id="authenticationEntryPointForVidyoPortalCACService" class="org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint">
+		<property name="realmName" value="realmNameForServices"/>
+	</bean>
+	<bean id="authenticationEntryPointForVidyoPortalGuestService" class="org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint">
+		<property name="realmName" value="realmNameForServices"/>
+	</bean>
+
+    <bean id="authenticationEntryPointForVidyoPortalGeneralService" class="org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint">
+        <property name="realmName" value="realmNameForServices"/>
+    </bean>
+
+	<!--  ============= -->
+	<!--  AUTHORIZATION -->
+	<!--  ============= -->
+	<!-- <bean id="accessDecisionManager" class="org.springframework.security.access.vote.AffirmativeBased">
+		<property name="allowIfAllAbstainDecisions" value="true"/>
+		<property name="decisionVoters">
+			<list>
+				<bean class="org.springframework.security.access.vote.RoleVoter"/>
+			</list>
+		</property>
+	</bean> -->
+
+	<bean id="accessDecisionManager1" class="org.springframework.security.access.vote.AffirmativeBased">
+		<property name="allowIfAllAbstainDecisions" value="true"/>
+		<constructor-arg name="decisionVoters">
+			  <list>
+		        <bean class="org.springframework.security.web.access.expression.WebExpressionVoter"/>
+		    </list>
+		</constructor-arg>
+	</bean>
+
+
+
+	<!--  ===================== -->
+	<!--  EXCEPTION TRANSLATION -->
+	<!--  ===================== -->
+	<bean id="exceptionTranslationFilterForFlexUI" class="org.springframework.security.web.access.ExceptionTranslationFilter">
+		<constructor-arg name="authenticationEntryPoint" ref="authenticationEntryPointForFlexUI"/>
+		<property name="accessDeniedHandler">
+			<bean class="com.vidyo.framework.security.authentication.VidyoAccessDeniedHandler"/>
+		</property>
+	</bean>
+
+	<bean id="exceptionTranslationFilterForFlexPortal" class="org.springframework.security.web.access.ExceptionTranslationFilter">
+		<constructor-arg name="authenticationEntryPoint" ref="authenticationEntryPointForFlexPortal"/>
+		<property name="accessDeniedHandler">
+			<bean class="org.springframework.security.web.access.AccessDeniedHandlerImpl">
+				<property name="errorPage" value="/flex.html?login_error=2"/>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="exceptionTranslationFilterForVidyoPortalXYZServices" class="org.springframework.security.web.access.ExceptionTranslationFilter">
+		<constructor-arg name="authenticationEntryPoint" ref="authenticationEntryPointForServices"/>
+		<property name="accessDeniedHandler">
+			<bean class="com.vidyo.framework.security.authentication.VidyoAccessDeniedHandler"/>
+		</property>
+	</bean>
+
+	<!--  =========== -->
+	<!--  INTEGRATION -->
+	<!--  =========== -->
+	<bean id="httpSessionIntegrationFilterWithASCTrue" class="org.springframework.security.web.context.SecurityContextPersistenceFilter">
+		<property name="forceEagerSessionCreation" value="true"/>
+	</bean>
+
+	<bean id="httpSessionIntegrationFilterWithASCFalse" class="org.springframework.security.web.context.SecurityContextPersistenceFilter">
+		<property name="forceEagerSessionCreation" value="false"/>
+	</bean>
+
+	<!--  =========================== -->
+	<!--  FILTER SECURITY INTERCEPTOR -->
+	<!--  =========================== -->
+	<bean id="filterSecurityInterceptorForFlexUI" class="org.springframework.security.web.access.intercept.FilterSecurityInterceptor">
+		<property name="authenticationManager" ref="authenticationManagerForFlexUI"/>
+		<property name="accessDecisionManager" ref="accessDecisionManager1"/>
+		<property name="securityMetadataSource">
+			<sec:filter-security-metadata-source request-matcher="regex" use-expressions="true">
+				<sec:intercept-url pattern="/ui/.*\.ajax.*" method="GET" access="denyAll"/>
+				<sec:intercept-url pattern="/ui/.*" access="hasAnyRole('ROLE_NORMAL','ROLE_VIDYOROOM','ROLE_ADMIN','ROLE_OPERATOR','ROLE_EXECUTIVE','ROLE_VIDYOPANORAMA','ROLE_LDAP')"/>
+			</sec:filter-security-metadata-source>
+		</property>
+	</bean>
+
+	<bean id="filterSecurityInterceptorForFlexPortal" class="org.springframework.security.web.access.intercept.FilterSecurityInterceptor">
+		<property name="authenticationManager" ref="authenticationManagerWithLicenseCheck"/>
+		<property name="accessDecisionManager" ref="accessDecisionManager1"/>
+		<property name="securityMetadataSource">
+			<sec:filter-security-metadata-source request-matcher="regex" use-expressions="true">
+                <sec:intercept-url pattern="/getloginbanner.html" access="permitAll"/>
+                <sec:intercept-url pattern="/getwelcomebanner.html" access="permitAll"/>
+				<sec:intercept-url pattern="/flex.html" access="permitAll"/>
+				<sec:intercept-url pattern="/getvmconnect.ajax.*" access="permitAll"/>
+				<sec:intercept-url pattern="/guestjointheconference.ajax.*" access="permitAll"/>
+				<sec:intercept-url pattern="/islinked.ajax.*" access="permitAll"/>
+				<sec:intercept-url pattern="/.*" access="permitAll"/>
+			</sec:filter-security-metadata-source>
+		</property>
+	</bean>
+
+	<bean id="filterSecurityInterceptorForVidyoPortalServices" class="org.springframework.security.web.access.intercept.FilterSecurityInterceptor">
+		<property name="authenticationManager" ref="authenticationManagerForVidyoPortalServices"/>
+		<property name="accessDecisionManager" ref="accessDecisionManager1"/>
+		<property name="securityMetadataSource">
+			<sec:filter-security-metadata-source request-matcher="regex" use-expressions="true">
+				<sec:intercept-url method="GET" pattern="/services/VidyoPortalService\?wsdl" access="permitAll"/>
+				<sec:intercept-url pattern="/services/VidyoPortalService.wsdl" access="denyAll"/>
+				<sec:intercept-url pattern="/services/VidyoPortalService?.*" access="hasAnyRole('ROLE_VIDYOMANAGER','ROLE_VIDYOGATEWAY')"/>
+				<sec:intercept-url pattern="/services/VidyoPortalService.*" access="hasAnyRole('ROLE_VIDYOMANAGER','ROLE_VIDYOGATEWAY')"/>
+				<sec:intercept-url pattern="/services/VidyoPortalService/.*" access="hasAnyRole('ROLE_VIDYOMANAGER','ROLE_VIDYOGATEWAY')"/>
+			</sec:filter-security-metadata-source>
+		</property>
+	</bean>
+
+	<bean id="filterSecurityInterceptorForVidyoGatewayServices" class="org.springframework.security.web.access.intercept.FilterSecurityInterceptor">
+		<property name="authenticationManager" ref="authenticationManagerForVidyoGatewayServices"/>
+		<property name="accessDecisionManager" ref="accessDecisionManager1"/>
+		<property name="securityMetadataSource">
+			<sec:filter-security-metadata-source request-matcher="regex" use-expressions="true">
+				<sec:intercept-url method="GET" pattern="/services/VidyoGatewayService\?wsdl" access="permitAll"/>
+				<sec:intercept-url pattern="/services/VidyoGatewayService.wsdl" access="denyAll"/>
+				<sec:intercept-url pattern="/services/VidyoGatewayService\?.*" access="hasRole('ROLE_VIDYOGATEWAY')"/>
+				<sec:intercept-url pattern="/services/VidyoGatewayService.*" access="hasRole('ROLE_VIDYOGATEWAY')"/>
+				<sec:intercept-url pattern="/services/VidyoGatewayService/.*" access="hasRole('ROLE_VIDYOGATEWAY')"/>
+			</sec:filter-security-metadata-source>
+		</property>
+	</bean>
+
+    <bean id="filterSecurityInterceptorForRestGatewayServices" class="org.springframework.security.web.access.intercept.FilterSecurityInterceptor">
+        <property name="authenticationManager" ref="authenticationManagerForVidyoGatewayServices"/>
+        <property name="accessDecisionManager" ref="accessDecisionManager1"/>
+        <property name="securityMetadataSource">
+            <sec:filter-security-metadata-source request-matcher="regex" use-expressions="true">
+                <sec:intercept-url pattern="/gatewayService/.*" access="hasRole('ROLE_VIDYOGATEWAY')"/>
+            </sec:filter-security-metadata-source>
+        </property>
+    </bean>
+
+	<bean id="filterSecurityInterceptorForVidyoReplayServices" class="org.springframework.security.web.access.intercept.FilterSecurityInterceptor">
+		<property name="authenticationManager" ref="authenticationManagerForVidyoReplayServices"/>
+		<property name="accessDecisionManager" ref="accessDecisionManager1"/>
+		<property name="securityMetadataSource">
+			<sec:filter-security-metadata-source request-matcher="regex" use-expressions="true">
+				<sec:intercept-url method="GET" pattern="/services/VidyoReplayService\?wsdl" access="permitAll"/>
+				<sec:intercept-url pattern="/services/VidyoReplayService.wsdl" access="denyAll"/>
+				<sec:intercept-url pattern="/services/VidyoReplayService\?.*" access="hasRole('ROLE_VIDYOREPLAY')"/>
+				<sec:intercept-url pattern="/services/VidyoReplayService.*" access="hasRole('ROLE_VIDYOREPLAY')"/>
+				<sec:intercept-url pattern="/services/VidyoReplayService/.*" access="hasRole('ROLE_VIDYOREPLAY')"/>
+			</sec:filter-security-metadata-source>
+		</property>
+	</bean>
+
+	<bean id="filterSecurityInterceptorForVidyoRecorderServices" class="org.springframework.security.web.access.intercept.FilterSecurityInterceptor">
+		<property name="authenticationManager" ref="authenticationManagerForVidyoRecorderServices"/>
+		<property name="accessDecisionManager" ref="accessDecisionManager1"/>
+		<property name="securityMetadataSource">
+			<sec:filter-security-metadata-source request-matcher="regex" use-expressions="true">
+				<sec:intercept-url method="GET" pattern="/services/VidyoRecorderService\?wsdl" access="permitAll"/>
+				<sec:intercept-url pattern="/services/VidyoRecorderService.wsdl" access="denyAll"/>
+				<sec:intercept-url pattern="/services/VidyoRecorderService\?.*" access="hasRole('ROLE_VIDYORECORDER')"/>
+				<sec:intercept-url pattern="/services/VidyoRecorderService.*" access="hasRole('ROLE_VIDYORECORDER')"/>
+				<sec:intercept-url pattern="/services/VidyoRecorderService/.*" access="hasRole('ROLE_VIDYORECORDER')"/>
+			</sec:filter-security-metadata-source>
+		</property>
+	</bean>
+
+	<bean id="filterSecurityInterceptorForDesktopServices" class="org.springframework.security.web.access.intercept.FilterSecurityInterceptor">
+		<property name="authenticationManager" ref="authenticationManagerForDesktopServices"/>
+		<property name="accessDecisionManager" ref="accessDecisionManager1"/>
+		<property name="securityMetadataSource">
+			<sec:filter-security-metadata-source request-matcher="regex" use-expressions="true">
+				<sec:intercept-url method="GET" pattern="/services/VidyoDesktopService\?wsdl" access="permitAll"/>
+				<sec:intercept-url pattern="/services/VidyoDesktopService.wsdl" access="denyAll"/>
+				<sec:intercept-url pattern="/services/VidyoDesktopService\?.*" access="hasAnyRole('ROLE_NORMAL','ROLE_ADMIN','ROLE_OPERATOR','ROLE_VIDYOROOM','ROLE_EXECUTIVE','ROLE_VIDYOPANORAMA')"/>
+				<sec:intercept-url pattern="/services/VidyoDesktopService.*" access="hasAnyRole('ROLE_NORMAL','ROLE_ADMIN','ROLE_OPERATOR','ROLE_VIDYOROOM','ROLE_EXECUTIVE','ROLE_VIDYOPANORAMA')"/>
+				<sec:intercept-url pattern="/services/VidyoDesktopService/.*" access="hasAnyRole('ROLE_NORMAL','ROLE_ADMIN','ROLE_OPERATOR','ROLE_VIDYOROOM','ROLE_EXECUTIVE','ROLE_VIDYOPANORAMA')"/>
+			</sec:filter-security-metadata-source>
+		</property>
+	</bean>
+
+	<bean id="filterSecurityInterceptorForLicenseServices" class="org.springframework.security.web.access.intercept.FilterSecurityInterceptor">
+		<property name="authenticationManager" ref="authenticationManagerForLicenseServices"/>
+		<property name="accessDecisionManager" ref="accessDecisionManager1"/>
+		<property name="securityMetadataSource">
+			<sec:filter-security-metadata-source request-matcher="regex" use-expressions="true">
+				<sec:intercept-url method="GET" pattern="/services/VidyoLicenseService\?wsdl" access="permitAll"/>
+				<sec:intercept-url pattern="/services/VidyoLicenseService.wsdl" access="denyAll"/>
+				<sec:intercept-url pattern="/services/VidyoLicenseService\?.*" access="hasAnyRole('ROLE_NORMAL','ROLE_ADMIN','ROLE_OPERATOR','ROLE_GUEST','ROLE_VIDYOROOM','ROLE_EXECUTIVE','ROLE_VIDYOPANORAMA')"/>
+				<sec:intercept-url pattern="/services/VidyoLicenseService.*" access="hasAnyRole('ROLE_NORMAL','ROLE_ADMIN','ROLE_OPERATOR','ROLE_GUEST','ROLE_VIDYOROOM','ROLE_EXECUTIVE','ROLE_VIDYOPANORAMA')"/>
+				<sec:intercept-url pattern="/services/VidyoLicenseService/.*" access="hasAnyRole('ROLE_NORMAL','ROLE_ADMIN','ROLE_OPERATOR','ROLE_GUEST','ROLE_VIDYOROOM','ROLE_EXECUTIVE','ROLE_VIDYOPANORAMA')"/>
+			</sec:filter-security-metadata-source>
+		</property>
+	</bean>
+
+	<bean id="filterSecurityInterceptorForConfigurationServices" class="org.springframework.security.web.access.intercept.FilterSecurityInterceptor">
+		<property name="authenticationManager" ref="authenticationManagerForConfigurationServices"/>
+		<property name="accessDecisionManager" ref="accessDecisionManager1"/>
+		<property name="securityMetadataSource">
+			<sec:filter-security-metadata-source request-matcher="regex" use-expressions="true">
+				<sec:intercept-url method="GET" pattern="/services/ConfigurationService\?wsdl" access="permitAll"/>
+				<sec:intercept-url pattern="/services/ConfigurationService.wsdl" access="denyAll"/>
+				<sec:intercept-url pattern="/services/ConfigurationService.*" access="permitAll"/>
+			</sec:filter-security-metadata-source>
+		</property>
+	</bean>
+
+	<bean id="filterSecurityInterceptorForConfigurationAPIServices" class="org.springframework.security.web.access.intercept.FilterSecurityInterceptor">
+		<property name="authenticationManager" ref="authenticationManagerForConfigurationAPIServices"/>
+		<property name="accessDecisionManager" ref="accessDecisionManager1"/>
+		<property name="securityMetadataSource">
+			<sec:filter-security-metadata-source request-matcher="regex" use-expressions="true">
+				<sec:intercept-url method="GET" pattern="/services/ConfigurationAPIService\?wsdl" access="permitAll"/>
+				<sec:intercept-url pattern="/services/ConfigurationAPIService.wsdl" access="denyAll"/>
+				<sec:intercept-url pattern="/services/ConfigurationAPIService\?.*" access="hasRole('ROLE_SUPER')"/>
+				<sec:intercept-url pattern="/services/ConfigurationAPIService.*" access="hasRole('ROLE_SUPER')"/>
+				<sec:intercept-url pattern="/services/ConfigurationAPIService/.*" access="hasRole('ROLE_SUPER')"/>
+			</sec:filter-security-metadata-source>
+		</property>
+	</bean>
+
+	<bean id="filterSecurityInterceptorForVidyoPortalAdminService" class="org.springframework.security.web.access.intercept.FilterSecurityInterceptor">
+		<property name="authenticationManager" ref="authenticationManagerForVidyoPortalAdminService"/>
+		<property name="accessDecisionManager" ref="accessDecisionManager1"/>
+		<property name="securityMetadataSource">
+			<sec:filter-security-metadata-source request-matcher="regex" use-expressions="true">
+				<sec:intercept-url method="GET" pattern="/services/VidyoPortalAdminService\?wsdl" access="permitAll"/>
+				<sec:intercept-url pattern="/services/VidyoPortalAdminService.wsdl" access="denyAll"/>
+				<sec:intercept-url pattern="/services/VidyoPortalAdminService\?.*" access="hasAnyRole('ROLE_SUPER','ROLE_ADMIN','ROLE_OPERATOR')"/>
+				<sec:intercept-url pattern="/services/VidyoPortalAdminService.*" access="hasAnyRole('ROLE_SUPER','ROLE_ADMIN','ROLE_OPERATOR')"/>
+				<sec:intercept-url pattern="/services/VidyoPortalAdminService/.*" access="hasAnyRole('ROLE_SUPER','ROLE_ADMIN','ROLE_OPERATOR')"/>
+
+				<sec:intercept-url method="GET" pattern="/services/v1_1/VidyoPortalAdminService\?wsdl" access="permitAll"/>
+				<sec:intercept-url pattern="/services/v1_1/VidyoPortalAdminService.wsdl" access="denyAll"/>
+				<sec:intercept-url pattern="/services/v1_1/VidyoPortalAdminService\?.*" access="hasAnyRole('ROLE_SUPER','ROLE_ADMIN','ROLE_OPERATOR')"/>
+				<sec:intercept-url pattern="/services/v1_1/VidyoPortalAdminService.*" access="hasAnyRole('ROLE_SUPER','ROLE_ADMIN','ROLE_OPERATOR')"/>
+				<sec:intercept-url pattern="/services/v1_1/VidyoPortalAdminService/.*" access="hasAnyRole('ROLE_SUPER','ROLE_ADMIN','ROLE_OPERATOR')"/>
+			</sec:filter-security-metadata-source>
+		</property>
+	</bean>
+
+	<bean id="filterSecurityInterceptorForVidyoPortalUserService" class="org.springframework.security.web.access.intercept.FilterSecurityInterceptor">
+		<property name="authenticationManager" ref="authenticationManagerForVidyoPortalUserService"/>
+		<property name="accessDecisionManager" ref="accessDecisionManager1"/>
+		<property name="securityMetadataSource">
+			<sec:filter-security-metadata-source request-matcher="regex" use-expressions="true">
+				<sec:intercept-url method="GET" pattern="/services/VidyoPortalUserService\?wsdl" access="permitAll"/>
+				<sec:intercept-url pattern="/services/VidyoPortalUserService.wsdl" access="denyAll"/>
+				<sec:intercept-url pattern="/services/VidyoPortalUserService\?.*" access="hasAnyRole('ROLE_NORMAL','ROLE_ADMIN','ROLE_OPERATOR','ROLE_VIDYOROOM','ROLE_EXECUTIVE','ROLE_VIDYOPANORAMA')"/>
+				<sec:intercept-url pattern="/services/VidyoPortalUserService.*" access="hasAnyRole('ROLE_NORMAL','ROLE_ADMIN','ROLE_OPERATOR','ROLE_VIDYOROOM','ROLE_EXECUTIVE','ROLE_VIDYOPANORAMA')"/>
+				<sec:intercept-url pattern="/services/VidyoPortalUserService/.*" access="hasAnyRole('ROLE_NORMAL','ROLE_ADMIN','ROLE_OPERATOR','ROLE_VIDYOROOM','ROLE_EXECUTIVE','ROLE_VIDYOPANORAMA')"/>
+
+				<sec:intercept-url method="GET" pattern="/services/v1_1/VidyoPortalUserService\?wsdl" access="permitAll"/>
+				<sec:intercept-url pattern="/services/v1_1/VidyoPortalUserService.wsdl" access="denyAll"/>
+				<sec:intercept-url pattern="/services/v1_1/VidyoPortalUserService\?.*" access="hasAnyRole('ROLE_NORMAL','ROLE_ADMIN','ROLE_OPERATOR','ROLE_VIDYOROOM','ROLE_EXECUTIVE','ROLE_VIDYOPANORAMA')"/>
+				<sec:intercept-url pattern="/services/v1_1/VidyoPortalUserService.*" access="hasAnyRole('ROLE_NORMAL','ROLE_ADMIN','ROLE_OPERATOR','ROLE_VIDYOROOM','ROLE_EXECUTIVE','ROLE_VIDYOPANORAMA')"/>
+				<sec:intercept-url pattern="/services/v1_1/VidyoPortalUserService/.*" access="hasAnyRole('ROLE_NORMAL','ROLE_ADMIN','ROLE_OPERATOR','ROLE_VIDYOROOM','ROLE_EXECUTIVE','ROLE_VIDYOPANORAMA')"/>
+			</sec:filter-security-metadata-source>
+		</property>
+		<!-- <property name="rejectPublicInvocations" value="true" />-->
+	</bean>
+
+	<bean id="filterSecurityInterceptorForVidyoPortalUCClientsService" class="org.springframework.security.web.access.intercept.FilterSecurityInterceptor">
+		<property name="authenticationManager" ref="authenticationManagerForVidyoPortalUCClientsService"/>
+		<property name="accessDecisionManager" ref="accessDecisionManager1"/>
+		<property name="securityMetadataSource">
+			<sec:filter-security-metadata-source request-matcher="regex" use-expressions="true">
+				<sec:intercept-url method="GET" pattern="/services/VidyoPortalUCClientsService\?wsdl" access="permitAll"/>
+				<sec:intercept-url pattern="/services/VidyoPortalUCClientsService.wsdl" access="denyAll"/>
+				<sec:intercept-url pattern="/services/VidyoPortalUCClientsService\?.*" access="hasAnyRole('ROLE_NORMAL','ROLE_ADMIN','ROLE_OPERATOR','ROLE_EXECUTIVE','ROLE_VIDYOPANORAMA')"/>
+				<sec:intercept-url pattern="/services/VidyoPortalUCClientsService.*" access="hasAnyRole('ROLE_NORMAL','ROLE_ADMIN','ROLE_OPERATOR','ROLE_EXECUTIVE','ROLE_VIDYOPANORAMA')"/>
+				<sec:intercept-url pattern="/services/VidyoPortalUCClientsService/.*" access="hasAnyRole('ROLE_NORMAL','ROLE_ADMIN','ROLE_OPERATOR','ROLE_EXECUTIVE','ROLE_VIDYOPANORAMA')"/>
+			</sec:filter-security-metadata-source>
+		</property>
+	</bean>
+
+	<bean id="filterSecurityInterceptorForVidyoFederationService" class="org.springframework.security.web.access.intercept.FilterSecurityInterceptor">
+		<property name="authenticationManager" ref="authenticationManagerForVidyoFederationService"/>
+		<property name="accessDecisionManager" ref="accessDecisionManager1"/>
+		<property name="securityMetadataSource">
+			<sec:filter-security-metadata-source request-matcher="regex" use-expressions="true">
+				<sec:intercept-url method="GET" pattern="/services/VidyoFederationService\?wsdl" access="permitAll"/>
+				<sec:intercept-url pattern="/services/VidyoFederationService.wsdl" access="denyAll"/>
+				<sec:intercept-url pattern="/services/VidyoFederationService\?.*" access="hasRole('ROLE_FEDERATION')"/>
+				<sec:intercept-url pattern="/services/VidyoFederationService.*" access="hasRole('ROLE_FEDERATION')"/>
+				<sec:intercept-url pattern="/services/VidyoFederationService/.*" access="hasRole('ROLE_FEDERATION')"/>
+			</sec:filter-security-metadata-source>
+		</property>
+	</bean>
+
+
+<bean id="filterSecurityInterceptorForVidyoPortalCACService" class="org.springframework.security.web.access.intercept.FilterSecurityInterceptor">
+		<property name="authenticationManager" ref="authenticationManagerForVidyoPortalCACService"/>
+		<property name="accessDecisionManager" ref="accessDecisionManager1"/>
+		<property name="securityMetadataSource">
+			<sec:filter-security-metadata-source request-matcher="regex" use-expressions="true">
+				<sec:intercept-url method="GET" pattern="/services/VidyoPortalCACService\?wsdl" access="permitAll"/>
+				<sec:intercept-url pattern="/services/VidyoPortalCACService.wsdl" access="denyAll"/>
+				<sec:intercept-url pattern="/services/VidyoPortalCACService\?.*" access="hasAnyRole('ROLE_ANONYMOUS','ROLE_NORMAL','ROLE_ADMIN','ROLE_OPERATOR')"/>
+				<sec:intercept-url pattern="/services/VidyoPortalCACService.*" access="hasAnyRole('ROLE_ANONYMOUS','ROLE_NORMAL','ROLE_ADMIN','ROLE_OPERATOR')"/>
+				<sec:intercept-url pattern="/services/VidyoPortalCACService/.*" access="hasAnyRole('ROLE_ANONYMOUS','ROLE_NORMAL','ROLE_ADMIN','ROLE_OPERATOR')"/>
+			</sec:filter-security-metadata-source>
+		</property>
+	</bean>
+
+	<bean id="filterSecurityInterceptorForVidyoPortalGuestService" class="org.springframework.security.web.access.intercept.FilterSecurityInterceptor">
+		<property name="authenticationManager" ref="authenticationManagerForVidyoPortalGuestService"/>
+		<property name="accessDecisionManager" ref="accessDecisionManager1"/>
+		<property name="securityMetadataSource">
+			<sec:filter-security-metadata-source request-matcher="regex" use-expressions="true">
+				<sec:intercept-url method="GET" pattern="/services/VidyoPortalGuestService\?wsdl" access="permitAll"/>
+				<sec:intercept-url pattern="/services/VidyoPortalGuestService.wsdl" access="denyAll"/>
+				<sec:intercept-url pattern="/services/VidyoPortalGuestService\?.*" access="hasAnyRole('ROLE_ANONYMOUS','ROLE_NORMAL','ROLE_ADMIN','ROLE_OPERATOR')"/>
+				<sec:intercept-url pattern="/services/VidyoPortalGuestService.*" access="hasAnyRole('ROLE_ANONYMOUS','ROLE_NORMAL','ROLE_ADMIN','ROLE_OPERATOR')"/>
+				<sec:intercept-url pattern="/services/VidyoPortalGuestService/.*" access="hasAnyRole('ROLE_ANONYMOUS','ROLE_NORMAL','ROLE_ADMIN','ROLE_OPERATOR')"/>
+			</sec:filter-security-metadata-source>
+		</property>
+	</bean>
+
+    <bean id="filterSecurityInterceptorForVidyoPortalGeneralService" class="org.springframework.security.web.access.intercept.FilterSecurityInterceptor">
+        <property name="authenticationManager" ref="authenticationManagerForVidyoPortalGeneralService"/>
+        <property name="accessDecisionManager" ref="accessDecisionManager1"/>
+        <property name="securityMetadataSource">
+            <sec:filter-security-metadata-source request-matcher="regex" use-expressions="true">
+                <sec:intercept-url method="GET" pattern="/services/VidyoPortalGeneralService\?wsdl" access="permitAll"/>
+				<sec:intercept-url pattern="/services/VidyoPortalGeneralService.wsdl" access="denyAll"/>
+                <sec:intercept-url pattern="/services/VidyoPortalGeneralService\?.*" access="hasAnyRole('ROLE_ANONYMOUS','ROLE_NORMAL','ROLE_ADMIN','ROLE_OPERATOR')"/>
+                <sec:intercept-url pattern="/services/VidyoPortalGeneralService.*" access="hasAnyRole('ROLE_ANONYMOUS','ROLE_NORMAL','ROLE_ADMIN','ROLE_OPERATOR')"/>
+                <sec:intercept-url pattern="/services/VidyoPortalGeneralService/.*" access="hasAnyRole('ROLE_ANONYMOUS','ROLE_NORMAL','ROLE_ADMIN','ROLE_OPERATOR')"/>
+            </sec:filter-security-metadata-source>
+        </property>
+    </bean>
+
+	<!--  ========= -->
+	<!--  ANONYMOUS -->
+	<!--  ========= -->
+	<bean id="anonymousProcessingFilter" class="org.springframework.security.web.authentication.AnonymousAuthenticationFilter">
+		<constructor-arg name="key" value="vidyoguest"/>
+	</bean>
+
+	<bean id="anonymousAuthenticationProvider" class="org.springframework.security.authentication.AnonymousAuthenticationProvider">
+		<constructor-arg name="key" value="vidyoguest"/>
+	</bean>
+		<!--  TODO please check again if it is needed -->
+	<bean id="dummyAuthenticationProvider" class="org.springframework.security.config.authentication.AuthenticationManagerBeanDefinitionParser.NullAuthenticationProvider"/>
+
+
+
+
+	<!--  =========== -->
+	<!--  REMEMBER ME -->
+	<!--  =========== -->
+	<bean id="rememberMeProcessingFilter" class="org.springframework.security.web.authentication.rememberme.RememberMeAuthenticationFilter">
+		<constructor-arg name="rememberMeServices" ref="rememberMeServices"/>
+		<constructor-arg name="authenticationManager" ref="authenticationManagerWithLicenseCheck"/>
+	</bean>
+
+	<bean id="rememberMeServices" class="org.springframework.security.web.authentication.rememberme.TokenBasedRememberMeServices">
+		<constructor-arg name="userDetailsService" ref="userDetailsService"/>
+		<constructor-arg name="key" value="VidyoPortal2"/>
+	</bean>
+
+	<bean id="rememberMeAuthenticationProvider" class="org.springframework.security.authentication.RememberMeAuthenticationProvider">
+		<constructor-arg name="key" value="VidyoPortal2"/>
+	</bean>
+
+	<!-- Token Based Remember Me -->
+
+	<bean id="tokenRememberMeProcessingFilter" class="org.springframework.security.web.authentication.rememberme.RememberMeAuthenticationFilter">
+		<constructor-arg name="rememberMeServices" ref="tokenRememberMeServices"/>
+		<constructor-arg name="authenticationManager" ref="authenticationManagerWithLicenseCheck"/>
+	</bean>
+
+    <bean id="tokenRememberMeServices" class="com.vidyo.framework.security.web.RequestHeaderCheckingPersistentTokenBasedRememberMeServices">
+        <property name="userDetailsService" ref="userDetailsService"/>
+		<property name="tenantService" ref="tenantService"/>
+        <property name="key" value="VidyoPortal2"/>
+        <property name="tokenRepository" ref="tokenRepository" />
+        <property name="alwaysRemember" value="true" />
+    </bean>
+
+	 <bean id="tokenRepository" class="com.vidyo.db.security.token.VidyoTokenRepositoryImpl">
+	 	<property name="dataSource" ref="dataSource"/>
+	 	<property name="createTableOnStartup" value="false"/>
+	 </bean>
+
+	<!--  ====== -->
+	<!--  LOGOUT -->
+	<!--  ====== -->
+	<bean id="logoutFilterForFlexPortal" class="org.springframework.security.web.authentication.logout.LogoutFilter">
+		<constructor-arg value="/flex.html"/>
+		<constructor-arg>
+			<list>
+				<ref bean="logoutHandler"/>
+				<ref bean="rememberMeServices"/>
+				<bean class="org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler"/>
+			</list>
+		</constructor-arg>
+		<property name="filterProcessesUrl" value="/logout.html"/>
+	</bean>
+	
+	<bean id="authenticationManagerForRest" class="org.springframework.security.authentication.ProviderManager">
+	    <constructor-arg name="providers">
+	    	<list>
+	    		<ref bean="anonymousAuthenticationProvider"/>
+	    	</list>
+	    </constructor-arg>
+	    <property name="eraseCredentialsAfterAuthentication" value="false"/>
+    </bean>
+	<bean id="basicAuthenticationRestFilter" class="org.springframework.security.web.authentication.www.BasicAuthenticationFilter">
+    	<constructor-arg name="authenticationManager" ref="authenticationManagerForRest"/>
+    </bean >
+	<bean id="rootAPIEntryPoint" class="org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint">
+		<property name="realmName" value="Rest Realm" />
+	</bean>
+</beans>

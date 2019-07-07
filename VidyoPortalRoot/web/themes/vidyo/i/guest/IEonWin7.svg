@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="340px" height="247px" viewBox="0 0 340 247" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 3.6.1 (26313) - http://www.bohemiancoding.com/sketch -->
+    <title>Group 2</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="IE/Edge" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Win7-Landing-Page-" transform="translate(-530.000000, -256.000000)">
+            <g id="Group-2" transform="translate(530.000000, 256.000000)">
+                <rect id="Rectangle-34" stroke="#555555" stroke-width="2" fill="#E5E5E5" x="41.8683652" y="0" width="298.131635" height="210.878265" rx="8"></rect>
+                <rect id="Rectangle-34" stroke="#0095DA" stroke-width="4" fill="#FFFFFF" x="58.4713376" y="153.406098" width="14.9981371" height="14.689997" rx="6"></rect>
+                <path d="M185.52017,184.664689 C185.52017,180.245373 189.103274,176.662809 193.526482,176.662809 L243.075226,176.662809 C247.49699,176.662809 251.081538,180.252153 251.081538,184.664689 L251.081538,190.695924 C251.081538,195.115241 247.498433,198.697805 243.075226,198.697805 L193.526482,198.697805 C189.104718,198.697805 185.52017,195.10846 185.52017,190.695924 L185.52017,184.664689 Z" id="Rectangle-34" stroke="#0095DA" stroke-width="4" fill-opacity="0.195652174" fill="#4A4A4A"></path>
+                <text id="Allow" font-family=".HelveticaNeueDeskInterface-Bold, .Helvetica Neue DeskInterface" font-size="8.9925364" font-weight="bold" fill="#555555">
+                    <tspan x="202.756651" y="190.497069">Allow</tspan>
+                </text>
+                <rect id="Rectangle-34" stroke-opacity="0.195652174" stroke="#4A4A4A" stroke-width="2" fill-opacity="0.300000012" fill="#FFFFFF" x="255.902335" y="175.176601" width="65.5613679" height="22.0349954" rx="8"></rect>
+                <text id="Do-not-show-me-the-w" font-family=".HelveticaNeueDeskInterface-Regular, .Helvetica Neue DeskInterface" font-size="10.2771845" font-weight="normal" fill="#555555">
+                    <tspan x="78.6836518" y="164.108373">Do not show me the warning</tspan>
+                </text>
+                <g id="Group-4" transform="translate(51.320755, 4.703604)">
+                    <path d="M0.653767576,8.74952249 C0.653767576,4.3322097 4.22624586,0.751270151 8.65091699,0.751270151 L269.216989,0.751270151 C273.633693,0.751270151 277.214139,4.33491342 277.214139,8.74952249 L277.214139,136.278281 C277.214139,140.695593 273.64166,144.276533 269.216989,144.276533 L8.65091699,144.276533 C4.23421333,144.276533 0.653767576,140.69289 0.653767576,136.278281 L0.653767576,8.74952249 Z" id="Rectangle-37" fill="#E5E5E5"></path>
+                    <rect id="Rectangle-37" fill="#FFCB05" x="0.653767576" y="3.10307236" width="276.560371" height="49.159199"></rect>
+                    <rect id="Rectangle-37" fill="#D8D8D8" x="0.653767576" y="63.0740287" width="276.560371" height="16.4626155" rx="8"></rect>
+                    <rect id="Rectangle-37" fill="#D8D8D8" x="0.801886792" y="90.1524181" width="276.560371" height="16.4626155" rx="8"></rect>
+                    <rect id="Rectangle-37" fill="#D8D8D8" x="0.801886792" y="116.806176" width="276.560371" height="16.4626155" rx="8"></rect>
+                </g>
+                <path d="M0,170.468835 L0,156.887623 L32.228896,156.887623 L32.228896,144.276533 L52.1718811,163.678194 L32.228896,183.079925 L32.228896,170.468835 L0,170.468835 Z" id="Page-1" fill="#0095DA"></path>
+                <path d="M195.783581,230.890551 L195.783581,217.387412 L223.168367,217.387412 L223.168367,204.848818 L240.113855,224.138947 L223.168367,243.429146 L223.168367,230.890551 L195.783581,230.890551 Z" id="Page-1" fill="#0095DA" transform="translate(217.948718, 224.138982) rotate(-90.000000) translate(-217.948718, -224.138982) "></path>
+            </g>
+        </g>
+    </g>
+</svg>

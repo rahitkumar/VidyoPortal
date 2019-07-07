@@ -1,0 +1,3 @@
+rootProject.name = 'Super'
+#include ":VidyoPortal"
+#project(":VidyoPortal").projectDir = file("../VidyoPortal")

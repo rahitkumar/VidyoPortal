@@ -1,0 +1,175 @@
+#!/bin/bash
+#
+# tomcat     This shell script takes care of starting and stopping Tomcat
+#
+# chkconfig: - 80 20
+#
+### BEGIN INIT INFO
+# Provides: tomcat
+# Required-Start: $network $syslog
+# Required-Stop: $network $syslog
+# Default-Start:
+# Default-Stop:
+# Description: Release implementation for Servlet 2.5 and JSP 2.1
+# Short-Description: start and stop tomcat
+### END INIT INFO
+
+ulimit -c unlimited
+
+export JAVA_HOME=/usr/lib/jvm/jre
+export PATH=$JAVA_HOME/bin:$PATH
+
+# The following script defines [MIN|MAX]_TOMCAT_INSTANCE_INDEX, TOMCAT_DIR
+#
+. /opt/vidyo/conf.d/tomcat.conf
+
+((MAX_TOMCAT_INSTANCE_INDEX--))
+
+SHUTDOWN_WAIT=20
+
+tomcat_pid() {
+  local let NUM_ARGS=0
+  local let requested_index=0
+  let NUM_ARGS=$#
+  if [ $NUM_ARGS -eq 1 ]
+  then
+     let requested_index=$1
+  fi
+  echo $(ps aux | grep org.apache.catalina.startup.Bootstrap | grep "\<home=${TOMCAT_HOME[$requested_index]}\>" | grep -v grep | awk '{ print $2 }') 
+}
+
+set_server_xml()
+{
+   [ -f /opt/vidyo/vm/VidyoManager ] || return 0
+
+   MEM=$(free -g | grep Mem | awk '{print $2}')
+   if [ $MEM -le 30 ]; then
+      logger -t "tomcat" "less than 32 GB detected..."
+      cp -f /opt/vidyo/conf/tomcat/tomcatnp.server.xml /usr/local/tomcatnp/conf/server.xml
+   else
+      logger -t "tomcat" "greater than 32 GB detected..."
+      cp -f /opt/vidyo/conf/tomcat/tomcatnp.32gb.server.xml /usr/local/tomcatnp/conf/server.xml
+   fi
+
+}
+
+start()
+{
+   local let index=0
+   local pid
+
+   [ -f /opt/vidyo/FORCE_DEPLOY ] && [ -x /opt/vidyo/bin/deploy_portal_webapps.sh ] && /opt/vidyo/bin/deploy_portal_webapps.sh
+
+   set_server_xml
+
+   for index in $(seq 0 $MAX_TOMCAT_INSTANCE_INDEX)
+   do
+      pid=$(tomcat_pid $index)
+      if [ -n "$pid" ]
+      then
+         echo "Tomcat_instance$index is already running (pid: $pid)"
+      else
+        # Start tomcat
+        ulimit -n 100000
+        echo "Starting tomcat as ${TOMCAT_USER[$index]}"
+        chown  ${TOMCAT_USER[$index]}:${TOMCAT_USER[$index]} ${TOMCAT_HOME[$index]}/logs/* 2>&1 > /dev/null
+        su -p -s /bin/bash ${TOMCAT_USER[$index]} -c ${TOMCAT_HOME[$index]}/bin/startup.sh
+        if [ $index -eq 0 ]
+        then
+           # always check the first instance of tomcat if it can bind to 8009. same behavior
+           # now on single and multiple instance of tomcat.
+           #
+           sleep 10s
+           let kwait=18
+           PORT8009=`netstat -anp | grep LISTEN | grep java | grep ":8009\>" | awk '{print $4}'`
+           count=0;
+           until [[ "$PORT8009" =~ "8009" ]] || [ $count -gt $kwait ]
+           do
+              logger -t "tomcat" "waiting for first tomcat instance to come up";
+              sleep 10s
+              PORT8009=`netstat -anp | grep LISTEN | grep java | grep ":8009\>" | awk '{print $4}'`
+              let count=$count+1;
+           done
+
+           if [ $count -gt $kwait ]; then
+              logger -t "tomcat" "Reached maximum wait. Tomcat did not start properly. System Rebooting"
+              /sbin/reboot
+           fi
+           
+        fi
+      fi
+   done
+
+   return 0
+}
+
+
+stop() {
+   local pid
+   local let index=0
+   for index in $(seq 0 $MAX_TOMCAT_INSTANCE_INDEX)
+   do
+      pid=$(tomcat_pid $index)
+      if [ -n "$pid" ]
+      then
+         echo "Stopping Tomcat_instance$index"
+         ${TOMCAT_HOME[$index]}/bin/shutdown.sh
+      else
+         echo "Tomcat_instance$index is not running"
+         continue
+      fi
+      let kwait=$SHUTDOWN_WAIT
+      count=0;
+      until [ `ps -p $pid | grep -c $pid` = '0' ] || [ $count -gt $kwait ]
+      do
+         echo -en "\nwaiting for processes to exit";
+         sleep 1
+         let count=$count+1;
+      done
+
+      echo
+
+      if [ $count -gt $kwait ]; then
+         echo -n -e "\nkilling processes which didn't stop after $SHUTDOWN_WAIT seconds"
+         kill -9 $pid
+      fi
+      chown  ${TOMCAT_USER[$index]}:${TOMCAT_USER[$index]} ${TOMCAT_HOME[$index]}/logs/* 2>&1 > /dev/null
+   done
+
+   return 0
+}
+
+status() {
+   local let status=0
+   local let index=0
+   local pid
+   for index in $(seq 0 $MAX_TOMCAT_INSTANCE_INDEX)
+   do
+      pid=$(tomcat_pid $index)
+      if [ -n "$pid" ]
+      then 
+         echo "Tomcat_instance$index is running with pid: $pid"
+      else
+         echo "Tomcat_instance$index is not running"
+      fi
+   done 
+   return $status
+}
+
+
+case $1 in
+start)
+  start
+;;
+stop)
+  stop
+;;
+restart)
+  stop
+  start
+;;
+status)
+  status
+;;
+esac
+exit 0

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://www.vidyo.com/VMConfigParser.xsd"
+		elementFormDefault="qualified"
+			xmlns:VMConfigParser="http://www.vidyo.com/VMConfigParser.xsd"
+				  xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <xs:annotation>
+    <xs:appinfo>
+      <NamespaceInfo filePrefix="VMConfigParser" cNamePrefix="VMConfigParser" namespaceCheck="false" version="1"/>
+    </xs:appinfo>
+  </xs:annotation>
+
+	<xs:complexType name="vpURI">
+        <xs:sequence>
+			<!--  IPorName:port -->
+			<xs:element name="Uri" type="xs:string"/>
+			<!--  higher number indicates higher priority -->
+			<xs:element name="Priority" minOccurs="0" type="xs:unsignedShort"/>
+        </xs:sequence>
+    </xs:complexType>
+
+	<xs:complexType name="SOAPListenAddressType">
+	   <xs:sequence>
+		  <!--  IPorName:port -->
+		  <xs:element name="SOAPListenAddress" type="xs:string" minOccurs="1" maxOccurs="unbounded"/>
+	   </xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="EMCPListenAddressType">
+	   <xs:sequence>
+		  <!--  IPorName:port -->
+		  <xs:element name="EMCPListenAddress" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+	   </xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="RMCPListenAddressType">
+	   <xs:sequence>
+		  <xs:element name="RMCPListenAddress" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+	   </xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="VidyoPortalConnectAddressType">
+	   <xs:sequence>
+		  <xs:element name="VidyoPortalConnectAddress" type="VMConfigParser:vpURI" minOccurs="0" maxOccurs="unbounded"/>
+	   </xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="DatabaseConfigType">
+	   <xs:sequence>
+		  <!--  IPorName:port -->
+		  <xs:element name="DBAddress" type="xs:string"/>
+		  <xs:element name="OdbcDSN" type="xs:string"/>
+		  <xs:element name="OdbcType" type="xs:string"/>
+		  <xs:element name="OdbcUID" type="xs:string"/>
+		  <xs:element name="OdbcPwd" type="xs:base64Binary"/>
+	   </xs:sequence>
+	</xs:complexType>
+
+    <xs:complexType name="VMConfigType">
+        <xs:sequence>
+            <xs:element name="DocumentVersion" type="xs:string"/>
+			<xs:element name="IPAddress" type="xs:string" minOccurs="0"/>
+            <xs:element name="SOAPAddressList" type="VMConfigParser:SOAPListenAddressType"/>
+            <xs:element name="EMCPAddressList" type="VMConfigParser:EMCPListenAddressType"/>
+            <xs:element name="RMCPAddressList" type="VMConfigParser:RMCPListenAddressType"/>
+			<xs:element name="VidyoPortalAddressList" type="VMConfigParser:VidyoPortalConnectAddressType"/>
+			<xs:element name="SecurityEnabled" type="xs:boolean" minOccurs="0"/>
+			<xs:element name="DatabaseConfig" type="VMConfigParser:DatabaseConfigType"/>
+			<xs:element name="LogFileName" type="xs:string" minOccurs="0"/>
+            <xs:element name="LogLevel" type="xs:string" minOccurs="0"/>
+            <xs:element name="MaxLogFileSizeKB" type="xs:unsignedInt" minOccurs="0"/>
+            <xs:element name="LogFileHistoryDays" type="xs:unsignedInt" minOccurs="0"/>
+            <xs:element name="Stat" type="xs:string"/>
+            <xs:element name="NumberOfThreads" type="xs:unsignedInt"/>
+			<xs:element name="SignalingPrecedence" type="xs:unsignedInt" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:element name="Config" type="VMConfigParser:VMConfigType">
+		<xs:annotation id="root"/>
+    </xs:element>
+</xs:schema>

@@ -1,0 +1,14 @@
+RSA_KEY=/opt/vidyo/data/VPLicenseMgr/licensekey.pem
+OPENSSL=/usr/bin/openssl
+HA_CRYPT=/opt/vidyo/app/VidyoPortalHA/bin/ha-crypt.sh
+HA_KEYGEN=/opt/vidyo/app/VidyoPortalHA/bin/ha-keygen.sh
+CIP_ADMIN=/opt/vidyo/app/VidyoPortalHA/bin/cip_admin
+SSHKEY_B64=/opt/vidyo/app/VidyoPortalHA/bin/ha-ssh-key-to-db.sh
+AUTHKEYS=/opt/vidyo/app/VidyoPortalHA/bin/ha-gen-authkeys.sh
+IMPORT_KEYS=/opt/vidyo/app/VidyoPortalHA/bin/import_keys.sh
+VALIDATE_KEY=/opt/vidyo/app/VidyoPortalHA/bin/validate_security_key.sh
+CREATE_BACKUP=/opt/vidyo/app/VidyoPortalHA/bin/create_backup.sh
+GET_LICENSE=/opt/vidyo/adm/get_license.sh
+LICENSE_INFO=/tmp/license.info
+IS_MAINTENANCE=/opt/vidyo/app/VidyoPortalHA/bin/is_maintenance.sh
+

@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans.xsd
+            http://www.springframework.org/schema/aop
+            http://www.springframework.org/schema/aop/spring-aop.xsd
+            http://www.springframework.org/schema/util
+            http://www.springframework.org/schema/util/spring-util.xsd">
+	<!-- AOP Interceptors -->
+	<aop:config>
+	<aop:advisor id="exceptionAdvisor" advice-ref="exceptionInterceptor"
+		pointcut="execution(* com.vidyo.service.*.*(..)) and !execution(* com.vidyo.service.IReplayService.*(..)) and !execution(* com.vidyo.service.IFederationConferenceService.*(..))"
+		order="1" />
+		<aop:advisor id="perfAdvisor" advice-ref="performanceMonitorInterceptor"
+			pointcut="(
+			    execution(* com.vidyo.db.*.*(..))
+			    or
+			    (
+				execution(* com.vidyo.service..*.*(..))
+				and !(
+					execution(* com.vidyo.service.statusnotify.*.*(..))
+					)
+				)
+			)"
+			order="2" />
+			<aop:advisor id="transactionHistoryAdvisor" advice-ref="transactionHistoryInterceptor"
+			pointcut="execution(* com.vidyo.service.endpointbehavior.EndpointBehaviorService.saveEndpointBehavior(com.vidyo.bo.EndpointBehavior))
+				or execution(* com.vidyo.service.endpointbehavior.EndpointBehaviorService.deleteEndpointBehavior(..))
+				or execution(* com.vidyo.service.endpointbehavior.EndpointBehaviorService.deleteEndpointBehaviorByTenantID(..))"
+			order="4"/>
+		<aop:advisor id="asyncAdvisor" advice-ref="asynchronizeInterceptor"
+			pointcut="execution(* com.vidyo.service.bindendpoint.BindEndpointService.bindUserToEndpoint(..))"
+			order="5" />
+		<aop:advisor id="startVidyoManagerAdvisor" advice-ref="startVidyoManagerInterceptor"
+			pointcut="execution(* com.vidyo.ws.portal.VidyoPortalServiceSkeletonInterface.startVidyoManager(..))"
+			order="6" />
+		<aop:advisor id="authByTokenCheckingAdvisor" advice-ref="authByTokenChecker"
+			pointcut="execution(* com.vidyo.portal.user.v1_1.VidyoPortalUserServiceSkeletonInterface.generateAuthToken(..))
+			or execution(* com.vidyo.portal.user.v1_1.VidyoPortalUserServiceSkeletonInterface.updatePassword(..))"
+			order="7" />
+		<aop:advisor id="authByTokensDeletingAdvisor" advice-ref="deleteAuthTokensAdvice"
+			pointcut="execution(* com.vidyo.service.IMemberService.updateMember(int, com.vidyo.bo.Member))
+			or execution(* com.vidyo.service.IMemberService.updateMember(int, int, com.vidyo.bo.Member))
+			or execution(* com.vidyo.service.IMemberService.updateMemberPassword(com.vidyo.bo.Member))"
+			order="8" />
+		<aop:advisor id="authTransactionHistoryAdvisor"
+			advice-ref="authTransactionHistoryInterceptor"
+			pointcut="execution(* org.springframework.security.authentication.AuthenticationProvider.authenticate(..))"
+			order="9" />
+		<aop:advisor id="roomUsageAdvisor" advice-ref="roomUsageInterceptor"
+			pointcut="execution(* com.vidyo.db.IConferenceDao.addEndpointToConferenceRecord(..))"
+			order="10" />
+		<aop:advisor id="liceneCheckAdvisor"
+			advice-ref="licenseCheckInterceptor"
+			pointcut="execution(* com.vidyo.portal.admin.v1_1.VidyoPortalAdminServiceSkeleton.*(..))
+			or execution(* com.vidyo.portal.admin.VidyoPortalAdminServiceSkeleton.*(..))
+			or execution(* com.vidyo.portal.superapi.VidyoPortalSuperServiceSkeleton.*(..))"
+			order="11" />
+		<aop:advisor id="servicesAuthTransLoggingAdvisor" advice-ref="servicesAuthTransactionInterceptor"
+			pointcut="execution(* com.vidyo.portal.user.v1_1.VidyoPortalUserServiceSkeletonInterface.logIn(..))
+			or execution(* com.vidyo.portal.user.v1_1.VidyoPortalUserServiceSkeletonInterface.logOut(..))
+			or  execution(* com.vidyo.portal.user.VidyoPortalUserServiceSkeletonInterface.logIn(..))
+			or  execution(* com.vidyo.portal.user.VidyoPortalUserServiceSkeletonInterface.logOut(..))"
+			order="13" />
+		 <aop:advisor id="userGroupCheckAdvisor" advice-ref="userGroupCheckInterceptor"
+			pointcut="execution(* com.vidyo.portal.user.v1_1.VidyoPortalUserServiceSkeleton.joinConference(..))
+			or execution(* com.vidyo.portal.user.v1_1.VidyoPortalUserServiceSkeleton.inviteToConference(..))
+			or execution(* com.vidyo.portal.user.v1_1.VidyoPortalUserServiceSkeleton.disconnectConferenceAll(..))
+			or execution(* com.vidyo.portal.user.v1_1.VidyoPortalUserServiceSkeleton.leaveConference(..))
+			or execution(* com.vidyo.portal.user.v1_1.VidyoPortalUserServiceSkeleton.muteAudio(..))
+			or execution(* com.vidyo.portal.user.v1_1.VidyoPortalUserServiceSkeleton.muteAudioClientAll(..))
+			or execution(* com.vidyo.portal.user.v1_1.VidyoPortalUserServiceSkeleton.muteAudioServerAll(..))
+			or execution(* com.vidyo.portal.user.v1_1.VidyoPortalUserServiceSkeleton.muteVideoClientAll(..))
+			or execution(* com.vidyo.portal.user.v1_1.VidyoPortalUserServiceSkeleton.muteVideoServerAll(..))
+			or execution(* com.vidyo.portal.user.v1_1.VidyoPortalUserServiceSkeleton.pauseRecording(..))
+			or execution(* com.vidyo.portal.user.v1_1.VidyoPortalUserServiceSkeleton.resumeRecording(..))
+			or execution(* com.vidyo.portal.user.v1_1.VidyoPortalUserServiceSkeleton.silenceSpeakerServer(..))
+			or execution(* com.vidyo.portal.user.v1_1.VidyoPortalUserServiceSkeleton.silenceSpeakerServerAll(..))
+			or execution(* com.vidyo.portal.user.v1_1.VidyoPortalUserServiceSkeleton.startLectureMode(..))
+			or execution(* com.vidyo.portal.user.v1_1.VidyoPortalUserServiceSkeleton.startRecording(..))
+			or execution(* com.vidyo.portal.user.v1_1.VidyoPortalUserServiceSkeleton.startVideo(..))
+			or execution(* com.vidyo.portal.user.v1_1.VidyoPortalUserServiceSkeleton.stopLectureMode(..))
+			or execution(* com.vidyo.portal.user.v1_1.VidyoPortalUserServiceSkeleton.stopRecording(..))
+			or execution(* com.vidyo.portal.user.v1_1.VidyoPortalUserServiceSkeleton.stopVideo(..))
+			or execution(* com.vidyo.portal.user.v1_1.VidyoPortalUserServiceSkeleton.unmuteAudio(..))
+			or execution(* com.vidyo.portal.user.v1_1.VidyoPortalUserServiceSkeleton.setPresenter(..))
+			or execution(* com.vidyo.portal.admin.v1_1.VidyoPortalAdminServiceSkeleton.inviteToConference(..))
+			or execution(* com.vidyo.portal.admin.v1_1.VidyoPortalAdminServiceSkeleton.leaveConference(..))
+			or execution(* com.vidyo.portal.admin.v1_1.VidyoPortalAdminServiceSkeleton.muteAudio(..))
+			or execution(* com.vidyo.portal.admin.v1_1.VidyoPortalAdminServiceSkeleton.pauseRecording(..))
+			or execution(* com.vidyo.portal.admin.v1_1.VidyoPortalAdminServiceSkeleton.removePresenter(..))
+			or execution(* com.vidyo.portal.admin.v1_1.VidyoPortalAdminServiceSkeleton.removeRoomPIN(..))
+			or execution(* com.vidyo.portal.admin.v1_1.VidyoPortalAdminServiceSkeleton.setPresenter(..))
+			or execution(* com.vidyo.portal.admin.v1_1.VidyoPortalAdminServiceSkeleton.startLectureMode(..))
+			or execution(* com.vidyo.portal.admin.v1_1.VidyoPortalAdminServiceSkeleton.startRecording(..))
+			or execution(* com.vidyo.portal.admin.v1_1.VidyoPortalAdminServiceSkeleton.startVideo(..))
+			or execution(* com.vidyo.portal.admin.v1_1.VidyoPortalAdminServiceSkeleton.stopLectureMode(..))
+			or execution(* com.vidyo.portal.admin.v1_1.VidyoPortalAdminServiceSkeleton.stopRecording(..))
+			or execution(* com.vidyo.portal.admin.v1_1.VidyoPortalAdminServiceSkeleton.stopVideo(..))
+			or execution(* com.vidyo.portal.admin.v1_1.VidyoPortalAdminServiceSkeleton.transferParticipant(..))
+			or execution(* com.vidyo.portal.admin.v1_1.VidyoPortalAdminServiceSkeleton.unmuteAudio(..))
+			or execution(* com.vidyo.portal.admin.v1_1.VidyoPortalAdminServiceSkeleton.updateRoom(..))
+			or execution(* com.vidyo.portal.guest.VidyoPortalGuestServiceSkeleton.guestJoinConference(..))
+			or execution(* com.vidyo.portal.guest.VidyoPortalGuestServiceSkeleton.linkEndpointToGuest(..))
+			or execution(* com.vidyo.portal.guest.VidyoPortalGuestServiceSkeleton.logInAsGuest(..))"
+			order="14" />
+	</aop:config>
+
+	<bean id="exceptionInterceptor" class="com.vidyo.interceptors.exception.ExceptionInterceptor">
+		<property name="suppressTrace" value="${exceptiontrace.suppress}" />
+		<property name="licensingService" ref="licensingService" />
+	</bean>
+
+	<bean id="performanceMonitorInterceptor"
+		class="com.vidyo.interceptors.performance.PerformanceInterceptor">
+	</bean>
+
+	<bean id="asynchronizeInterceptor"
+		class="com.vidyo.interceptors.asynchronous.AsyncExecutionInterceptor">
+		<property name="executorService" ref="asyncExecutor" />
+	</bean>
+
+	<bean id="asyncExecutor" scope="singleton" class="java.util.concurrent.Executors"
+		factory-method="newFixedThreadPool" destroy-method="shutdown">
+		<constructor-arg value="30" />
+	</bean>
+
+	<bean id="authByTokenChecker" class="com.vidyo.interceptors.authtoken.AuthByTokenChecker">
+	</bean>
+
+	<bean id="startVidyoManagerInterceptor"
+		class="com.vidyo.interceptors.vidyomanager.StartVidyoManagerInterceptor">
+		<property name="collectionDao" ref="cdrDao" />
+		<property name="collection2Dao" ref="cdr2Dao" />
+	</bean>
+
+	<bean id="roomUsageInterceptor" class="com.vidyo.interceptors.conference.RoomUsageInterceptor">
+		<property name="roomDao" ref="roomDao" />
+	</bean>
+
+	<bean id="authTransactionHistoryInterceptor"
+		class="com.vidyo.interceptors.transaction.AuthenticationTransactionInterceptor">
+		<property name="transactionService" ref="transactionService" />
+		<property name="methodNameTransactionMap" ref="methodNameTransactionMap" />
+		<property name="tenantService" ref="tenantService" />
+        <property name="memberLoginHistoryService" ref="memberLoginHistoryService" />
+		<property name="memberService" ref="memberService" />
+		<property name="systemService" ref="systemService" />
+		<property name="userDetailsService" ref="userDetailsService"/>
+	</bean>
+
+	<bean id="transactionHistoryInterceptor" class="com.vidyo.interceptors.transaction.TransactionInterceptor">
+		<property name="transactionService" ref="transactionService"/>
+		<property name="userService" ref="userService"/>
+		<property name="memberService" ref="memberService"/>
+		<property name="groupService" ref="groupService"/>
+		<property name="methodNameTransactionMap" ref="methodNameTransactionMap"/>
+		<property name="tenantService" ref="tenantService"/>
+		<property name="roomService" ref="roomService"/>
+		<property name="serviceService" ref="serviceService"/>
+	</bean>
+	
+
+	<bean id="licenseCheckInterceptor" class="com.vidyo.interceptors.license.LicenseCheckInterceptor">
+		<property name="licenseService" ref="licensingService" />
+		<property name="apiPackageLicenseNameMap" ref="apiPackageLicenseNameMap" />
+		<property name="apiPackageNoLicenseExceptionMap" ref="apiPackageNoLicenseExceptionMap" />
+	</bean>
+
+	<util:map id="methodNameTransactionMap">
+		<entry key="authenticate" value="Login" />
+	</util:map>
+
+	<bean id="deleteAuthTokensAdvice"
+		class="com.vidyo.interceptors.authtoken.delete.DeleteAuthTokensAdvice">
+		<property name="vidyoPersistentTokenRepository" ref="tokenRepository" />
+	</bean>
+
+	<util:map id="apiPackageLicenseNameMap">
+		<entry key="com.vidyo.portal.user.v1_1" value="AllowUserAPIs" />
+		<entry key="com.vidyo.portal.user" value="AllowUserAPIs" />
+		<entry key="com.vidyo.portal.admin.v1_1" value="AllowPortalAPIs" />
+		<entry key="com.vidyo.portal.admin" value="AllowPortalAPIs" />
+		<entry key="com.vidyo.portal.superapi" value="AllowPortalAPIs" />
+	</util:map>
+
+	<util:map id="apiPackageNoLicenseExceptionMap">
+		<entry key="com.vidyo.portal.user.v1_1" value="com.vidyo.portal.user.v1_1.NotLicensedFaultException" />
+		<entry key="com.vidyo.portal.user" value="com.vidyo.portal.user.NotLicensedFaultException" />
+		<entry key="com.vidyo.portal.admin.v1_1" value="com.vidyo.portal.admin.v1_1.NotLicensedFaultException" />
+		<entry key="com.vidyo.portal.admin" value="com.vidyo.portal.admin.NotLicensedExceptionException" />
+		<entry key="com.vidyo.portal.superapi" value="com.vidyo.portal.superapi.NotLicensedFaultException" />
+	</util:map>
+
+	<bean id="servicesAuthTransactionInterceptor" class="com.vidyo.interceptors.transaction.ServicesAuthTransactionInterceptor">
+		<property name="packageExceptionMap" ref="packageExceptionMap"/>
+		<property name="memberLoginHistoryService" ref="memberLoginHistoryService"/>
+		<property name="memberService" ref="memberService"/>
+		<property name="transactionService" ref="transactionService"/>
+		<property name="tenantService" ref="tenantService"/>
+		<property name="systemService" ref="systemService"/>
+	</bean>
+	
+	<bean id="userGroupCheckInterceptor" class="com.vidyo.interceptors.usergroup.UserGroupCheckInterceptor">
+		<property name="userService" ref="userService"/>
+		<property name="tenantService" ref="tenantService"/>
+		<property name="roomService" ref="roomService"/>
+		<property name="conferenceService" ref="conferenceService"/>
+	</bean>
+
+	<util:map id="packageExceptionMap">
+		<entry key="com.vidyo.portal.user.v1_1" value="com.vidyo.portal.user.v1_1.GeneralFaultException" />
+		<entry key="com.vidyo.portal.user" value="com.vidyo.portal.user.GeneralFaultException" />
+	</util:map>
+</beans>

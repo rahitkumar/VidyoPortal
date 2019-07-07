@@ -1,0 +1,521 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://www.vidyo.com/VCAP20.xsd" elementFormDefault="qualified" xmlns:VCAP20="http://www.vidyo.com/VCAP20.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<!--+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-->
+<!--+-        Enumerations/Simple Types              -+-->
+<!--+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-->
+  <!-- Basic error codes used in responses to reqest -->
+  <xs:simpleType name="ResponseCodeType">
+    <xs:restriction base="xs:string">
+      <!-- request processed and executed. OK -->
+      <xs:enumeration value="OK"/>
+      <!-- Unknown error, request failed -->
+      <xs:enumeration value="Error"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="KeypressExtension">
+    <xs:restriction base="xs:string">
+      <!-- Key press source is a keyboard -->
+      <xs:enumeration value="None"/>
+      <!-- Key press source is a remote control device -->
+      <xs:enumeration value="Remote"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <!-- Type of media. Used for media control commands to identify the media type to be controlled. -->
+  <xs:simpleType name="MediaType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="None"/>
+      <xs:enumeration value="Audio"/>
+      <xs:enumeration value="Video"/>
+      <xs:enumeration value="Application"/>
+      <xs:enumeration value="Speaker"/>
+      <xs:enumeration value="Recording"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <!-- Media source. Used for media control commands to identify whether the control relates to the locally sourced media or the media received from remote sources -->
+  <xs:simpleType name="MediaSourceType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="None"/>
+      <xs:enumeration value="Local"/>
+      <xs:enumeration value="Remote"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <!-- Media command type. Used for media control commands to identify the requested operation -->
+  <xs:simpleType name="MediaControlCommandType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="None"/>
+      <xs:enumeration value="Mute"/>
+      <xs:enumeration value="Unmute"/>
+      <xs:enumeration value="Silence"/>
+      <xs:enumeration value="Pause"/>
+      <xs:enumeration value="Unpause"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <!-- The type of notification requested. Used when subscribing to receive event notifications to identify the events of rest -->
+  <xs:simpleType name="EventNotifyType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="None"/>
+      <xs:enumeration value="FeccEndpointUpdate"/>
+      <xs:enumeration value="ConferenceInfoUpdate"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <!-- Camera control type. Used for identifying the opeartion requested of a camera -->
+  <xs:simpleType name="CameraControlType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="None"/>
+      <xs:enumeration value="PanRight"/>
+      <xs:enumeration value="PanLeft"/>
+      <xs:enumeration value="TiltUp"/>
+      <xs:enumeration value="TiltDown"/>
+      <xs:enumeration value="ZoomIn"/>
+      <xs:enumeration value="ZoomOut"/>
+      <xs:enumeration value="ViscaCommand"/>
+    </xs:restriction>
+  </xs:simpleType>
+<!--+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-->
+<!--+-        Basic Structures/Complex Types        +-+-->
+<!--+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-->
+  <!-- Result of processing request sent in a response -->
+  <!-- Type of media channel identified by type (audio, video, application) and source (local, remote) -->
+  <xs:complexType name="MediaChannelType">
+    <xs:sequence>
+      <xs:element name="MediaType" type="VCAP20:MediaType"/>
+      <xs:element name="MediaSource" type="VCAP20:MediaSourceType"/>
+      <xs:any processContents="lax" minOccurs="0" maxOccurs="unbounded" namespace="http://www.vidyo.com/ns/LmiIgnore.xsd"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="BitrateLimitType">
+    <xs:sequence>
+      <xs:element name="MediaChannel" type="VCAP20:MediaChannelType"/>
+      <!-- Bitrate value of 0xFFFFFFFF as well as no bit-rate limit being provided, both indicate no limit. -->
+      <xs:element name="Bitrate" type="xs:unsignedInt" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="BirrateLimitSet">
+    <xs:sequence>
+      <xs:element name="BitrateLimit" type="VCAP20:BitrateLimitType" minOccurs="1" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+  <!-- FECC Endpoint List is used to convey the list of endpoints making their PTZ cameras available for FECC -->
+  <xs:complexType name="FeccEndpointListType">
+    <xs:sequence>
+      <xs:element name="FeccEndpointUri" type="xs:anyURI" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ControllableCameraType">
+    <xs:sequence>
+      <xs:element name="CameraIdentifier" type="xs:string"/>
+      <xs:any processContents="lax" minOccurs="0" maxOccurs="unbounded" namespace="http://www.vidyo.com/ns/LmiIgnore.xsd"/>
+    </xs:sequence>
+  </xs:complexType>
+  <!-- FECC Capability Type allows the endpoint to convey whether it offers a PTZ Camera for Control -->
+  <xs:complexType name="ControllableCameraCapabilityType">
+    <xs:sequence>
+      <xs:element name="ControllableCamera" type="VCAP20:ControllableCameraType" maxOccurs="unbounded"/>
+      <xs:any processContents="lax" minOccurs="0" maxOccurs="unbounded" namespace="http://www.vidyo.com/ns/LmiIgnore.xsd"/>
+    </xs:sequence>
+  </xs:complexType>
+  <!-- Camera command provides information for a camera control command sent to an endpoint with a controllable PTZ camera -->
+  <xs:complexType name="CameraCommandType">
+    <xs:sequence>
+      <xs:element name="CameraContol" type="VCAP20:CameraControlType"/>
+      <xs:element name="CameraCommandId" type="xs:string" minOccurs="0"/>
+      <xs:element name="CameraCommandData" type="xs:string" minOccurs="0"/>
+      <xs:any processContents="lax" minOccurs="0" maxOccurs="unbounded" namespace="http://www.vidyo.com/ns/LmiIgnore.xsd"/>
+    </xs:sequence>
+  </xs:complexType>
+  <!-- Genaral events common to the whole conference call. -->
+  <xs:complexType name="ConferenceInfoUpdateType">
+    <xs:sequence>
+      <!-- Recording of conference call is ON or OFF -->
+      <xs:element name="Recording" type="xs:boolean" minOccurs="0"/>
+      <!-- Recording and webcasting of conference call is ON or OFF -->
+      <xs:element name="Webcasting" type="xs:boolean" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <!-- Genaral events common to the whole conference call. -->
+  <xs:complexType name="ServerConferenceInfoUpdateType">
+    <xs:sequence>
+      <!-- Full information or incremental -->
+      <xs:element name="FullInfo" type="xs:boolean" />
+      <!-- Adding or removing recorders -->
+      <xs:element name="RecordersAdded" type="xs:boolean" />
+      <!-- Number of recorders added or removed in case of incremental update -->
+      <!-- Number of recorders in conference in case of full update -->
+      <xs:element name="RecorderCount" type="xs:unsignedInt" />
+      <!-- Adding or removing webcasting -->
+      <xs:element name="WebcastersAdded" type="xs:boolean" />
+      <!-- Number of webcasts added or removed in case of incremental update -->
+      <!-- Number of webcasts in conference in case of full update -->
+      <xs:element name="WebcastCount" type="xs:unsignedInt" />
+    </xs:sequence>
+  </xs:complexType>
+    <!-- DSCP values for different media and signaling types -->
+    <xs:complexType name="DSCPValueSet">
+        <xs:sequence>
+            <!-- DSCP Value for Signaling - SCIP, CMCP etc -->
+            <xs:element name="Signaling" type="xs:unsignedInt" />
+            <!-- DSCP Value for media - Video -->
+            <xs:element name="MediaVideo" type="xs:unsignedInt" />
+            <!-- DSCP Value for media - Audio -->
+            <xs:element name="MediaAudio" type="xs:unsignedInt" />
+            <!-- DSCP Value for media - Data -->
+            <xs:element name="MediaData" type="xs:unsignedInt" />
+            <!-- DSCP Value for OA&M - RTCP, SOAP etc -->
+            <xs:element name="OAM" type="xs:unsignedInt" />
+        </xs:sequence>
+    </xs:complexType>
+  <!-- User profile provides information about user profile to the running client -->
+  <xs:complexType name="UserProfileType">
+    <xs:sequence>
+      <!-- Name of the user (e.g. First + Last name) -->
+      <xs:element name="DisplayName" type="xs:string" minOccurs="0"/>
+      <!-- The user's preferred language -->
+      <xs:element name="Language" type="xs:string" minOccurs="0"/>
+      <!-- Media bit-rate limits associated with the user -->
+      <xs:element name="BitrateLimits" type="VCAP20:BirrateLimitSet" minOccurs="0"/>
+             <!-- DSCP values for different media and signaling types -->
+            <xs:element name="DSCPValues" type="VCAP20:DSCPValueSet" minOccurs="0"/>
+      <xs:any processContents="lax" minOccurs="0" maxOccurs="unbounded" namespace="http://www.vidyo.com/ns/LmiIgnore.xsd"/>
+    </xs:sequence>
+  </xs:complexType>
+
+    <!-- used to turn lecture mode on/off and update presenter -->
+    <xs:complexType name="LectureStatusUpdateType">
+        <xs:sequence>
+            <!-- whether lecture mode is on or off, optional assume true -->
+            <xs:element name="Lecture" type="xs:boolean" minOccurs="0"/>
+            <!-- the presenter endpoint GUID, if any -->
+            <xs:element name="PresenterParticipantId" type="xs:string" minOccurs="0"/>
+            <xs:any processContents="lax" minOccurs="0" maxOccurs="unbounded" namespace="http://www.vidyo.com/ns/LmiIgnore.xsd"/>
+        </xs:sequence>
+        <xs:attribute name="muteAudio" type="xs:boolean"/>
+    </xs:complexType>
+
+    <xs:complexType name="UserStatusUpdateType">
+        <xs:sequence>
+            <xs:element name="HandDismissedNotification" type="VCAP20:HandDismissedNotification" minOccurs="0"/>
+            <xs:any processContents="lax" minOccurs="0" maxOccurs="unbounded" namespace="http://www.vidyo.com/ns/LmiIgnore.xsd"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- used to lower a users hand in lecture mode -->
+    <xs:complexType name="HandDismissedNotification">
+        <xs:sequence>
+            <xs:element name="Description" type="xs:string" minOccurs="0"/>
+            <xs:any processContents="lax" minOccurs="0" maxOccurs="unbounded" namespace="http://www.vidyo.com/ns/LmiIgnore.xsd"/>
+        </xs:sequence>
+    </xs:complexType>
+<!--+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+- -+-->
+<!--+-  Messages - Request/Response and Indications  -+-->
+<!--+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-->
+  <!-- Bind User request and response -->
+  <!-- Request carries an update on the user currently signed in to the system with this GUID. -->
+  <!-- The request includes the username, name and preferred language -->
+  <xs:complexType name="BindUserRequest">
+    <xs:sequence>
+      <xs:element name="Username" type="xs:string" minOccurs="0"/>
+      <!-- Username of the user currently logged in with the endpoint's GUID -->
+      <xs:element name="Challenge" type="xs:string" minOccurs="0"/>
+      <!-- Challenge string. Hex encoded binary data. If exist BindUser response must contain a challenge reponse -->
+      <xs:element name="UserProfile" type="VCAP20:UserProfileType" minOccurs="0"/>
+      <!-- User profile information for user being bound to the client -->
+      <xs:any processContents="lax" minOccurs="0" maxOccurs="unbounded" namespace="http://www.vidyo.com/ns/LmiIgnore.xsd"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="BindUserResponse">
+    <xs:sequence>
+      <xs:element name="ChallengeResponse" type="xs:string" minOccurs="0"/>
+      <!-- Challenge response string. Hex encoded binary data -->
+      <xs:any processContents="lax" minOccurs="0" maxOccurs="unbounded" namespace="http://www.vidyo.com/ns/LmiIgnore.xsd"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="BindUserAckRequest">
+    <xs:sequence>
+      <xs:element name="bindSuccess" type="xs:boolean"/>
+      <xs:any processContents="lax" minOccurs="0" maxOccurs="unbounded" namespace="http://www.vidyo.com/ns/LmiIgnore.xsd"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="BindUserAckResponse">
+    <xs:sequence>
+      <xs:any processContents="lax" minOccurs="0" maxOccurs="unbounded" namespace="http://www.vidyo.com/ns/LmiIgnore.xsd"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="UnbindUserRequest">
+    <xs:sequence>
+      <xs:element name="reason" type="xs:string" minOccurs="0" maxOccurs="1"/>
+      <xs:any processContents="lax" minOccurs="0" maxOccurs="unbounded" namespace="http://www.vidyo.com/ns/LmiIgnore.xsd"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="UnbindUserResponse">
+    <xs:sequence>
+      <xs:any processContents="lax" minOccurs="0" maxOccurs="unbounded" namespace="http://www.vidyo.com/ns/LmiIgnore.xsd"/>
+    </xs:sequence>
+  </xs:complexType>
+  <!-- Media Control Request and Response -->
+  <!-- Sent to the endpoint application instructing it to mute audio/video/application input/output  -->
+  <xs:complexType name="MediaControlRequest">
+    <xs:sequence>
+      <xs:element name="Command" type="VCAP20:MediaControlCommandType"/>
+      <xs:element name="MediaChannel" type="VCAP20:MediaChannelType" maxOccurs="unbounded"/>
+      <xs:any processContents="lax" minOccurs="0" maxOccurs="unbounded" namespace="http://www.vidyo.com/ns/LmiIgnore.xsd"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="MediaControlResponse">
+    <xs:sequence>
+      <xs:any processContents="lax" minOccurs="0" maxOccurs="unbounded" namespace="http://www.vidyo.com/ns/LmiIgnore.xsd"/>
+    </xs:sequence>
+  </xs:complexType>
+  <!-- Keypress request and response -->
+  <!-- Sends a key press from portal or other external entity to the application -->
+  <!-- Used for controlling VidyoRoom application with remote keys -->
+  <xs:complexType name="KeypressRequest">
+    <xs:sequence>
+      <xs:element name="KeyExtension" type="VCAP20:KeypressExtension" minOccurs="0"/>
+      <xs:element name="KeyCode" type="xs:unsignedInt"/>
+      <xs:any processContents="lax" minOccurs="0" maxOccurs="unbounded" namespace="http://www.vidyo.com/ns/LmiIgnore.xsd"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="KeypressResponse">
+    <xs:sequence>
+      <xs:any processContents="lax" minOccurs="0" maxOccurs="unbounded" namespace="http://www.vidyo.com/ns/LmiIgnore.xsd"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <!-- Event Subscribe request and response -->
+  <!-- Subscribe to receive notifications of updates when specific events occur -->
+  <xs:complexType name="EventSubscribeRequest">
+    <xs:sequence>
+      <xs:element name="EventType" type="VCAP20:EventNotifyType" minOccurs="1"/>
+      <!-- Resource defines the resource to which the event pertains such as a specific conference or room -->
+      <xs:element name="ResourceIdentifer" type="xs:anyURI" minOccurs="0"/>
+      <xs:element name="Subscribe" type="xs:boolean"/>
+      <xs:any processContents="lax" minOccurs="0" maxOccurs="unbounded" namespace="http://www.vidyo.com/ns/LmiIgnore.xsd"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="EventSubscribeResponse">
+    <xs:sequence>
+      <xs:any processContents="lax" minOccurs="0" maxOccurs="unbounded" namespace="http://www.vidyo.com/ns/LmiIgnore.xsd"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <!-- Event Notify request and response -->
+  <!-- Provides notifications of updates when specific events occur to endpoints which have previously subscribed to receive the event notification -->
+  <xs:complexType name="EventNotifyRequest">
+    <xs:sequence>
+      <xs:element name="ResourceIdentifer" type="xs:anyURI" minOccurs="0"/>
+      <xs:choice id="EventNotifyRequestSelection">
+        <!-- Resource defines the resource to which the event pertains such as a specific conference or room -->
+        <xs:element name="FeccEndpointUpdate" type="VCAP20:FeccEndpointListType"/>
+        <xs:element name="ConferenceInfoUpdate" type="VCAP20:ConferenceInfoUpdateType"/>
+      </xs:choice>
+      <xs:any processContents="lax" minOccurs="0" maxOccurs="unbounded" namespace="http://www.vidyo.com/ns/LmiIgnore.xsd"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="EventNotifyResponse">
+    <xs:sequence>
+      <xs:any processContents="lax" minOccurs="0" maxOccurs="unbounded" namespace="http://www.vidyo.com/ns/LmiIgnore.xsd"/>
+    </xs:sequence>
+  </xs:complexType>
+  <!-- Event Notify request and response used between servers -->
+  <!-- Provides notifications of changes in conference information between servers -->
+  <xs:complexType name="ServerEventNotifyRequest">
+    <xs:sequence>
+      <xs:element name="ServerConferenceInfoUpdate" type="VCAP20:ServerConferenceInfoUpdateType"/>
+      <xs:any processContents="lax" minOccurs="0" maxOccurs="unbounded" namespace="http://www.vidyo.com/ns/LmiIgnore.xsd"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ServerEventNotifyResponse">
+    <xs:sequence>
+      <xs:any processContents="lax" minOccurs="0" maxOccurs="unbounded" namespace="http://www.vidyo.com/ns/LmiIgnore.xsd"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <!-- Publish Capabilities Request and Response -->
+  <!-- Allows an endpoint to publish its capabilities -->
+  <xs:complexType name="PublishRequest">
+    <xs:sequence>
+      <xs:choice id="PublishRequestSelection">
+        <xs:element name="ControllableCameraCapability" type="VCAP20:ControllableCameraCapabilityType"/>
+        <!-- recording or webcasting the conference -->
+        <xs:element name="ConferenceInfoUpdate" type="VCAP20:ConferenceInfoUpdateType"/>
+      </xs:choice>
+      <xs:any processContents="lax" minOccurs="0" maxOccurs="unbounded" namespace="http://www.vidyo.com/ns/LmiIgnore.xsd"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="PublishCapabilitiesResponse">
+    <xs:sequence>
+      <xs:any processContents="lax" minOccurs="0" maxOccurs="unbounded" namespace="http://www.vidyo.com/ns/LmiIgnore.xsd"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <!-- Remote control indication -->
+  <!-- Used to send a remote control command from one endpoint to another -->
+  <!-- Used for controlling VidyoRoom PTZ cameras remotely -->
+  <xs:complexType name="RemoteControlIndication">
+    <xs:sequence>
+      <xs:element name="CameraCommand" type="VCAP20:CameraCommandType"/>
+    </xs:sequence>
+  </xs:complexType>
+
+    <xs:complexType name="LectureModeRequest">
+        <xs:sequence>
+            <xs:choice id="LectureModeRequestSelection">
+                <xs:element name="LectureStatusUpdate" type="VCAP20:LectureStatusUpdateType"/>
+                <xs:element name="UserStatusUpdate" type="VCAP20:UserStatusUpdateType"/>
+            </xs:choice>
+            <xs:any processContents="lax" minOccurs="0" maxOccurs="unbounded" namespace="http://www.vidyo.com/ns/LmiIgnore.xsd"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="LectureModeResponse">
+        <xs:sequence>
+            <xs:any processContents="lax" minOccurs="0" maxOccurs="unbounded" namespace="http://www.vidyo.com/ns/LmiIgnore.xsd"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="JoinToLegacyRequest">
+        <xs:sequence>
+            <xs:sequence>
+                <xs:element name="Token" type="xs:string" minOccurs="1" maxOccurs="1"/>
+                <xs:element name="Prefix" type="xs:string" minOccurs="1" maxOccurs="1"/>
+                <xs:element name="FromUserName" type="xs:string" minOccurs="1" maxOccurs="1"/>
+                <xs:element name="FromExtNumber" type="xs:string" minOccurs="1" maxOccurs="1"/>
+                <xs:element name="ToExtension" type="xs:string" minOccurs="1" maxOccurs="1"/>
+                <xs:element name="EndpointGuid" type="xs:string" minOccurs="1" maxOccurs="1"/>
+            </xs:sequence>
+            <xs:any processContents="lax" minOccurs="0" maxOccurs="unbounded" namespace="http://www.vidyo.com/ns/LmiIgnore.xsd"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="JoinToLegacyResponse">
+        <xs:sequence>
+            <xs:any processContents="lax" minOccurs="0" maxOccurs="unbounded" namespace="http://www.vidyo.com/ns/LmiIgnore.xsd"/>
+        </xs:sequence>
+    </xs:complexType>
+
+  <xs:complexType name="TransferParticipantRequest">
+    <xs:sequence>
+      <xs:sequence>
+        <xs:element name="EndpointGuid" type="xs:string" minOccurs="1" maxOccurs="1"/>
+        <xs:element name="ToExtension" type="xs:string" minOccurs="1" maxOccurs="1"/>
+        <xs:element name="RoomPIN" type="xs:string" minOccurs="0" maxOccurs="1"/>
+      </xs:sequence>
+      <xs:any processContents="lax" minOccurs="0" maxOccurs="unbounded" namespace="http://www.vidyo.com/ns/LmiIgnore.xsd"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="TransferParticipantResponse">
+    <xs:sequence>
+      <xs:any processContents="lax" minOccurs="0" maxOccurs="unbounded" namespace="http://www.vidyo.com/ns/LmiIgnore.xsd"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SetLayoutRequest">
+    <xs:sequence>
+      <xs:sequence>
+        <xs:element name="EndpointGuid" type="xs:string" minOccurs="1" maxOccurs="1"/>
+        <xs:element name="Layout" type="xs:string" minOccurs="0" maxOccurs="1"/>
+        <xs:element name="MaxParticipants" type="xs:int" minOccurs="0" maxOccurs="1"/>
+      </xs:sequence>
+      <xs:any processContents="lax" minOccurs="0" maxOccurs="unbounded" namespace="http://www.vidyo.com/ns/LmiIgnore.xsd"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SetLayoutResponse">
+    <xs:sequence>
+      <xs:any processContents="lax" minOccurs="0" maxOccurs="unbounded" namespace="http://www.vidyo.com/ns/LmiIgnore.xsd"/>
+    </xs:sequence>
+  </xs:complexType>
+
+<!--+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-->
+<!--+-          Protocol message lists               -+-->
+<!--+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-->
+  <!-- List of requests -->
+  <xs:complexType name="RequestMessage">
+    <xs:sequence>
+      <xs:element name="RequestID" type="xs:unsignedInt"/>
+      <!-- Identifier of the transaction -->
+      <xs:choice id="RequestSelection">
+        <xs:element name="BindUser" type="VCAP20:BindUserRequest"/>
+        <xs:element name="BindUserAck" type="VCAP20:BindUserAckRequest"/>
+        <xs:element name="UnbindUser" type="VCAP20:UnbindUserRequest"/>
+        <xs:element name="MediaControl" type="VCAP20:MediaControlRequest"/>
+        <xs:element name="Keypress" type="VCAP20:KeypressRequest"/>
+        <xs:element name="EventNotify" type="VCAP20:EventNotifyRequest"/>
+        <xs:element name="EventSubscribe" type="VCAP20:EventSubscribeRequest"/>
+        <xs:element name="PublishCapabilities" type="VCAP20:PublishRequest"/>
+        <xs:element name="ServerEventNotify" type="VCAP20:ServerEventNotifyRequest"/>
+                <xs:element name="LectureMode" type="VCAP20:LectureModeRequest"/>
+                <xs:element name="JoinToLegacy" type="VCAP20:JoinToLegacyRequest"/>
+        <xs:element name="TransferParticipant" type="VCAP20:TransferParticipantRequest"/>
+        <xs:element name="SetLayout" type="VCAP20:SetLayoutRequest"/>
+      </xs:choice>
+      <xs:any processContents="lax" minOccurs="0" maxOccurs="unbounded" namespace="http://www.vidyo.com/ns/LmiIgnore.xsd"/>
+    </xs:sequence>
+  </xs:complexType>
+  <!-- List of responses -->
+  <xs:complexType name="ResponseMessage">
+    <xs:sequence>
+      <xs:element name="RequestID" type="xs:unsignedInt"/>
+      <!-- Identifier of the transaction -->
+      <xs:element name="ResponseCode" type="VCAP20:ResponseCodeType"/>
+      <xs:element name="ReasonCode" type="xs:string" minOccurs="0">
+        <xs:annotation id="ReasonCodeValues">
+          <!-- Acceptable values: None, Unauthorized -->
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="ReasonText" type="xs:string" minOccurs="0"/>
+      <xs:choice id="ResponseSelection" minOccurs="0">
+        <xs:element name="BindUser" type="VCAP20:BindUserResponse"/>
+        <xs:element name="BindUserAck" type="VCAP20:BindUserAckResponse"/>
+        <xs:element name="UnbindUser" type="VCAP20:UnbindUserResponse"/>
+        <xs:element name="MediaControl" type="VCAP20:MediaControlResponse"/>
+        <xs:element name="Keypress" type="VCAP20:KeypressResponse"/>
+        <xs:element name="EventNotify" type="VCAP20:EventNotifyResponse"/>
+        <xs:element name="EventSubscribe" type="VCAP20:EventSubscribeResponse"/>
+        <xs:element name="EndpointCapabilities" type="VCAP20:PublishCapabilitiesResponse"/>
+        <xs:element name="ServerEventNotifyResponse" type="VCAP20:ServerEventNotifyResponse"/>
+                <xs:element name="LectureMode" type="VCAP20:LectureModeResponse"/>
+                <xs:element name="JoinToLegacy" type="VCAP20:JoinToLegacyResponse"/>
+        <xs:element name="TransferParticipant" type="VCAP20:TransferParticipantResponse"/>
+        <xs:element name="SetLayout" type="VCAP20:SetLayoutResponse"/>
+      </xs:choice>
+      <xs:any processContents="lax" minOccurs="0" maxOccurs="unbounded" namespace="http://www.vidyo.com/ns/LmiIgnore.xsd"/>
+    </xs:sequence>
+  </xs:complexType>
+  <!-- List of Endpoint indications -->
+  <xs:complexType name="IndicationMessage">
+    <xs:sequence>
+      <xs:element name="SourceUri" type="xs:anyURI"/>
+      <xs:element name="DestinationUri" type="xs:anyURI"/>
+      <xs:element name="IndicationID" type="xs:unsignedInt"/>
+      <!-- Identifier of the transaction -->
+      <xs:choice id="IndicationSelection">
+        <xs:element name="RemoteControl" type="VCAP20:RemoteControlIndication"/>
+      </xs:choice>
+      <xs:any processContents="lax" minOccurs="0" maxOccurs="unbounded" namespace="http://www.vidyo.com/ns/LmiIgnore.xsd"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ExtensionMessage">
+    <xs:sequence>
+      <xs:any processContents="lax" minOccurs="0" maxOccurs="unbounded" namespace="http://www.vidyo.com/ns/LmiIgnore.xsd"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="Message">
+    <xs:choice id="MessageSelection">
+      <xs:element name="Request" type="VCAP20:RequestMessage"/>
+      <xs:element name="Response" type="VCAP20:ResponseMessage"/>
+      <xs:element name="Indication" type="VCAP20:IndicationMessage"/>
+      <xs:element name="Extension" type="VCAP20:ExtensionMessage"/>
+    </xs:choice>
+  </xs:complexType>
+<!--+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-->
+<!--+-               Parser root                     -+-->
+<!--+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-->
+  <!-- Code generation tool requires starting points be marked -->
+  <xs:element name="Root" type="VCAP20:Message">
+    <!-- Requests from server to Endpoint -->
+    <xs:annotation id="root"/>
+  </xs:element>
+</xs:schema>

@@ -1,0 +1,30 @@
+/var/log/mysql/mysqld.log {
+        weekly
+        missingok
+        rotate 5
+	size 10k
+        compress
+        delaycompress
+        notifempty
+        create 640 mysql root
+        sharedscripts
+        postrotate
+                /usr/local/mysql/bin/mysqladmin --defaults-extra-file=/root/.my.cnf -uroot refresh > /dev/null
+        endscript
+}
+
+/var/lib/mysql/slow_queries.log {
+        daily
+        missingok
+        rotate 10
+	size 100M
+        compress
+        delaycompress
+        notifempty
+        create 640 mysql mysql
+        sharedscripts
+        postrotate
+                /usr/local/mysql/bin/mysqladmin --defaults-extra-file=/root/.my.cnf -uroot refresh > /dev/null
+        endscript
+}
+

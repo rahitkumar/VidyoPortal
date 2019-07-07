@@ -1,0 +1,7 @@
+dbsync   ALL=NOPASSWD: \
+                 /usr/bin/rsync --server --sender -logtprcRze.Ls \
+                                --files-from=- --from0 . /, \
+                 /usr/bin/rsync --server --sender -logtprRze.Ls \
+                                --files-from=- --from0 . /opt/vidyo/portal2/
+
+

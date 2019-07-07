@@ -1,0 +1,3 @@
+rootProject.name = 'VC2'
+
+include 'VidyoPortal', 'VidyoPortalRoot', 'Admin', 'Super', 'VidyoRouter2Conf', 'vidyo-portal-batch', 'SuperService'

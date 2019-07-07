@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- This file was auto-generated from WSDL -->
+<!-- by the Apache Axis2 version: 1.6.2  Built on : Apr 17, 2012 (05:33:49 IST) -->
+<serviceGroup>
+    <service name="VidyoFederationService">
+        <messageReceivers>
+            <messageReceiver mep="http://www.w3.org/ns/wsdl/in-out" class="com.vidyo.ws.federation.VidyoFederationServiceMessageReceiverInOut"/>
+        </messageReceivers>
+        <!--parameter name="ServiceClass">com.vidyo.ws.federation.VidyoFederationServiceSkeleton</parameter-->
+        <parameter name="ServiceObjectSupplier" locked="false">
+            org.apache.axis2.extensions.spring.receivers.SpringServletContextObjectSupplier
+        </parameter>
+        <parameter name="SpringBeanName" locked="false">vidyoFederationServiceEndPoint</parameter>
+        <parameter name="useOriginalwsdl">true</parameter>
+        <parameter name="modifyUserWSDLPortAddress">true</parameter>
+        <operation name="joinRemoteConference" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://ws.vidyo.com/federation">
+            <actionMapping>joinRemoteConference</actionMapping>
+            <outputActionMapping>http://ws.vidyo.com/federation/VidyoFederationServicePortType/joinRemoteConferenceResponse</outputActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://ws.vidyo.com/federation/VidyoFederationServicePortType/joinRemoteConference/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://ws.vidyo.com/federation/VidyoFederationServicePortType/joinRemoteConference/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="UserNotFoundFault">http://ws.vidyo.com/federation/VidyoFederationServicePortType/joinRemoteConference/Fault/UserNotFoundFault</faultActionMapping>
+            <faultActionMapping faultName="UserNotFoundFault_Exception">http://ws.vidyo.com/federation/VidyoFederationServicePortType/joinRemoteConference/Fault/UserNotFoundFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://ws.vidyo.com/federation/VidyoFederationServicePortType/joinRemoteConference/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://ws.vidyo.com/federation/VidyoFederationServicePortType/joinRemoteConference/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="ConferenceLockedFault">http://ws.vidyo.com/federation/VidyoFederationServicePortType/joinRemoteConference/Fault/ConferenceLockedFault</faultActionMapping>
+            <faultActionMapping faultName="ConferenceLockedFault_Exception">http://ws.vidyo.com/federation/VidyoFederationServicePortType/joinRemoteConference/Fault/ConferenceLockedFault</faultActionMapping>
+            <faultActionMapping faultName="TenantNotFoundFault">http://ws.vidyo.com/federation/VidyoFederationServicePortType/joinRemoteConference/Fault/TenantNotFoundFault</faultActionMapping>
+            <faultActionMapping faultName="TenantNotFoundFault_Exception">http://ws.vidyo.com/federation/VidyoFederationServicePortType/joinRemoteConference/Fault/TenantNotFoundFault</faultActionMapping>
+            <faultActionMapping faultName="FederationNotAllowedFault">http://ws.vidyo.com/federation/VidyoFederationServicePortType/joinRemoteConference/Fault/FederationNotAllowedFault</faultActionMapping>
+            <faultActionMapping faultName="FederationNotAllowedFault_Exception">http://ws.vidyo.com/federation/VidyoFederationServicePortType/joinRemoteConference/Fault/FederationNotAllowedFault</faultActionMapping>
+            <faultActionMapping faultName="WrongPinFault">http://ws.vidyo.com/federation/VidyoFederationServicePortType/joinRemoteConference/Fault/WrongPinFault</faultActionMapping>
+            <faultActionMapping faultName="WrongPinFault_Exception">http://ws.vidyo.com/federation/VidyoFederationServicePortType/joinRemoteConference/Fault/WrongPinFault</faultActionMapping>
+        </operation>
+        <operation name="silenceVideo" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://ws.vidyo.com/federation">
+            <actionMapping>silenceVideo</actionMapping>
+            <outputActionMapping>http://ws.vidyo.com/federation/VidyoFederationServicePortType/silenceVideoResponse</outputActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://ws.vidyo.com/federation/VidyoFederationServicePortType/silenceVideo/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://ws.vidyo.com/federation/VidyoFederationServicePortType/silenceVideo/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://ws.vidyo.com/federation/VidyoFederationServicePortType/silenceVideo/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://ws.vidyo.com/federation/VidyoFederationServicePortType/silenceVideo/Fault/GeneralFault</faultActionMapping>
+        </operation>
+        <operation name="startVideo" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://ws.vidyo.com/federation">
+            <actionMapping>startVideo</actionMapping>
+            <outputActionMapping>http://ws.vidyo.com/federation/VidyoFederationServicePortType/startVideoResponse</outputActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://ws.vidyo.com/federation/VidyoFederationServicePortType/startVideo/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://ws.vidyo.com/federation/VidyoFederationServicePortType/startVideo/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://ws.vidyo.com/federation/VidyoFederationServicePortType/startVideo/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://ws.vidyo.com/federation/VidyoFederationServicePortType/startVideo/Fault/GeneralFault</faultActionMapping>
+        </operation>
+        <operation name="exchangeMediaInfo" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://ws.vidyo.com/federation">
+            <actionMapping>exchangeMediaInfo</actionMapping>
+            <outputActionMapping>http://ws.vidyo.com/federation/VidyoFederationServicePortType/exchangeMediaInfoResponse</outputActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://ws.vidyo.com/federation/VidyoFederationServicePortType/exchangeMediaInfo/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://ws.vidyo.com/federation/VidyoFederationServicePortType/exchangeMediaInfo/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://ws.vidyo.com/federation/VidyoFederationServicePortType/exchangeMediaInfo/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://ws.vidyo.com/federation/VidyoFederationServicePortType/exchangeMediaInfo/Fault/GeneralFault</faultActionMapping>
+        </operation>
+        <operation name="muteAudio" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://ws.vidyo.com/federation">
+            <actionMapping>muteAudio</actionMapping>
+            <outputActionMapping>http://ws.vidyo.com/federation/VidyoFederationServicePortType/muteAudioResponse</outputActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://ws.vidyo.com/federation/VidyoFederationServicePortType/muteAudio/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://ws.vidyo.com/federation/VidyoFederationServicePortType/muteAudio/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://ws.vidyo.com/federation/VidyoFederationServicePortType/muteAudio/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://ws.vidyo.com/federation/VidyoFederationServicePortType/muteAudio/Fault/GeneralFault</faultActionMapping>
+        </operation>
+        <operation name="removeEndpointInfoFromHost" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://ws.vidyo.com/federation">
+            <actionMapping>removeEndpointInfoFromHost</actionMapping>
+            <outputActionMapping>http://ws.vidyo.com/federation/VidyoFederationServicePortType/removeEndpointInfoFromHostResponse</outputActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://ws.vidyo.com/federation/VidyoFederationServicePortType/removeEndpointInfoFromHost/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://ws.vidyo.com/federation/VidyoFederationServicePortType/removeEndpointInfoFromHost/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://ws.vidyo.com/federation/VidyoFederationServicePortType/removeEndpointInfoFromHost/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://ws.vidyo.com/federation/VidyoFederationServicePortType/removeEndpointInfoFromHost/Fault/GeneralFault</faultActionMapping>
+        </operation>
+        <operation name="dropRemoteConference" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://ws.vidyo.com/federation">
+            <actionMapping>dropRemoteConference</actionMapping>
+            <outputActionMapping>http://ws.vidyo.com/federation/VidyoFederationServicePortType/dropRemoteConferenceResponse</outputActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://ws.vidyo.com/federation/VidyoFederationServicePortType/dropRemoteConference/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://ws.vidyo.com/federation/VidyoFederationServicePortType/dropRemoteConference/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://ws.vidyo.com/federation/VidyoFederationServicePortType/dropRemoteConference/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://ws.vidyo.com/federation/VidyoFederationServicePortType/dropRemoteConference/Fault/GeneralFault</faultActionMapping>
+        </operation>
+        <operation name="sendEndpointInfoToHost" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://ws.vidyo.com/federation">
+            <actionMapping>sendEndpointInfoToHost</actionMapping>
+            <outputActionMapping>http://ws.vidyo.com/federation/VidyoFederationServicePortType/sendEndpointInfoToHostResponse</outputActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://ws.vidyo.com/federation/VidyoFederationServicePortType/sendEndpointInfoToHost/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://ws.vidyo.com/federation/VidyoFederationServicePortType/sendEndpointInfoToHost/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://ws.vidyo.com/federation/VidyoFederationServicePortType/sendEndpointInfoToHost/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://ws.vidyo.com/federation/VidyoFederationServicePortType/sendEndpointInfoToHost/Fault/GeneralFault</faultActionMapping>
+        </operation>
+        <operation name="unmuteAudio" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://ws.vidyo.com/federation">
+            <actionMapping>unmuteAudio</actionMapping>
+            <outputActionMapping>http://ws.vidyo.com/federation/VidyoFederationServicePortType/unmuteAudioResponse</outputActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://ws.vidyo.com/federation/VidyoFederationServicePortType/unmuteAudio/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://ws.vidyo.com/federation/VidyoFederationServicePortType/unmuteAudio/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://ws.vidyo.com/federation/VidyoFederationServicePortType/unmuteAudio/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://ws.vidyo.com/federation/VidyoFederationServicePortType/unmuteAudio/Fault/GeneralFault</faultActionMapping>
+        </operation>
+        <operation name="disconnectEndpointFromHost" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://ws.vidyo.com/federation">
+            <actionMapping>disconnectEndpointFromHost</actionMapping>
+            <outputActionMapping>http://ws.vidyo.com/federation/VidyoFederationServicePortType/disconnectEndpointFromHostResponse</outputActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://ws.vidyo.com/federation/VidyoFederationServicePortType/disconnectEndpointFromHost/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://ws.vidyo.com/federation/VidyoFederationServicePortType/disconnectEndpointFromHost/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://ws.vidyo.com/federation/VidyoFederationServicePortType/disconnectEndpointFromHost/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://ws.vidyo.com/federation/VidyoFederationServicePortType/disconnectEndpointFromHost/Fault/GeneralFault</faultActionMapping>
+        </operation>
+        <operation name="silenceAudio" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://ws.vidyo.com/federation">
+            <actionMapping>silenceAudio</actionMapping>
+            <outputActionMapping>http://ws.vidyo.com/federation/VidyoFederationServicePortType/silenceAudioResponse</outputActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://ws.vidyo.com/federation/VidyoFederationServicePortType/silenceAudio/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://ws.vidyo.com/federation/VidyoFederationServicePortType/silenceAudio/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://ws.vidyo.com/federation/VidyoFederationServicePortType/silenceAudio/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://ws.vidyo.com/federation/VidyoFederationServicePortType/silenceAudio/Fault/GeneralFault</faultActionMapping>
+        </operation>
+        <operation name="stopVideo" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://ws.vidyo.com/federation">
+            <actionMapping>stopVideo</actionMapping>
+            <outputActionMapping>http://ws.vidyo.com/federation/VidyoFederationServicePortType/stopVideoResponse</outputActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://ws.vidyo.com/federation/VidyoFederationServicePortType/stopVideo/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://ws.vidyo.com/federation/VidyoFederationServicePortType/stopVideo/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://ws.vidyo.com/federation/VidyoFederationServicePortType/stopVideo/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://ws.vidyo.com/federation/VidyoFederationServicePortType/stopVideo/Fault/GeneralFault</faultActionMapping>
+        </operation>
+    </service>
+</serviceGroup>

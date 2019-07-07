@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<dataset>
+ <results>1</results>
+	<row>
+		<invitationEmailContent>Let&#039;s meet via Vidyo!
+
+Join [DISPLAYNAME] at [TENANTURL][PIN] using any of the following options:
+
+ - To join as a first-time user from your desktop or mobile device, or to annotate with VidyoSlate on your iPad: Click [ROOMLINK]
+ - To join from another VidyoPortal using IPC: Enter [ROOMNAME]@[TENANTURL]
+ - To join from a non-Vidyo conferencing endpoint: Connect through a VidyoGateway &lt;enter your VidyoGateway IP here&gt; using H.323 or SIP and enter meeting ID [EXTENSION]
+ - To join from your phone: Dial any of the numbers below, followed by extension [EXTENSION]
+
+NOTE: Any video, audio and/or materials viewed during this conference may be recorded.
+
+Need help getting started? Check out the Vidyo Knowledge Center at http://www.vidyo.com/knowledge-center/</invitationEmailContent>
+		<voiceOnlyContent>Hello,
+
+You have been invited to attend an Audio conference.
+
+To join from a telephone using VidyoVoice, dial the following number: [DIALSTRING]
+
+NOTE: Any video, audio and/or materials viewed during this conference may be recorded.
+
+Need help getting started? Check out the Vidyo Knowledge Center at http://www.vidyo.com/knowledge-center/</voiceOnlyContent>
+		<webcastContent>Hello,
+
+You have been invited to view a Webcast (recorded and streamed live).
+
+Please click on the link below to view: [WEBCASTURL] 
+
+Need help getting started? Check out the Vidyo Knowledge Center at http://www.vidyo.com/knowledge-center/</webcastContent>
+	</row>
+</dataset>

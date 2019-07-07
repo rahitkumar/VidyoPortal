@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<definitions name="RecordingWebcastService"
+             targetNamespace="http://recordings.vidyo.com/webcast"
+             xmlns:tns="http://recordings.vidyo.com/webcast"
+             xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+             xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+             xmlns="http://schemas.xmlsoap.org/wsdl/">
+
+    <types>
+        <xsd:schema
+                xmlns:tns="http://recordings.vidyo.com/webcast"
+                targetNamespace="http://recordings.vidyo.com/webcast"
+                elementFormDefault="qualified"
+                attributeFormDefault="qualified">
+
+            <xsd:annotation>
+                <xsd:documentation xml:lang="en"/>
+            </xsd:annotation>
+
+            <xsd:element name="Status">
+                <xsd:annotation>
+                    <xsd:documentation>String presentation of success operation - "OK"</xsd:documentation>
+                </xsd:annotation>
+                <xsd:simpleType>
+                    <xsd:restriction base="xsd:string">
+                        <xsd:enumeration value="OK"/>
+                    </xsd:restriction>
+                </xsd:simpleType>
+            </xsd:element>
+
+            <xsd:element name="ErrorMessage" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>String presentation of fault</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+
+
+            <xsd:element name="GetWebcastURLRequest">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="tenant" type="xsd:string"/>
+                        <xsd:element name="userName" type="xsd:string"/>
+                        <xsd:element name="roomName" type="xsd:string"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="GetWebcastURLResponse">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="url" type="xsd:string"/>
+                        <xsd:element name="pin" type="xsd:string"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+
+
+            <xsd:element name="CreateWebcastURLRequest">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="tenant" type="xsd:string"/>
+                        <xsd:element name="userName" type="xsd:string"/>
+                        <xsd:element name="roomName" type="xsd:string"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="CreateWebcastURLResponse">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        OK - successful creation of WebCast URL for user.
+                    </xsd:documentation>
+                </xsd:annotation>
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element ref="tns:Status"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+
+
+            <xsd:element name="DeleteWebcastURLRequest">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="tenant" type="xsd:string"/>
+                        <xsd:element name="userName" type="xsd:string"/>
+                        <xsd:element name="roomName" type="xsd:string"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="DeleteWebcastURLResponse">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        OK - successful removing of WebCast URL for user.
+                    </xsd:documentation>
+                </xsd:annotation>
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element ref="tns:Status"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+
+
+            <xsd:element name="UpdateWebcastPINRequest">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="tenant" type="xsd:string"/>
+                        <xsd:element name="userName" type="xsd:string"/>
+                        <xsd:element name="roomName" type="xsd:string"/>
+                        <xsd:element name="pin" type="xsd:string"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="UpdateWebcastPINResponse">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        OK - successful updating of PIN for WebCast URL for user.
+                    </xsd:documentation>
+                </xsd:annotation>
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element ref="tns:Status"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+
+
+            <!-- Exceptions -->
+            <xsd:element name="GeneralFault">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        This means that some exception happened in system.
+                    </xsd:documentation>
+                </xsd:annotation>
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element ref="tns:ErrorMessage"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+
+            <xsd:element name="InvalidArgumentFault">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        This means that the arguments which are passed into services are wrong.
+                    </xsd:documentation>
+                </xsd:annotation>
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element ref="tns:ErrorMessage"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+
+        </xsd:schema>
+    </types>
+
+    <message name="GetWebcastURLInput">
+        <part name="parameter" element="tns:GetWebcastURLRequest"/>
+    </message>
+    <message name="GetWebcastURLOutput">
+        <part name="parameter" element="tns:GetWebcastURLResponse"/>
+    </message>
+
+    <message name="CreateWebcastURLInput">
+        <part name="parameter" element="tns:CreateWebcastURLRequest"/>
+    </message>
+    <message name="CreateWebcastURLOutput">
+        <part name="parameter" element="tns:CreateWebcastURLResponse"/>
+    </message>
+
+    <message name="DeleteWebcastURLInput">
+        <part name="parameter" element="tns:DeleteWebcastURLRequest"/>
+    </message>
+    <message name="DeleteWebcastURLOutput">
+        <part name="parameter" element="tns:DeleteWebcastURLResponse"/>
+    </message>
+
+    <message name="UpdateWebcastPINInput">
+        <part name="parameter" element="tns:UpdateWebcastPINRequest"/>
+    </message>
+    <message name="UpdateWebcastPINOutput">
+        <part name="parameter" element="tns:UpdateWebcastPINResponse"/>
+    </message>
+
+    <message name="GeneralFault">
+        <part name="fault" element="tns:GeneralFault"/>
+    </message>
+
+    <message name="InvalidArgumentFault">
+        <part name="fault" element="tns:InvalidArgumentFault"/>
+    </message>
+
+
+    <portType name="ManageWebcasts">
+        <operation name="getWebcastURL">
+            <input message="tns:GetWebcastURLInput"/>
+            <output message="tns:GetWebcastURLOutput"/>
+            <fault name="GeneralFault" message="tns:GeneralFault"/>
+            <fault name="InvalidArgumentFault" message="tns:InvalidArgumentFault"/>
+        </operation>
+        <operation name="createWebcastURL">
+            <input message="tns:CreateWebcastURLInput"/>
+            <output message="tns:CreateWebcastURLOutput"/>
+            <fault name="GeneralFault" message="tns:GeneralFault"/>
+            <fault name="InvalidArgumentFault" message="tns:InvalidArgumentFault"/>
+        </operation>
+        <operation name="deleteWebcastURL">
+            <input message="tns:DeleteWebcastURLInput"/>
+            <output message="tns:DeleteWebcastURLOutput"/>
+            <fault name="GeneralFault" message="tns:GeneralFault"/>
+            <fault name="InvalidArgumentFault" message="tns:InvalidArgumentFault"/>
+        </operation>
+        <operation name="updateWebcastPIN">
+            <input message="tns:UpdateWebcastPINInput"/>
+            <output message="tns:UpdateWebcastPINOutput"/>
+            <fault name="GeneralFault" message="tns:GeneralFault"/>
+            <fault name="InvalidArgumentFault" message="tns:InvalidArgumentFault"/>
+        </operation>
+    </portType>
+
+
+    <binding name="ManageWebcastsBinding" type="tns:ManageWebcasts">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+
+        <operation name="getWebcastURL">
+            <soap:operation style="document"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+            <fault name="GeneralFault">
+                <soap:fault name="GeneralFault" use="literal"/>
+            </fault>
+            <fault name="InvalidArgumentFault">
+                <soap:fault name="InvalidArgumentFault" use="literal"/>
+            </fault>
+        </operation>
+
+        <operation name="createWebcastURL">
+            <soap:operation style="document"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+            <fault name="GeneralFault">
+                <soap:fault name="GeneralFault" use="literal"/>
+            </fault>
+            <fault name="InvalidArgumentFault">
+                <soap:fault name="InvalidArgumentFault" use="literal"/>
+            </fault>
+        </operation>
+
+        <operation name="deleteWebcastURL">
+            <soap:operation style="document"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+            <fault name="GeneralFault">
+                <soap:fault name="GeneralFault" use="literal"/>
+            </fault>
+            <fault name="InvalidArgumentFault">
+                <soap:fault name="InvalidArgumentFault" use="literal"/>
+            </fault>
+        </operation>
+
+        <operation name="updateWebcastPIN">
+            <soap:operation style="document"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+            <fault name="GeneralFault">
+                <soap:fault name="GeneralFault" use="literal"/>
+            </fault>
+            <fault name="InvalidArgumentFault">
+                <soap:fault name="InvalidArgumentFault" use="literal"/>
+            </fault>
+        </operation>
+    </binding>
+
+
+    <service name="RecordingWebcastService">
+        <port name="ManageWebcasts" binding="tns:ManageWebcastsBinding">
+            <soap:address location="http://172.16.2.77/record/services/RecordingWebcastService"/>
+        </port>
+    </service>
+
+
+</definitions>

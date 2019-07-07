@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+	<results>1</results>
+	<row>
+		<ipAddress>172.16.82.15</ipAddress>
+		<subnetMask>255.255.255.0</subnetMask>
+		<gateway>172.16.82.1</gateway>
+		<dns1>172.16.2.11</dns1>
+		<dns2>10.11.12.83</dns2>
+		<MACAddress>00:0c:29:0c:e9:de</MACAddress>
+		<SystemID>00:0c:29:0c:e9:de</SystemID>
+		<ipAddress2></ipAddress2>
+		<subnetMask2></subnetMask2>
+		<fqdn1>nj1-vend-linvm2.vidyo.com</fqdn1>
+		<fqdn2></fqdn2>
+	</row>
+</dataset>

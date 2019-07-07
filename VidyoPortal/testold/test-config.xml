@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="systemService" class="com.vidyo.service.SystemServiceImpl">
+	</bean>
+	
+	<bean id="systemServiceNew" class="com.vidyo.service.system.SystemServiceImpl">
+	</bean>	
+	
+	<bean id="roomService" class="com.vidyo.service.RoomServiceImpl">
+	</bean>
+	
+	<bean id="roomExtnGenerator" class="com.vidyo.utils.room.RoomExtnGenerator">
+	</bean>
+	
+	<bean id="userService" class="com.vidyo.service.UserServiceImpl">
+	</bean>
+	
+	<bean id="tenantService" class="com.vidyo.service.TenantServiceImpl">
+	</bean>
+	
+	<bean id="tenantIdpAttributesMapping" class="com.vidyo.service.idp.TenantIdpAttributesMappingImpl">
+	</bean>
+	
+	<bean id="idpUserToMemberAttributesMapper" class="com.vidyo.service.idp.IdpUserToMemberAttributesMapperImpl">
+	</bean>
+	
+	<bean id="tenantLdapAttributesMapping" class="com.vidyo.service.ldap.TenantLdapAttributesMappingImpl">
+	</bean>
+<!-- 	
+	<bean id="statusNotifySender" class="com.vidyo.service.statusnotify.StatusNotifySenderImpl">
+	</bean>
+-->
+	<bean id="conferenceAppService" class="com.vidyo.service.conference.ConferenceAppServiceImpl">
+	</bean>		
+	
+    <bean id="gatewayService" class="com.vidyo.service.gateway.GatewayServiceImpl">
+    </bean>
+    
+	<bean id="vidyoPortalAdminServiceEndPoint_v1_1" class="com.vidyo.portal.admin.v1_1.VidyoPortalAdminServiceSkeleton">
+	</bean>
+	
+	<bean id="vidyoPortalUserServiceEndPoint_v1_1" class="com.vidyo.portal.user.v1_1.VidyoPortalUserServiceSkeleton">
+	</bean>
+	
+	<bean id="vidyoPortalGuestServiceEndPoint" class="com.vidyo.portal.guest.VidyoPortalGuestServiceSkeleton">
+	</bean>
+	
+	<bean id="vidyoPortalSuperServiceEndPoint" class="com.vidyo.portal.superapi.VidyoPortalSuperServiceSkeleton">
+	</bean>
+    
+    <bean id="licensingService" class="com.vidyo.service.LicensingServiceImpl">
+    </bean>
+    
+    <bean id="memberService" class="com.vidyo.service.MemberServiceImpl">
+	</bean>
+	
+	<bean id="loginService" class="com.vidyo.service.LoginServiceImpl">
+	</bean>
+	
+	<bean id="tenantDialInService" class="com.vidyo.service.dialin.TenantDialInServiceImpl"/>
+	
+	<bean id="countryService" class="com.vidyo.service.dialin.CountryServiceImpl"/>
+	
+	<bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+		<property name="basename" value="classpath:messages"/>
+		<property name="defaultEncoding" value="UTF-8"/>
+	</bean>
+
+</beans>

@@ -1,0 +1,48 @@
+tomcat   ALL=NOPASSWD: \
+   /opt/vidyo/ha/dr/cluster_service.sh, \
+   /opt/vidyo/bin/ssl_functions.pl, \
+   /opt/vidyo/bin/portal_tables.sh EXPORT, \
+   /opt/vidyo/bin/portal_tables.sh IMPORT, \
+   /opt/vidyo/bin/portal_tables.sh DELETE, \
+   /opt/vidyo/bin/portal_factory_default.sh, \
+   /opt/vidyo/bin/backup_database.sh, \
+   /opt/vidyo/bin/ocsp_config.sh, \
+   /opt/vidyo/bin/reset_vidyohost.sh, \
+   /opt/vidyo/bin/pack_security.sh, \
+   /opt/vidyo/bin/update_portal.sh, \
+   /opt/vidyo/bin/nss_utils.sh, \
+   /opt/vidyo/bin/restore_database.sh, \
+   /opt/vidyo/bin/authuser, \
+   /opt/vidyo/bin/firewallSettings.sh, \
+   /opt/vidyo/bin/configureSyslog.sh, \
+   /opt/vidyo/bin/restart_tomcat.sh, \
+   /opt/vidyo/bin/use_vidyo_cacert.sh, \
+   /opt/vidyo/bin/unpack_security.sh, \
+   /opt/vidyo/app/diagnostic_tool/run_diagnostics.sh, \
+   /opt/vidyo/bin/vidyo_pfx.sh, \
+   /opt/vidyo/bin/import_pfx.sh, \
+   /opt/vidyo/bin/export_pfx.sh, \
+   /opt/vidyo/bin/vidyo_import_export.sh ENCRYPT *, \
+   /opt/vidyo/bin/vidyo_import_export.sh DECRYPT *, \
+   /opt/vidyo/bin/vidyo_ssl.sh, \
+   /opt/vidyo/bin/ziplogs.sh, \
+   /opt/vidyo/bin/get_license_info.sh VMSoapUser VMSoapPass, \
+   /etc/init.d/apache2 reload, \
+   /opt/vidyo/bin/vidyo_used_tcpport.sh, \
+   /opt/vidyo/bin/vidyo_update_security.sh, \
+   /opt/vidyo/bin/vidyo_server.sh, \
+   /opt/vidyo/bin/vidyo_file_utils.sh, \
+   /opt/vidyo/ha/bin/update_cron.sh, \
+   /opt/vidyo/ha/bin/create_backup.sh, \
+   /opt/vidyo/ha/bin/maintenance.sh, \
+   /opt/vidyo/ha/bin/force_standby.sh, \
+   /opt/vidyo/ha/bin/peer_status.sh "", \
+   /opt/vidyo/ha/bin/clusterinfo.sh "", \
+   /opt/vidyo/ha/bin/ha-gen-authkeys.sh, \
+   /opt/vidyo/ha/bin/is_maintenance.sh "", \
+   /opt/vidyo/ha/bin/is_hs_enabled.sh, \
+   /opt/vidyo/bin/approve_pki.sh, \
+   /opt/vidyo/bin/cdr_user.sh, \
+   /opt/vidyo/app/VPLicenseMgr/bin/VPLicenseMgr, \
+   /opt/vidyo/ha/dr/drconfig.sh READ_AUTH_TOKEN
+

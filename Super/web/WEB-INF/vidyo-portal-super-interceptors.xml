@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+			http://www.springframework.org/schema/beans/spring-beans.xsd
+			http://www.springframework.org/schema/aop
+			http://www.springframework.org/schema/aop/spring-aop.xsd
+			http://www.springframework.org/schema/util
+			http://www.springframework.org/schema/util/spring-util.xsd">
+
+	<!-- AOP Interceptors -->
+	<aop:config>
+		<aop:advisor id="exceptionAdvisor" advice-ref="exceptionInterceptor"
+			pointcut="execution(* com.vidyo.service.*.*(..))"
+			order="1"/>
+		<aop:advisor id="perfAdvisor" advice-ref="performanceMonitorInterceptor"
+			pointcut="(
+			    execution(* com.vidyo.db.*.*(..)) or execution(* com.vidyo.service..*.*(..))
+			    )"
+			order="2" />
+		<aop:advisor id="authTransactionHistoryAdvisor"
+			advice-ref="authTransactionHistoryInterceptor"
+			pointcut="execution(* org.springframework.security.authentication.AuthenticationProvider.authenticate(..))"
+			order="3" />
+		<aop:advisor id="transactionHistoryAdvisor" advice-ref="transactionHistoryInterceptor"
+			pointcut="execution(* com.vidyo.service.ITenantService.insertTenant(..))
+		or execution(* com.vidyo.service.ITenantService.deleteTenant(..))
+		or execution(* com.vidyo.service.ITenantService.updateTenant(..))
+		or execution(* com.vidyo.service.IServiceService.insertVG(..))
+		or execution(* com.vidyo.service.IServiceService.deleteVG(..))
+		or execution(* com.vidyo.service.IServiceService.updateVG(..))
+		or execution(* com.vidyo.service.EndpointUploadService.insertEndpointUploadBySuper(..))
+
+		or execution(* com.vidyo.service.ISecurityService.enableForcedHttps(..))
+		or execution(* com.vidyo.service.ISecurityService.disableForcedHttps(..))
+		or execution(* com.vidyo.service.ISecurityService.enableSSL(..))
+		or execution(* com.vidyo.service.ISecurityService.disableSSL(..))
+		or execution(* com.vidyo.service.ISecurityService.generateKey(..))
+		or execution(* com.vidyo.service.ISecurityService.generateCert(..))
+		or execution(* com.vidyo.service.ISecurityService.updateAppAccessConfiguration(..))
+
+		or execution(* com.vidyo.service.ISystemService.backupDatabase(..))
+		or execution(* com.vidyo.service.ISystemService.downloadDatabase(..))
+		or execution(* com.vidyo.service.ISystemService.uploadDatabase(..))
+		or execution(* com.vidyo.service.ISystemService.restoreDatabaseWithBackupFile(..))
+
+		or execution(* com.vidyo.service.ISystemService.doSystemBackup(..))
+		or execution(* com.vidyo.service.ISystemService.downloadSystemBackup(..))
+		or execution(* com.vidyo.service.ISystemService.uploadSystemBackup(..))
+		or execution(* com.vidyo.service.ISystemService.restoreSystemWithBackupFile(..))
+		or execution(* com.vidyo.service.ISystemService.restoreSystemToFactoryDefaults(..))
+
+		or execution(* com.vidyo.service.ISystemService.shutdownSystem(..))
+		or execution(* com.vidyo.service.ISystemService.rebootSystem(..))
+		or execution(* com.vidyo.service.ISystemService.restartWebServer(..))
+		or execution(* com.vidyo.service.ISystemService.upgradeSystem(..))
+		or execution(* com.vidyo.service.IServiceService.updateNEConfiguration(..))
+		or execution(* com.vidyo.service.IServiceService.activateNetworkConfig(..))
+		or execution(* com.vidyo.service.IServiceService.deleteNEConfiguration(..))
+		or execution(* com.vidyo.service.IServiceService.enableNEConfiguration(..))
+		or execution(* com.vidyo.service.LicensingService.setSystemLicense(..))
+		or execution(* com.vidyo.service.LicensingService.setVMLicense(..))"
+			order="4" />
+		<aop:advisor id="passChgTransactionHistoryAdvisor" advice-ref="passChgTransactionHistoryInterceptor"
+			pointcut="execution(* com.vidyo.service.IMemberService.updateSuperPassword(com.vidyo.bo.Member))
+			or execution(* com.vidyo.service.IMemberService.updateMemberPassword(com.vidyo.bo.Member))"
+			order="5"/>
+		<aop:advisor id="superUserTransactionHistoryAdvisor" advice-ref="superUserTransactionHistoryInterceptor"
+			pointcut="execution(* com.vidyo.service.IMemberService.updateSuper(com.vidyo.bo.Member))
+			or execution(* com.vidyo.service.member.MemberService.insertSuper(com.vidyo.bo.Member))
+			or execution(* com.vidyo.service.member.MemberService.deleteSuper(..))"
+			order="6"/>
+		<aop:advisor id="securitySettingsTransactionHistoryAdvisor" advice-ref="securitySettingsTransactionsInterceptor"
+			pointcut="execution(* com.vidyo.service.ISecurityService.generateCSR(com.vidyo.bo.security.CSRObject))
+			or execution(* com.vidyo.service.ISecurityService.importRootCACert(..))
+			or execution(* com.vidyo.service.ISecurityService.importP7bCertificateBundle(..))
+			or execution(* com.vidyo.service.ISecurityService.importPfxCertificateBundle(..))
+			or execution(* com.vidyo.service.ISecurityService.importVidyoSecurityBundle(..))
+			or execution(* com.vidyo.service.ISecurityService.exportVidyoSecurityBundle(..))
+			or execution(* com.vidyo.service.ISecurityService.setUseDefaultRootCerts(..))
+			or execution(* com.vidyo.service.ISecurityService.resetSecuritySettings(..))
+			or execution(* com.vidyo.service.ISecurityService.setOCSPConfigProperties(..))"
+			order="7"/>
+	</aop:config>
+
+	<bean id="exceptionInterceptor" class="com.vidyo.interceptors.exception.ExceptionInterceptor">
+		<property name="suppressTrace" value="${exceptiontrace.suppress}"/>
+		<property name="licensingService" ref="licensingService"/>
+	</bean>
+
+	<bean id="performanceMonitorInterceptor" class="com.vidyo.interceptors.performance.PerformanceInterceptor">
+	</bean>
+
+	<bean id="authTransactionHistoryInterceptor" class="com.vidyo.interceptors.transaction.AuthenticationTransactionInterceptor">
+		<property name="transactionService" ref="transactionService"/>
+		<property name="methodNameTransactionMap" ref="methodNameTransactionMap"/>
+		<property name="tenantService" ref="tenantService"/>
+        <property name="memberLoginHistoryService" ref="memberLoginHistoryService" />
+		<property name="memberService" ref="memberService" />
+		<property name="systemService" ref="systemService" />
+		<property name="userDetailsService" ref="userDetailsService"/>
+	</bean>
+
+	<bean id="transactionHistoryInterceptor" class="com.vidyo.interceptors.transaction.TransactionInterceptor">
+		<property name="transactionService" ref="transactionService"/>
+		<property name="userService" ref="userService"/>
+		<property name="memberService" ref="memberService"/>
+		<property name="groupService" ref="groupService"/>
+		<property name="methodNameTransactionMap" ref="methodNameTransactionMap"/>
+		<property name="tenantService" ref="tenantService"/>
+		<property name="roomService" ref="roomService"/>
+		<property name="serviceService" ref="serviceService"/>
+	</bean>
+
+	<util:map id="methodNameTransactionMap">
+		<entry key="insertMember" value="Add User" />
+		<entry key="addLegacy" value="Add Legacy" />
+		<entry key="updateMember" value="Modify User" />
+		<entry key="deleteMember" value="Delete User" />
+		<entry key="insertRoom" value="Add Room" />
+		<entry key="updateRoom" value="Modify Room" />
+		<entry key="deleteRoom" value="Delete Room" />
+		<entry key="insertGroup" value="Add Group" />
+		<entry key="updateGroup" value="Modify Group" />
+		<entry key="deleteGroup" value="Delete Group" />
+		<entry key="insertEndpointUpload" value="Upload Software" />
+		<entry key="saveAuthenticationService" value="LDAP Save" />
+		<entry key="insertTenant" value="Add Tenant" />
+		<entry key="deleteTenant" value="Delete Tenant" />
+		<entry key="updateTenant" value="Modify Tenant" />
+		<entry key="authenticate" value="Login" />
+		<entry key="logout" value="Logout" />
+		<entry key="insertEndpointUploadBySuper" value="Upload Software" />
+
+		<entry key="enableForcedHttps" value="Enable HTTPS Only" />
+        <entry key="disableForcedHttps" value="Disable HTTPS Only" />
+        <entry key="enableSSL" value="Enable SSL" />
+        <entry key="disableSSL" value="Disable SSL" />
+        <entry key="generateKey" value="Generate Private Key" />
+        <entry key="generateCert" value="Generate Server Cert" />
+        <entry key="importP7bCertificateBundle" value="Import P7B" />
+        <entry key="importPfxCertificateBundle" value="Import PFX" />
+        <entry key="importRootCACert" value="Import Client CA Cert" />
+        <entry key="importVidyoSecurityBundle" value="Import Security Bundle" />
+        <entry key="updateAppAccessConfiguration" value="Update Application Security Config" />
+        <entry key="resetSecuritySettings" value="Reset Security Settings" />
+
+		<entry key="restartWebServer" value="Reboot Webserver" />
+		<entry key="rebootSystem" value="Reboot System" />
+		<entry key="shutdownSystem" value="Shutdown System" />
+		<entry key="backupDatabase" value="Database Backup" />
+		<entry key="downloadDatabase" value="Database Download" />
+		<entry key="uploadDatabase" value="Database Upload" />
+		<entry key="restoreDatabaseWithBackupFile" value="Database Restore" />
+
+        <entry key="doSystemBackup" value="System Backup" />
+        <entry key="downloadSystemBackup" value="Download System Backup" />
+        <entry key="uploadSystemBackup" value="Upload System Backup" />
+        <entry key="restoreSystemWithBackupFile" value="Restore System Backup" />
+        <entry key="restoreSystemToFactoryDefaults" value="System Factory Default" />
+
+		<entry key="upgradeSystem" value="System Upgrade" />
+		<entry key="insertVG" value="Add Gateway" />
+		<entry key="updateVG" value="Modify Gateway" />
+		<entry key="deleteVG" value="Delete Gateway" />
+		<entry key="activateNetworkConfig" value="Vidyo Cloud Activated" />
+		<entry key="updateNEConfiguration" value="Component Updated" />
+		<entry key="deleteNEConfiguration" value="Component Deleted" />
+		<entry key="enableNEConfiguration" value="Component Enabled" />
+		<entry key="disableNEConfiguration" value="Component Disabled" />
+		<entry key="setSystemLicense" value="System License Updated" />
+		<entry key="setVMLicense" value="VM License Updated" />
+	</util:map>
+
+	<bean id="passChgTransactionHistoryInterceptor" class="com.vidyo.interceptors.transaction.PasswordChangeTransactionInterceptor">
+		<property name="tenantService" ref="tenantService" />
+		<property name="transactionService" ref="transactionService" />
+	</bean>
+
+	<bean id="superUserTransactionHistoryInterceptor" class="com.vidyo.interceptors.transaction.SuperUserTransactionInterceptor">
+		<property name="tenantService" ref="tenantService" />
+		<property name="transactionService" ref="transactionService" />
+		<property name="memberService1" ref="memberService1" />
+		<property name="memberService" ref="memberService" />
+		<property name="groupService" ref="groupService" />
+		<property name="roomService" ref="roomService" />
+		<property name="userService" ref="userService" />
+		<property name="serviceService" ref="serviceService" />
+	</bean>
+
+	<bean id="securitySettingsTransactionsInterceptor" class="com.vidyo.interceptors.transaction.SecurityTransactionsInterceptor">
+		<property name="tenantService" ref="tenantService" />
+		<property name="transactionService" ref="transactionService" />
+	</bean>
+
+</beans>

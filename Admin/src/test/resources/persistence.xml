@@ -1,0 +1,47 @@
+<persistence xmlns="http://java.sun.com/xml/ns/persistence"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
+	version="2.0">
+	<persistence-unit name="portalPU" transaction-type="RESOURCE_LOCAL">
+		<provider>org.hibernate.ejb.HibernatePersistence</provider>
+		<class>com.vidyo.superapp.components.bo.Component</class>
+		<class>com.vidyo.superapp.components.bo.ComponentType</class>
+		<class>com.vidyo.superapp.components.bo.RecorderEndpoints</class>
+		<class>com.vidyo.superapp.components.bo.RouterMediaAddrMap</class>
+		<class>com.vidyo.superapp.components.bo.VidyoManager</class>
+		<class>com.vidyo.superapp.components.bo.VidyoRouter</class>
+		<class>com.vidyo.superapp.components.bo.VirtualEndpoints</class>
+		<class>com.vidyo.superapp.routerpools.bo.CloudConfig</class>
+		<class>com.vidyo.superapp.routerpools.bo.Pool</class>
+		<class>com.vidyo.superapp.routerpools.bo.PoolPriorityList</class>
+		<class>com.vidyo.superapp.routerpools.bo.PoolPriorityMap</class>
+		<class>com.vidyo.superapp.routerpools.bo.PoolToPool</class>
+		<class>com.vidyo.superapp.routerpools.bo.RouterPoolMap</class>
+		<class>com.vidyo.superapp.routerpools.bo.Rule</class>
+		<class>com.vidyo.superapp.routerpools.bo.RuleSet</class>
+		<class>com.vidyo.bo.Location</class>
+		<class>com.vidyo.superapp.components.bo.gateway.GatewayPrefix</class>
+		<class>com.vidyo.superapp.components.bo.VidyoGateway</class>
+		<class>com.vidyo.superapp.components.bo.VidyoReplay</class>
+		<class>com.vidyo.superapp.components.bo.VidyoRecorder</class>
+		<class>com.vidyo.bo.EndpointBehavior</class>
+		<class>com.vidyo.bo.Tenant</class>
+		<class>com.vidyo.bo.TenantConfiguration</class>
+		<class>com.vidyo.bo.EndpointUpload</class>
+		<class>com.vidyo.bo.Country</class>
+		<class>com.vidyo.bo.TenantDialInCountry</class>
+		<class>com.vidyo.bo.tenant.Tenant</class>
+		<class>com.vidyo.db.repository.security.samltoken.TempAuthToken</class>
+		<class>com.vidyo.bo.Member</class>
+		<class>com.vidyo.bo.usergroup.UserGroup</class>
+		<class>com.vidyo.bo.Room</class>
+		<class>com.vidyo.bo.memberbak.MemberBAK</class>
+		<class>com.vidyo.bo.ExternalStatusNotification</class>
+
+		<properties>
+			<property name="hibernate.cache.provider_class" value="org.hibernate.cache.HashtableCacheProvider" />
+			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect" />
+			<property name="hibernate.id.new_generator_mappings" value="false"/>
+		</properties>
+	</persistence-unit>
+</persistence>

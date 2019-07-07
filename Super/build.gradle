@@ -1,0 +1,168 @@
+apply plugin: 'java'
+apply plugin: 'war'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+
+def env='production'
+//env can be modified by providing value via script parameter
+if(project.hasProperty("SenchaEnv")){
+	  	env= SenchaEnv
+}
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    compile project(':VidyoPortal')
+    providedCompile 'javax.servlet.jsp:javax.servlet.jsp-api:2.3.0'
+    providedCompile 'javax.servlet:javax.servlet-api:3.0.1'
+    testCompile 'org.mockito:mockito-core:2.9.0'
+    testCompile 'junit:junit:4.12'
+    testCompile 'org.springframework:spring-test:4.3.2.RELEASE'
+    testCompile 'org.testng:testng:6.11'
+    testCompile 'org.mockito:mockito-core:2.9.0'
+    testCompile 'org.powermock:powermock-module-testng:1.7.0RC2'
+    testCompile 'org.powermock:powermock-api-mockito2:1.7.0RC2'
+}
+
+ 
+ext {
+    isWindows = org.gradle.internal.os.OperatingSystem.current().windows
+}
+war {
+    baseName 'super'
+    from 'web'
+}
+
+task copyExtJsLibrary(type:Copy){
+ 	description 'this will copy the ext-js library'
+    from 'web/js/SuperApp/ext-js'
+    into 'build/production/web/js/SuperApp/ext-js'
+}
+task copyExtJsLanguages(type:Copy){
+ 	description 'this will copy the ext-js languages'
+      from 'web/js/resources/locale'
+    into 'build/production/web/js/resources/locale'
+   
+ }
+task copyExtJsTheme(type:Copy){
+//there are many reference to ext js theme images-this has to be gone.
+ 	description 'this will copy the ext-js library'
+    from 'web/js/SuperApp/ext/packages/ext-theme-neptune'
+      into 'build/production/web/js/SuperApp/ext/packages/ext-theme-neptune'
+ }
+ 
+  task copyMinifiedJs(type:Copy){
+   	 description 'this will copy the minified version of your application'
+     from  'web/js/SuperApp/build/'+env+'/SuperApp/'
+   	 into 'build/production/web/js/SuperApp/build/'+env+'/SuperApp/'
+ }
+  task copyAppJs(type:Copy){
+  	 description 'this will copy the appjs needed for l10..later we need to integrate with minification'
+     from  'web/js/SuperApp/build/'+env+'/SuperApp/app.js'
+   	 into 'build/production/web/js/SuperApp/'
+ }
+  task copyResources(type:Copy){
+  	 description 'this will copy the resources due to many reference to the resource folder from jsps'
+      from  'web/js/SuperApp/resources/'
+   	 into 'build/production/web/js/SuperApp/resources/'
+ }
+
+task fixingJspPages(type: Copy){
+ description 'This task is for replace correct jsp files that uses minified css. If you dont want to use minified css dont call this task'
+ 
+ 	delete 'build/production/web/WEB-INF/jsp/super/include_html.jsp'
+ 	delete 'build/production/web/WEB-INF/jsp/super/include_html_minify.jsp'
+ 	from 'web/WEB-INF/jsp/super/include_html_prod.jsp'
+ 	from 'web/WEB-INF/jsp/super/include_html_minify_prod.jsp'
+	into 'build/production/web/WEB-INF/jsp/super/'
+ 	rename('include_html_prod.jsp','include_html.jsp')
+ 	rename('include_html_minify_prod.jsp','include_html_minify.jsp')
+ 
+ 
+}
+ task copyWeb(type: Copy){
+ //	dependsOn fixingJspPages
+ 	from 'web'
+    into 'build/production/web'
+  //  rename('include_html_prod.jsp','include_html.jsp')
+}
+task deleteJsFolder(type:Delete){
+    description " deleting the js folder which has lots of files not needed for prod version and  we  are going to replace this folder with minified version"
+	dependsOn copyWeb
+    delete  'build/production/web/js'
+}
+task sencha(type: Exec) {
+	doFirst{
+ 	println 'the minification env for super is selected as '+ env 
+ 	}
+	description 'This task will call the minification process. You need to have sencha installed'
+	workingDir 'web/js/SuperApp'
+    if(isWindows) {
+       commandLine 'cmd', '/c', 'sencha', 'app', 'build','-c', env
+    } else {
+       commandLine 'sencha', 'app', 'build','-c', env
+    }
+     //store the output instead of printing to the console:
+  	standardOutput = new ByteArrayOutputStream()
+  	ext.output = {
+    return standardOutput.toString()
+  }
+}
+ task webFolderSetup(type: Copy){
+ 		dependsOn sencha
+  		dependsOn deleteJsFolder
+	    dependsOn copyExtJsLibrary
+	    dependsOn copyExtJsLanguages 
+	    dependsOn copyMinifiedJs
+  		dependsOn copyResources
+  		dependsOn copyAppJs
+  		dependsOn fixingJspPages
+   		
+ }
+task warMinification(type: War){
+	
+	dependsOn webFolderSetup
+      baseName 'super'
+    from 'build/production/web'
+		doLast {
+   			 println "sencha  output: ${sencha.output()}"
+  	}	
+  }
+
+
+task warNoLibMinification(type: War){
+  
+    dependsOn webFolderSetup
+     baseName 'super'
+    from 'build/production/web'
+		doLast {
+   			 println "sencha  output: ${sencha.output()}"
+  	}	
+  	  classpath = classpath.filter { !it.name.matches('.*\\.[jm]ar') }
+  }
+task warNoLib(type: War) {
+    description "Generates a war archive without any jars."
+     baseName 'super'
+    from 'web'
+    classpath = classpath.filter { !it.name.matches('.*\\.[jm]ar') }
+   	 	
+}
+   
+task warBuild(){
+ if(project.hasProperty("NoMinification") ){
+	  dependsOn warNoLib
+ }
+ else{
+  dependsOn warNoLibMinification
+ }
+}
+task release(dependsOn: warNoLibMinification)
+
+deleteJsFolder .mustRunAfter sencha
+copyExtJsLibrary .mustRunAfter deleteJsFolder
+copyExtJsLanguages .mustRunAfter copyExtJsLibrary
+copyMinifiedJs .mustRunAfter copyExtJsLanguages
+copyResources .mustRunAfter copyMinifiedJs
+copyAppJs .mustRunAfter copyResources

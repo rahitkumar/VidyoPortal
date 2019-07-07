@@ -1,0 +1,658 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<wsdl:definitions name="VidyoPortalCACService"
+        xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+        xmlns:http="http://schemas.xmlsoap.org/wsdl/http/"
+        xmlns:tns="http://ws.vidyo.com/cac"
+        xmlns:xs="http://www.w3.org/2001/XMLSchema"
+        xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/"
+        xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+        xmlns:ns="http://schemas.xmlsoap.org/soap/encoding/"
+        targetNamespace="http://ws.vidyo.com/cac">
+
+	<wsdl:types>
+
+		<xs:schema xmlns:tns="http://ws.vidyo.com/cac"
+                   targetNamespace="http://ws.vidyo.com/cac"
+                   elementFormDefault="qualified"
+                   attributeFormDefault="qualified">
+
+			<xs:annotation>
+				<xs:documentation xml:lang="en"/>
+			</xs:annotation>
+
+			<xs:element name="EntityType">
+				<xs:annotation>
+					<xs:documentation>
+						There are three types of entities in VidyoPortal:
+						1. Member - A member is an authorized user of VidyoPortal with a user account.
+						- A member may have at the most one personal room.
+						- A member has a display name
+						- A member has an extension that can also be used for search purposes.
+
+						2. Rooom - It is a meeting place. Rooms are of two kinds:
+						- Personal, as explained above
+						- Public. Each room has a owner assigned who can control the room.
+
+						3. Legacy - This entity represents external endpoints. Think of it as a label to identify and search external devices.
+						Legacy entity does not have an account on the VidyoPortal. There is no owner assigned to legacy devices.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="Member"/>
+						<xs:enumeration value="Room"/>
+						<xs:enumeration value="Legacy"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+	<xs:element name="MemberMode">
+				<xs:annotation>
+					<xs:documentation>
+						The Member can override the current status with these possible values. Changing a mode will impact VidyoPortal operations.
+						For e.g. if the mode is set to DoNotDisturb for a member, this member will not get any incoming requests to join a meeting or a direct call.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="Available"/>
+						<xs:enumeration value="Away"/>
+						<xs:enumeration value="DoNotDisturb"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="ErrorMessage" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>String presentation of fault</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+<xs:simpleType name="EntityID">
+				<xs:annotation>
+					<xs:documentation>
+						This is an ID of addressing object in VidyoPortal (Member, Room, or Legacy device).
+					</xs:documentation>
+				</xs:annotation>
+				<xs:restriction base="xs:string">
+					<xs:pattern value="[0-9]+"/>
+				</xs:restriction>
+			</xs:simpleType>
+
+            <xs:element name="Entity">
+				<xs:annotation>
+					<xs:documentation>
+						This object is returned as a result of search for member, public room, or legacy device.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="entityID" type="tns:EntityID"/>
+						<xs:element minOccurs="0" name="participantID" nillable="true" type="tns:EntityID"/>
+						<xs:element ref="tns:EntityType"/>
+						<xs:element minOccurs="0" name="ownerID" nillable="true" type="tns:EntityID"/>
+						<xs:element name="displayName" type="xs:string"/>
+						<xs:element name="extension" type="xs:string"/>
+						<xs:element minOccurs="0" name="emailAddress" nillable="true" type="xs:string"/>
+						<xs:element minOccurs="0" name="tenant" nillable="true" type="xs:string"/>
+						<xs:element minOccurs="0" name="description" type="xs:string"/>
+						<xs:element minOccurs="0" ref="tns:Language"/>
+						<xs:element minOccurs="0" ref="tns:MemberStatus"/>
+						<xs:element minOccurs="0" ref="tns:MemberMode"/>
+						<xs:element minOccurs="0" name="canCallDirect" type="xs:boolean"/>
+						<xs:element minOccurs="0" name="canJoinMeeting" type="xs:boolean"/>
+						<xs:element minOccurs="0" name="canRecordMeeting" type="xs:boolean"/>
+						<xs:element minOccurs="0" name="isInMyContacts" type="xs:boolean"/>
+						<xs:element minOccurs="0" ref="tns:RoomStatus"/>
+						<xs:element minOccurs="0" ref="tns:RoomMode"/>
+						<xs:element minOccurs="0" name="canControl" type="xs:boolean"/>
+						<xs:element minOccurs="0" name="audio" nillable="true" type="xs:boolean"/>
+						<xs:element minOccurs="0" name="video" nillable="true" type="xs:boolean"/>
+						<xs:element minOccurs="0" name="appshare" nillable="true" type="xs:boolean"/>
+						<xs:element minOccurs="0" name="phone1" nillable="true" type="xs:string"/>
+						<xs:element minOccurs="0" name="phone2" nillable="true" type="xs:string"/>
+						<xs:element minOccurs="0" name="phone3" nillable="true" type="xs:string"/>
+						<xs:element minOccurs="0" name="department" nillable="true" type="xs:string"/>
+						<xs:element minOccurs="0" name="title" nillable="true" type="xs:string"/>
+						<xs:element minOccurs="0" name="instantMessagerID" nillable="true" type="xs:string"/>
+						<xs:element minOccurs="0" name="location" nillable="true" type="xs:string"/>
+						<xs:element minOccurs="0" name="thumbnailUpdateTime" nillable="true" type="xs:dateTime"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			      
+            <xs:element name="Language">
+				<xs:annotation>
+					<xs:documentation>Languages supported by VidyoPortal
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="en"/>
+						<xs:enumeration value="de"/>
+						<xs:enumeration value="es"/>
+						<xs:enumeration value="fr"/>
+						<xs:enumeration value="it"/>
+						<xs:enumeration value="ja"/>
+						<xs:enumeration value="ko"/>
+						<xs:enumeration value="pt"/>
+						<xs:enumeration value="zh_CN"/>
+						<xs:enumeration value="fi"/>
+						<xs:enumeration value="pl"/>
+						<xs:enumeration value="zh_TW"/>
+						<xs:enumeration value="th"/>
+						<xs:enumeration value="ru"/>
+						<xs:enumeration value="tr"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+          
+
+      
+<xs:element name="MemberStatus">
+				<xs:annotation>
+					<xs:documentation>
+						Describes the member status based on the operation state of the endpoint in use by the member:
+						- Status is 'Offline' and hence can't be reached for a conference.
+						- Status is 'Online' and can be reached for a conference or a direct call.
+						- Status is 'Busy' in conference and can't can be reached for another conference or a direct call.
+						- Status is 'BusyInOwnRoom' in conference in own personal room and can't can be reached for another conference.
+						- Status is 'Ringing' endpoint associated with member start to ring on receive direct call or invite event from other part.
+						- Status is 'RingAccepted' endpoint associated with member accept the call from other part.
+						- Status is 'RingRejected' endpoint associated with member reject the call from other part.
+						- Status is 'RingNoAnswer' endpoint associated with member is not answered in some period of time.
+						- Status is 'Alerting' endpoint associated with member is alerting about outcome call.
+						- Status is 'AlertCancelled' endpoint associated with member is stop to be alerting about outcome call.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="Offline"/>
+						<xs:enumeration value="Online"/>
+						<xs:enumeration value="Busy"/>
+						<xs:enumeration value="BusyInOwnRoom"/>
+						<xs:enumeration value="Ringing"/>
+						<xs:enumeration value="RingAccepted"/>
+						<xs:enumeration value="RingRejected"/>
+						<xs:enumeration value="RingNoAnswer"/>
+						<xs:enumeration value="Alerting"/>
+						<xs:enumeration value="AlertCancelled"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+
+			<xs:element name="RoomStatus">
+				<xs:annotation>
+					<xs:documentation>
+						Status is 'Empty' and hence can be used for meeting.
+						Status is 'Full' and is not accepting any more participants to the meeting.
+						Status is 'Occupied' some participants use the room for meeting.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="Empty"/>
+						<xs:enumeration value="Full"/>
+						<xs:enumeration value="Occupied"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+
+			<xs:element name="RoomMode">
+				<xs:annotation>
+					<xs:documentation>
+						- 'roomURL' (optional) means that room has an URL to be used to join the meeting. Typically used for sending invitations to users via mail, etc.
+						- 'roomLocked' means the owner is not allowing any more participants to join the room.
+						- 'hasPIN' means that the participant is required to enter a PIN in order to join this room.
+						- 'roomPIN' (optional) is the actual PIN that participant uses to enter the room.
+                        - 'hasModeratorPIN' (optional) means that the participant is required to enter a Moderator PIN in order to control this room.
+                        - 'moderatorPIN' (optional) is the actual Moderator PIN that participant uses to control the room.
+                    </xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="0" name="roomURL" nillable="true" type="xs:string"/>
+						<xs:element name="isLocked" type="xs:boolean"/>
+						<xs:element name="hasPIN" type="xs:boolean"/>
+						<xs:element minOccurs="0" name="roomPIN" nillable="true" type="xs:string"/>
+                        <xs:element minOccurs="0" name="hasModeratorPIN" nillable="true" type="xs:boolean"/>
+                        <xs:element minOccurs="0" name="moderatorPIN" nillable="true" type="xs:string"/>
+                    </xs:sequence>
+				</xs:complexType>
+			</xs:element>
+      
+         
+
+			<!-- Exceptions -->
+			<xs:element name="GeneralFault">
+				<xs:annotation>
+					<xs:documentation>
+                        This means that the exceptions happens in system.
+                    </xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element ref="tns:ErrorMessage"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+
+			<xs:element name="InvalidArgumentFault">
+				<xs:annotation>
+					<xs:documentation>
+                        This means that the arguments which are passed into services are wrong.
+                    </xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element ref="tns:ErrorMessage"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+<xs:element name="SeatLicenseExpiredFault">
+				<xs:annotation>
+					<xs:documentation>
+						This means that the seat license has expired and needs to be renewed.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+                        <xs:element ref="tns:ErrorMessage"/>
+                    </xs:sequence>
+				</xs:complexType>
+			</xs:element>
+
+			
+			
+            <xs:element name="GenerateAuthTokenRequest">
+                <xs:annotation>
+                    <xs:documentation>
+                       Request to generate authentication token valid for the specified time.
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                    <xs:sequence>
+                    	<xs:element name="validityTime" nillable="false" form="qualified">
+                    		<xs:simpleType>
+                    			<xs:restriction base="xs:int">
+                    				<xs:minInclusive value="0" />
+                    			</xs:restriction>
+                    		</xs:simpleType>
+                    	</xs:element>
+                    	<xs:element name="endpointId" type="xs:string" nillable="false" form="qualified"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="GenerateAuthTokenResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="authToken" type="xs:string" nillable="false"/>
+                        
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            
+            <xs:element name="EndpointNotBoundFault">
+				<xs:annotation>
+					<xs:documentation>
+						Endpoint not bound to the user requesting the operation.
+					</xs:documentation>
+				</xs:annotation>            
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element ref="tns:ErrorMessage"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>         
+             <xs:element name="ClientType">
+                <xs:annotation>
+                    <xs:documentation>
+                        Type is 'W' for Windows platform.
+                        Type is 'M' for MacOS platform.
+                        Type is 'V' for VidyoRoom HD200 (Windows platform).
+                        Type is 'R' for VidyoRoom HD100/HD50 (Windows platform).
+                        Type is 'L' for Linux platform.
+                        Type is 'S' for SL5 platform.
+                        Type is 'U' for Ubuntu platform.
+                        Type is 'T' for SL5 64bit platform.
+                        Type is 'X' for Ubuntu 64bit platform.
+                        Type is 'I' for iOS
+                        Type is 'A' for Android
+                        Type is 'P' for VidyoPanorama VP600.
+                        Type is 'N' for VidyoPanorama 600 running Windows 64-bit.
+                        Type is 'O' for VidyoPanorama 600 running Linux.
+                        Type is 'Q' for VidyoRoom running Windows 32-bit.
+                        Type is 'Y' for VidyoRoom running Windows 64-bit.
+                        Type is 'Z' for VidyoRoom running Linux.
+                        Type is 'B' for VidyoRoom SE Windows.
+                        Type is 'C' for VidyoRoom SE Linux.
+                        Type is 'D' for VidyoRoom SE OS X.
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:enumeration value="W"/>
+                        <xs:enumeration value="M"/>
+                        <xs:enumeration value="V"/>
+                        <xs:enumeration value="R"/>
+                        <xs:enumeration value="L"/>
+                        <xs:enumeration value="S"/>
+                        <xs:enumeration value="U"/>
+                        <xs:enumeration value="T"/>
+                        <xs:enumeration value="X"/>
+                        <xs:enumeration value="I"/>
+                        <xs:enumeration value="A"/>
+                        <xs:enumeration value="P"/>
+                        <xs:enumeration value="N"/>
+                        <xs:enumeration value="O"/>
+                        <xs:enumeration value="Q"/>
+                        <xs:enumeration value="Y"/>
+                        <xs:enumeration value="Z"/>
+                        <xs:enumeration value="B"/>
+                        <xs:enumeration value="C"/>
+                        <xs:enumeration value="D"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+                        			
+			<xs:element name="LogInRequest">
+				<xs:annotation>
+					<xs:documentation>
+						Login request to the VidyoPortal. User identified in Http Authentication header
+					</xs:documentation>
+				</xs:annotation>
+                <xs:complexType>
+                    <xs:sequence>
+                    	<xs:element minOccurs="0" ref="tns:ClientType"/>
+                    </xs:sequence>
+                </xs:complexType>
+			</xs:element>
+			<xs:element name="LogInResponse">
+				<xs:annotation>
+					<xs:documentation>
+						If the users authentication is successfull, the Portal Access Key is returned.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="pak" type="xs:string"/>
+						<xs:element minOccurs="0" name="vmaddress" nillable="true" type="xs:string"/>
+						<xs:element minOccurs="0" name="proxyaddress" nillable="true" type="xs:string"/>
+						<xs:element minOccurs="0" name="loctag" nillable="true" type="xs:string"/>
+						<xs:element minOccurs="0" name="pak2" nillable="true" type="xs:string"/>
+						<xs:element minOccurs="0" name="endpointExternalIPAddress" type="xs:string" />
+						<xs:element minOccurs="0" name="minimumPINLength" type="xs:int" />
+						<xs:element minOccurs="0" name="maximumPINLength" type="xs:int" />
+						<xs:element minOccurs="0" name="minMediaPort" type="xs:int" />
+						<xs:element minOccurs="0" name="maxMediaPort" type="xs:int" />
+						<xs:element minOccurs="0" name="vrProxyConfig" type="xs:string" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+				<xs:element name="LinkEndpointRequest">
+				<xs:annotation>
+					<xs:documentation>
+						LinkEndpoint request to the VidyoPortal. User identified in Http Authentication header is associated with the vidyo endpoint identifier.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="EID" type="xs:string"/>
+						<xs:element minOccurs="0" name="vrIP" type="xs:string"/>
+						<xs:element minOccurs="0" name="clientType" type="xs:string"/>
+                        <xs:element minOccurs="0" name="applicationName" type="xs:string"/>
+                        <xs:element minOccurs="0" name="applicationVersion" type="xs:string"/>
+                        <xs:element minOccurs="0" name="applicationOs" type="xs:string"/>
+                        <xs:element minOccurs="0" name="deviceModel" type="xs:string"/>
+                        <xs:element minOccurs="0" name="pak2" type="xs:boolean"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+				<xs:element name="GetUserNameResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="realUserName" type="xs:string" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			
+			<xs:element name="GetUserNameRequest">
+				<xs:annotation>
+					<xs:documentation>
+						Get a real username as was created by admin and saved in DB. User identified in Http Authentication header
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence/>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="GetUserNameResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="realUserName" type="xs:string" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="NotLicensedFault">
+				<xs:annotation>
+					<xs:documentation>
+						This means that usage of API is not licensed.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+                        <xs:element ref="tns:ErrorMessage"/>
+                    </xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="AccessRestrictedFault">
+				<xs:annotation>
+					<xs:documentation>
+						Access Restriction to Login through Mobile device
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+                        <xs:element ref="tns:ErrorMessage"/>
+                    </xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="LinkEndpointResponse">
+				<xs:annotation>
+					<xs:documentation>
+						If the users authentication is successful, the Member entity is returned.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element ref="tns:Entity"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			
+			
+		</xs:schema>
+
+	</wsdl:types>
+
+
+    <!-- Exceptions -->
+	<wsdl:message name="GeneralFault">
+		<wsdl:part name="fault" element="tns:GeneralFault"/>
+	</wsdl:message>
+
+	<wsdl:message name="InvalidArgumentFault">
+		<wsdl:part name="fault" element="tns:InvalidArgumentFault"/>
+	</wsdl:message>
+
+	<wsdl:message name="SeatLicenseExpiredFault">
+		<wsdl:part name="fault" element="tns:SeatLicenseExpiredFault"/>
+	</wsdl:message>
+
+<wsdl:message name="NotLicensedFault">
+		<wsdl:part name="fault" element="tns:NotLicensedFault"/>
+	</wsdl:message>
+	<wsdl:message name="getUserNameInput">
+		<wsdl:part name="parameter" element="tns:GetUserNameRequest" />
+	</wsdl:message>
+		<wsdl:message name="getUserNameOutput">
+		<wsdl:part name="parameter" element="tns:GetUserNameResponse" />
+	</wsdl:message>
+    <wsdl:message name="generateAuthTokenRequestMessage">
+        <wsdl:part name="parameter" element="tns:GenerateAuthTokenRequest" />
+    </wsdl:message>
+    <wsdl:message name="AccessRestrictedFault">
+        <wsdl:part name="fault" element="tns:AccessRestrictedFault"/>
+    </wsdl:message>
+    <wsdl:message name="generateAuthTokenResponseMessage">
+        <wsdl:part name="parameter" element="tns:GenerateAuthTokenResponse" />
+    </wsdl:message>	
+      <wsdl:message name="linkEndpointInput">
+		<wsdl:part name="parameter" element="tns:LinkEndpointRequest"/>
+	</wsdl:message>
+	<wsdl:message name="linkEndpointOutput">
+		<wsdl:part name="parameter" element="tns:LinkEndpointResponse"/>
+	</wsdl:message>
+    <wsdl:message name="EndpointNotBoundFault">
+		<wsdl:part name="fault" element="tns:EndpointNotBoundFault"/>
+	</wsdl:message>
+	
+	<wsdl:message name="logInInput">
+		<wsdl:part name="parameter" element="tns:LogInRequest"/>
+	</wsdl:message>	
+		<wsdl:message name="logInOutput">
+		<wsdl:part name="parameter" element="tns:LogInResponse"/>
+	</wsdl:message>
+	
+	
+	<wsdl:portType name="VidyoPortalCACServicePortType">
+
+	<wsdl:operation name="generateAuthToken">
+			<wsdl:input message="tns:generateAuthTokenRequestMessage"/>
+			<wsdl:output message="tns:generateAuthTokenResponseMessage"/>
+			<wsdl:fault name="InvalidArgumentFault" message="tns:InvalidArgumentFault"/>
+			<wsdl:fault name="GeneralFault" message="tns:GeneralFault"/>
+			<wsdl:fault name="EndpointNotBoundFault" message="tns:EndpointNotBoundFault"/>
+		</wsdl:operation>        
+<wsdl:operation name="logIn">
+			<wsdl:input message="tns:logInInput"/>
+			<wsdl:output message="tns:logInOutput"/>
+			<wsdl:fault name="NotLicensedFault" message="tns:NotLicensedFault"/>
+			<wsdl:fault name="InvalidArgumentFault" message="tns:InvalidArgumentFault"/>
+			<wsdl:fault name="GeneralFault" message="tns:GeneralFault"/>
+			<wsdl:fault name="SeatLicenseExpiredFault" message="tns:SeatLicenseExpiredFault"/>
+		</wsdl:operation>
+
+		<wsdl:operation name="linkEndpoint">
+			<wsdl:input message="tns:linkEndpointInput"/>
+			<wsdl:output message="tns:linkEndpointOutput"/>
+			<wsdl:fault name="NotLicensedFault" message="tns:NotLicensedFault"/>
+			<wsdl:fault name="InvalidArgumentFault" message="tns:InvalidArgumentFault"/>
+			<wsdl:fault name="GeneralFault" message="tns:GeneralFault"/>
+			<wsdl:fault name="SeatLicenseExpiredFault" message="tns:SeatLicenseExpiredFault"/>
+			<wsdl:fault name="AccessRestrictedFault" message="tns:AccessRestrictedFault"/>
+		</wsdl:operation>
+			<wsdl:operation name="getUserName">
+			<wsdl:input message="tns:getUserNameInput"/>
+			<wsdl:output message="tns:getUserNameOutput"/>
+			<wsdl:fault name="NotLicensedFault" message="tns:NotLicensedFault"/>
+			<wsdl:fault name="GeneralFault" message="tns:GeneralFault"/>
+			<wsdl:fault name="InvalidArgumentFault" message="tns:InvalidArgumentFault"/>
+		</wsdl:operation>
+	</wsdl:portType>
+
+	<wsdl:binding name="VidyoPortalCACServiceBinding" type="tns:VidyoPortalCACServicePortType">
+
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+
+
+       
+        
+        <wsdl:operation name="generateAuthToken">
+            <soap:operation soapAction="generateAuthToken" />
+            <wsdl:input>
+                <soap:body use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+            </wsdl:output>
+			<wsdl:fault name="InvalidArgumentFault">
+				<soap:fault name="InvalidArgumentFault" use="literal"/>
+			</wsdl:fault>
+			<wsdl:fault name="GeneralFault">
+				<soap:fault name="GeneralFault" use="literal"/>
+			</wsdl:fault>
+			<wsdl:fault name="EndpointNotBoundFault">
+				<soap:fault name="EndpointNotBoundFault" use="literal"/>
+			</wsdl:fault>
+        </wsdl:operation>         
+<wsdl:operation name="getUserName">
+			<soap:operation soapAction="getUserName" />
+			<wsdl:input>
+				<soap:body use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</wsdl:output>
+			<wsdl:fault name="NotLicensedFault">
+				<soap:fault name="NotLicensedFault" use="literal" />
+			</wsdl:fault>
+			<wsdl:fault name="InvalidArgumentFault">
+				<soap:fault name="InvalidArgumentFault" use="literal" />
+			</wsdl:fault>
+			<wsdl:fault name="GeneralFault">
+				<soap:fault name="GeneralFault" use="literal" />
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="linkEndpoint">
+			<soap:operation soapAction="linkEndpoint"/>
+			<wsdl:input>
+				<soap:body use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+			</wsdl:output>
+			<wsdl:fault name="NotLicensedFault">
+				<soap:fault name="NotLicensedFault" use="literal"/>
+			</wsdl:fault>
+			<wsdl:fault name="InvalidArgumentFault">
+				<soap:fault name="InvalidArgumentFault" use="literal"/>
+			</wsdl:fault>
+			<wsdl:fault name="GeneralFault">
+				<soap:fault name="GeneralFault" use="literal"/>
+			</wsdl:fault>
+			<wsdl:fault name="SeatLicenseExpiredFault">
+				<soap:fault name="SeatLicenseExpiredFault" use="literal"/>
+			</wsdl:fault>
+			<wsdl:fault name="AccessRestrictedFault">
+				<soap:fault name="AccessRestrictedFault" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="logIn">
+			<soap:operation soapAction="logIn"/>
+			<wsdl:input>
+				<soap:body use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+			</wsdl:output>
+			<wsdl:fault name="NotLicensedFault">
+				<soap:fault name="NotLicensedFault" use="literal"/>
+			</wsdl:fault>
+			<wsdl:fault name="InvalidArgumentFault">
+				<soap:fault name="InvalidArgumentFault" use="literal"/>
+			</wsdl:fault>
+			<wsdl:fault name="GeneralFault">
+				<soap:fault name="GeneralFault" use="literal"/>
+			</wsdl:fault>
+			<wsdl:fault name="SeatLicenseExpiredFault">
+				<soap:fault name="SeatLicenseExpiredFault" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+	</wsdl:binding>
+
+	<wsdl:service name="VidyoPortalCACService">
+		<wsdl:port name="VidyoPortalCACServicePort" binding="tns:VidyoPortalCACServiceBinding">
+			<soap:address location="http://localhost:8080/services/VidyoPortalCACService"/>
+		</wsdl:port>
+	</wsdl:service>
+
+</wsdl:definitions>

@@ -1,0 +1,307 @@
+@font-face {
+    font-family: 'robotolight';
+    src: url('Roboto-Light-webfont.eot');
+    src: url('Roboto-Light-webfont.eot?#iefix') format('embedded-opentype'),
+    url('Roboto-Light-webfont.woff') format('woff'),
+    url('Roboto-Light-webfont.ttf') format('truetype'),
+    url('Roboto-Light-webfont.svg#robotolight') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+html {
+	width: 100%;
+	height: 100%;
+	margin: 0px;
+	padding: 0px;
+}
+body {
+    font-family: 'robotolight', 'Open Sans', 'Helvetica', 'Arial', sans-serif;
+	font-weight: 400;
+    font-size: 1.0em;
+    /* color: #535353; */
+	width: 100%;
+	height: 100%;
+	margin: 0px;
+	padding: 0px;
+}
+.row-header {
+    width: 100%;
+    *zoom: 1;
+}
+.row-header:before,
+.row-header:after {
+    display: table;
+    content: "";
+    line-height: 0;
+}
+.row-header:after {
+    clear: both;
+}
+.row-header .logo {
+    text-align: left;
+}
+
+.change-password-frm {
+    
+}
+
+.password {
+    height: 46px;
+    width: 258px;
+	font-size: 1.0em;
+    border: 1px solid #c6c6c6;
+    padding: 0px 40px 0px 10px !important;
+    vertical-align: top;
+    box-shadow: inset 0px 1px 0px 0px #c6c6c6;
+}
+
+.submit-password {
+    height: 46px;
+    width: 315px;
+	font-size: 1.0em;
+    border: 1px solid #94c460;
+    background-color: #94c460;
+    color: white;
+    padding: 0px 10px 0px 10px !important;
+    vertical-align: top;
+    box-shadow: inset 0px 1px 0px 0px #94c460;
+    cursor: pointer;
+}
+
+.forget-form-item {
+	text-align: left;
+	width: 258px;
+}
+
+.password-form-item {
+	margin-bottom: 10px;
+}
+
+.try-again-item {
+	margin-bottom: 10px;
+	margin-top: 10px;
+	text-align: center;
+	height: 30px;
+    width: 200px;
+	font-size: 1.3em;
+	font-weight: bold;
+    border: 1px solid #94c460;
+    background-color: #94c460;
+    color: white;
+    padding: 5px 0px !important;
+    box-shadow: inset 0px 1px 0px 0px #94c460;
+    cursor: pointer;
+}
+
+.email-submit-button-item {
+	margin: 0 auto;
+	text-align: center;
+}
+
+.forgot-email-submit-button-item {
+	margin-bottom: 10px;
+	margin-top: 30px
+}
+
+.password-form-item-error {
+	margin-bottom: 10px;
+	color: red;
+}
+
+.samlIndexTable {
+	display: table;
+}
+
+.samlIndexTableRow {
+	display: table-row;
+}
+
+.samlIndexTableRowImgCell {
+	display: table-cell;
+	padding-left: 5px;
+	padding-right: 5px;
+	width: 270px;
+}
+
+.samlIndexTableRowCell {
+	display: table-cell;
+	padding-left: 15px;
+	padding-right: 15px;
+	padding-top: 10px;
+}
+
+#container {
+
+}
+
+#header {
+	background-color: #1e1e1e;
+    opacity:0.85;
+    filter:alpha(opacity=85); /* For IE8 and earlier */
+    color: #c6c6c6;
+	height: 39px;
+    padding: 10px;
+}
+
+#logo {
+    background-image: url('i/controlmeeting/logo_vidyo.png');
+	background-image: -webkit-image-set( 
+				url('i/controlmeeting/logo_vidyo.png') 1x,
+                url('i/controlmeeting/logo_vidyo@2x.png') 2x);
+    background-position: top left;
+    background-repeat: no-repeat;
+	height: 39px;
+}
+
+
+#neologo {
+    background-image: url('i/controlmeeting/logo_vidyo.png');
+    background-image: -webkit-image-set(
+            url('i/controlmeeting/logo_vidyo.png') 1x,
+            url('i/controlmeeting/logo_vidyo@2x.png') 2x);
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 39px;
+}
+
+#customLogo {
+    height: 39px;
+}
+
+#row-main {
+	max-width: 800px;
+	margin:0 auto;
+}
+#row-title {
+	background-color: #74ade7;
+    opacity:0.85;
+    filter:alpha(opacity=85); /* For IE8 and earlier */
+    color: #ffffff;
+	height: 200px;
+    padding: 10px;
+}
+
+#infoIconSecure {
+    height: 78px;
+    background-image: url('i/common/ic_lock.png');
+    background-image: -webkit-image-set( 
+				url('i/common/ic_lock.png') 1x,
+                url('i/common/ic_lock@2x.png') 2x);
+    background-repeat: no-repeat;
+    background-position: center bottom;
+}
+
+#infoIconCheck {
+    height: 78px;
+    background-image: url('i/common/ic_check.png');
+    background-image: -webkit-image-set( 
+				url('i/common/ic_check.png') 1x,
+                url('i/common/ic_check@2x.png') 2x);
+    background-repeat: no-repeat;
+    background-position: center bottom;
+}
+
+#infoIconExclamation {
+    height: 78px;
+    background-image: url('i/common/ic_exclamation.png');
+    background-image: -webkit-image-set( 
+				url('i/common/ic_exclamation.png') 1x,
+                url('i/common/ic_exclamation@2x.png') 2x);
+    background-repeat: no-repeat;
+    background-position: center bottom;
+}
+
+#infoMsg {
+    text-align: center;
+    font-size: 2.0em;
+    padding-top : 10px;
+}
+
+#infoMsgSub {
+    text-align: center;
+    font-size: 1.5em;
+    padding-top : 10px;
+}
+
+#changePwd {
+	padding-left: 250px;
+	padding-top : 50px;
+}
+
+#forgotPwd {
+	padding-left: 250px;
+	padding-top : 50px;
+}
+
+#closeTab {
+	padding-top : 50px;
+}
+
+#closeTabMsg {
+	text-align: center;
+	font-size: 1.8em;
+	padding-top : 50px;
+}
+
+#closeTabBackToIndex {
+	text-align: center;
+	font-size: 1.4em;
+	padding-top : 20px;
+}
+
+#closeTabEmptySpace {
+	height: 200px;
+}
+
+#samlIndexTableStep1 {
+    background-image: url('i/common/step_1.png');
+    background-image: -webkit-image-set( 
+				url('i/common/step_1.png') 1x,
+                url('i/common/step_1@2x.png') 2x);
+    background-repeat: no-repeat;
+    background-position: center bottom;
+    height: 200px;
+}
+
+#samlIndexTableStep2 {
+    background-image: url('i/common/step_2.png');
+    background-image: -webkit-image-set( 
+				url('i/common/step_2.png') 1x,
+                url('i/common/step_2@2x.png') 2x);
+    background-repeat: no-repeat;
+    background-position: center bottom;
+    height: 200px;
+}
+
+#samlIndexTableStep3 {
+    background-image: url('i/common/step_3.png');
+    background-image: -webkit-image-set( 
+				url('i/common/step_3.png') 1x,
+                url('i/common/step_3@2x.png') 2x);
+    background-repeat: no-repeat;
+    background-position: center bottom;
+    height: 200px;
+}
+
+#samlLoginErrorMsg {
+	text-align: center;
+}
+
+#samlTryAgainBtn {
+	padding-left : 300px;
+    padding-right : 300px;
+    padding-top : 40px;
+}
+
+#row-help {
+	max-width: 800px;
+	margin: auto;
+	margin-top: 100px;
+	border: 1px solid #c6c6c6;
+}
+
+#helpText {
+	text-align: center;
+    padding-top : 30px;
+    padding-bottom : 30px;
+}

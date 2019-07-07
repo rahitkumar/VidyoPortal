@@ -1,0 +1,26 @@
+package com.vidyo.bo;
+
+
+public enum UserUnbindCode {
+
+    UNKNOWN("UNKNOWN"),
+    MUST_UNBIND_BEFORE_BINDING_TO_DIFFERENT_USER("MUST_UNBIND_BEFORE_BINDING_TO_DIFFERENT_USER"),
+    BIND_FAILURE("BIND_FAILURE"),
+    BIND_CHALLENGE_FAILURE("BIND_CHALLENGE_FAILURE"),
+    LOGGED_IN_ELSEWHERE("LOGGED_IN_ELSEWHERE"),
+    LOGOUT_REQUEST("LOGOUT_REQUEST"),
+    ACCOUNT_DELETED("ACCOUNT_DELETED"),
+    ACCOUNT_DISABLED("ACCOUNT_DISABLED"),
+    PARTICIPATION_DISABLED("PARTICIPATION_DISABLED"),
+    PASSWORD_CHANGED("PASSWORD_CHANGED");
+
+    private String code = "UNKNOWN";
+
+    UserUnbindCode(String code) {
+        this.code = code;
+    }
+
+    public String toString() {
+        return this.code;
+    }
+}

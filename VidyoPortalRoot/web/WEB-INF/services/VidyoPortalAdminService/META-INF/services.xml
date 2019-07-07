@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- This file was auto-generated from WSDL -->
+<!-- by the Apache Axis2 version: 1.6.0  Built on : May 17, 2011 (04:19:43 IST) -->
+<serviceGroup>
+    <service name="VidyoPortalAdminService">
+        <messageReceivers>
+            <messageReceiver mep="http://www.w3.org/ns/wsdl/in-out" class="com.vidyo.portal.admin.VidyoPortalAdminServiceMessageReceiverInOut"/>
+        </messageReceivers>
+        <!--parameter name="ServiceClass">com.vidyo.portal.admin.VidyoPortalAdminServiceSkeleton</parameter-->
+	<parameter name="ServiceObjectSupplier" locked="false">org.apache.axis2.extensions.spring.receivers.SpringServletContextObjectSupplier</parameter>
+        <parameter name="SpringBeanName" locked="false">vidyoPortalAdminServiceEndPoint</parameter>
+        <parameter name="useOriginalwsdl">true</parameter>
+        <parameter name="modifyUserWSDLPortAddress">true</parameter>
+        <operation name="getLicenseData" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://portal.vidyo.com/admin">
+            <actionMapping>getLicenseData</actionMapping>
+            <outputActionMapping>http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/getLicenseDataResponse</outputActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/getLicenseData/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/getLicenseData/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="NotLicensedException">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/getLicenseData/Fault/NotLicensedException</faultActionMapping>
+            <faultActionMapping faultName="NotLicensedException_Exception">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/getLicenseData/Fault/NotLicensedException</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/getLicenseData/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/getLicenseData/Fault/GeneralFault</faultActionMapping>
+        </operation>
+        <operation name="removeRoomPIN" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://portal.vidyo.com/admin">
+            <actionMapping>removeRoomPIN</actionMapping>
+            <outputActionMapping>http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/removeRoomPINResponse</outputActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/removeRoomPIN/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/removeRoomPIN/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="NotLicensedException">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/removeRoomPIN/Fault/NotLicensedException</faultActionMapping>
+            <faultActionMapping faultName="NotLicensedException_Exception">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/removeRoomPIN/Fault/NotLicensedException</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/removeRoomPIN/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/removeRoomPIN/Fault/GeneralFault</faultActionMapping>
+        </operation>
+        <operation name="getRooms" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://portal.vidyo.com/admin">
+            <actionMapping>getRooms</actionMapping>
+            <outputActionMapping>http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/getRoomsResponse</outputActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/getRooms/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/getRooms/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="NotLicensedException">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/getRooms/Fault/NotLicensedException</faultActionMapping>
+            <faultActionMapping faultName="NotLicensedException_Exception">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/getRooms/Fault/NotLicensedException</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/getRooms/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/getRooms/Fault/GeneralFault</faultActionMapping>
+        </operation>
+        <operation name="updateGroup" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://portal.vidyo.com/admin">
+            <actionMapping>updateGroup</actionMapping>
+            <outputActionMapping>http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/updateGroupResponse</outputActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/updateGroup/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/updateGroup/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="NotLicensedException">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/updateGroup/Fault/NotLicensedException</faultActionMapping>
+            <faultActionMapping faultName="NotLicensedException_Exception">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/updateGroup/Fault/NotLicensedException</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/updateGroup/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/updateGroup/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GroupNotFoundException">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/updateGroup/Fault/GroupNotFoundException</faultActionMapping>
+            <faultActionMapping faultName="GroupNotFoundException_Exception">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/updateGroup/Fault/GroupNotFoundException</faultActionMapping>
+        </operation>
+        <operation name="getRoom" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://portal.vidyo.com/admin">
+            <actionMapping>getRoom</actionMapping>
+            <outputActionMapping>http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/getRoomResponse</outputActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/getRoom/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/getRoom/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="NotLicensedException">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/getRoom/Fault/NotLicensedException</faultActionMapping>
+            <faultActionMapping faultName="NotLicensedException_Exception">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/getRoom/Fault/NotLicensedException</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/getRoom/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/getRoom/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="RoomNotFoundException">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/getRoom/Fault/RoomNotFoundException</faultActionMapping>
+            <faultActionMapping faultName="RoomNotFoundException_Exception">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/getRoom/Fault/RoomNotFoundException</faultActionMapping>
+        </operation>
+        <operation name="deleteRoom" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://portal.vidyo.com/admin">
+            <actionMapping>deleteRoom</actionMapping>
+            <outputActionMapping>http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/deleteRoomResponse</outputActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/deleteRoom/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/deleteRoom/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="NotLicensedException">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/deleteRoom/Fault/NotLicensedException</faultActionMapping>
+            <faultActionMapping faultName="NotLicensedException_Exception">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/deleteRoom/Fault/NotLicensedException</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/deleteRoom/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/deleteRoom/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="RoomNotFoundException">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/deleteRoom/Fault/RoomNotFoundException</faultActionMapping>
+            <faultActionMapping faultName="RoomNotFoundException_Exception">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/deleteRoom/Fault/RoomNotFoundException</faultActionMapping>
+        </operation>
+        <operation name="muteAudio" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://portal.vidyo.com/admin">
+            <actionMapping>muteAudio</actionMapping>
+            <outputActionMapping>http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/muteAudioResponse</outputActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/muteAudio/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/muteAudio/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="NotLicensedException">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/muteAudio/Fault/NotLicensedException</faultActionMapping>
+            <faultActionMapping faultName="NotLicensedException_Exception">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/muteAudio/Fault/NotLicensedException</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/muteAudio/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/muteAudio/Fault/GeneralFault</faultActionMapping>
+        </operation>
+        <operation name="getParticipants" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://portal.vidyo.com/admin">
+            <actionMapping>getParticipants</actionMapping>
+            <outputActionMapping>http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/getParticipantsResponse</outputActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/getParticipants/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/getParticipants/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="NotLicensedException">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/getParticipants/Fault/NotLicensedException</faultActionMapping>
+            <faultActionMapping faultName="NotLicensedException_Exception">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/getParticipants/Fault/NotLicensedException</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/getParticipants/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/getParticipants/Fault/GeneralFault</faultActionMapping>
+        </operation>
+        <operation name="unmuteAudio" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://portal.vidyo.com/admin">
+            <actionMapping>unmuteAudio</actionMapping>
+            <outputActionMapping>http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/unmuteAudioResponse</outputActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/unmuteAudio/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/unmuteAudio/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="NotLicensedException">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/unmuteAudio/Fault/NotLicensedException</faultActionMapping>
+            <faultActionMapping faultName="NotLicensedException_Exception">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/unmuteAudio/Fault/NotLicensedException</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/unmuteAudio/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/unmuteAudio/Fault/GeneralFault</faultActionMapping>
+        </operation>
+        <operation name="getGroups" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://portal.vidyo.com/admin">
+            <actionMapping>getGroups</actionMapping>
+            <outputActionMapping>http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/getGroupsResponse</outputActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/getGroups/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/getGroups/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="NotLicensedException">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/getGroups/Fault/NotLicensedException</faultActionMapping>
+            <faultActionMapping faultName="NotLicensedException_Exception">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/getGroups/Fault/NotLicensedException</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/getGroups/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/getGroups/Fault/GeneralFault</faultActionMapping>
+        </operation>
+        <operation name="addMember" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://portal.vidyo.com/admin">
+            <actionMapping>addMember</actionMapping>
+            <outputActionMapping>http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/addMemberResponse</outputActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/addMember/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/addMember/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="NotLicensedException">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/addMember/Fault/NotLicensedException</faultActionMapping>
+            <faultActionMapping faultName="NotLicensedException_Exception">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/addMember/Fault/NotLicensedException</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/addMember/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/addMember/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="MemberAlreadyExistsException">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/addMember/Fault/MemberAlreadyExistsException</faultActionMapping>
+            <faultActionMapping faultName="MemberAlreadyExistsException_Exception">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/addMember/Fault/MemberAlreadyExistsException</faultActionMapping>
+        </operation>
+        <operation name="startVideo" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://portal.vidyo.com/admin">
+            <actionMapping>startVideo</actionMapping>
+            <outputActionMapping>http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/startVideoResponse</outputActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/startVideo/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/startVideo/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="NotLicensedException">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/startVideo/Fault/NotLicensedException</faultActionMapping>
+            <faultActionMapping faultName="NotLicensedException_Exception">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/startVideo/Fault/NotLicensedException</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/startVideo/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/startVideo/Fault/GeneralFault</faultActionMapping>
+        </operation>
+        <operation name="createRoomPIN" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://portal.vidyo.com/admin">
+            <actionMapping>createRoomPIN</actionMapping>
+            <outputActionMapping>http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/createRoomPINResponse</outputActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/createRoomPIN/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/createRoomPIN/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="NotLicensedException">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/createRoomPIN/Fault/NotLicensedException</faultActionMapping>
+            <faultActionMapping faultName="NotLicensedException_Exception">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/createRoomPIN/Fault/NotLicensedException</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/createRoomPIN/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/createRoomPIN/Fault/GeneralFault</faultActionMapping>
+        </operation>
+        <operation name="deleteGroup" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://portal.vidyo.com/admin">
+            <actionMapping>deleteGroup</actionMapping>
+            <outputActionMapping>http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/deleteGroupResponse</outputActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/deleteGroup/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/deleteGroup/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="NotLicensedException">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/deleteGroup/Fault/NotLicensedException</faultActionMapping>
+            <faultActionMapping faultName="NotLicensedException_Exception">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/deleteGroup/Fault/NotLicensedException</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/deleteGroup/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/deleteGroup/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GroupNotFoundException">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/deleteGroup/Fault/GroupNotFoundException</faultActionMapping>
+            <faultActionMapping faultName="GroupNotFoundException_Exception">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/deleteGroup/Fault/GroupNotFoundException</faultActionMapping>
+        </operation>
+        <operation name="removeRoomURL" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://portal.vidyo.com/admin">
+            <actionMapping>removeRoomURL</actionMapping>
+            <outputActionMapping>http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/removeRoomURLResponse</outputActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/removeRoomURL/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/removeRoomURL/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="NotLicensedException">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/removeRoomURL/Fault/NotLicensedException</faultActionMapping>
+            <faultActionMapping faultName="NotLicensedException_Exception">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/removeRoomURL/Fault/NotLicensedException</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/removeRoomURL/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/removeRoomURL/Fault/GeneralFault</faultActionMapping>
+        </operation>
+        <operation name="addRoom" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://portal.vidyo.com/admin">
+            <actionMapping>addRoom</actionMapping>
+            <outputActionMapping>http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/addRoomResponse</outputActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/addRoom/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/addRoom/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="NotLicensedException">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/addRoom/Fault/NotLicensedException</faultActionMapping>
+            <faultActionMapping faultName="NotLicensedException_Exception">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/addRoom/Fault/NotLicensedException</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/addRoom/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/addRoom/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="RoomAlreadyExistsException">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/addRoom/Fault/RoomAlreadyExistsException</faultActionMapping>
+            <faultActionMapping faultName="RoomAlreadyExistsException_Exception">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/addRoom/Fault/RoomAlreadyExistsException</faultActionMapping>
+        </operation>
+        <operation name="updateMember" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://portal.vidyo.com/admin">
+            <actionMapping>updateMember</actionMapping>
+            <outputActionMapping>http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/updateMemberResponse</outputActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/updateMember/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/updateMember/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="NotLicensedException">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/updateMember/Fault/NotLicensedException</faultActionMapping>
+            <faultActionMapping faultName="NotLicensedException_Exception">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/updateMember/Fault/NotLicensedException</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/updateMember/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/updateMember/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="MemberNotFoundException">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/updateMember/Fault/MemberNotFoundException</faultActionMapping>
+            <faultActionMapping faultName="MemberNotFoundException_Exception">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/updateMember/Fault/MemberNotFoundException</faultActionMapping>
+        </operation>
+        <operation name="deleteMember" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://portal.vidyo.com/admin">
+            <actionMapping>deleteMember</actionMapping>
+            <outputActionMapping>http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/deleteMemberResponse</outputActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/deleteMember/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/deleteMember/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="NotLicensedException">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/deleteMember/Fault/NotLicensedException</faultActionMapping>
+            <faultActionMapping faultName="NotLicensedException_Exception">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/deleteMember/Fault/NotLicensedException</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/deleteMember/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/deleteMember/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="MemberNotFoundException">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/deleteMember/Fault/MemberNotFoundException</faultActionMapping>
+            <faultActionMapping faultName="MemberNotFoundException_Exception">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/deleteMember/Fault/MemberNotFoundException</faultActionMapping>
+        </operation>
+        <operation name="inviteToConference" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://portal.vidyo.com/admin">
+            <actionMapping>inviteToConference</actionMapping>
+            <outputActionMapping>http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/inviteToConferenceResponse</outputActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/inviteToConference/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/inviteToConference/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="NotLicensedException">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/inviteToConference/Fault/NotLicensedException</faultActionMapping>
+            <faultActionMapping faultName="NotLicensedException_Exception">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/inviteToConference/Fault/NotLicensedException</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/inviteToConference/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/inviteToConference/Fault/GeneralFault</faultActionMapping>
+        </operation>
+        <operation name="getMembers" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://portal.vidyo.com/admin">
+            <actionMapping>getMembers</actionMapping>
+            <outputActionMapping>http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/getMembersResponse</outputActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/getMembers/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/getMembers/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="NotLicensedException">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/getMembers/Fault/NotLicensedException</faultActionMapping>
+            <faultActionMapping faultName="NotLicensedException_Exception">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/getMembers/Fault/NotLicensedException</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/getMembers/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/getMembers/Fault/GeneralFault</faultActionMapping>
+        </operation>
+        <operation name="addGroup" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://portal.vidyo.com/admin">
+            <actionMapping>addGroup</actionMapping>
+            <outputActionMapping>http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/addGroupResponse</outputActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/addGroup/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/addGroup/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="NotLicensedException">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/addGroup/Fault/NotLicensedException</faultActionMapping>
+            <faultActionMapping faultName="NotLicensedException_Exception">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/addGroup/Fault/NotLicensedException</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/addGroup/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/addGroup/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GroupAlreadyExistsException">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/addGroup/Fault/GroupAlreadyExistsException</faultActionMapping>
+            <faultActionMapping faultName="GroupAlreadyExistsException_Exception">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/addGroup/Fault/GroupAlreadyExistsException</faultActionMapping>
+        </operation>
+        <operation name="getGroup" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://portal.vidyo.com/admin">
+            <actionMapping>getGroup</actionMapping>
+            <outputActionMapping>http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/getGroupResponse</outputActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/getGroup/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/getGroup/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="NotLicensedException">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/getGroup/Fault/NotLicensedException</faultActionMapping>
+            <faultActionMapping faultName="NotLicensedException_Exception">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/getGroup/Fault/NotLicensedException</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/getGroup/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/getGroup/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GroupNotFoundException">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/getGroup/Fault/GroupNotFoundException</faultActionMapping>
+            <faultActionMapping faultName="GroupNotFoundException_Exception">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/getGroup/Fault/GroupNotFoundException</faultActionMapping>
+        </operation>
+        <operation name="getPortalVersion" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://portal.vidyo.com/admin">
+            <actionMapping>getPortalVersion</actionMapping>
+            <outputActionMapping>http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/getPortalVersionResponse</outputActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/getPortalVersion/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/getPortalVersion/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="NotLicensedException">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/getPortalVersion/Fault/NotLicensedException</faultActionMapping>
+            <faultActionMapping faultName="NotLicensedException_Exception">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/getPortalVersion/Fault/NotLicensedException</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/getPortalVersion/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/getPortalVersion/Fault/GeneralFault</faultActionMapping>
+        </operation>
+        <operation name="updateRoom" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://portal.vidyo.com/admin">
+            <actionMapping>updateRoom</actionMapping>
+            <outputActionMapping>http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/updateRoomResponse</outputActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/updateRoom/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/updateRoom/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="NotLicensedException">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/updateRoom/Fault/NotLicensedException</faultActionMapping>
+            <faultActionMapping faultName="NotLicensedException_Exception">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/updateRoom/Fault/NotLicensedException</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/updateRoom/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/updateRoom/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="RoomNotFoundException">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/updateRoom/Fault/RoomNotFoundException</faultActionMapping>
+            <faultActionMapping faultName="RoomNotFoundException_Exception">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/updateRoom/Fault/RoomNotFoundException</faultActionMapping>
+            <faultActionMapping faultName="RoomAlreadyExistsException">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/updateRoom/Fault/RoomAlreadyExistsException</faultActionMapping>
+            <faultActionMapping faultName="RoomAlreadyExistsException_Exception">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/updateRoom/Fault/RoomAlreadyExistsException</faultActionMapping>
+        </operation>
+        <operation name="createRoomURL" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://portal.vidyo.com/admin">
+            <actionMapping>createRoomURL</actionMapping>
+            <outputActionMapping>http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/createRoomURLResponse</outputActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/createRoomURL/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/createRoomURL/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="NotLicensedException">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/createRoomURL/Fault/NotLicensedException</faultActionMapping>
+            <faultActionMapping faultName="NotLicensedException_Exception">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/createRoomURL/Fault/NotLicensedException</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/createRoomURL/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/createRoomURL/Fault/GeneralFault</faultActionMapping>
+        </operation>
+        <operation name="stopVideo" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://portal.vidyo.com/admin">
+            <actionMapping>stopVideo</actionMapping>
+            <outputActionMapping>http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/stopVideoResponse</outputActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/stopVideo/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/stopVideo/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="NotLicensedException">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/stopVideo/Fault/NotLicensedException</faultActionMapping>
+            <faultActionMapping faultName="NotLicensedException_Exception">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/stopVideo/Fault/NotLicensedException</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/stopVideo/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/stopVideo/Fault/GeneralFault</faultActionMapping>
+        </operation>
+        <operation name="leaveConference" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://portal.vidyo.com/admin">
+            <actionMapping>leaveConference</actionMapping>
+            <outputActionMapping>http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/leaveConferenceResponse</outputActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/leaveConference/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/leaveConference/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="NotLicensedException">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/leaveConference/Fault/NotLicensedException</faultActionMapping>
+            <faultActionMapping faultName="NotLicensedException_Exception">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/leaveConference/Fault/NotLicensedException</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/leaveConference/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/leaveConference/Fault/GeneralFault</faultActionMapping>
+        </operation>
+        <operation name="getMember" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://portal.vidyo.com/admin">
+            <actionMapping>getMember</actionMapping>
+            <outputActionMapping>http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/getMemberResponse</outputActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/getMember/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/getMember/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="NotLicensedException">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/getMember/Fault/NotLicensedException</faultActionMapping>
+            <faultActionMapping faultName="NotLicensedException_Exception">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/getMember/Fault/NotLicensedException</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/getMember/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/getMember/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="MemberNotFoundException">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/getMember/Fault/MemberNotFoundException</faultActionMapping>
+            <faultActionMapping faultName="MemberNotFoundException_Exception">http://portal.vidyo.com/admin/VidyoPortalAdminServicePortType/getMember/Fault/MemberNotFoundException</faultActionMapping>
+        </operation>
+    </service>
+</serviceGroup>

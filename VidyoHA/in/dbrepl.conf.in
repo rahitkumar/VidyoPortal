@@ -1,0 +1,17 @@
+###########################################
+# configuration file for DB replication.
+#
+###########################################
+DB_SNAPSHOT=/root/ha/vidyo_portal.sql
+DB_SNAPSHOT_COMPRESS=${DB_SNAPSHOT}.gz
+TEMP_DB_SNAPSHOT=${DB_SNAPSHOT}.tmp
+TEMP_DB_SNAPSHOT_COMPRESS=${TEMP_DB_SNAPSHOT}.gz
+TEMP_DB_SNAPSHOT_CSUM=${TEMP_DB_SNAPSHOT_COMPRESS}.csum
+DB_SNAPSHOT_CSUM=${DB_SNAPSHOT_COMPRESS}.csum
+DB_REPL_USER='vidyorepl'
+DB_REPL_PASS='%PASSWORD%'
+USE_SSH_TUNNEL=y
+SSH_TUNNEL_LOCAL_PORT=3305
+SSH_TUNNEL_DEST_PORT=3306
+SLAVE_NET_TIMEOUT=5
+

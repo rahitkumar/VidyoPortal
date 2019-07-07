@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<wsdl:definitions name="StatusNotificationService"
+        xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+        xmlns:http="http://schemas.xmlsoap.org/wsdl/http/"
+        xmlns:tns="http://ws.vidyo.com/notification"
+        xmlns:xs="http://www.w3.org/2001/XMLSchema"
+        xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/"
+        xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+        xmlns:ns="http://schemas.xmlsoap.org/soap/encoding/"
+        targetNamespace="http://ws.vidyo.com/notification">
+
+	<wsdl:types>
+
+		<xs:schema xmlns:tns="http://ws.vidyo.com/notification"
+                   targetNamespace="http://ws.vidyo.com/notification"
+                   elementFormDefault="qualified"
+                   attributeFormDefault="qualified">
+
+			<xs:annotation>
+				<xs:documentation xml:lang="en"/>
+			</xs:annotation>
+
+            <xs:element name="MemberStatus">
+                <xs:annotation>
+                    <xs:documentation>
+                        Describes the member status based on the operation state of the endpoint in use by the member:
+                        - Status is 'Offline' and hence can't be reached for a conference.
+                        - Status is "Online' and can be reached for a conference or a direct call.
+                        - Status is 'Busy' in conference and can't can be reached for another conference or a direct call.
+                        - Status is 'BusyInOwnRoom' in conference in own personal room and can't can be reached for another conference.
+                        - Status is 'Ringing' endpoint associated with member start to ring on receive  direct call or invite event from other part.
+                        - Status is 'RingAccepted' endpoint associated with member accept the call from other part.
+                        - Status is 'RingRejected' endpoint associated with member reject the call from other part.
+                        - Status is 'RingNoAnswer' endpoint associated with member is not answered in some period of time.
+                        - Status is 'Alerting' endpoint associated with member alerted by the call from other part.
+                        - Status is 'AlertCancelled' endpoint associated with member canceled alert by the call from other part.
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:enumeration value="Offline"/>
+                        <xs:enumeration value="Online"/>
+                        <xs:enumeration value="Busy"/>
+                        <xs:enumeration value="BusyInOwnRoom"/>
+                        <xs:enumeration value="Ringing"/>
+                        <xs:enumeration value="RingAccepted"/>
+                        <xs:enumeration value="RingRejected"/>
+                        <xs:enumeration value="RingNoAnswer"/>
+                        <xs:enumeration value="Alerting"/>
+                        <xs:enumeration value="AlertCancelled"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+
+            <xs:element name="UserStatus">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="username" type="xs:string"/>
+                        <xs:element name="tenant" type="xs:string"/>
+                        <xs:element ref="tns:MemberStatus"/>
+                        <xs:element name="roomName" minOccurs="0" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+            <!-- NotifyUserStatus -->
+            <xs:element name="NotifyUserStatus">
+                <xs:annotation>
+                    <xs:documentation>
+                        Send notification about user status
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element ref="tns:UserStatus"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+		</xs:schema>
+
+	</wsdl:types>
+
+    <!-- messages -->
+    <wsdl:message name="NotifyUserStatusInput">
+        <wsdl:part name="parameter" element="tns:NotifyUserStatus"/>
+    </wsdl:message>
+
+	<wsdl:portType name="StatusNotificationServicePortType">
+
+        <wsdl:operation name="notifyUserStatus">
+            <wsdl:input message="tns:NotifyUserStatusInput"/>
+        </wsdl:operation>
+
+	</wsdl:portType>
+
+	<wsdl:binding name="StatusNotificationServiceBinding" type="tns:StatusNotificationServicePortType">
+
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+
+        <wsdl:operation name="notifyUserStatus">
+            <soap:operation soapAction="notifyUserStatus"/>
+            <wsdl:input>
+                <soap:body use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </wsdl:input>
+        </wsdl:operation>
+
+	</wsdl:binding>
+
+	<wsdl:service name="StatusNotificationService">
+		<wsdl:port name="StatusNotificationServicePort" binding="tns:StatusNotificationServiceBinding">
+			<soap:address location="http://localhost:8080/services/StatusNotificationService"/>
+		</wsdl:port>
+	</wsdl:service>
+
+</wsdl:definitions>

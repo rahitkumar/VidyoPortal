@@ -1,0 +1,180 @@
+apply plugin: 'java'
+apply plugin: 'war'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+
+def env='production'
+//env can be modified by providing value via script parameter
+if(project.hasProperty("SenchaEnv")){
+	  	env= SenchaEnv
+ }
+
+println 'You can choose the minfication level you wanted by adding the env variable. For example -x test -PSenchaEnv=production.If you want skip minification, use -PNoMinification. Note: Minification wont be available if you use clean build'
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    compile project(':VidyoPortal')
+    providedCompile 'javax.servlet.jsp:javax.servlet.jsp-api:2.3.0'
+    providedCompile 'javax.servlet:javax.servlet-api:3.0.1'
+
+    testCompile 'junit:junit:4.12'
+    testCompile 'org.springframework:spring-test:4.3.2.RELEASE'
+    testCompile 'org.unitils:unitils-spring:3.4.3'
+    testCompile 'org.easymock:easymock:3.4'
+    testCompile 'org.unitils:unitils-easymock:3.4.3'
+    testCompile 'org.unitils:unitils-mock:3.4.3'
+    testCompile 'org.unitils:unitils-dbunit:3.4.3'
+    //testCompile 'org.dbunit:dbunit:2.4.9'
+    testCompile 'com.github.springtestdbunit:spring-test-dbunit:1.3.0'
+    testCompile 'commons-dbcp:commons-dbcp:1.4'
+    testCompile 'org.testng:testng:6.11'
+    testCompile 'org.mockito:mockito-core:2.9.0'
+    testCompile 'org.powermock:powermock-module-testng:1.7.0RC2'
+    testCompile 'org.powermock:powermock-api-mockito2:1.7.0RC2'
+    testCompile 'org.springframework:spring-test:4.3.2.RELEASE'
+    testCompile 'org.skyscreamer:jsonassert:1.5.0'
+}
+ext {
+    isWindows = org.gradle.internal.os.OperatingSystem.current().windows
+}
+
+war {
+    baseName 'admin'
+    from 'web'
+}
+ task copyExtJsLibrary(type:Copy){
+ 	description 'this will copy the ext-js library'
+      from 'web/js/AdminApp/ext-js'
+    into 'build/production/web/js/AdminApp/ext-js'
+   
+ }
+ task copyExtJsLanguages(type:Copy){
+ 	description 'this will copy the ext-js languages'
+      from 'web/js/resources/locale'
+    into 'build/production/web/js/resources/locale'
+   
+ }
+  task copyMinifiedJs(type:Copy){
+  	 description 'this will copy the minified version of your application'
+     from  'web/js/AdminApp/build/'+env+'/AdminApp/'
+   	 into 'build/production/web/js/AdminApp/build/'+env+'/AdminApp/'
+ }
+  task copyAppJs(type:Copy){
+  	 description 'this will copy the appjs needed for l10..later we need to integrate with minification'
+     from  'web/js/AdminApp/build/'+env+'/AdminApp/app.js'
+   	 into 'build/production/web/js/AdminApp/'
+ }
+ task copyApiDocs(type:Copy) {
+     description 'This task will copy the API documentation directory.'
+     from 'web/docs/'
+     into 'build/production/docs/'
+ }
+ task copyResources(type:Copy){
+  	 description 'this will copy the resources due to many reference to the resource folder from jsps'
+     from  'web/js/AdminApp/resources/'
+   	 into 'build/production/web/js/AdminApp/resources/'
+ }
+
+task fixingJspPages(type: Copy){
+ description 'This task is for replace correct jsp files that uses minified css. If you dont want to use minified css dont call this task'
+ 
+ delete 'build/production/web/WEB-INF/jsp/admin/include_html.jsp'
+ delete 'build/production/web/WEB-INF/jsp/admin/include_html_minify.jsp'
+ from 'web/WEB-INF/jsp/admin/include_html_prod.jsp'
+ from 'web/WEB-INF/jsp/admin/include_html_minify_prod.jsp'
+ into 'build/production/web/WEB-INF/jsp/admin/'
+ rename('include_html_prod.jsp','include_html.jsp')
+ rename('include_html_minify_prod.jsp','include_html_minify.jsp')
+ 
+ 
+}
+ task copyWeb(type: Copy){
+ //	dependsOn fixingJspPages
+ 	from 'web'
+    into 'build/production/web'
+  //  rename('include_html_prod.jsp','include_html.jsp')
+}
+task deleteJsFolder(type:Delete){
+    description " deleting the js folder which has lots of files not needed for prod version and  we  are going to replace this folder with minified version"
+	dependsOn copyWeb
+    delete  'build/production/web/js'
+}
+task sencha(type: Exec) {
+ 	doFirst{
+ 	println 'the minification env for admin is selected as '+ env 
+ 	}
+	description 'This task will call the minification process. You need to have sencha installed'
+	workingDir 'web/js/AdminApp'
+	if(isWindows) {
+       commandLine 'cmd', '/c', 'sencha', 'app', 'build','-c', env
+    } else {
+       commandLine 'sencha', 'app', 'build','-c', env
+    }
+     //store the output instead of printing to the console:
+  	standardOutput = new ByteArrayOutputStream()
+  	ext.output = {
+    return standardOutput.toString()
+  }
+}
+ task webFolderSetup(type: Copy){
+  		dependsOn sencha
+  		dependsOn deleteJsFolder
+	    dependsOn copyExtJsLibrary
+	    dependsOn copyExtJsLanguages 
+  		dependsOn copyMinifiedJs
+  		dependsOn copyResources
+  		dependsOn copyAppJs
+  		dependsOn fixingJspPages
+ 		
+   		
+ }
+task warMinification(type: War){
+	  
+  
+	dependsOn webFolderSetup
+      baseName 'admin'
+    from 'build/production/web'
+		doLast {
+   			 println "sencha  output: ${sencha.output()}"
+  	}	
+  }
+
+
+task warNoLibMinification(type: War){
+   
+
+    dependsOn webFolderSetup
+     baseName 'admin'
+    from 'build/production/web'
+		doLast {
+   			 println "sencha  output: ${sencha.output()}"
+  	}	
+  	  classpath = classpath.filter { !it.name.matches('.*\\.[jm]ar') }
+  }
+task warNoLib(type: War) {
+    description "Generates a war archive without any jars."
+     baseName 'admin'
+    from 'web'
+    classpath = classpath.filter { !it.name.matches('.*\\.[jm]ar') }
+   	 	
+}
+task warBuild(){
+ if(project.hasProperty("NoMinification") ){
+	  dependsOn warNoLib
+ }
+ else{
+  dependsOn warNoLibMinification
+ }
+}
+
+task release(dependsOn: warBuild)
+
+deleteJsFolder .mustRunAfter sencha
+copyExtJsLibrary .mustRunAfter deleteJsFolder
+copyExtJsLanguages .mustRunAfter copyExtJsLibrary
+copyMinifiedJs .mustRunAfter copyExtJsLanguages
+copyResources .mustRunAfter copyMinifiedJs
+copyAppJs .mustRunAfter copyResources

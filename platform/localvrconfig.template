@@ -1,0 +1,4 @@
+ConfigServerAddress=localhost
+LogLevel=warning
+LogFileName=vr2.log
+MaxLogFileSizeKB=100000

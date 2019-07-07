@@ -1,0 +1,135 @@
+apply plugin: 'java'
+
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+
+apply plugin: 'com.github.ben-manes.versions' // run 'gradle dependencyUpdates' to check for newer versions
+
+apply plugin: 'propdeps' // https://github.com/spring-projects/gradle-plugins/ (see https://issues.gradle.org/browse/GRADLE-784)
+apply plugin: 'propdeps-idea'
+apply plugin: 'propdeps-eclipse'
+
+buildscript {
+    repositories {
+        jcenter()
+        maven { url 'http://repo.spring.io/plugins-release' }
+    }
+
+    dependencies {
+        classpath 'com.github.ben-manes:gradle-versions-plugin:0.13.0'
+        classpath 'org.springframework.build.gradle:propdeps-plugin:0.0.7'
+    }
+}
+
+repositories {
+    jcenter()
+}
+
+compileJava {
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+}
+
+configurations {
+    all*.exclude group: 'commons-logging'
+}
+
+dependencies {
+    compile project(':VidyoPortal')
+
+    compile 'org.springframework.batch:spring-batch-core:3.0.7.RELEASE'
+    compile 'org.quartz-scheduler:quartz:2.2.1'
+    runtime 'javax.el:javax.el-api:2.2.4'
+    compile 'org.apache.activemq:activemq-kahadb-store:5.14.2'
+    compile 'org.springframework.integration:spring-integration-core:4.3.5.RELEASE'
+    compile 'org.springframework.integration:spring-integration-ip:4.3.5.RELEASE'
+    runtime 'com.jolbox:bonecp:0.8.0.RELEASE'
+    testCompile 'org.springframework.batch:spring-batch-test:2.2.7.RELEASE'
+    testCompile 'org.springframework:spring-test:3.2.1.RELEASE'
+    testCompile 'junit:junit:4.11'
+}
+
+sourceSets {
+    main {
+        java {
+            srcDir 'src/main/java'
+        }
+        resources {
+            srcDir 'src/main/resources'
+            include "persistence.xml"
+        }
+    }
+    test {
+        java {
+            srcDir 'test/java'
+        }
+    }
+}
+
+task copyToRepo(type: Copy) {
+    into "$buildDir/output/repo"
+    from configurations.runtime
+}
+task copyToBatchRepo(type: Copy) {
+    into "$buildDir/output/batchrepo"
+    from {(configurations.runtime - project(":VidyoPortal").configurations.runtime)}
+}
+jar.dependsOn {
+    ['copyToRepo' ,'copyToBatchRepo']
+}
+
+task batchPackage(type: Tar) {
+    description "Generates a batch job package with portal libs."
+    extension = 'tar.gz'
+    baseName = 'vidyo-portal-batch'
+    compression = Compression.GZIP
+
+    from("bin") {
+        into "bin"
+        fileMode = 0755
+    }
+    into("classes") {
+        from "src/main/resources"
+        includes = ["activemq.xml", "log4j.xml"]
+    }
+    into("config"){
+        from "src/main/resources/"
+        excludes = ["activemq.xml", "log4j.xml"]
+    }
+    into("lib") {
+        from "build/libs/"
+        from "build/output/repo"
+    }
+}
+batchPackage.dependsOn {
+    'jar'
+}
+
+task batchPackageNoLib(type: Tar) {
+    description "Generates a batch job package without portal libs."
+    extension = 'tar.gz'
+    baseName = 'vidyo-portal-batch'
+    compression = Compression.GZIP
+
+    into("bin") {
+        from "bin"
+    }
+    into("classes") {
+        from "src/main/resources"
+        includes = ["activemq.xml", "log4j.xml"]
+    }
+    into("config"){
+        from "src/main/resources/"
+        excludes = ["activemq.xml", "log4j.xml"]
+    }
+    into("lib") {
+        from "build/libs/"
+        from "build/output/batchrepo"
+        exclude "VidyoPortal.jar"
+    }
+}
+batchPackageNoLib.dependsOn {
+    'jar'
+}
+
+task release(dependsOn: batchPackageNoLib)

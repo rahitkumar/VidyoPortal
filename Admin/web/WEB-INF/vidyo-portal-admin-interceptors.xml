@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+			http://www.springframework.org/schema/beans/spring-beans.xsd
+			http://www.springframework.org/schema/aop
+			http://www.springframework.org/schema/aop/spring-aop.xsd
+			http://www.springframework.org/schema/util
+			http://www.springframework.org/schema/util/spring-util.xsd">
+
+	<!-- AOP Interceptors -->
+	<aop:config>
+		<aop:advisor id="exceptionAdvisor" advice-ref="exceptionInterceptor"
+			pointcut="execution(* com.vidyo.service.*.*(..))"
+			order="1"/>
+		<aop:advisor id="authTransactionHistoryAdvisor" advice-ref="authTransactionHistoryInterceptor"
+			pointcut="execution(* org.springframework.security.authentication.AuthenticationProvider.authenticate(..))"
+			order="2"/>
+		<aop:advisor id="perfAdvisor" advice-ref="performanceMonitorInterceptor"
+			pointcut="(
+			    execution(* com.vidyo.db.*.*(..)) or execution(* com.vidyo.service..*.*(..))
+			    )"
+			order="3"/>
+		<aop:advisor id="transactionHistoryAdvisor" advice-ref="transactionHistoryInterceptor"
+			pointcut="execution(* com.vidyo.service.IMemberService.insertMember(..))
+				or execution(* com.vidyo.service.IMemberService.addLegacy(..))
+				or execution(* com.vidyo.service.IMemberService.updateLegacy(..))				
+				or execution(* com.vidyo.service.IMemberService.updateMember(..))
+				or execution(* com.vidyo.service.IMemberService.deleteMember(..))
+				or execution(* com.vidyo.service.IRoomService.insertRoom(..))
+				or execution(* com.vidyo.service.IRoomService.updateRoom(..))
+				or execution(* com.vidyo.service.IRoomService.deleteRoom(..))
+				or execution(* com.vidyo.service.IGroupService.insertGroup(..))
+				or execution(* com.vidyo.service.IGroupService.updateGroup(..))
+				or execution(* com.vidyo.service.IGroupService.deleteGroup(..))
+				or execution(* com.vidyo.service.EndpointUploadService.insertEndpointUpload(..))
+				or execution(* com.vidyo.service.ISystemService.saveAuthenticationConfig(..))
+				or execution(* com.vidyo.service.interportal.InterPortalConferenceService.*(..))
+				or execution(* com.vidyo.service.ITenantService.insertTenant(..))"
+			order="4"/>
+		<aop:advisor id="passChgTransactionHistoryAdvisor" advice-ref="passChgTransactionHistoryInterceptor"
+			pointcut="execution(* com.vidyo.service.IMemberService.updateSuperPassword(com.vidyo.bo.Member))
+			or execution(* com.vidyo.service.IMemberService.updateMemberPassword(com.vidyo.bo.Member))"
+			order="5"/>
+		<aop:advisor id="authByTokensDeletingAdvisor" advice-ref="deleteAuthTokensAdvice"
+			pointcut="execution(* com.vidyo.service.IMemberService.updateMember(int, com.vidyo.bo.Member))
+			or execution(* com.vidyo.service.IMemberService.updateMember(int, int, com.vidyo.bo.Member))
+			or execution(* com.vidyo.service.IMemberService.updateMemberPassword(com.vidyo.bo.Member))"
+			order="6" />
+		<aop:advisor id="authTokensDeletionByTenantAdvisor" advice-ref="deleteAuthTokensByTenantInterceptor"
+			pointcut="execution(* com.vidyo.service.ISystemService.saveAuthenticationConfig(..))"
+			order="7" />
+	</aop:config>
+
+	<bean id="exceptionInterceptor" class="com.vidyo.interceptors.exception.ExceptionInterceptor">
+		<property name="suppressTrace" value="${exceptiontrace.suppress}"/>
+	</bean>
+
+	<bean id="performanceMonitorInterceptor"
+		  class="com.vidyo.interceptors.performance.PerformanceInterceptor">
+	</bean>
+
+	<bean id="authTransactionHistoryInterceptor" class="com.vidyo.interceptors.transaction.AuthenticationTransactionInterceptor">
+		<property name="transactionService" ref="transactionService"/>
+		<property name="methodNameTransactionMap" ref="methodNameTransactionMap"/>
+		<property name="tenantService" ref="tenantService"/>
+        <property name="memberLoginHistoryService" ref="memberLoginHistoryService" />
+		<property name="memberService" ref="memberService" />
+		<property name="systemService" ref="systemService" />
+		<property name="userDetailsService" ref="userDetailsService"/>
+	</bean>
+
+	<bean id="transactionHistoryInterceptor" class="com.vidyo.interceptors.transaction.TransactionInterceptor">
+		<property name="transactionService" ref="transactionService"/>
+		<property name="userService" ref="userService"/>
+		<property name="memberService" ref="memberService"/>
+		<property name="groupService" ref="groupService"/>
+		<property name="methodNameTransactionMap" ref="methodNameTransactionMap"/>
+		<property name="tenantService" ref="tenantService"/>
+		<property name="roomService" ref="roomService"/>
+		<property name="serviceService" ref="serviceService"/>
+	</bean>
+
+	<util:map id="methodNameTransactionMap">
+		<entry key="insertMember" value="Add User"/>
+		<entry key="addLegacy" value="Add Legacy"/>
+		<entry key="updateLegacy" value="Modify Legacy"/>
+		<entry key="updateMember" value="Modify User"/>
+		<entry key="deleteMember" value="Delete User"/>
+		<entry key="insertRoom" value="Add Room"/>
+		<entry key="updateRoom" value="Modify Room"/>
+		<entry key="deleteRoom" value="Delete Room"/>
+		<entry key="insertGroup" value="Add Group"/>
+		<entry key="updateGroup" value="Modify Group"/>
+		<entry key="deleteGroup" value="Delete Group"/>
+		<entry key="insertEndpointUpload" value="Upload Software"/>
+		<entry key="saveAuthenticationService" value="LDAP Save"/>
+		<entry key="authenticate" value="Login"/>
+		<entry key="logout" value="Logout"/>
+	</util:map>
+
+	<bean id="deleteAuthTokensAdvice"
+		class="com.vidyo.interceptors.authtoken.delete.DeleteAuthTokensAdvice">
+		<property name="vidyoPersistentTokenRepository" ref="tokenRepository" />
+	</bean>
+
+	<bean id="passChgTransactionHistoryInterceptor" class="com.vidyo.interceptors.transaction.PasswordChangeTransactionInterceptor">
+		<property name="tenantService" ref="tenantService" />
+		<property name="transactionService" ref="transactionService" />
+	</bean>
+
+	<bean id="deleteAuthTokensByTenantInterceptor" class="com.vidyo.interceptors.system.AuthTypeModificationsInterceptor">
+		<property name="persistentTokenRepository" ref="tokenRepository"/>
+	</bean>
+</beans>

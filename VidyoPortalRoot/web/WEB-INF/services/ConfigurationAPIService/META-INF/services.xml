@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- This file was auto-generated from WSDL -->
+<!-- by the Apache Axis2 version: 1.6.0  Built on : May 17, 2011 (04:19:43 IST) -->
+<serviceGroup>
+    <service name="ConfigurationAPIService">
+        <messageReceivers>
+            <messageReceiver mep="http://www.w3.org/ns/wsdl/in-out" class="com.vidyo.ws.configurationapi.ConfigurationAPIServiceMessageReceiverInOut"/>
+        </messageReceivers>
+        <!-- <parameter name="ServiceClass">com.vidyo.ws.configurationapi.ConfigurationAPIServiceSkeleton</parameter> -->
+        <parameter name="ServiceObjectSupplier" locked="false">org.apache.axis2.extensions.spring.receivers.SpringServletContextObjectSupplier</parameter>
+        <parameter name="SpringBeanName" locked="false">configurationApiServiceEndPoint</parameter>
+        <parameter name="useOriginalwsdl">true</parameter>
+        <parameter name="modifyUserWSDLPortAddress">true</parameter>
+        <operation name="EnableNetworkComponent" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://ws.vidyo.com/configurationapi">
+            <actionMapping>EnableNetworkComponent</actionMapping>
+            <outputActionMapping>http://ws.vidyo.com/configurationapi/ConfigurationAPIServicePortType/EnableNetworkComponentResponse</outputActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://ws.vidyo.com/configurationapi/ConfigurationAPIServicePortType/EnableNetworkComponent/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://ws.vidyo.com/configurationapi/ConfigurationAPIServicePortType/EnableNetworkComponent/Fault/GeneralFault</faultActionMapping>
+        </operation>
+        <operation name="ListNetworkComponents" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://ws.vidyo.com/configurationapi">
+            <actionMapping>ListNetworkComponents</actionMapping>
+            <outputActionMapping>http://ws.vidyo.com/configurationapi/ConfigurationAPIServicePortType/ListNetworkComponentsResponse</outputActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://ws.vidyo.com/configurationapi/ConfigurationAPIServicePortType/ListNetworkComponents/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://ws.vidyo.com/configurationapi/ConfigurationAPIServicePortType/ListNetworkComponents/Fault/GeneralFault</faultActionMapping>
+        </operation>
+    </service>
+</serviceGroup>

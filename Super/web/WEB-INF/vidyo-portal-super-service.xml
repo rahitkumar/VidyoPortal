@@ -1,0 +1,833 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xmlns:aop="http://www.springframework.org/schema/aop"
+		xmlns:ehcache="http://ehcache-spring-annotations.googlecode.com/svn/schema/ehcache-spring"
+		xmlns:amq="http://activemq.apache.org/schema/core"
+		xmlns:oxm="http://www.springframework.org/schema/oxm"
+	    xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+	    xmlns:tx="http://www.springframework.org/schema/tx"
+	    xmlns:context="http://www.springframework.org/schema/context"
+		xsi:schemaLocation="http://www.springframework.org/schema/beans
+			http://www.springframework.org/schema/beans/spring-beans.xsd
+			http://www.springframework.org/schema/aop
+			http://www.springframework.org/schema/aop/spring-aop.xsd
+			http://ehcache-spring-annotations.googlecode.com/svn/schema/ehcache-spring
+			http://ehcache-spring-annotations.googlecode.com/svn/schema/ehcache-spring/ehcache-spring-1.0.xsd
+			http://activemq.apache.org/schema/core
+			http://activemq.apache.org/schema/core/activemq-core-5.8.0.xsd
+			http://www.springframework.org/schema/oxm
+    		http://www.springframework.org/schema/oxm/spring-oxm.xsd
+       		http://www.springframework.org/schema/data/jpa
+       		http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
+    		http://www.springframework.org/schema/tx
+		    http://www.springframework.org/schema/tx/spring-tx.xsd
+		    http://www.springframework.org/schema/context
+		    http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <import resource="vidyo-portal-super-interceptors.xml"/>
+    	<bean class="com.vidyo.framework.configuration.LdapAppConfiguration"/>
+
+    <jpa:repositories base-package="com.vidyo.superapp, com.vidyo.db.repository"/>
+
+	<context:component-scan base-package="com.vidyo.superapp, 
+	com.vidyo.framework.service, 
+	com.vidyo.service, 
+	com.vidyo.bo,
+	com.vidyo.db,
+	com.vidyo.common.config ">
+		<context:exclude-filter expression="org.springframework.stereotype.Controller" type="annotation"/>
+		<context:exclude-filter expression="com.vidyo.service.lecturemode.LectureModeService" type="assignable"/>
+	</context:component-scan>
+
+	<tx:annotation-driven/>
+
+	<context:annotation-config/>
+	<amq:queue id="statusNotifyMQqueue" physicalName="statusNotify.queue"/>
+	<amq:queue id="emailMessageMQqueue" physicalName="emailMessage.queue"/>
+	<amq:topic id="superDeleteMessageMQtopic" physicalName="superDeleteMessage.topic"/>
+
+	<!-- MQ connection factory -->
+	<bean id="activeMQConnectionFactory" class="org.apache.activemq.spring.ActiveMQConnectionFactory">
+		<property name="brokerURL" value="tcp://localhost:61616"/>
+		<property name="useAsyncSend" value="true"/>
+		<property name="trustedPackages">
+	        <list>
+	            <value>com.vidyo.bo</value>
+	            <value>org.springframework.mail</value>
+	            <value>java.lang</value>	            
+	        </list>
+        </property>
+	</bean>
+
+	<bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
+		<property name="connectionFactory" ref="activeMQConnectionFactory"/>
+	</bean>
+
+	<bean id="jmsProducerTemplate" class="org.springframework.jms.core.JmsTemplate">
+		<property name="connectionFactory" ref="activeMQConnectionFactory"/>
+		<property name="pubSubDomain" value="true"/>
+	</bean>
+
+	<!-- Configurer that replaces ${...} placeholders with values from a properties file -->
+	<!-- (in this case, JDBC-related settings for the dataSoource definition below) -->
+	<bean id="propertyConfigurer" class="com.vidyo.framework.propertyconfig.OpenPropertyPlaceholderConfigurer">
+        <property name="location" value="file:/usr/local/tomcat/repo/vidyoportal/portal.properties" />
+	</bean>
+
+	<!-- Message source for this context, loaded from localized "messages_xx" files -->
+	<bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+		<property name="basename" value="classpath:messages"/>
+		<property name="defaultEncoding" value="UTF-8"/>
+	</bean>
+
+	<ehcache:annotation-driven cache-manager="superCacheManager" />
+
+	<bean id="HashCodeCacheKeyGenerator" class="com.googlecode.ehcache.annotations.key.HashCodeCacheKeyGenerator"/>
+	<bean id="StringCacheKeyGenerator" class="com.googlecode.ehcache.annotations.key.StringCacheKeyGenerator"/>
+	<bean id="superCacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
+		<property name="configLocation" value="/WEB-INF/ehcache-super.xml" />
+		<property name="shared" value="true"/>
+		<!-- <property name="cacheManagerName" value="superCacheManager"/>-->
+	</bean>
+
+	<bean id="localeChangeInterceptor" class="com.vidyo.interceptors.web.VidyoLocaleChangeInterceptor">
+		<property name="paramName" value="lang" />
+		<property name="systemService" ref="systemService" />
+	</bean>
+
+	<!-- DataSource -->
+	<bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+		<property name="jndiName" value="java:comp/env/jdbc/portal2" />
+		<property name="resourceRef" value="true"/>
+	</bean>
+
+	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<bean id="namedParamJdbcTemplate" class="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate">
+		<constructor-arg name="dataSource" ref="dataSource" />
+	</bean>
+
+	<bean id="auditDataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+		<property name="jndiName" value="java:comp/env/jdbc/portal2audit" />
+		<property name="resourceRef" value="true"/>
+	</bean>
+
+	<bean id="auditJdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource" ref="auditDataSource" />
+	</bean>
+
+
+	<!-- EMail sender -->
+	<bean id="emailService" class="com.vidyo.service.email.EmailServiceImpl">
+		<property name="systemDao" ref="systemDao" />
+		<!-- Email Message to MQ -->
+		<property name="jmsTemplate" ref="jmsTemplate"/>
+		<property name="emailMessageMQqueue" ref="emailMessageMQqueue"/>
+	</bean>
+
+	<!-- Login service -->
+	<bean id="loginDao" class="com.vidyo.db.LoginDaoJdbcImpl">
+		<property name="jdbcTemplate" ref="jdbcTemplate" />
+	</bean>
+
+	<bean id="loginService" class="com.vidyo.service.LoginServiceImpl">
+		<property name="dao" ref="loginDao" />
+		<property name="memberDao" ref="memberDao" />
+		<property name="emailService" ref="emailService" />
+		<property name="system" ref="systemService" />
+		<property name="ms" ref="messageSource" />
+	</bean>
+
+	<!-- User service -->
+	<bean id="userDao" class="com.vidyo.db.UserDaoJdbcImpl">
+		<property name="jdbcTemplate" ref="jdbcTemplate" />
+		<property name="namedParamJdbcTemplate" ref="namedParamJdbcTemplate"/>
+	</bean>
+
+	<bean id="availableDeviceDao" class="com.vidyo.db.AvailableDeviceDaoJdbcImpl">
+		<property name="jdbcTemplate" ref="jdbcTemplate"/>
+	</bean>
+
+	<bean id="userService" class="com.vidyo.service.UserServiceImpl">
+		<property name="dao" ref="userDao" />
+		<property name="system" ref="systemDao" />
+		<property name="conference" ref="conferenceService" />
+		<property name="tenantService" ref="tenantService" />
+		<property name="emailService" ref="emailService" />
+		<property name="ms" ref="messageSource" />
+	</bean>
+
+	<!-- Member service -->
+	<bean id="memberDao" class="com.vidyo.db.MemberDaoJdbcImpl">
+		<property name="jdbcTemplate" ref="jdbcTemplate" />
+		<property name="namedParamJdbcTemplate" ref="namedParamJdbcTemplate"/>
+	</bean>
+
+	<bean id="memberService" class="com.vidyo.service.MemberServiceImpl">
+		<property name="conference" ref="conferenceService" />
+		<property name="dao" ref="memberDao" />
+		<property name="room" ref="roomService" />
+		<property name="tenantService" ref="tenantService" />
+		<property name="user" ref="userService" />
+		<property name="groupService" ref="groupService" />
+		<property name="systemService" ref="systemService" />
+		<property name="serviceDao" ref="serviceDao" />
+		<property name="thumbNailLocation" value="${upload.thumbnail.dir}" />
+	</bean>
+
+	<!-- Room service -->
+	<bean id="roomDao" class="com.vidyo.db.RoomDaoJdbcImpl">
+		<property name="jdbcTemplate" ref="jdbcTemplate" />
+		<property name="namedParamJdbcTemplate" ref="namedParamJdbcTemplate"/>
+	</bean>
+
+	<bean id="roomPropertiesGenerator" class="com.vidyo.utils.room.RoomExtnGenerator">
+		<property name="tenantConfigurationDao" ref="tenantConfigurationDao" />
+		<property name="roomDao" ref="roomDao" />
+	</bean>
+
+	<bean id="roomService" class="com.vidyo.service.RoomServiceImpl">
+		<property name="dao" ref="roomDao" />
+		<property name="tenantService" ref="tenantService" />
+		<property name="memberService" ref="memberService1"/>
+		<property name="systemService" ref="systemService1" />
+		<property name="generator" ref="roomPropertiesGenerator" />
+	</bean>
+
+	<!-- Group service -->
+	<bean id="groupDao" class="com.vidyo.db.GroupDaoJdbcImpl">
+		<property name="jdbcTemplate" ref="jdbcTemplate" />
+		<property name="namedParamJdbcTemplate" ref="namedParamJdbcTemplate"/>
+	</bean>
+
+	<bean id="groupService" class="com.vidyo.service.GroupServiceImpl">
+		<property name="dao" ref="groupDao" />
+		<property name="room" ref="roomService" />
+		<property name="tenantLdapAttributesMappingDao" ref="tenantLdapAttributesDao" />
+		<property name="tenantIdpAttributesMappingDao" ref="tenantIdpAttributesDao" />
+	</bean>
+
+	<!-- Router service -->
+	<bean id="routerDao" class="com.vidyo.db.RouterDaoJdbcImpl">
+		<property name="jdbcTemplate" ref="jdbcTemplate" />
+	</bean>
+
+	<bean id="routerService" class="com.vidyo.service.RouterServiceImpl">
+		<property name="dao" ref="routerDao" />
+	</bean>
+
+	<!-- Service service -->
+	<bean id="serviceDao" class="com.vidyo.db.ServiceDaoJdbcImpl">
+		<property name="jdbcTemplate" ref="jdbcTemplate" />
+	</bean>
+
+	<bean id="serviceService" class="com.vidyo.service.ServiceServiceImpl">
+		<property name="dao" ref="serviceDao" />
+		<property name="router" ref="routerService" />
+        <property name="cloudMarshaller" ref="cloudJaxb2Marshaller" />
+        <property name="vmMarshaller" ref="vmJaxb2Marshaller" />
+        <property name="vrMarshaller" ref="vrJaxb2Marshaller" />
+        <property name="tenantLdapAttributesMappingDao" ref="tenantLdapAttributesDao" />
+        <property name="tenantIdpAttributesMappingDao" ref="tenantIdpAttributesDao" />
+        <property name="systemService" ref="systemService" />
+        <property name="useNewGatewayServiceInterface" value="${useNewGatewayServiceInterface}"/>
+	</bean>
+
+	<!-- Network service -->
+	<bean id="networkService" class="com.vidyo.service.NetworkServiceImpl" />
+
+	<!-- Licensing service -->
+	<bean id="licensingService" class="com.vidyo.service.LicensingServiceImpl">
+		<property name="member" ref="memberService" />
+		<property name="system" ref="systemService" />
+		<property name="tenant" ref="tenantService" />
+		<property name="licenseDao" ref="licenseDao" />
+	</bean>
+
+	<!-- Endpoint Upload service -->
+	<bean id="endpointUploadDao" class="com.vidyo.db.EndpointUploadDaoJdbcImpl">
+		<property name="jdbcTemplate" ref="jdbcTemplate" />
+		<property name="namedParamJdbcTemplate" ref="namedParamJdbcTemplate"/>
+	</bean>
+
+	<bean id="endpointUploadService" class="com.vidyo.service.EndpointUploadServiceImpl">
+		<property name="dao" ref="endpointUploadDao" />
+	</bean>
+
+	<!-- Conference service -->
+	<bean id="conferenceDao" class="com.vidyo.db.ConferenceDaoJdbcImpl">
+		<property name="jdbcTemplate" ref="jdbcTemplate" />
+		<property name="namedParamJdbcTemplate" ref="namedParamJdbcTemplate"/>
+	</bean>
+
+	<bean id="conferenceService" class="com.vidyo.service.ConferenceServiceImpl">
+		<property name="dao" ref="conferenceDao" />
+		<property name="room" ref="roomService" />
+		<property name="member" ref="memberService" />
+		<property name="group" ref="groupService" />
+		<property name="system" ref="systemService" />
+		<property name="user" ref="userService" />
+		<property name="tenant" ref="tenantService" />
+		<property name="licensingService" ref="licensingService"/>
+		<property name="federationDao" ref="federationDao"/>
+		<property name="transactionService" ref="transactionService"/>
+        <property name="gatewayVcapClient" ref="gatewayVcapClient"/>
+        <property name="servicesService" ref="serviceService"/>
+        <property name="lectureModeDao" ref="lectureModeDao" />
+    </bean>
+
+    <bean id="gatewayVcapClient" class="com.vidyo.rest.clients.gateway.GatewayVcapClient">
+        <property name="servicesService" ref="serviceService"/>
+    </bean>
+
+    <bean id="restTemplate" class="org.springframework.web.client.RestTemplate">
+        <constructor-arg>
+            <bean class="org.springframework.http.client.SimpleClientHttpRequestFactory">
+                <property name="connectTimeout" value="${restClientConnectionTimeout}" />
+                <property name="readTimeout" value="${restClientReadTimeout}" />
+            </bean>
+        </constructor-arg>
+    </bean>
+
+
+	<bean id="statusNotificationService"
+		class="com.vidyo.service.statusnotify.StatusNotificationServiceImpl">
+		<property name="conferenceService" ref="conferenceService" />
+		<property name="statusNotificationDao" ref="statusNotificationDao" />
+		<property name="systemService" ref="systemService" />
+		<property name="emailService" ref="emailService" />
+		<property name="licensingService" ref="licensingService" />
+		<property name="tenantService" ref="tenantService" />
+		<property name="jmsTemplate" ref="jmsTemplate" />
+		<property name="statusNotifyMQqueue" ref="statusNotifyMQqueue" />
+	</bean>
+
+	<bean id="statusNotificationDao" class="com.vidyo.db.statusnotify.StatusNotificationDaoJdbcImpl">
+		<property name="jdbcTemplate" ref="jdbcTemplate" />
+	</bean>
+
+
+	<!-- System service -->
+	<bean id="connectionManagerParams"
+		class="org.apache.commons.httpclient.params.HttpConnectionManagerParams">
+		<property name="maxTotalConnections" value="5" />
+		<property name="defaultMaxConnectionsPerHost" value="1" />
+		<property name="connectionTimeout" value="20000" />
+		<!-- <property name="staleCheckingEnabled" value="true"/> -->
+	</bean>
+
+	<bean id="connectionManager"
+		class="org.apache.commons.httpclient.MultiThreadedHttpConnectionManager">
+		<property name="params" ref="connectionManagerParams" />
+	</bean>
+
+	<bean id="systemDao" class="com.vidyo.db.SystemDaoJdbcImpl">
+		<property name="jdbcTemplate" ref="jdbcTemplate" />
+		<property name="namedParamJdbcTemplate" ref="namedParamJdbcTemplate"/>
+	</bean>
+
+	<bean id="systemService" class="com.vidyo.service.SystemServiceImpl">
+		<property name="dao" ref="systemDao" />
+		<!-- <property name="conferenceDao" ref="conferenceDao"/> -->
+		<property name="dbBackupPath" value="${dbbackup.path}" />
+		<property name="license" ref="licensingService" />
+		<property name="member" ref="memberService" />
+		<property name="ms" ref="messageSource" />
+		<property name="tenantService" ref="tenantService" />
+		<property name="connectionManager" ref="connectionManager" />
+		<property name="propertyPlaceholderConfigurer" ref="propertyConfigurer" />
+		<property name="jdbcURL" value="${jdbc.url}" />
+        <property name="attributesMapper" ref="ldapUserToMemberAttributesMapper"/>
+        <property name="samlAuthenticationService" ref="samlAuthenticationService"/>
+        <property name="portalExecutablesPath" value="/opt/vidyo/bin/"/>
+        <property name="transactionService" ref="transactionService" />
+        <property name="roomService" ref="roomService" />
+        <property name="cacheAdministration" ref="cacheAdministrationService" />
+		<property name="uploadTempDirSuper" value="${upload.temp.dir.super}"/>
+		<property name="cacCertificateLocationStg" value="${upload.stg.cert.dir.cac}"/>
+		<property name="cacCertificateLocation" value="${upload.cert.dir.cac}"/>
+		<property name="upload_dir" value="${upload.dir.super}"/>
+	</bean>
+
+	<!-- Tenant service -->
+	<bean id="tenantDao" class="com.vidyo.db.TenantDaoJdbcImpl">
+		<property name="jdbcTemplate" ref="jdbcTemplate" />
+		<property name="namedParamJdbcTemplate" ref="namedParamJdbcTemplate"/>
+	</bean>
+
+	<bean id="tenantConfigurationDao" class="com.vidyo.db.TenantConfigurationDaoJdbcImpl">
+		<property name="jdbcTemplate" ref="jdbcTemplate"/>
+	</bean>
+
+	<bean id="tenantService" class="com.vidyo.service.TenantServiceImpl">
+		<property name="dao" ref="tenantDao" />
+		<property name="systemDao" ref="systemDao"/>
+		<property name="license" ref="licensingService" />
+		<property name="ipcConfigurationService" ref="ipcConfigurationService" />
+		<property name="roomService" ref="roomService"/>
+		<property name="tenantLdapAttributesMappingDao" ref="tenantLdapAttributesDao" />
+		<property name="tenantIdpAttributesMappingDao" ref="tenantIdpAttributesDao" />
+		<property name="systemService" ref="systemService" />
+		<property name="serviceService" ref="serviceService" />
+		<property name="memberService" ref="memberService"/>
+		<property name="groupDao" ref="groupDao"/>
+		<property name="roomDao" ref="roomDao"/>
+		<property name="endpointUploadDao" ref="endpointUploadDao"/>
+		<property name="tenantConfigurationDao" ref="tenantConfigurationDao" />
+		<property name="memberService2" ref="memberService1" />
+		<property name="ignoreTenantUrls">
+            <list>
+                <value>127.0.0.1</value>
+                <value>::1</value>
+                <value>localhost</value>
+            </list>
+		</property>
+		<property name="conferenceService" ref="conferenceService" />
+		<property name="transactionService" ref="transactionService" />
+	</bean>
+
+    <!--  Security service -->
+    <bean id="securityService" class="com.vidyo.service.SecurityServiceImpl">
+        <property name="messages" ref="messageSource"/>
+		<property name="tmpDirectory" value="${upload.temp.dir.super}"/>
+    </bean>
+
+	<!-- Server restart listener -->
+	<bean id="applicationRestartListener" class="com.vidyo.framework.listeners.ApplicationRestartListener" />
+
+	<bean id="ipcConfigurationService"
+		class="com.vidyo.service.interportal.IpcConfigurationServiceImpl">
+		<property name="interPortalConferenceDao" ref="interPortalConferenceDao" />
+	</bean>
+
+	<bean id="interPortalConferenceService"
+		class="com.vidyo.service.interportal.InterPortalConferenceServiceImpl">
+		<property name="ipcConfigurationService" ref="ipcConfigurationService" />
+		<property name="systemService" ref="systemService" />
+		<property name="ipcDomainService" ref="ipcDomainService" />
+	</bean>
+
+	<bean id="interPortalConferenceDao" class="com.vidyo.db.InterPortalConferenceDaoJdbcImpl">
+		<property name="jdbcTemplate" ref="jdbcTemplate" />
+	</bean>
+
+	<bean id="ipcDomainService" class="com.vidyo.service.IpcDomainServiceImpl">
+		<property name="ipcDomainDao" ref="ipcDomainDao" />
+	</bean>
+
+	<bean id="ipcDomainDao" class="com.vidyo.db.ipcdomain.IpcDomainDaoJdbcImpl">
+		<property name="jdbcTemplate" ref="jdbcTemplate" />
+	</bean>
+
+	<bean id="transactionService" class="com.vidyo.service.transaction.TransactionServiceImpl">
+		<property name="transactionDao" ref="transactionDao" />
+		<property name="tenantDao" ref="tenantDao"/>
+	</bean>
+
+	<bean id="transactionDao" class="com.vidyo.db.transaction.TransactionDaoJdbcImpl">
+		<property name="jdbcTemplate" ref="auditJdbcTemplate" />
+	</bean>
+
+    <bean id="memberLoginHistoryService" class="com.vidyo.service.loginhistory.MemberLoginHistoryServiceImpl">
+		<property name="memberLoginHistoryDao" ref="memberLoginHistoryDao"/>
+	</bean>
+
+	<bean id="memberLoginHistoryDao" class="com.vidyo.db.loginhistory.MemberLoginHistoryDaoJdbcImpl">
+		<property name="dataSource" ref="dataSource"/>
+	</bean>
+
+	<bean id="memberPasswordHistoryService" class="com.vidyo.service.passwdhistory.MemberPasswordHistoryServiceImpl">
+		<property name="memberService" ref="memberService"/>
+		<property name="memberPasswordHistoryDAO" ref="memberPasswordHistoryDAO" />
+	</bean>
+
+	<bean id="memberPasswordHistoryDAO" class="com.vidyo.db.passwdhistory.MemberPasswordHistoryDAOJdbcImpl">
+		<property name="dataSource" ref="dataSource"/>
+	</bean>
+
+	<bean id="cloudJaxb2Marshaller" class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
+		<property name="classesToBeBound">
+			<list>
+				<value>com.vidyo.parser.xml.cloudconfig.AndType</value>
+				<value>com.vidyo.parser.xml.cloudconfig.BandwidthMapType</value>
+				<value>com.vidyo.parser.xml.cloudconfig.BasicAndType</value>
+				<value>com.vidyo.parser.xml.cloudconfig.BasicNotType</value>
+				<value>com.vidyo.parser.xml.cloudconfig.BasicOrType</value>
+				<value>com.vidyo.parser.xml.cloudconfig.BasicRuleSet</value>
+				<value>com.vidyo.parser.xml.cloudconfig.BasicRuleType</value>
+				<value>com.vidyo.parser.xml.cloudconfig.Candidates</value>
+				<value>com.vidyo.parser.xml.cloudconfig.CategoriesType</value>
+				<value>com.vidyo.parser.xml.cloudconfig.EqualToType</value>
+				<value>com.vidyo.parser.xml.cloudconfig.GreaterThanOrEqualToType</value>
+				<value>com.vidyo.parser.xml.cloudconfig.GreaterThanType</value>
+				<value>com.vidyo.parser.xml.cloudconfig.GroupType</value>
+				<value>com.vidyo.parser.xml.cloudconfig.IPV4AddressRangeType</value>
+				<value>com.vidyo.parser.xml.cloudconfig.IPV4SubnetType</value>
+				<value>com.vidyo.parser.xml.cloudconfig.LessThanOrEqualToType</value>
+				<value>com.vidyo.parser.xml.cloudconfig.LessThanType</value>
+				<value>com.vidyo.parser.xml.cloudconfig.ListMemberType</value>
+				<value>com.vidyo.parser.xml.cloudconfig.LocationType</value>
+				<value>com.vidyo.parser.xml.cloudconfig.NetworkConfigType</value>
+				<value>com.vidyo.parser.xml.cloudconfig.NetworkElement</value>
+				<value>com.vidyo.parser.xml.cloudconfig.NotType</value>
+				<value>com.vidyo.parser.xml.cloudconfig.OrType</value>
+				<value>com.vidyo.parser.xml.cloudconfig.RuleSetType</value>
+				<value>com.vidyo.parser.xml.cloudconfig.ObjectFactory</value>
+			</list>
+		</property>
+		<property name="marshallerProperties">
+	        <map>
+	            <entry key="jaxb.formatted.output">
+	                <value type="boolean">true</value>
+	            </entry>
+	        </map>
+   		 </property>
+		<property name="schema"
+			value="classpath:com/vidyo/parser/xml/NetworkConfig.xsd" />
+	</bean>
+
+	<bean id="vmJaxb2Marshaller" class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
+		<property name="classesToBeBound">
+			<list>
+				<value>com.vidyo.parser.xml.vmconfig.VMConfigType</value>
+				<value>com.vidyo.parser.xml.vmconfig.VpURI</value>
+				<value>com.vidyo.parser.xml.vmconfig.ObjectFactory</value>
+			</list>
+		</property>
+		<property name="marshallerProperties">
+	        <map>
+	            <entry key="jaxb.formatted.output">
+	                <value type="boolean">true</value>
+	            </entry>
+	        </map>
+   		 </property>
+		<property name="schema" value="classpath:com/vidyo/parser/xml/vmconfig.xsd" />
+	</bean>
+
+	<bean id="vrJaxb2Marshaller" class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
+		<property name="classesToBeBound">
+			<list>
+				<value>com.vidyo.parser.xml.vrconfig.MediaStreamPrecedenceType</value>
+				<value>com.vidyo.parser.xml.vrconfig.ObjectFactory</value>
+				<value>com.vidyo.parser.xml.vrconfig.VMAccessType</value>
+				<value>com.vidyo.parser.xml.vrconfig.VRConfigType</value>
+				<value>com.vidyo.parser.xml.vrconfig.VrURI</value>
+			</list>
+		</property>
+		<property name="marshallerProperties">
+	        <map>
+	            <entry key="jaxb.formatted.output">
+	                <value type="boolean">true</value>
+	            </entry>
+	        </map>
+   		 </property>
+		<property name="schema" value="classpath:com/vidyo/parser/xml/vrconfig.xsd" />
+	</bean>
+
+	<bean id="federationDao" class="com.vidyo.db.FederationDaoJdbcImpl">
+		<property name="jdbcTemplate" ref="jdbcTemplate"/>
+	</bean>
+
+	<bean id="federationConferenceService" class="com.vidyo.service.FederationConferenceServiceImpl">
+		<property name="dao" ref="conferenceDao"/>
+		<property name="room" ref="roomService"/>
+		<property name="member" ref="memberService"/>
+		<property name="group" ref="groupService"/>
+		<property name="system" ref="systemService"/>
+		<property name="user" ref="userService"/>
+		<property name="tenant" ref="tenantService"/>
+		<property name="licensingService" ref="licensingService" />
+		<property name="interPortalConferenceService" ref="interPortalConferenceService"/>
+		<property name="federationDao" ref="federationDao"/>
+		<property name="transactionService" ref="transactionService"/>
+        <property name="gatewayVcapClient" ref="gatewayVcapClient"/>
+        <property name="servicesService" ref="serviceService"/>
+        <property name="lectureModeDao" ref="lectureModeDao" />
+	</bean>
+
+	<bean id="appEventListener" class="com.vidyo.framework.listeners.ApplicationEventListener">
+		<property name="tenantService" ref="tenantService" />
+		<property name="transactionService" ref="transactionService" />
+	</bean>
+
+	<!-- MemberService interface without TenantHolder -->
+	<bean id="memberService1" class="com.vidyo.service.member.MemberServiceImpl">
+		<property name="memberDao" ref="memberDao"/>
+		<property name="memberService" ref="memberService"/>
+		<property name="userService" ref="userService" />
+		<property name="roomService" ref="roomService" />
+		<property name="tenantService" ref="tenantService" />
+		<property name="groupService" ref="groupService" />
+		<property name="systemService" ref="systemService" />
+		<property name="licenseService" ref="licensingService" />
+		<property name="serviceService" ref="serviceService" />
+		<property name="emailService" ref="emailService" />
+		<property name="serviceDao" ref="serviceDao" />
+	</bean>
+
+	<!-- LDAP Integration -->
+	<bean id="ldapUserToMemberAttributesMapper" class="com.vidyo.service.ldap.LdapUserToMemberAttributesMapperImpl">
+		<property name="system" ref="systemService"/>
+		<property name="group" ref="groupService"/>
+		<property name="member" ref="memberService"/>
+		<property name="room" ref="roomService"/>
+		<property name="tenantLdapAttributes" ref="tenantLdapAttributes"/>
+		<property name="license" ref="licensingService"/>
+		<property name="tenantService" ref="tenantService" />
+	</bean>
+
+	<bean id="tenantLdapAttributesDao" class="com.vidyo.db.ldap.TenantLdapAttributesMappingDaoJdbcImpl">
+		<property name="jdbcTemplate" ref="jdbcTemplate"/>
+	</bean>
+
+	<bean id="tenantLdapAttributes" class="com.vidyo.service.ldap.TenantLdapAttributesMappingImpl">
+		<property name="dao" ref="tenantLdapAttributesDao"/>
+		<property name="memberDao" ref="memberDao"/>
+		<property name="groupDao" ref="groupDao"/>
+		<property name="serviceDao" ref="serviceDao"/>
+	</bean>
+
+    <bean id="installationService" class="com.vidyo.service.installation.InstallationServiceImpl">
+    </bean>
+
+    <bean id="logoutHandler" class="org.springframework.security.web.authentication.logout.LogoutHandler">
+    </bean>
+
+	<bean id="systemService1" class="com.vidyo.service.system.SystemServiceImpl">
+		<property name="systemDao" ref="systemDao"/>
+		<property name="httpConnectionManager" ref="connectionManager"/>
+	</bean>
+
+    <bean id="samlAuthenticationService" class="com.vidyo.service.authentication.saml.SamlAuthenticationServiceImpl">
+        <property name="systemDao" ref="systemDao"/>
+        <property name="tenantService" ref="tenantService"/>
+        <property name="tenantIdpAttributesMappingDao" ref="tenantIdpAttributesDao"/>
+        <property name="memberService1" ref="memberService1"/>
+        <property name="systemService" ref="systemService"/>
+    </bean>
+
+    <bean id="tenantIdpAttributesDao" class="com.vidyo.db.idp.TenantIdpAttributesMappingDaoJdbcImpl">
+		<property name="jdbcTemplate" ref="jdbcTemplate"/>
+	</bean>
+
+	<bean id="tenantIdpAttributes" class="com.vidyo.service.idp.TenantIdpAttributesMappingImpl">
+		<property name="tenantIdpAttributesMappingDao" ref="tenantIdpAttributesDao"/>
+		<property name="groupDao" ref="groupDao"/>
+		<property name="memberDao" ref="memberDao"/>
+		<property name="serviceDao" ref="serviceDao"/>
+	</bean>
+
+    <bean id="userAuthDao" class="com.vidyo.db.authentication.UserAuthDaoJdbcImpl">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="usersByUsernameQuery">
+            <value>
+                SELECT
+                m.username as username,
+                m.password as password,
+                m.bak as bak,
+                m.sak as sak,
+                CASE
+                    WHEN m.active = 1 THEN 'true' ELSE 'false'
+                END as enabled,
+                CASE
+                    WHEN m.allowedToParticipate = 1 THEN 'true' ELSE 'false'
+	            END as allowedToParticipate,
+	            m.importedUsed as importedUser,
+	            m.tenantID as tenantID,
+	            m.memberID as memberID,
+				m.langID as langId,
+				m.memberName as memberName,
+				m.emailAddress as emailAddress,
+				m.pak2 as pak2,
+				m.lastModifiedDateExternal as lastModifiedDateExternal
+                FROM
+                Member m
+                WHERE
+                m.username = ?
+                AND
+                m.tenantID = ?
+            </value>
+        </property>
+        <property name="authoritiesByUsernameQuery">
+            <value>
+                SELECT
+                m.username as username,
+                CASE
+                    WHEN mr.roleName = 'Admin' THEN 'ROLE_ADMIN'
+                    WHEN mr.roleName = 'Operator' THEN 'ROLE_OPERATOR'
+                    WHEN mr.roleName = 'Normal' THEN 'ROLE_NORMAL'
+                    WHEN mr.roleName = '${vidyoroomrolename}' THEN 'ROLE_VIDYOROOM'
+                    WHEN mr.roleName = 'Super' THEN 'ROLE_SUPER'
+                    WHEN mr.roleName = 'Executive' THEN 'ROLE_EXECUTIVE'
+                    WHEN mr.roleName = 'Audit' THEN 'ROLE_AUDIT'
+                END as authority
+                FROM
+                Member m
+                INNER JOIN MemberRole mr ON (mr.roleID=m.roleID)
+                WHERE
+                m.username = ?
+                AND
+                m.tenantID = ?
+            </value>
+        </property>
+    </bean>
+
+	<bean id="licenseDao" class="com.vidyo.db.license.LicenseDaoSudoImpl">
+		<property name="licenseScript" value="/opt/vidyo/app/VPLicenseMgr/bin/VPLicenseMgr" />
+		<property name="licenseTextFilePath" value="/opt/vidyo/portal2/license/license.txt" />
+	</bean>
+
+    <bean id="lectureModeDao" class="com.vidyo.db.lecturemode.LectureModeDaoImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+	<bean id="entityManagerFactory"
+		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="jpaDialect">
+			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaDialect"/>
+		</property>
+		<property name="jpaVendorAdapter" ref="jpaVendorAdapter"/>
+		<property name="persistenceXmlLocation" value="classpath:persistence.xml"/>
+
+	</bean>
+
+	<bean id="jpaVendorAdapter" class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+        <property name="showSql" value="false"/>
+        <property name="generateDdl" value="false"/>
+        <property name="database" value="MYSQL"/>
+    </bean>
+
+	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+		<property name="entityManagerFactory" ref="entityManagerFactory"/>
+		<property name="dataSource" ref="dataSource"/>
+	</bean>
+
+	<bean id="cacheAdministrationService" class="com.vidyo.service.cache.CacheAdministrationServiceImpl">
+		<property name="cacheManager" ref="superCacheManager"/>
+	</bean>
+
+	<!-- this only runs on super START -->
+	<bean id="clearCachesFileWatcherThread" class="java.lang.Thread" init-method="start" destroy-method="interrupt">
+		<constructor-arg ref="clearCachesFileWatcher"/>
+		<constructor-arg value="clearCachesFileWatcherThread"/>
+	</bean>
+	<bean id="clearCachesFileWatcher" class="com.vidyo.framework.system.ClearCachesFileWatcher">
+		<property name="cacheAdministrationService" ref="cacheAdministrationService"/>
+		<property name="clearCachesWatchDirectory" value="/home/tomcat" />
+		<property name="clearCachesWatchFileName" value="CLEAR_CACHES" />
+		<property name="licensingService" ref="licensingService" />
+		<property name="licenseCacheFilePath" value="/opt/vidyo/portal2/license/license.txt" />
+	</bean>
+	<bean id="superContextClosedListener" class="com.vidyo.framework.listeners.SuperContextClosedListener">
+		<property name="clearCachesFileWatcherThread" ref="clearCachesFileWatcherThread"/>
+	</bean>
+
+	<bean id="superContextStartedListener" class="com.vidyo.framework.listeners.SuperContextRefreshedListener">
+		<property name="licenseService" ref="licensingService"/>
+	</bean>
+	<!-- this only runs on super END -->
+
+	<bean id="networkJaxb2Marshaller" class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
+		<property name="classesToBeBound">
+			<list>
+				<value>com.vidyo.parser.xsd.networkconfig.AndType</value>
+				<value>com.vidyo.parser.xsd.networkconfig.BandwidthMapElementType</value>
+				<value>com.vidyo.parser.xsd.networkconfig.BandwidthMapType</value>
+				<value>com.vidyo.parser.xsd.networkconfig.BasicAndType</value>
+				<value>com.vidyo.parser.xsd.networkconfig.BasicNotType</value>
+				<value>com.vidyo.parser.xsd.networkconfig.BasicOrType</value>
+				<value>com.vidyo.parser.xsd.networkconfig.BasicRuleSet</value>
+				<value>com.vidyo.parser.xsd.networkconfig.BasicRuleType</value>
+				<value>com.vidyo.parser.xsd.networkconfig.Candidates</value>
+				<value>com.vidyo.parser.xsd.networkconfig.CategoriesType</value>
+				<value>com.vidyo.parser.xsd.networkconfig.EqualToType</value>
+				<value>com.vidyo.parser.xsd.networkconfig.GreaterThanOrEqualToType</value>
+				<value>com.vidyo.parser.xsd.networkconfig.GreaterThanType</value>
+				<value>com.vidyo.parser.xsd.networkconfig.GroupListType</value>
+				<value>com.vidyo.parser.xsd.networkconfig.GroupType</value>
+				<value>com.vidyo.parser.xsd.networkconfig.IPV4AddressRangeType</value>
+				<value>com.vidyo.parser.xsd.networkconfig.IPV4SubnetType</value>
+				<value>com.vidyo.parser.xsd.networkconfig.LessThanOrEqualToType</value>
+				<value>com.vidyo.parser.xsd.networkconfig.LessThanType</value>
+				<value>com.vidyo.parser.xsd.networkconfig.ListMemberType</value>
+				<value>com.vidyo.parser.xsd.networkconfig.LocationType</value>
+				<value>com.vidyo.parser.xsd.networkconfig.NetworkConfigType</value>
+				<value>com.vidyo.parser.xsd.networkconfig.NetworkElement</value>
+				<value>com.vidyo.parser.xsd.networkconfig.NetworkElementsType</value>
+				<value>com.vidyo.parser.xsd.networkconfig.NotType</value>
+				<value>com.vidyo.parser.xsd.networkconfig.OrType</value>
+				<value>com.vidyo.parser.xsd.networkconfig.RuleSetType</value>
+				<value>com.vidyo.parser.xsd.networkconfig.PrioritizedGroupListsType</value>
+				<value>com.vidyo.parser.xsd.networkconfig.SCIPListenAddressType</value>
+				<value>com.vidyo.parser.xsd.networkconfig.ObjectFactory</value>
+			</list>
+		</property>
+		<property name="marshallerProperties">
+	        <map>
+	            <entry key="jaxb.formatted.output">
+	                <value type="boolean">true</value>
+	            </entry>
+	        </map>
+   		 </property>
+		<property name="schema"
+			value="classpath:com/vidyo/parser/xsd/NetConfigParser.xsd" />
+	</bean>
+
+	<bean id="managerJaxb2Marshaller" class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
+		<property name="classesToBeBound">
+			<list>
+				<value>com.vidyo.parser.xsd.vmconfig.DatabaseConfigType</value>
+				<value>com.vidyo.parser.xsd.vmconfig.EMCPListenAddressType</value>
+				<value>com.vidyo.parser.xsd.vmconfig.RMCPListenAddressType</value>
+				<value>com.vidyo.parser.xsd.vmconfig.SOAPListenAddressType</value>
+				<value>com.vidyo.parser.xsd.vmconfig.VidyoPortalConnectAddressType</value>
+				<value>com.vidyo.parser.xsd.vmconfig.VMConfigType</value>
+				<value>com.vidyo.parser.xsd.vmconfig.VpURI</value>
+				<value>com.vidyo.parser.xsd.vmconfig.ObjectFactory</value>
+			</list>
+		</property>
+		<property name="marshallerProperties">
+	        <map>
+	            <entry key="jaxb.formatted.output">
+	                <value type="boolean">true</value>
+	            </entry>
+	        </map>
+   		 </property>
+		<property name="schema" value="classpath:com/vidyo/parser/xsd/VMConfigParser.xsd" />
+	</bean>
+
+	<bean id="routerJaxb2Marshaller" class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
+		<property name="classesToBeBound">
+			<list>
+				<value>com.vidyo.parser.xsd.vr2config.CMCPAddressListType</value>
+				<value>com.vidyo.parser.xsd.vr2config.ConnectVMListType</value>
+				<value>com.vidyo.parser.xsd.vr2config.ListenVMListType</value>
+				<value>com.vidyo.parser.xsd.vr2config.MediaAddressMapType</value>
+				<value>com.vidyo.parser.xsd.vr2config.MediaPortRangeType</value>
+				<value>com.vidyo.parser.xsd.vr2config.MediaStreamPrecedenceType</value>
+				<value>com.vidyo.parser.xsd.vr2config.ObjectFactory</value>
+				<value>com.vidyo.parser.xsd.vr2config.VMAccessType</value>
+				<value>com.vidyo.parser.xsd.vr2config.VRConfigType</value>
+				<value>com.vidyo.parser.xsd.vr2config.VrURI</value>
+			</list>
+		</property>
+		<property name="marshallerProperties">
+	        <map>
+	            <entry key="jaxb.formatted.output">
+	                <value type="boolean">true</value>
+	            </entry>
+	        </map>
+   		 </property>
+		<property name="schema" value="classpath:com/vidyo/parser/xsd/vr2configparser.xsd" />
+	</bean>
+	
+    <bean id="utilService" class="com.vidyo.service.utils.UtilServiceImpl">
+            <property name="conferenceService" ref="conferenceService"/>
+            <property name="memberService" ref="memberService"/>
+            <property name="userService" ref="userService"/>
+    </bean>	
+</beans>

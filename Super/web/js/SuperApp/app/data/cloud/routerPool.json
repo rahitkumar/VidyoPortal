@@ -1,0 +1,5 @@
+[
+     {'pool_name': 'Local Pool', 'vidyo_routers': 'Local Router'},
+     {'pool_name': 'Dummy Pool', 'vidyo_routers': 'Dummy Router'}
+]
+   

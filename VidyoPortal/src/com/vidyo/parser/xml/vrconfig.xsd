@@ -1,0 +1,95 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+	<xs:complexType name="vrURI">
+        <xs:sequence>
+            <xs:element name="Uri" type="xs:string"/>
+            <xs:element name="Priority" minOccurs="0" type="xs:unsignedInt"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:simpleType name="VMAccessType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Listen"/>
+            <xs:enumeration value="Connect"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:complexType name="MediaStreamPrecedenceType">
+        <xs:sequence>
+			<!-- Allowed values: 0 to 39 -->
+            <xs:element name="LowPrioDSCPBits" type="xs:unsignedInt"/>
+            <xs:element name="MedPrioDSCPBits" type="xs:unsignedInt"/>
+            <xs:element name="HighPrioDSCPBits" type="xs:unsignedInt"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="VRConfigType">
+        <xs:sequence>
+            <xs:element name="DocumentVersion" type="xs:string"/>
+            <xs:element name="RouterName" type="xs:string"/>
+            <xs:element name="CMCPAddressList">
+				<xs:complexType>
+                    <xs:sequence>
+            			<xs:element name="CMCPListenAddress" type="xs:string" minOccurs="1" maxOccurs="unbounded"/>
+					</xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="VidyoManagerAccess" type="VMAccessType"/>
+            <xs:element name="ListenVMList">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="ListenVM" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="ConnectVMList">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="ConnectVM" type="vrURI" minOccurs="0" maxOccurs="unbounded"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+            <xs:element name="MediaAddressMap" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="LocalAddress" type="xs:string"/>
+                        <xs:element name="RemoteAddress" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="StunServerAddress" type="xs:string" minOccurs="0"/>
+
+            <xs:element name="MediaPortRange" minOccurs="0">
+                <xs:complexType>
+                    <xs:sequence>
+						<!-- 
+						type really is a short, our parser just can't handle it.
+						-->
+                        <xs:element name="Start" type="xs:unsignedInt"/>
+                        <xs:element name="End" type="xs:unsignedInt"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+            <xs:element name="SecurityEnabled" type="xs:boolean" minOccurs="0"/>
+
+            <xs:element name="VideoPrecedence" type="MediaStreamPrecedenceType" minOccurs="0"/>
+            <xs:element name="AudioPrecedence" type="MediaStreamPrecedenceType" minOccurs="0"/>
+            <xs:element name="AppPrecedence" type="MediaStreamPrecedenceType" minOccurs="0"/>
+            <xs:element name="SignalingPrecedence" type="xs:unsignedInt" minOccurs="0"/>
+            <xs:element name="LogFileHistoryDays" type="xs:unsignedInt" minOccurs="0"/>
+
+            <xs:element name="LogFileName" type="xs:string" minOccurs="0"/>
+            <xs:element name="LogLevel" type="xs:string" minOccurs="0"/>
+            <xs:element name="MaxLogFileSizeKB" type="xs:unsignedInt" minOccurs="0"/>
+            <xs:element name="Stat" type="xs:string"/>
+            <xs:element name="NumberOfThreads" type="xs:unsignedInt"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:element name="Config" type="VRConfigType">
+		<xs:annotation id="root"/>
+    </xs:element>
+</xs:schema>

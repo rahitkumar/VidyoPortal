@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- This file was auto-generated from WSDL -->
+<!-- by the Apache Axis2 version: 1.6.2  Built on : Apr 17, 2012 (05:33:49 IST) -->
+<serviceGroup>
+    <service name="VidyoPortalCACService">
+        <messageReceivers>
+            <messageReceiver mep="http://www.w3.org/ns/wsdl/in-out" class="com.vidyo.ws.cac.VidyoPortalCACServiceMessageReceiverInOut"/>
+        </messageReceivers>
+<!--         <parameter name="ServiceClass">com.vidyo.portal.cac.VidyoPortalCACServiceSkeleton</parameter> -->
+    <parameter name="ServiceObjectSupplier" locked="false">org.apache.axis2.extensions.spring.receivers.SpringServletContextObjectSupplier</parameter>
+        <parameter name="SpringBeanName" locked="false">vidyoPortalCACServiceEndPoint</parameter>
+        <parameter name="useOriginalwsdl">true</parameter>
+          <parameter name="modifyUserWSDLPortAddress">true</parameter>
+       
+                <parameter name="modifyUserWSDLPortAddress">true</parameter>
+     <operation name="generateAuthToken" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://ws.vidyo.com/cac">
+            <actionMapping>generateAuthToken</actionMapping>
+            <outputActionMapping>http://ws.vidyo.com/cac/VidyoPortalCACServicePortType/generateAuthTokenResponse</outputActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://ws.vidyo.com/cac/VidyoPortalCACServicePortType/generateAuthToken/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://ws.vidyo.com/cac/VidyoPortalCACServicePortType/generateAuthToken/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="EndpointNotBoundFault">http://ws.vidyo.com/cac/VidyoPortalCACServicePortType/generateAuthToken/Fault/EndpointNotBoundFault</faultActionMapping>
+            <faultActionMapping faultName="EndpointNotBoundFault_Exception">http://ws.vidyo.com/cac/VidyoPortalCACServicePortType/generateAuthToken/Fault/EndpointNotBoundFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://ws.vidyo.com/cac/VidyoPortalCACServicePortType/generateAuthToken/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://ws.vidyo.com/cac/VidyoPortalCACServicePortType/generateAuthToken/Fault/GeneralFault</faultActionMapping>
+        </operation>
+        <operation name="linkEndpoint" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://ws.vidyo.com/cac">
+            <actionMapping>linkEndpoint</actionMapping>
+            <outputActionMapping>http://ws.vidyo.com/cac/VidyoPortalCACServicePortType/linkEndpointResponse</outputActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://ws.vidyo.com/cac/VidyoPortalCACServicePortType/linkEndpoint/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://ws.vidyo.com/cac/VidyoPortalCACServicePortType/linkEndpoint/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://ws.vidyo.com/cac/VidyoPortalCACServicePortType/linkEndpoint/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://ws.vidyo.com/cac/VidyoPortalCACServicePortType/linkEndpoint/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="SeatLicenseExpiredFault">http://ws.vidyo.com/cac/VidyoPortalCACServicePortType/linkEndpoint/Fault/SeatLicenseExpiredFault</faultActionMapping>
+            <faultActionMapping faultName="SeatLicenseExpiredFault_Exception">http://ws.vidyo.com/cac/VidyoPortalCACServicePortType/linkEndpoint/Fault/SeatLicenseExpiredFault</faultActionMapping>
+            <faultActionMapping faultName="AccessRestrictedFault">http://ws.vidyo.com/cac/VidyoPortalCACServicePortType/linkEndpoint/Fault/AccessRestrictedFault</faultActionMapping>
+            <faultActionMapping faultName="AccessRestrictedFault_Exception">http://ws.vidyo.com/cac/VidyoPortalCACServicePortType/linkEndpoint/Fault/AccessRestrictedFault</faultActionMapping>
+            <faultActionMapping faultName="NotLicensedFault">http://ws.vidyo.com/cac/VidyoPortalCACServicePortType/linkEndpoint/Fault/NotLicensedFault</faultActionMapping>
+            <faultActionMapping faultName="NotLicensedFault_Exception">http://ws.vidyo.com/cac/VidyoPortalCACServicePortType/linkEndpoint/Fault/NotLicensedFault</faultActionMapping>
+        </operation>
+        <operation name="getUserName" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://ws.vidyo.com/cac">
+            <actionMapping>getUserName</actionMapping>
+            <outputActionMapping>http://ws.vidyo.com/cac/VidyoPortalCACServicePortType/getUserNameResponse</outputActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://ws.vidyo.com/cac/VidyoPortalCACServicePortType/getUserName/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://ws.vidyo.com/cac/VidyoPortalCACServicePortType/getUserName/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://ws.vidyo.com/cac/VidyoPortalCACServicePortType/getUserName/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://ws.vidyo.com/cac/VidyoPortalCACServicePortType/getUserName/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="NotLicensedFault">http://ws.vidyo.com/cac/VidyoPortalCACServicePortType/getUserName/Fault/NotLicensedFault</faultActionMapping>
+            <faultActionMapping faultName="NotLicensedFault_Exception">http://ws.vidyo.com/cac/VidyoPortalCACServicePortType/getUserName/Fault/NotLicensedFault</faultActionMapping>
+        </operation>
+        <operation name="logIn" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://ws.vidyo.com/cac">
+            <actionMapping>logIn</actionMapping>
+            <outputActionMapping>http://ws.vidyo.com/cac/VidyoPortalCACServicePortType/logInResponse</outputActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://ws.vidyo.com/cac/VidyoPortalCACServicePortType/logIn/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://ws.vidyo.com/cac/VidyoPortalCACServicePortType/logIn/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://ws.vidyo.com/cac/VidyoPortalCACServicePortType/logIn/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://ws.vidyo.com/cac/VidyoPortalCACServicePortType/logIn/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="SeatLicenseExpiredFault">http://ws.vidyo.com/cac/VidyoPortalCACServicePortType/logIn/Fault/SeatLicenseExpiredFault</faultActionMapping>
+            <faultActionMapping faultName="SeatLicenseExpiredFault_Exception">http://ws.vidyo.com/cac/VidyoPortalCACServicePortType/logIn/Fault/SeatLicenseExpiredFault</faultActionMapping>
+            <faultActionMapping faultName="NotLicensedFault">http://ws.vidyo.com/cac/VidyoPortalCACServicePortType/logIn/Fault/NotLicensedFault</faultActionMapping>
+            <faultActionMapping faultName="NotLicensedFault_Exception">http://ws.vidyo.com/cac/VidyoPortalCACServicePortType/logIn/Fault/NotLicensedFault</faultActionMapping>
+        </operation>
+  
+    </service>
+</serviceGroup>

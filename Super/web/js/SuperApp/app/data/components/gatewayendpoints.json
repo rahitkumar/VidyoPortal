@@ -1,0 +1,14 @@
+[
+        {
+            "gatewayid": "EDRFTHUSH",
+            "endpointguid": "4223",
+            "prefix": "DFR",
+            "status": "UP"
+        },
+        {
+            "gatewayid": "EDUSGALO",
+            "endpointguid": "3562",
+            "prefix": "JHY",
+            "status": "UP"
+        }
+    ]

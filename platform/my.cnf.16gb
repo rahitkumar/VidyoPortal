@@ -1,0 +1,130 @@
+#
+# The MySQL database server configuration file.
+#
+# This is for a large system with memory of 1G-2G where the system runs mainly
+# MySQL.
+#
+# You can copy this file to
+# /etc/my.cnf to set global options,
+# mysql-data-dir/my.cnf to set server-specific options (in this
+# installation this directory is /usr/local/mysql/data) or
+# ~/.my.cnf to set user-specific options.
+#
+# In this file, you can use all long options that a program supports.
+# If you want to know which options a program supports, run the program
+# with the "--help" option.
+
+# The following options will be passed to all MySQL clients
+[client]
+#password	= your_password
+port		= 3306
+socket		= /var/run/mysqld/mysqld.sock
+
+# Here follows entries for some specific programs
+
+# The MySQL server
+[mysqld]
+innodb_flush_log_at_trx_commit = 0
+sync_binlog = 0
+innodb_sort_buffer_size = 256M
+innodb_buffer_pool_size = __20_PCT_MEM__
+query_cache_size = 0
+query_cache_type = 0
+key_buffer_size = 8M
+# Commenting out the below row since it is tuned under Vidyo Tuning section
+#innodb_buffer_pool_instances = 1
+innodb_write_io_threads = 8
+innodb_read_io_threads = 16
+innodb_log_buffer_size = 134217728
+max-connection = 2500
+log-error  = /var/log/mysql/mysqld.log
+init_connect='SET AUTOCOMMIT=1'
+innodb_ft_enable_stopword = OFF
+innodb_ft_min_token_size = 1
+user		= mysql
+pid-file	= /var/run/mysqld/mysqld.pid
+socket		= /var/run/mysqld/mysqld.sock
+port		= 3306
+basedir		= /usr/local/mysql
+datadir		= /var/lib/mysql
+tmpdir		= /tmp
+language	= /usr/local/mysql/share/english
+skip-external-locking
+
+#
+# * Fine Tuning
+#
+key_buffer_size          = 256M
+sort_buffer_size         = 4M
+read_buffer_size         = 4M
+read_rnd_buffer_size     = 8M
+myisam_sort_buffer_size  = 64M
+max_allowed_packet       = 16M
+# Commenting out the below row since it is tuned under Vidyo Tuning section
+#table_open_cache         = 512 
+#thread_cache_size        = 8
+thread_stack		     = 192K
+# Commenting out for Vidyo Tuning - this is duplicated, we need this value to be 0
+#query_cache_type         = 1 
+# Commenting out the below row for Vidyo Tuning (this parameter is not needed) 
+#query_cache_size         = 128M
+query_cache_limit        = 2M
+query_cache_min_res_unit = 2K
+
+# Vidyo Tuning - half of 32GB configuration
+join_buffer_size = 4M
+table_open_cache = 5000
+open_files_limit = 10000
+tmp_table_size = 256M
+max_heap_table_size = 256M
+thread_cache_size = 16
+innodb_buffer_pool_instances = 3
+
+
+# Disable Federated by default (5.1.26 and newer skips by default)
+# skip-federated
+
+# Replication Master Server (default)
+# binary logging is required for replication
+#log-bin=mysql-bin
+
+# binary logging format - mixed recommended 
+#binlog_format=mixed
+
+# required unique id between 1 and 2^32 - 1
+# defaults to 1 if master-host is not set
+# but will not function as a master if omitted
+#server-id	        = 1
+#log_bin			= /var/log/mysql/mysql-bin.log
+#expire_logs_days	= 10
+#max_binlog_size    = 100M
+
+# SLOW QUERY LOG
+# Enabled slow query log for debugging, should be disabled for production
+#slow_query_log       =   1
+#long_query_time     =   0.02
+#slow_query_log_file = /var/lib/mysql/slow_queries.log
+#log_queries_not_using_indexes = 1 
+
+[mysqldump]
+quick
+quote-names
+max_allowed_packet = 16M
+
+[mysql]
+#no-auto-rehash
+# Remove the next comment character if you are not familiar with SQL
+#safe-updates
+
+[isamchk]
+sort_buffer_size = 256M
+read_buffer = 2M
+write_buffer = 2M
+
+[myisamchk]
+sort_buffer_size = 256M
+read_buffer = 2M
+write_buffer = 2M
+
+[mysqlhotcopy]
+interactive-timeout

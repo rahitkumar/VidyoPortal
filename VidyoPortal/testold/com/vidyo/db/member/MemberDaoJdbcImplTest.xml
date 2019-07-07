@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+	<MemberRole roleID="1" roleName="Admin" roleDescription="Admin" />
+	<MemberRole roleID="2" roleName="Operator" roleDescription="Operator" />
+	<MemberRole roleID="3" roleName="Normal" roleDescription="Normal" />
+	<MemberRole roleID="4" roleName="VidyoRoom" roleDescription="VidyoRoom" />
+	<MemberRole roleID="5" roleName="Super" roleDescription="Super" />
+	<MemberRole roleID="6" roleName="Legacy" roleDescription="Legacy Device" />
+	<MemberRole roleID="7" roleName="Executive" roleDescription="Executive" />
+	<MemberRole roleID="8" roleName="VidyoPanorama" roleDescription="VidyoPanorama" />
+	
+</dataset>

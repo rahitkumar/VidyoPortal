@@ -1,0 +1,81 @@
+[{
+	rules : [{
+		rule: {
+			ip_subnet : {
+				candidate : 'LocalIP',
+				ip_addr: '10.11.12.13',
+				cidr_bits: '14'
+			}
+		},			
+		priority_list: {
+			name: 'Priority List 1',
+			id: 'pl_1'		
+		},
+		order: 1
+	}, {
+		rule: {
+			ip_subnet : {
+				candidate : 'ExternalIP',
+				ip_addr: '10.11.12.14',
+				cidr_bits: '13'
+			}
+		},
+			
+		priority_list: {
+			name: 'Priority List 3',
+			id: 'pl_3'		
+		},
+		order: 2
+	}, {
+		rule: {
+			equal_to : {
+				candidate : 'LocationTag',
+				value : 'CustomTag',
+			}
+		},
+		priority_list: {			
+			name: 'Priority List 4',
+			id: 'pl_4'
+		},
+		order: 3
+	}, {
+		rule: {
+			equal_to : {
+				candidate : 'EID',
+				value : 'Custom Endpoint ID'
+			}
+		},
+			
+		priority_list: {
+			name: 'Priority List 2',
+			id: 'pl_2'
+		},
+		order: 4
+	}, {
+		rule: {
+			equal_to : {
+				candidate : 'LocalIP',
+				value: '1.1.1.1',
+			}
+		},
+		priority_list: {
+			name: 'Priority List 4',
+			id: 'pl_4'
+		},
+		order: 5
+	}, {
+		rule: {
+			ip_subnet : {
+				candidate : 'LocalIP',
+				ip_addr: '2.2.2.2',
+				cidr_bits: '13',
+			}
+		},
+		priority_list: {
+			name: 'Priority List 2',
+			id: 'pl_2'
+		},
+		order: 6
+	}]
+}]
+   

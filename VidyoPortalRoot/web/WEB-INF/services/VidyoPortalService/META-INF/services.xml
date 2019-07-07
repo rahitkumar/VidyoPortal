@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- This file was auto-generated from WSDL -->
+<!-- by the Apache Axis2 version: 1.6.0  Built on : May 17, 2011 (04:19:43 IST) -->
+<serviceGroup>
+    <service name="VidyoPortalService">
+        <messageReceivers>
+            <messageReceiver mep="http://www.w3.org/ns/wsdl/in-out" class="com.vidyo.ws.portal.VidyoPortalServiceMessageReceiverInOut"/>
+        </messageReceivers>
+        <!--parameter name="ServiceClass">com.vidyo.ws.portal.VidyoPortalServiceSkeleton</parameter-->
+	<parameter name="ServiceObjectSupplier" locked="false">org.apache.axis2.extensions.spring.receivers.SpringServletContextObjectSupplier</parameter>
+        <parameter name="SpringBeanName" locked="false">vidyoPortalServiceEndPoint</parameter>
+        <parameter name="useOriginalwsdl">true</parameter>
+        <parameter name="modifyUserWSDLPortAddress">true</parameter>
+        <operation name="updateExternalLinkStatus" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://ws.vidyo.com/portal">
+            <actionMapping>updateExternalLinkStatus</actionMapping>
+            <outputActionMapping>http://ws.vidyo.com/portal/VidyoPortalServicePortType/updateExternalLinkStatusResponse</outputActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://ws.vidyo.com/portal/VidyoPortalServicePortType/updateExternalLinkStatus/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://ws.vidyo.com/portal/VidyoPortalServicePortType/updateExternalLinkStatus/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://ws.vidyo.com/portal/VidyoPortalServicePortType/updateExternalLinkStatus/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://ws.vidyo.com/portal/VidyoPortalServicePortType/updateExternalLinkStatus/Fault/GeneralFault</faultActionMapping>
+        </operation>
+        <operation name="startVidyoManager" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://ws.vidyo.com/portal">
+            <actionMapping>startVidyoManager</actionMapping>
+            <outputActionMapping>http://ws.vidyo.com/portal/VidyoPortalServicePortType/startVidyoManagerResponse</outputActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://ws.vidyo.com/portal/VidyoPortalServicePortType/startVidyoManager/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://ws.vidyo.com/portal/VidyoPortalServicePortType/startVidyoManager/Fault/GeneralFault</faultActionMapping>
+        </operation>
+        <operation name="addSpontaneousEndpoint" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://ws.vidyo.com/portal">
+            <actionMapping>addSpontaneousEndpoint</actionMapping>
+            <outputActionMapping>http://ws.vidyo.com/portal/VidyoPortalServicePortType/addSpontaneousEndpointResponse</outputActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://ws.vidyo.com/portal/VidyoPortalServicePortType/addSpontaneousEndpoint/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://ws.vidyo.com/portal/VidyoPortalServicePortType/addSpontaneousEndpoint/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://ws.vidyo.com/portal/VidyoPortalServicePortType/addSpontaneousEndpoint/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://ws.vidyo.com/portal/VidyoPortalServicePortType/addSpontaneousEndpoint/Fault/GeneralFault</faultActionMapping>
+        </operation>
+        <operation name="infoFromEndpoint" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://ws.vidyo.com/portal">
+            <actionMapping>infoFromEndpoint</actionMapping>
+            <outputActionMapping>http://ws.vidyo.com/portal/VidyoPortalServicePortType/infoFromEndpointResponse</outputActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://ws.vidyo.com/portal/VidyoPortalServicePortType/infoFromEndpoint/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://ws.vidyo.com/portal/VidyoPortalServicePortType/infoFromEndpoint/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://ws.vidyo.com/portal/VidyoPortalServicePortType/infoFromEndpoint/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://ws.vidyo.com/portal/VidyoPortalServicePortType/infoFromEndpoint/Fault/GeneralFault</faultActionMapping>
+        </operation>
+        <operation name="updateRouterEndpointStatus" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://ws.vidyo.com/portal">
+            <actionMapping>updateRouterEndpointStatus</actionMapping>
+            <outputActionMapping>http://ws.vidyo.com/portal/VidyoPortalServicePortType/updateRouterEndpointStatusResponse</outputActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://ws.vidyo.com/portal/VidyoPortalServicePortType/updateRouterEndpointStatus/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://ws.vidyo.com/portal/VidyoPortalServicePortType/updateRouterEndpointStatus/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://ws.vidyo.com/portal/VidyoPortalServicePortType/updateRouterEndpointStatus/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://ws.vidyo.com/portal/VidyoPortalServicePortType/updateRouterEndpointStatus/Fault/GeneralFault</faultActionMapping>
+        </operation>
+        <operation name="updateEndpointStatus" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://ws.vidyo.com/portal">
+            <actionMapping>updateEndpointStatus</actionMapping>
+            <outputActionMapping>http://ws.vidyo.com/portal/VidyoPortalServicePortType/updateEndpointStatusResponse</outputActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://ws.vidyo.com/portal/VidyoPortalServicePortType/updateEndpointStatus/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://ws.vidyo.com/portal/VidyoPortalServicePortType/updateEndpointStatus/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://ws.vidyo.com/portal/VidyoPortalServicePortType/updateEndpointStatus/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://ws.vidyo.com/portal/VidyoPortalServicePortType/updateEndpointStatus/Fault/GeneralFault</faultActionMapping>
+        </operation>
+    </service>
+</serviceGroup>

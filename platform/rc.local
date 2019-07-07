@@ -1,0 +1,74 @@
+#!/bin/bash
+
+PIDFILE=/var/run/rc.local.run
+
+if [ -f $PIDFILE ]; then
+   ## try to find out who is calling script
+   CMD=$(cat /proc/$PPID/cmdline)
+   NAME=$(cat /proc/$PPID/status | grep Name: | awk '{print $2}')
+   logger -t rc.local -i "WARNING! rc.local has been executed previously by [$CMD], [$NAME].."
+   exit 1
+else
+   echo $$ > $PIDFILE
+fi
+
+HA_CONF=/opt/vidyo/ha/cfg/clusterip.conf
+
+. /opt/vidyo/adm/myfunctions.sh
+updateKeyStore
+
+if [ -f /opt/vidyo/etc/java/cacerts ]; then
+   ## generate a unique saml keystore.
+   /opt/vidyo/bin/gensamljks.sh
+fi
+
+
+[ -f /root/ResetStuckGWVEPs ] && rm -f /root/ResetStuckGWVEPs
+
+[ -x /opt/vidyo/bin/vmsoap_fw.sh ] && /opt/vidyo/bin/vmsoap_fw.sh 
+
+find /opt/vidyo/temp -type f -exec rm -f {} \;
+
+/opt/vidyo/bin/gen_misc_key.sh
+
+/opt/vidyo/setupnetwork.sh
+
+ulimit -n 100000
+
+# Run install-updates script if present and pipe all output to vidyo-updates log file
+[ -x /opt/vidyo/vidyo_updates/install-updates.sh ] && /opt/vidyo/vidyo_updates/install-updates.sh 2>&1 | tee -a /opt/vidyo/vidyo_updates/vidyo-updates.log
+
+[ -x /opt/vidyo/bin/gen_selfsigned_cert.sh ] && /opt/vidyo/bin/gen_selfsigned_cert.sh
+
+#Disable Uncomplicated Firewall rules from install-updates in case script escaped
+logger "Disable firewall"
+ufw default allow
+ufw disable
+
+rm -rf /usr/local/tomcat/work/Catalina/localhost
+rm -rf /usr/local/tomcatnp/work/Catalina/localhost
+rm -rf /tmp/work*
+
+[ -f $HA_CONF ] && . $HA_CONF
+
+if [ "$VIDYO_HA" = "ENABLED" ]; then
+   if [ -x /opt/vidyo/ha/bin/start_ha_mgr.sh ]; then
+      if [ -f $MAINT_FLAG ]; then
+         logger -t "rc.local" "Hot-Standby is under Maintenance."
+      else
+         /etc/init.d/apache2 stop
+      fi
+   fi
+else
+   su - root -c "/opt/vidyo/StartVC2.sh"
+fi
+
+## run  vidyo-portal-batch-jobs
+VP_BATCH=/opt/vidyo/portal2/vidyo-portal-batch/bin/vidyo-portal-batch-jobs.sh
+[ -x $VP_BATCH ] && su -p -s /bin/bash vpbatch -c "$VP_BATCH start >/dev/null 2>&1 &"
+
+if [ -x /opt/vidyo/ha/bin/start_ha_mgr.sh ]; then
+   /opt/vidyo/ha/bin/start_ha_mgr.sh 2>&1 > /dev/null  &
+fi
+
+exit 0

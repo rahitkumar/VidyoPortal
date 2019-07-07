@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- This file was auto-generated from WSDL -->
+<!-- by the Apache Axis2 version: 1.6.2  Built on : Apr 17, 2012 (05:33:49 IST) -->
+<serviceGroup>
+    <service name="VidyoLicenseService">
+        <messageReceivers>
+            <messageReceiver mep="http://www.w3.org/ns/wsdl/in-out" class="com.vidyo.ws.license.VidyoLicenseServiceMessageReceiverInOut"/>
+        </messageReceivers>
+        <!--parameter name="ServiceClass">com.vidyo.ws.license.VidyoLicenseServiceSkeleton</parameter-->
+        <parameter name="ServiceObjectSupplier" locked="false">org.apache.axis2.extensions.spring.receivers.SpringServletContextObjectSupplier</parameter>
+        <parameter name="SpringBeanName" locked="false">vidyoLicenseServiceEndPoint</parameter>
+        <parameter name="useOriginalwsdl">true</parameter>
+        <parameter name="modifyUserWSDLPortAddress">true</parameter>
+        <operation name="registerLicense" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://ws.vidyo.com/license">
+            <actionMapping>registerLicense</actionMapping>
+            <outputActionMapping>http://ws.vidyo.com/license/VidyoLicenseServicePortType/registerLicenseResponse</outputActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://ws.vidyo.com/license/VidyoLicenseServicePortType/registerLicense/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://ws.vidyo.com/license/VidyoLicenseServicePortType/registerLicense/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://ws.vidyo.com/license/VidyoLicenseServicePortType/registerLicense/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://ws.vidyo.com/license/VidyoLicenseServicePortType/registerLicense/Fault/GeneralFault</faultActionMapping>
+        </operation>
+        <operation name="updateLineConsumptionForEndpoint" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://ws.vidyo.com/license">
+            <actionMapping>updateLineConsumptionForEndpoint</actionMapping>
+            <outputActionMapping>http://ws.vidyo.com/license/VidyoLicenseServicePortType/updateLineConsumptionForEndpointResponse</outputActionMapping>
+            <faultActionMapping faultName="EndpointNotBoundFault">http://ws.vidyo.com/license/VidyoLicenseServicePortType/updateLineConsumptionForEndpoint/Fault/EndpointNotBoundFault</faultActionMapping>
+            <faultActionMapping faultName="EndpointNotBoundFault_Exception">http://ws.vidyo.com/license/VidyoLicenseServicePortType/updateLineConsumptionForEndpoint/Fault/EndpointNotBoundFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://ws.vidyo.com/license/VidyoLicenseServicePortType/updateLineConsumptionForEndpoint/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://ws.vidyo.com/license/VidyoLicenseServicePortType/updateLineConsumptionForEndpoint/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="EndpointOfflineFault">http://ws.vidyo.com/license/VidyoLicenseServicePortType/updateLineConsumptionForEndpoint/Fault/EndpointOfflineFault</faultActionMapping>
+            <faultActionMapping faultName="EndpointOfflineFault_Exception">http://ws.vidyo.com/license/VidyoLicenseServicePortType/updateLineConsumptionForEndpoint/Fault/EndpointOfflineFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://ws.vidyo.com/license/VidyoLicenseServicePortType/updateLineConsumptionForEndpoint/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://ws.vidyo.com/license/VidyoLicenseServicePortType/updateLineConsumptionForEndpoint/Fault/GeneralFault</faultActionMapping>
+        </operation>
+        <operation name="getClientVersion" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://ws.vidyo.com/license">
+            <actionMapping>getClientVersion</actionMapping>
+            <outputActionMapping>http://ws.vidyo.com/license/VidyoLicenseServicePortType/getClientVersionResponse</outputActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault">http://ws.vidyo.com/license/VidyoLicenseServicePortType/getClientVersion/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="InvalidArgumentFault_Exception">http://ws.vidyo.com/license/VidyoLicenseServicePortType/getClientVersion/Fault/InvalidArgumentFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault">http://ws.vidyo.com/license/VidyoLicenseServicePortType/getClientVersion/Fault/GeneralFault</faultActionMapping>
+            <faultActionMapping faultName="GeneralFault_Exception">http://ws.vidyo.com/license/VidyoLicenseServicePortType/getClientVersion/Fault/GeneralFault</faultActionMapping>
+        </operation>
+    </service>
+</serviceGroup>

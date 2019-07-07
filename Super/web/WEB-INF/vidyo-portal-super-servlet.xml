@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+- Application context definition for "vidyo-portal" DispatcherServlet.
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+ 	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:mvc="http://www.springframework.org/schema/mvc"
+	   xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/mvc
+       http://www.springframework.org/schema/mvc/spring-mvc.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<!-- Enables the Spring MVC @Controller programming model -->
+	<mvc:annotation-driven/>
+
+	<mvc:resources location="/js/" mapping="/js/**" />
+	<mvc:resources location="/themes/" mapping="/themes/**"/>
+
+	<mvc:resources location="/vidyo.jpg" mapping="/vidyo.jpg" />
+	<mvc:resources location="/microloader.js" mapping="/microloader.js" />
+	<mvc:resources location="/favicon.ico" mapping="favicon.ico" />
+
+	<context:component-scan base-package="com.vidyo.superapp,
+	    com.vidyo.web,
+        com.vidyo.webshared" use-default-filters="false">
+    	    <context:include-filter expression="org.springframework.stereotype.Controller" type="annotation"/>
+            <context:exclude-filter type="regex" expression="com.vidyo.web.RoomController"/>
+	</context:component-scan>
+
+    <bean class="com.vidyo.framework.context.RequestMappingHandlerBeanPostProcessor"/>
+
+	<!-- Configurer that replaces ${...} placeholders with values from a properties file -->
+	<!-- (in this case, JDBC-related settings for the dataSoource definition below) -->
+	<bean id="propertyConfigurer" class="com.vidyo.framework.propertyconfig.OpenPropertyPlaceholderConfigurer">
+			<property name="location" value="file:/usr/local/tomcat/repo/vidyoportal/portal.properties" />
+	</bean>
+
+	<!-- Message source for this context, loaded from localized "messages_xx" files -->
+	<bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+		<property name="basename" value="classpath:messages"/>
+		<property name="defaultEncoding" value="UTF-8"/>
+	</bean>
+
+    <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
+        <property name="prefix" value="/WEB-INF/jsp/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+
+    <bean id="localeResolver" class="com.vidyo.interceptors.web.VidyoCookieLocaleResolver">
+        <property name="cookiePath" value="/super"/>
+        <property name="cookieName" value="VidyoPortalSuperLanguage"/>
+        <property name="cookieMaxAge" value="-1"/>
+        <property name="defaultLocale" value="en" />
+        <property name="cookieHttpOnly" value="true"/>
+        <property name="cookieSecure" value="true"/>
+    </bean>
+
+    <bean id="themeResolver" class="org.springframework.web.servlet.theme.FixedThemeResolver">
+        <property name="defaultThemeName" value="vidyo"/>
+    </bean>
+
+    <bean id="filterMultipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+    	<property name="maxUploadSize" value="524288000"/>
+    </bean>
+
+    <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+    	<property name="staticMethod" value="com.vidyo.framework.security.htmlcleaner.AntiSamyHtmlCleaner.setResource"/>
+    	<property name="arguments">
+    		<ref bean="policyResource"/>
+    	</property>
+    </bean>
+
+    <bean id="policyResource" class="org.springframework.core.io.ClassPathResource">
+    	<constructor-arg value="antisamy-ebay-1.5.3.xml"/>
+    </bean>
+
+    <mvc:interceptors>
+    	<mvc:interceptor>
+    		<mvc:mapping path="/security/**"/>
+    		<mvc:mapping path="/securedmaint/**"/>
+    		<bean id="securityAccessInterceptor" class="com.vidyo.interceptors.web.SecurityAccessInterceptor">
+    		</bean>
+    	</mvc:interceptor>
+    </mvc:interceptors>
+
+</beans>

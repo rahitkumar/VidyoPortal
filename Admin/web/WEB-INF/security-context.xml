@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/security
+        http://www.springframework.org/schema/security/spring-security.xsd">
+
+        
+  <http entry-point-ref="adminAPIEntryPoint" pattern="/service/.*" use-expressions="true" request-matcher="regex" create-session="never">
+
+	    <intercept-url pattern="/service/tenantconfig/.*" access="hasAnyRole('ROLE_SUPER')" />
+	    <intercept-url pattern="/service/systemconfig/.*" access="hasAnyRole('ROLE_SUPER')" />
+    	<intercept-url pattern="/service/.*" access="hasAnyRole('ROLE_SUPER','ROLE_ADMIN')" />
+	    <custom-filter position="FIRST" ref="tenantHostnameMatchFilter" />
+    	<custom-filter ref="basicAuthenticationRestFilter" position="BASIC_AUTH_FILTER" />
+		<csrf disabled="true"/>
+    </http>
+    
+	<http pattern="/js/**" security="none" />
+	<http pattern="/themes/**" security="none" />
+	<http pattern="/upload/**" security="none" />
+	<http pattern="/docs/**" security="none" />
+	<http pattern="/swagger-resources/**" security="none" />
+	<http pattern="/swagger-ui.html**" security="none" />
+	<http pattern="/v2/api-docs" security="none" />
+    <http pattern="/webjars/**" security="none" />
+    <http pattern="/favicon.ico" security="none" />
+	<http auto-config="true" use-expressions="true">
+		<headers>
+			<frame-options policy="SAMEORIGIN"/>
+			<!--https://jira.vidyo.com/browse/VPTL-7292 - Enable CSP -->
+			<content-security-policy policy-directives="frame-ancestors 'self'"></content-security-policy>
+		</headers>
+		<intercept-url pattern="/langs.ajax*" access="permitAll" />
+		<intercept-url pattern="/forgot.ajax" access="permitAll" />
+
+		<intercept-url pattern="/resetpassword.html*" access="permitAll" />
+		<intercept-url pattern="/upload/.*" access="permitAll()"/>
+
+		<intercept-url pattern="/customizedlogoinmarkup.ajax*"
+			access="permitAll" />
+		<intercept-url pattern="/serverstartedtime.ajax*"
+			access="permitAll" />
+		<intercept-url pattern="/login.html*" access="permitAll" />
+		<intercept-url pattern="/about.html*" access="permitAll" />
+		<intercept-url pattern="/about_content.html*" access="permitAll" />
+		<intercept-url pattern="/contact.html*" access="permitAll" />
+		<intercept-url pattern="/contact_content.html*" access="permitAll" />
+		<intercept-url pattern="/terms.html*" access="permitAll" />
+		<intercept-url pattern="/terms_content.html*" access="permitAll" />
+	    <intercept-url pattern="/**" access="hasAnyRole('ROLE_SUPER','ROLE_ADMIN','ROLE_OPERATOR')"/>
+		<custom-filter position="FIRST" ref="tenantHostnameMatchFilter" />
+		<custom-filter position="LAST" ref="passwordChangeFilter"/>
+		<form-login login-page="/login.html" login-processing-url="/admin_security_check"
+			username-parameter="username" password-parameter="password"
+			default-target-url="/home.html" always-use-default-target="true"
+			authentication-failure-url="/login.html?login_error=1"
+					authentication-failure-handler-ref="adminFailureHandler"/>
+		<access-denied-handler error-page="/login.html?login_error=2" />
+		<!-- <remember-me user-service-ref="userDetailsService" key="adminKey"
+			token-validity-seconds="2419200" /> -->
+		<logout logout-url="/logout.html" invalidate-session="true"
+			delete-cookies="JSESSIONID" />
+
+		<session-management session-fixation-protection="migrateSession" invalid-session-url="/login.html?login_error=3">
+			<concurrency-control max-sessions="5" session-registry-ref="sessionRegistry" />
+		</session-management>
+		<csrf/>
+	</http>
+
+	<beans:bean id="adminFailureHandler" class="org.springframework.security.web.authentication.ExceptionMappingAuthenticationFailureHandler">
+		<beans:property name="defaultFailureUrl" value="/login.html?login_error=1"/>
+		<beans:property name="exceptionMappings">
+			<beans:props>
+				<beans:prop key="org.springframework.security.authentication.LockedException">/login.html?login_error=5</beans:prop>
+			</beans:props>
+		</beans:property>
+	</beans:bean>
+
+	<authentication-manager erase-credentials="false">
+		<authentication-provider ref="adminDaoAuthenticationProvider" />
+	</authentication-manager>
+
+	<beans:bean id="adminDaoAuthenticationProvider"		class="com.vidyo.framework.security.authentication.DaoAuthenticationProvider"
+		p:passwordEncoder-ref="passwordEncoder" p:userDetailsService-ref="userDetailsService" p:system-ref="systemService" p:jdbcTemplate-ref="jdbcTemplate" p:memberDao-ref="memberDao"/>
+
+	<beans:bean id="userDetailsService"
+		class="com.vidyo.framework.security.authentication.UserDetailsService">
+		<beans:property name="system" ref="systemService" />
+		<beans:property name="userAuthDao" ref="userAuthDao" />
+		<beans:property name="ldapAttributesMapper" ref="ldapUserToMemberAttributesMapper"/>
+		<beans:property name="ldapImportRoles" value="ROLE_ADMIN,ROLE_OPERATOR" />
+		<beans:property name="memberService" ref="memberService1" />
+	</beans:bean>
+
+	<beans:bean id="tenantHostnameMatchFilter" class="com.vidyo.framework.filters.tenant.TenantHostnameMatchFilter">
+		<beans:property name="tenant" ref="tenantService" />
+	</beans:bean>
+
+	<beans:bean id="sessionRegistry"
+		class="org.springframework.security.core.session.SessionRegistryImpl" />
+
+	<beans:bean id="logoutHandler"
+		class="org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler" />
+
+	 <beans:bean id="tokenRepository" class="com.vidyo.db.security.token.VidyoTokenRepositoryImpl">
+	 	<beans:property name="dataSource" ref="dataSource"/>
+	 	<beans:property name="createTableOnStartup" value="false"/>
+	 </beans:bean>
+
+    <beans:bean id="passwordChangeFilter" class="com.vidyo.framework.filters.security.ChangePasswordFilter">
+		<beans:property name="changePasswordUrl" value="/changepassword.html" />
+		<beans:property name="memberPasswordHistoryService" ref="memberPasswordHistoryService" />
+		<beans:property name="memberService" ref="memberService" />
+		<beans:property name="systemService" ref="systemService" />
+		<beans:property name="memberLoginHistoryService" ref="memberLoginHistoryService" />
+	</beans:bean>
+	 <beans:bean id="authenticationManagerForRest" class="org.springframework.security.authentication.ProviderManager">
+	    <beans:constructor-arg name="providers">
+	    	<beans:list>
+                <beans:ref bean="adminDaoAuthenticationProvider"/>
+
+	    	</beans:list>
+	    </beans:constructor-arg>
+	    <beans:property name="eraseCredentialsAfterAuthentication" value="false"/>
+	    
+    </beans:bean>
+
+
+	<beans:bean  id="basicAuthenticationRestFilter" class="org.springframework.security.web.authentication.www.BasicAuthenticationFilter">
+    	<beans:constructor-arg name="authenticationManager" ref="authenticationManagerForRest"/>
+    
+    </beans:bean >
+	<beans:bean id="adminAPIEntryPoint" class="org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint">
+		<beans:property name="realmName" value="Rest Realm" />
+	</beans:bean>
+	
+
+</beans:beans>

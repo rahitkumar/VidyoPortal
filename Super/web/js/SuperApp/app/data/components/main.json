@@ -1,0 +1,102 @@
+[
+    {
+        "id": 1,
+        "name": "localVM",
+        "localIP": "10.21.3.56",
+        "clusterIP": "10.21.3.56",
+        "langCode": null,
+        "mgmtUrl": "http://10.21.3.56:80/vm2conf",
+        "runningVersion": 2,
+        "configVersion": 2,
+        "alarm": "Error connecting to configured VidyoPortal\n",
+        "compSoftwareVersion": "TAG_VC3_3_0_049 ",
+        "status": "ACTIVE",
+        "heartbeatTime": 1415159369000,
+        "compType": {
+            "id": 1,
+            "description": "VM",
+            "name": "VidyoManager"
+        },
+        "compID": "74d4352c796100VM0001"
+    },
+    {
+        "id": 2,
+        "name": "LocalVR",
+        "localIP": "10.21.3.56",
+        "clusterIP": "10.21.3.56",
+        "langCode": null,
+        "mgmtUrl": "http://10.21.3.56:80/vm2conf",
+        "runningVersion": 1,
+        "configVersion": 1,
+        "alarm": "VM connection error: Can not establish communications with VidyoManager",
+        "compSoftwareVersion": "TAG_VC3_3_0_049 ",
+        "status": "ACTIVE",
+        "heartbeatTime": 917893800000,
+        "compType": {
+            "id": 2,
+            "description": "VR",
+            "name": "VidyoRouter"
+        },
+        "compID": "74d4352c796100VR0001"
+    },
+    {
+        "id": 3,
+        "name": "rec",
+        "localIP": "10.21.3.56",
+        "clusterIP": "10.21.3.56",
+        "langCode": null,
+        "mgmtUrl": "http://10.21.3.56:80/vm2conf",
+        "runningVersion": 1,
+        "configVersion": 1,
+        "alarm": "VM connection error: Can not establish communications with VidyoRecorder",
+        "compSoftwareVersion": "TAG_VC3_3_0_049 ",
+        "status": "INACTIVE",
+        "heartbeatTime": 917893800000,
+        "compType": {
+            "id": 3,
+            "description": "VRec",
+            "name": "VidyoRecorderController"
+        },
+        "compID": "74d4352c796100VRC0001"
+    },
+    {
+        "id": 4,
+        "name": "mergerp1",
+        "localIP": "10.21.3.56",
+        "clusterIP": "10.21.3.56",
+        "langCode": null,
+        "mgmtUrl": "http://10.21.3.56:80/vm2conf",
+        "runningVersion": 1,
+        "configVersion": 1,
+        "alarm": "Replay error: Can not establish communications with VidyoReplayController",
+        "compSoftwareVersion": "TAG_VC3_3_0_049 ",
+        "status": "INACTIVE",
+        "heartbeatTime": 917893800000,
+        "compType": {
+            "id": 4,
+            "description": "VReplay",
+            "name": "VidyoReplayController"
+        },
+        "compID": "74d4352c796100VREPLAYC0001"
+    },
+    {
+        "id": 5,
+        "name": "LocalGateway",
+        "localIP": "10.21.3.56",
+        "clusterIP": "10.21.3.56",
+        "langCode": null,
+        "mgmtUrl": "http://10.21.3.56:80/vm2conf",
+        "runningVersion": 1,
+        "configVersion": 1,
+        "alarm": "Gateway error: Can not establish communications with VidyoReplayController",
+        "compSoftwareVersion": "TAG_VC3_3_0_049 ",
+        "status": "INACTIVE",
+        "heartbeatTime": 917893800000,
+        "compType": {
+            "id": 5,
+            "description": "VGateway",
+            "name": "VidyoGatewayController"
+        },
+        "compID": "74d4352c796100VGC0001"
+    }
+]
